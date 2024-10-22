@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={sans.className}>
-      <body>
+      <body className="w-full max-w-screen-xl mx-auto">
         <Header />
         <main>{children}</main>
       </body>
