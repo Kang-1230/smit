@@ -2,13 +2,12 @@
 
 import supabase from "../../utils/supabase/client";
 import { useState } from "react";
-import { useAuthStore } from "../../../src/auth-store";
 import Link from "next/link";
 
 export default function LoginPage() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const { isLoggedIn } = useAuthStore();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -21,24 +20,17 @@ export default function LoginPage() {
     } else {
       console.log("로그인 완료", data);
       alert("로그인 되었습니다.");
-      useAuthStore.setState({
-        isLoggedIn: true,
-        userId: data.user.email,
-        accessToken: data.session.access_token,
-      });
     }
   };
 
   const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const { error: logoutError } = await supabase.auth.signOut();
-
     if (logoutError) {
       console.error("SignUp Error :", logoutError);
     } else {
       console.log("로그아웃 완료");
-      const logout = useAuthStore.getState().logout;
-      logout();
+      setIsLoggedIn(false);
     }
   };
 
