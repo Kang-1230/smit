@@ -19,6 +19,17 @@ body {
   overflow-y: auto;
 }
 
+@layer components {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and 엣지 */
+    scrollbar-width: none; /* 파이어폭스 */
+  }
+}
+
 
 // hongsw 테스트 진행 중 
 /* .menu {
