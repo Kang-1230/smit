@@ -1,6 +1,6 @@
 type Props = {
   text: string;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void> | void;
   size?: "small" | "big";
 };
 
