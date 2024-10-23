@@ -9,7 +9,7 @@ export const fetchSessionData = async () => {
     return null;
   }
 
-  return data.session?.user;
+  return data.session.user;
 };
 
 export const fetchPublicUser = async () => {

@@ -5,7 +5,6 @@ import { usePublicUser } from "../hooks/useUserProfile";
 import Image from "next/image";
 import { useState } from "react";
 import EditProfile from "./EditProfile";
-import { useAuthStore } from "@/auth-store";
 
 const UserProfile = () => {
   const { data: user, isLoading, isError } = usePublicUser();
@@ -15,20 +14,6 @@ const UserProfile = () => {
   const profileImg = browserClient.storage
     .from("profile_img")
     .getPublicUrl(user?.profile_img ?? "default").data.publicUrl;
-
-  // 수진님 로그아웃 복붙해옴
-  const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    const { error: logoutError } = await browserClient.auth.signOut();
-
-    if (logoutError) {
-      console.error("SignUp Error :", logoutError);
-    } else {
-      console.log("로그아웃 완료");
-      const logout = useAuthStore.getState().logout;
-      logout();
-    }
-  };
 
   if (isLoading) {
     return <div>로딩중...</div>;
@@ -73,9 +58,7 @@ const UserProfile = () => {
             />
           )}
           <div className="flex flex-col gap-y-2">
-            <button className="text-xs font-semibold" onClick={handleLogout}>
-              로그아웃
-            </button>
+            <button className="text-xs font-semibold">로그아웃</button>
           </div>
         </div>
       </>
