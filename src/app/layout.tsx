@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "../styles/globals.css";
 import Header from "@/components/common/Header";
-import Link from "next/link";
+import Footer from "@/components/common/Footer";
 
 const sans = Open_Sans({
   subsets: ["latin"],
@@ -23,12 +23,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={sans.className}>
-      <body>
-        <nav>
-          <Link href={"/login"}>로그인하러 가기</Link>
-        </nav>
+      <body className="flex flex-col w-full max-w-screen-xl mx-auto">
         <Header />
-        <main>{children}</main>
+        <main className="grow">{children}</main>
+        <Footer />
       </body>
     </html>
   );
