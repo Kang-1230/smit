@@ -5,7 +5,7 @@ import { usePostByUser } from "../hooks/useUserProfile";
 import MyPostCard from "./MyPostCard";
 
 const MyPostList = ({ user }: { user: User }) => {
-  const { data: posts, isLoading, isError } = usePostByUser(user.id);
+  const { data: posts, isLoading } = usePostByUser(user.id);
 
   if (!posts || isLoading) {
     return <div className="pl-8">로딩중</div>;
