@@ -89,6 +89,7 @@ export type Database = {
           post_contents: string;
           post_createtime: string;
           post_id: number;
+          post_name: string | null;
           post_updatetime: string | null;
           study_id: string;
           user_id: string;
@@ -98,6 +99,7 @@ export type Database = {
           post_contents: string;
           post_createtime: string;
           post_id?: number;
+          post_name?: string | null;
           post_updatetime?: string | null;
           study_id?: string;
           user_id?: string;
@@ -107,6 +109,7 @@ export type Database = {
           post_contents?: string;
           post_createtime?: string;
           post_id?: number;
+          post_name?: string | null;
           post_updatetime?: string | null;
           study_id?: string;
           user_id?: string;
@@ -195,13 +198,6 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "study";
             referencedColumns: ["study_id"];
-          },
-          {
-            foreignKeyName: "study_applylist_user_id_fkey";
-            columns: ["user_id"];
-            isOneToOne: false;
-            referencedRelation: "user";
-            referencedColumns: ["id"];
           },
         ];
       };

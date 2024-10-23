@@ -1,17 +1,21 @@
+import { getUser } from "@/utils/supabase/server-actions";
 import MyLikePosts from "./components/MyLikePosts";
 import MyPostList from "./components/MyPostList";
 import UserProfile from "./components/UserProfile";
+import { User } from "@supabase/supabase-js";
 
 // 유저 정보
 // 유저가 작성한 모집글 POST
 // 유저가 찜한 모집글 user => post
 
-export default function MyPage() {
+export default async function MyPage() {
+  const user = await getUser();
+
   return (
     <div className="flex flex-col mt-10">
       <UserProfile />
       <hr className="my-10 border-2" />
-      <MyPostList />
+      <MyPostList user={user as User} />
       <hr className="my-10 border-2" />
       <MyLikePosts />
       <hr className="mt-10 mb-4 border-2" />

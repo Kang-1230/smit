@@ -41,3 +41,20 @@ export const updateUserProfile = async (name: string, img: string) => {
     .update({ name: name, profile_img: img })
     .eq("id", user.id);
 };
+
+export const fetchPostByUser = async (userId: string) => {
+  const { data, error } = await browserClient
+    .from("post")
+    .select("*")
+    .eq("user_id", userId);
+
+  if (error || !data) {
+    console.log(error);
+    throw new Error("포스트 정보를 불러오지 못했습니다.");
+  }
+  return data as Tables<"post">[];
+};
+
+export const deletePost = async (postId: number) => {
+  await browserClient.from("post").delete().eq("post_id", postId);
+};

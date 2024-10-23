@@ -1,19 +1,18 @@
 "use server";
 
-import { Tables } from "../../../database.types";
 import { createClient } from "./server";
 
-export const fetchUserPosts = async (id: string) => {
+export const getUser = async () => {
   const supabase = createClient();
-  const { data, error } = await supabase
-    .from("post")
-    .select("*")
-    .eq("user_id", id);
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
 
-  if (error || !data) {
-    console.log(error);
+  if (error || !user) {
+    console.error(error);
     return null;
   }
 
-  return data as Tables<`post`>[];
+  return user;
 };
