@@ -43,58 +43,73 @@ export type Database = {
       };
       comment: {
         Row: {
-          comment_contents: string | null;
-          comment_createtime: string | null;
+          comment_contents: string;
+          comment_createtime: string;
           comment_id: string;
           comment_updatetime: string | null;
-          post_id: string;
-          user_id: string | null;
+          post_id: number;
+          user_id: string;
         };
         Insert: {
-          comment_contents?: string | null;
-          comment_createtime?: string | null;
+          comment_contents?: string;
+          comment_createtime?: string;
           comment_id?: string;
           comment_updatetime?: string | null;
-          post_id?: string;
-          user_id?: string | null;
+          post_id: number;
+          user_id?: string;
         };
         Update: {
-          comment_contents?: string | null;
-          comment_createtime?: string | null;
+          comment_contents?: string;
+          comment_createtime?: string;
           comment_id?: string;
           comment_updatetime?: string | null;
-          post_id?: string;
-          user_id?: string | null;
+          post_id?: number;
+          user_id?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "comment_post_id_fkey";
+            columns: ["post_id"];
+            isOneToOne: false;
+            referencedRelation: "post";
+            referencedColumns: ["post_id"];
+          },
+          {
+            foreignKeyName: "comment_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       post: {
         Row: {
-          category: string | null;
-          post_contents: string | null;
-          post_createtime: string | null;
+          category: string;
+          post_contents: string;
+          post_createtime: string;
           post_id: number;
           post_updatetime: string | null;
-          study_id: string | null;
-          user_id: string | null;
+          study_id: string;
+          user_id: string;
         };
         Insert: {
-          category?: string | null;
-          post_contents?: string | null;
-          post_createtime?: string | null;
+          category: string;
+          post_contents: string;
+          post_createtime: string;
           post_id?: number;
           post_updatetime?: string | null;
-          study_id?: string | null;
-          user_id?: string | null;
+          study_id?: string;
+          user_id?: string;
         };
         Update: {
-          category?: string | null;
-          post_contents?: string | null;
-          post_createtime?: string | null;
+          category?: string;
+          post_contents?: string;
+          post_createtime?: string;
           post_id?: number;
           post_updatetime?: string | null;
-          study_id?: string | null;
-          user_id?: string | null;
+          study_id?: string;
+          user_id?: string;
         };
         Relationships: [
           {
@@ -104,58 +119,73 @@ export type Database = {
             referencedRelation: "study";
             referencedColumns: ["study_id"];
           },
+          {
+            foreignKeyName: "post_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
+          },
         ];
       };
       study: {
         Row: {
-          study_category: string | null;
-          study_createtime: string | null;
+          study_category: string;
+          study_createtime: string;
           study_id: string;
-          study_maneger: string | null;
-          study_max_people: number | null;
+          study_manager: string;
+          study_max_people: number;
           study_name: string;
-          study_period: string | null;
+          study_period: string;
           study_score: number | null;
         };
         Insert: {
-          study_category?: string | null;
-          study_createtime?: string | null;
+          study_category: string;
+          study_createtime?: string;
           study_id?: string;
-          study_maneger?: string | null;
-          study_max_people?: number | null;
+          study_manager?: string;
+          study_max_people: number;
           study_name: string;
-          study_period?: string | null;
+          study_period: string;
           study_score?: number | null;
         };
         Update: {
-          study_category?: string | null;
-          study_createtime?: string | null;
+          study_category?: string;
+          study_createtime?: string;
           study_id?: string;
-          study_maneger?: string | null;
-          study_max_people?: number | null;
+          study_manager?: string;
+          study_max_people?: number;
           study_name?: string;
-          study_period?: string | null;
+          study_period?: string;
           study_score?: number | null;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "study_study_manager_fkey";
+            columns: ["study_manager"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       study_applylist: {
         Row: {
           id: string;
-          is_approved: boolean | null;
-          study_id: string | null;
+          is_approved: boolean;
+          study_id: string;
           user_id: string;
         };
         Insert: {
           id?: string;
-          is_approved?: boolean | null;
-          study_id?: string | null;
+          is_approved: boolean;
+          study_id?: string;
           user_id?: string;
         };
         Update: {
           id?: string;
-          is_approved?: boolean | null;
-          study_id?: string | null;
+          is_approved?: boolean;
+          study_id?: string;
           user_id?: string;
         };
         Relationships: [
@@ -170,7 +200,7 @@ export type Database = {
             foreignKeyName: "study_applylist_user_id_fkey";
             columns: ["user_id"];
             isOneToOne: false;
-            referencedRelation: "users";
+            referencedRelation: "user";
             referencedColumns: ["id"];
           },
         ];
@@ -251,30 +281,27 @@ export type Database = {
           },
         ];
       };
-      users: {
+      user: {
         Row: {
-          avatar_url: string | null;
           created_at: string;
           email: string | null;
-          full_name: string | null;
           id: string;
-          updated_at: string;
+          name: string | null;
+          profile_img: string | null;
         };
         Insert: {
-          avatar_url?: string | null;
           created_at?: string;
           email?: string | null;
-          full_name?: string | null;
           id: string;
-          updated_at?: string;
+          name?: string | null;
+          profile_img?: string | null;
         };
         Update: {
-          avatar_url?: string | null;
           created_at?: string;
           email?: string | null;
-          full_name?: string | null;
           id?: string;
-          updated_at?: string;
+          name?: string | null;
+          profile_img?: string | null;
         };
         Relationships: [];
       };
@@ -283,10 +310,7 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      generate_random_nickname: {
-        Args: Record<PropertyKey, never>;
-        Returns: string;
-      };
+      [_ in never]: never;
     };
     Enums: {
       [_ in never]: never;
