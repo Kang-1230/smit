@@ -1,3 +1,6 @@
+"use client"
 export default function WritePage() {
-  return <div></div>;
+  return <div onClick={(e) => {
+    
+  }}></div>;
 }
