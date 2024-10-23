@@ -10,7 +10,7 @@ const MyPostList = () => {
           .map((arr, idx) => {
             return <MyPostCard key={idx} />;
           })}
-        <button>더보기</button>
+        <button className="text-gray-500 text-sm">더보기</button>
       </div>
     </div>
   );
