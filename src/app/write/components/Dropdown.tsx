@@ -1,11 +1,9 @@
-"use client"
+"use client";
 
 export default function Dropdown() {
-
-
   return (
     <div>
-      <input onBlur={() => console.log("blur!!")}>test</input>
+      <input onBlur={() => console.log("blur!!")} />
     </div>
   );
 }
