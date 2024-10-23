@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const page = () => {
+  // cpns
   return (
-    <div>스터디 그룹 생성 페이지입니다.</div>
+    <div>
+      {/* <Image 
+      src="">
+        
+      </Image> */}
+    </div>
   )
 }
 
