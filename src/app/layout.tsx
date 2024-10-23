@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "../styles/globals.css";
 import Header from "@/components/common/Header";
-import LoginPage from "./login/page";
+import Link from "next/link";
 
 const sans = Open_Sans({
   subsets: ["latin"],
@@ -25,7 +25,7 @@ export default function RootLayout({
     <html lang="ko" className={sans.className}>
       <body>
         <nav>
-          <LoginPage />
+          <Link href={"/login"}>로그인하러 가기</Link>
         </nav>
         <Header />
         <main>{children}</main>

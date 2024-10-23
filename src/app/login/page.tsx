@@ -20,12 +20,12 @@ export default function LoginPage() {
       console.error("SignIn Error :", error);
     } else {
       console.log("로그인 완료", data);
+      alert("로그인 되었습니다.");
       useAuthStore.setState({
         isLoggedIn: true,
         userId: data.user.email,
         accessToken: data.session.access_token,
       });
-      <Link href={"/"} />;
     }
   };
 
@@ -43,24 +43,27 @@ export default function LoginPage() {
   };
 
   return (
-    <form>
-      <input
-        type="email"
-        placeholder="이메일"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="비밀번호"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      {isLoggedIn ? (
-        <button onClick={(e) => handleLogout(e)}>로그아웃</button>
-      ) : (
-        <button onClick={(e) => handleSignIn(e)}>로그인</button>
-      )}
-    </form>
+    <>
+      <form>
+        <input
+          type="email"
+          placeholder="이메일"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="비밀번호"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        {isLoggedIn ? (
+          <button onClick={(e) => handleLogout(e)}>로그아웃</button>
+        ) : (
+          <button onClick={(e) => handleSignIn(e)}>로그인</button>
+        )}
+      </form>
+      <Link href={"/signup"}>회원가입하러 가기</Link>
+    </>
   );
 }

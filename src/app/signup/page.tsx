@@ -17,6 +17,7 @@ export default function SignupPage() {
       console.error("SignUp Error :", error);
     } else {
       console.log("회원가입 완료", data);
+      alert("회원가입 완료!");
     }
   };
 
