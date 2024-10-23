@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "../styles/globals.css";
 import Header from "@/components/common/Header";
+import LoginPage from "./login/page";
 
 const sans = Open_Sans({
   subsets: ["latin"],
@@ -23,6 +24,9 @@ export default function RootLayout({
   return (
     <html lang="ko" className={sans.className}>
       <body>
+        <nav>
+          <LoginPage />
+        </nav>
         <Header />
         <main>{children}</main>
       </body>
