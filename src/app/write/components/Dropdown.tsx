@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 
 export default function Dropdown() {
@@ -24,5 +25,14 @@ export default function Dropdown() {
         </MenuItems>
       </div>
     </Menu>
+=======
+"use client";
+
+export default function Dropdown() {
+  return (
+    <div>
+      <input onBlur={() => console.log("blur!!")} />
+    </div>
+>>>>>>> b37470a2b3083e735a146b2db915090e96883f3b
   );
 }
