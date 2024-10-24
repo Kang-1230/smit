@@ -7,6 +7,7 @@ import EditButton from "./EditButton";
 import { Tables } from "../../../../../database.types";
 import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
+import { convertUTCToKST } from "@/utils/convertDate";
 
 type Contents = {
   id: string;
@@ -17,7 +18,6 @@ const DetailContents = async ({ id, postData }: Contents) => {
   const studyData = await fetchStudyInfo(postData.study_id);
   const applyData = await fetchStudyApplyList(postData.study_id);
   const userData = await fetchUserInfo(postData.user_id);
-  const dateOnly = postData?.post_createtime.slice(0, 10) || "날짜 정보 없음";
   const applyNumber = applyData ? applyData.length : 0;
   const serverClient = createClient();
 
@@ -47,7 +47,9 @@ const DetailContents = async ({ id, postData }: Contents) => {
             className="rounded-full border aspect-square object-cover mr-[8px]"
           />
           <span>{userData.name}</span>
-          <span className="ml-[11px]">{dateOnly}</span>
+          <span className="ml-[11px]">
+            {convertUTCToKST(postData?.post_createtime)}
+          </span>
         </div>
         <span>
           모집 인원 {applyNumber} / {studyData.study_max_people}
