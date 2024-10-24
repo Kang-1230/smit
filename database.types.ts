@@ -83,9 +83,44 @@ export type Database = {
           },
         ];
       };
+      like: {
+        Row: {
+          created_at: string;
+          id: number;
+          like_post: number | null;
+          like_user: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          id?: number;
+          like_post?: number | null;
+          like_user?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          id?: number;
+          like_post?: number | null;
+          like_user?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "like_like_post_fkey";
+            columns: ["like_post"];
+            isOneToOne: false;
+            referencedRelation: "post";
+            referencedColumns: ["post_id"];
+          },
+          {
+            foreignKeyName: "like_like_user_fkey";
+            columns: ["like_user"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       post: {
         Row: {
-          category: string;
           post_contents: string;
           post_createtime: string;
           post_id: number;
@@ -95,7 +130,6 @@ export type Database = {
           user_id: string;
         };
         Insert: {
-          category: string;
           post_contents: string;
           post_createtime: string;
           post_id?: number;
@@ -105,7 +139,6 @@ export type Database = {
           user_id?: string;
         };
         Update: {
-          category?: string;
           post_contents?: string;
           post_createtime?: string;
           post_id?: number;
@@ -140,7 +173,7 @@ export type Database = {
           study_max_people: number;
           study_name: string;
           study_period: string;
-          study_score: number | null;
+          study_score: number;
         };
         Insert: {
           study_category: string;
@@ -150,7 +183,7 @@ export type Database = {
           study_max_people: number;
           study_name: string;
           study_period: string;
-          study_score?: number | null;
+          study_score?: number;
         };
         Update: {
           study_category?: string;
@@ -160,7 +193,7 @@ export type Database = {
           study_max_people?: number;
           study_name?: string;
           study_period?: string;
-          study_score?: number | null;
+          study_score?: number;
         };
         Relationships: [
           {

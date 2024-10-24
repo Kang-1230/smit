@@ -1,8 +1,7 @@
-import { getUser } from "@/utils/supabase/server-actions";
+import { getUser } from "@/utils/supabase/supabase-server";
 import MyLikePosts from "./components/MyLikePosts";
 import MyPostList from "./components/MyPostList";
 import UserProfile from "./components/UserProfile";
-import { User } from "@supabase/supabase-js";
 
 // 유저 정보
 // 유저가 작성한 모집글 POST
@@ -15,9 +14,9 @@ export default async function MyPage() {
     <div className="flex flex-col mt-10">
       <UserProfile />
       <hr className="my-10 border-2" />
-      <MyPostList user={user as User} />
+      <MyPostList user={user} />
       <hr className="my-10 border-2" />
-      <MyLikePosts />
+      <MyLikePosts user={user} />
       <hr className="mt-10 mb-4 border-2" />
       <div className="pl-8 pb-10 font-medium">
         <button>탈퇴하기</button>

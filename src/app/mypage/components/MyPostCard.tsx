@@ -2,14 +2,14 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Tables } from "../../../../database.types";
-import { deletePost } from "@/utils/supabase/client-actions";
+import { deletePost } from "@/utils/supabase/supabase-client";
 
 const MyPostCard = ({
   post,
   userId,
 }: {
   post: Tables<"post">;
-  userId: string;
+  userId: string | undefined;
 }) => {
   const queryClient = useQueryClient();
 

@@ -2,7 +2,7 @@ import {
   fetchPostByUser,
   fetchPublicUser,
   fetchSessionData,
-} from "@/utils/supabase/client-actions";
+} from "@/utils/supabase/supabase-client";
 import { useQuery } from "@tanstack/react-query";
 
 export const useSession = () => {
@@ -20,11 +20,12 @@ export const usePublicUser = () => {
   });
 };
 
-export const usePostByUser = (userId: string) => {
+export const usePostByUser = (userId: string | undefined) => {
   return useQuery({
     queryKey: ["post", userId],
     queryFn: () => fetchPostByUser(userId),
     retry: 1,
+    enabled: !!userId,
   });
 };
 

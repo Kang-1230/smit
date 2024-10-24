@@ -1,7 +1,7 @@
 "use client";
 
 import browserClient from "@/utils/supabase/client";
-import { usePublicUser } from "../hooks/useUserProfile";
+import { usePublicUser } from "../../../hooks/useUserProfile";
 import Image from "next/image";
 import { useState } from "react";
 import EditProfile from "./EditProfile";
