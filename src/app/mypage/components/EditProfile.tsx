@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { Tables } from "../../../../database.types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateUserProfile } from "@/utils/supabase/client-actions";
+import { updateUserProfile } from "@/utils/supabase/supabase-client";
 import browserClient from "@/utils/supabase/client";
 
 const EditProfile = ({
