@@ -17,7 +17,7 @@ export default function Header() {
   useEffect(() => {
     const handleGetSession = async () => {
       const { data, error } = await supabase.auth.getSession();
-      if (data) {
+      if (data.session !== null && data) {
         console.log("세션 정보 불러오기 완료", data);
         setIsLoggedIn(true);
       } else {
