@@ -1,12 +1,18 @@
 import browserClient from "@/utils/supabase/client";
 import { Tables } from "../../../database.types";
+import { User } from "@supabase/supabase-js";
 
 // 세션 정보 가져오기
 export const fetchSessionData = async () => {
   const { data, error } = await browserClient.auth.getSession();
 
+  if (error) {
+    console.error("Session fetch error:", error);
+    return null;
+  }
+
+  // session이 없는 것은 정상적인 상태일 수 있음
   if (!data.session) {
-    console.error(error);
     return null;
   }
 
@@ -64,7 +70,7 @@ export const deletePost = async (postId: number) => {
   await browserClient.from("post").delete().eq("post_id", postId);
 };
 
-// 특정 유저가 좋아요 누른 포스트 id 가져오기
+// 특정 유저가 좋아요 누른 포스트 가져오기
 export const fetchLikedPostsByUser = async (userId: string | undefined) => {
   const { data: posts } = await browserClient
     .from("like")
@@ -84,12 +90,34 @@ export const fetchLikedPostsByUser = async (userId: string | undefined) => {
   }
 };
 
-// 포스트의 좋아요 개수 계산을 위한 패치로직
-export const fetchPostLikesCount = async (postId: number | undefined) => {
+// 특정 포스트를 좋아요 누른 유저 가져오기
+export const fetchPostLikers = async (postId: number | undefined) => {
   const { data: posts } = await browserClient
     .from("like")
     .select("*")
     .eq("like_post", postId);
 
   return posts as Tables<"like">[];
+};
+
+// 좋아요를 누르고 취소하는 로직
+export const toggleLike = async (
+  user: User | null,
+  isLike: boolean,
+  postId: number,
+) => {
+  if (!user) {
+    throw new Error("유저를 찾을 수 없습니다.");
+  }
+  if (isLike) {
+    await browserClient
+      .from("like")
+      .delete()
+      .eq("like_user", user.id)
+      .eq("like_post", postId);
+  } else {
+    await browserClient
+      .from("like")
+      .insert({ like_post: postId, like_user: user.id });
+  }
 };
