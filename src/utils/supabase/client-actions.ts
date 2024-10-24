@@ -7,6 +7,7 @@ export const fetchSessionData = async () => {
   if (!data.session) {
     console.error(error);
     return null;
+  } else {
   }
 
   return data.session?.user;
