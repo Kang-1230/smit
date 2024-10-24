@@ -93,3 +93,94 @@ export const fetchPostLikesCount = async (postId: number | undefined) => {
 
   return posts as Tables<"like">[];
 };
+
+// post의 댓글 목록 가져오기
+export const fetchDetailComments = async (id: string) => {
+  const { data, error } = await browserClient
+    .from("comment")
+    .select("*")
+    .eq("post_id", id);
+  if (!data || error) {
+    throw new Error("댓글 정보를 불러오지 못했습니다.");
+  }
+  return data as Tables<"comment">[];
+};
+
+// 모집 상세페이지 댓글 추가
+export const addPostComment = async (id: string, commentItem: string) => {
+  const user = await fetchSessionData();
+  const { error } = await browserClient.from("comment").insert({
+    post_id: +id,
+    user_id: user?.id,
+    comment_contents: commentItem,
+  });
+  if (error) {
+    throw new Error("댓글 입력에 실패했습니다.");
+  }
+};
+
+// 모집 상세페이지 댓글 삭제
+export const deletePostComment = async (comment_id: string) => {
+  const { error } = await browserClient
+    .from("comment")
+    .delete()
+    .eq("comment_id", comment_id);
+  alert("댓글이 삭제되었습니다!");
+  if (error) {
+    throw new Error("댓글 삭제에 실패했습니다.");
+  }
+};
+
+// 모집 상세페이지 댓글 수정
+export const updatePostComment = async (
+  comment_id: string,
+  content: string,
+) => {
+  if (!content) return alert("수정할 내용을 입력해주세요!");
+  const { error } = await browserClient
+    .from("comment")
+    .update({
+      comment_contents: content,
+    })
+    .eq("comment_id", comment_id);
+  if (error) {
+    throw new Error("댓글 수정에 실패했습니다.");
+  }
+};
+
+// 스터디 신청하기
+export const applyNewStudy = async (studyId: string) => {
+  const user = await fetchSessionData();
+  const res = await browserClient
+    .from("study_applylist")
+    .select("*")
+    .eq("study_id", studyId);
+  if (res.error !== null) return;
+
+  const applyData: Tables<"study_applylist">[] = res.data;
+  const findInfo = applyData.filter((data) => data.user_id === user?.id);
+  if (findInfo.length > 0) return alert("이미 신청한 스터디입니다!");
+
+  const { error } = await browserClient.from("study_applylist").insert({
+    user_id: user?.id,
+    study_id: studyId,
+    is_approved: false,
+  });
+  alert("신청되었습니다!");
+
+  if (error) {
+    throw new Error("스터디 신청에 실패했습니다.");
+  }
+};
+
+// 모집글 삭제
+export const deleteMyPost = async (post_id: string) => {
+  const { error } = await browserClient
+    .from("post")
+    .delete()
+    .eq("post_id", post_id);
+  alert("삭제되었습니다!");
+  if (error) {
+    throw new Error("모집글 삭제에 실패했습니다.");
+  }
+};
