@@ -2,9 +2,10 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { useState } from "react";
 import browserClient from "@/utils/supabase/client";
-import { usePublicUser } from "@/app/mypage/hooks/useUserProfile";
+
 import Modal from "./Modal";
 import { useRouter } from "next/navigation";
+import { usePublicUser } from "@/hooks/useUserProfile";
 
 export default function Dropdown() {
   // 드롭다운 열림, 닫힘 상태 관리
