@@ -5,6 +5,21 @@ import { createClient } from "./server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+export const getUser = async () => {
+  const supabase = createClient();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+
+  if (error || !user) {
+    console.error(error);
+    return null;
+  }
+
+  return user;
+};
+
 //로그인 함수
 export async function login(formData: FormData) {
   const supabase = createClient();

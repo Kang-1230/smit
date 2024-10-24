@@ -1,7 +1,7 @@
 "use client";
 
 import browserClient from "@/utils/supabase/client";
-import { usePublicUser } from "../hooks/useUserProfile";
+import { usePublicUser } from "../../../hooks/useUserProfile";
 import Image from "next/image";
 import { useState } from "react";
 import EditProfile from "./EditProfile";
@@ -14,8 +14,6 @@ const UserProfile = () => {
   const profileImg = browserClient.storage
     .from("profile_img")
     .getPublicUrl(user?.profile_img ?? "default").data.publicUrl;
-
-  // 수진님 로그아웃 복붙해옴
 
   if (isLoading) {
     return <div>로딩중...</div>;

@@ -36,5 +36,4 @@ yarn-error.log*
 next-env.d.ts
 
 # supabase db type 
-database.types.ts
-supabase.ts
+/database.types.ts
