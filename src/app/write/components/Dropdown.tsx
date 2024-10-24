@@ -69,7 +69,7 @@ export default function Dropdown() {
           </MenuButton>
           <MenuItems
             anchor="top end"
-            className="bg-amber-100 rounded-3xl p-6 [--anchor-gap:20px]"
+            className="bg-white rounded-3xl p-6 [--anchor-gap:20px]"
           >
             <MenuItem>
               <a
