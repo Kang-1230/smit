@@ -16,10 +16,11 @@ export const useComments = (id: string) => {
 };
 
 // 댓글 추가
-export const useAddCommentMutation = (id: string, commentItem: string) => {
+export const useAddCommentMutation = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: () => addPostComment(id, commentItem),
+    mutationFn: (data: { id: string; commentItem: string }) =>
+      addPostComment(data),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["comment", "public"],
@@ -44,9 +45,13 @@ export const useDeleteCommentMutation = () => {
 // 댓글 수정
 export const useUpdateCommentMutation = () => {
   const queryClient = useQueryClient();
-  return useMutation<void, Error, { commentId: string; content: string }>({
-    mutationFn: ({ commentId, content }) =>
-      updatePostComment(commentId, content),
+  return useMutation<
+    void,
+    Error,
+    { commentId: string; content: string; updatedAt: string }
+  >({
+    mutationFn: ({ commentId, content, updatedAt }) =>
+      updatePostComment(commentId, content, updatedAt),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["comment", "public"],

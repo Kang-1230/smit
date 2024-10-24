@@ -107,12 +107,15 @@ export const fetchDetailComments = async (id: string) => {
 };
 
 // 모집 상세페이지 댓글 추가
-export const addPostComment = async (id: string, commentItem: string) => {
+export const addPostComment = async (data: {
+  id: string;
+  commentItem: string;
+}) => {
   const user = await fetchSessionData();
   const { error } = await browserClient.from("comment").insert({
-    post_id: +id,
+    post_id: +data.id,
     user_id: user?.id,
-    comment_contents: commentItem,
+    comment_contents: data.commentItem,
   });
   if (error) {
     throw new Error("댓글 입력에 실패했습니다.");
@@ -135,12 +138,14 @@ export const deletePostComment = async (comment_id: string) => {
 export const updatePostComment = async (
   comment_id: string,
   content: string,
+  updatedAt: string,
 ) => {
   if (!content) return alert("수정할 내용을 입력해주세요!");
   const { error } = await browserClient
     .from("comment")
     .update({
       comment_contents: content,
+      comment_updatetime: updatedAt,
     })
     .eq("comment_id", comment_id);
   if (error) {
@@ -183,4 +188,18 @@ export const deleteMyPost = async (post_id: string) => {
   if (error) {
     throw new Error("모집글 삭제에 실패했습니다.");
   }
+};
+
+// 댓글 작성한 유저 정보
+export const getUserByCommentId = async (user_id: string) => {
+  const { data, error } = await browserClient
+    .from("user")
+    .select("*")
+    .eq("id", user_id);
+
+  if (!data || error) {
+    console.log(error);
+    throw new Error("사용자 정보를 불러오지 못했습니다.");
+  }
+  return data[0] as Tables<"user">;
 };
