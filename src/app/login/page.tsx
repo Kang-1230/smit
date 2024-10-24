@@ -23,6 +23,42 @@ export default function LoginPage() {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent",
+        },
+      },
+    });
+
+    if (data) {
+      alert("구글 로그인 성공");
+    } else if (error) {
+      console.log("구글 로그인 실패", error);
+    }
+  };
+
+  const handleKaKaoSignIn = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "kakao",
+      options: {
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent",
+        },
+      },
+    });
+
+    if (data) {
+      alert("카카오 로그인 성공");
+    } else if (error) {
+      console.log("카카오 로그인 실패", error);
+    }
+  };
+
   const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const { error: logoutError } = await supabase.auth.signOut();
@@ -52,7 +88,11 @@ export default function LoginPage() {
         {isLoggedIn ? (
           <button onClick={(e) => handleLogout(e)}>로그아웃</button>
         ) : (
-          <button onClick={(e) => handleSignIn(e)}>로그인</button>
+          <>
+            <button onClick={(e) => handleSignIn(e)}>로그인</button>
+            <button onClick={() => handleGoogleSignIn()}>구글 로그인</button>
+            <button onClick={() => handleKaKaoSignIn()}>카카오 로그인</button>
+          </>
         )}
       </form>
       <Link href={"/signup"}>회원가입하러 가기</Link>
