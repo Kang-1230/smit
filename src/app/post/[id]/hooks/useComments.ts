@@ -3,6 +3,7 @@ import {
   deleteMyPost,
   deletePostComment,
   fetchDetailComments,
+  getUserByCommentId,
   updatePostComment,
 } from "@/utils/supabase/supabase-client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -70,5 +71,13 @@ export const useDeleteMyPost = () => {
         queryKey: ["post", "public"],
       });
     },
+  });
+};
+
+// 댓글 유저 정보 가져오기
+export const useUserByCommentId = (id: string) => {
+  return useQuery({
+    queryKey: ["user", id],
+    queryFn: () => getUserByCommentId(id),
   });
 };
