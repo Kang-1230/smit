@@ -73,6 +73,14 @@ export async function signout() {
   }
 }
 
+export const getIsLogin = async () => {
+  const serverClient = createClient();
+  const {
+    data: { session },
+  } = await serverClient.auth.getSession();
+  return !!session;
+};
+
 export const fetchUserPosts = async (id: string) => {
   const supabase = createClient();
   const { data, error } = await supabase
@@ -86,4 +94,61 @@ export const fetchUserPosts = async (id: string) => {
   }
 
   return data as Tables<`post`>[];
+};
+
+// 유저 정보 가져오기 - 서버컴포넌트 사용
+export const fetchUserInfo = async (user_id: string) => {
+  const serverClient = createClient();
+  const { data, error } = await serverClient
+    .from("user")
+    .select("*")
+    .eq("id", user_id);
+  if (error || !data) {
+    console.log(error);
+    return null;
+  }
+  return data[0] as Tables<"user">;
+};
+
+// post 정보 가져오기
+export const fetchPostInfo = async (id: string) => {
+  const serverClient = createClient();
+  const { data, error } = await serverClient
+    .from("post")
+    .select("*")
+    .eq("post_id", id);
+  if (error || !data) {
+    console.log(error);
+    return null;
+  }
+
+  return data[0] as Tables<"post">;
+};
+
+// study 정보 가져오기
+export const fetchStudyInfo = async (study_id: string) => {
+  const serverClient = createClient();
+  const { data, error } = await serverClient
+    .from("study")
+    .select("*")
+    .eq("study_id", study_id);
+  if (error || !data) {
+    console.log(error);
+    return null;
+  }
+  return data[0] as Tables<"study">;
+};
+
+// 스터디 신청리스트 가져오기
+export const fetchStudyApplyList = async (study_id: string) => {
+  const serverClient = createClient();
+  const { data, error } = await serverClient
+    .from("study_applylist")
+    .select("*")
+    .eq("study_id", study_id);
+  if (error || !data) {
+    console.log(error);
+    return null;
+  }
+  return data as Tables<"study_applylist">[];
 };
