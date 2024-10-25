@@ -51,6 +51,58 @@ export const updateUserProfile = async (name: string, img: string) => {
     .eq("id", user.id);
 };
 
+// 스터디 생성 (insert)
+export const insertStudy = async (name: string, img: string) => {
+  const user = await fetchSessionData();
+  if (!user) {
+    throw new Error("로그인 상태가 아님");
+  }
+
+  await browserClient
+    .from("user")
+    .update({ name: name, profile_img: img })
+    .eq("id", user.id);
+};
+
+// 스터디 삭제 (insert)
+export const deleteStudy = async (name: string, img: string) => {
+  const user = await fetchSessionData();
+  if (!user) {
+    throw new Error("로그인 상태가 아님");
+  }
+
+  await browserClient
+    .from("user")
+    .update({ name: name, profile_img: img })
+    .eq("id", user.id);
+};
+
+// 스터디 수정 (insert)
+export const updateStudy = async (name: string, img: string) => {
+  const user = await fetchSessionData();
+  if (!user) {
+    throw new Error("로그인 상태가 아님");
+  }
+
+  await browserClient
+    .from("user")
+    .update({ name: name, profile_img: img })
+    .eq("id", user.id);
+};
+
+// 모집글 생성 (insert)
+export const insertPostWrite = async (name: string, img: string) => {
+  const user = await fetchSessionData();
+  if (!user) {
+    throw new Error("로그인 상태가 아님");
+  }
+
+  await browserClient
+    .from("user")
+    .update({ name: name, profile_img: img })
+    .eq("id", user.id);
+};
+
 // 특정 사용자가 작성한 게시글 불러오기
 export const fetchPostByUser = async (userId: string | undefined) => {
   const { data, error } = await browserClient
