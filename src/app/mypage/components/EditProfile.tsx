@@ -10,16 +10,15 @@ import browserClient from "@/utils/supabase/client";
 const EditProfile = ({
   profileImg,
   user,
-  setIsEditMode,
 }: {
   profileImg: string;
   user: Tables<"user">;
-  setIsEditMode: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const queryClient = useQueryClient();
   const [uploadImg, setUploadImg] = useState<null | string>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [userName, setUserName] = useState(user?.name ? user.name : "");
+  const [isUnique, setIsUnique] = useState("change");
 
   // 프로필 이미지 업로드 했을 때
   const ImageUploadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,58 +47,99 @@ const EditProfile = ({
 
   // 실제로 수정버튼 눌렀을 때 실행되는 부분 (이미지 먼저 스토리지로 보냄)
   const profileSaveHandler = async () => {
-    if (fileInputRef.current?.files) {
-      if (fileInputRef.current.files.length > 0) {
-        const { error } = await browserClient.storage
-          .from("profile_img")
-          .upload(`${user?.id}`, fileInputRef.current.files[0], {
-            upsert: true,
-          });
+    if (isUnique === "unique") {
+      if (fileInputRef.current?.files) {
+        if (fileInputRef.current.files.length > 0) {
+          const { error } = await browserClient.storage
+            .from("profile_img")
+            .upload(`${user?.id}`, fileInputRef.current.files[0], {
+              upsert: true,
+            });
 
-        if (error) {
-          console.log("이미지 업로드 중 오류 발생", error);
-          return;
+          if (error) {
+            console.log("이미지 업로드 중 오류 발생", error);
+            return;
+          }
         }
       }
+      updateProfile();
+      alert("프로필 수정 완료!");
+    } else if (isUnique === "change") {
+      alert("닉네임 중복검사를 진행해주세요!");
+      return;
     }
-    updateProfile();
-    setIsEditMode((prev) => !prev);
   };
 
+  const validateNickname = async () => {
+    const { data }: { data: Tables<"user">[] | null } = await browserClient
+      .from("user")
+      .select("*");
+    const nickName = data?.filter((u) => u.id !== user.id).map((u) => u.name);
+    if (nickName?.includes(userName)) {
+      setIsUnique("notUnique");
+    } else setIsUnique("unique");
+  };
+
+  const validate =
+    isUnique === "change"
+      ? ""
+      : isUnique === "unique"
+      ? "사용 가능한 닉네임 입니다."
+      : "이미 사용하고 있는 닉네임 입니다.";
+
   return (
-    <>
-      <Image
-        src={uploadImg ? uploadImg : `${profileImg}?t=${Date.now()}`}
-        alt="프로필 이미지"
-        width={128}
-        height={128}
-        className="rounded-full border aspect-square object-cover"
-        onClick={() => {
-          if (fileInputRef.current) fileInputRef.current.click();
-        }}
-        priority={false}
-      />
-      <input
-        ref={fileInputRef}
-        className="hidden"
-        type="file"
-        onChange={(e) => ImageUploadHandler(e)}
-      />
-      <div className="text-center">
+    <div className="flex flex-col">
+      <div className="flex flex-col items-center gap-6">
+        <p className="text-xl font-bold">프로필 수정</p>
+
+        <div className="w-full aspect-square relative">
+          <Image
+            src={uploadImg ? uploadImg : `${profileImg}?t=${Date.now()}`}
+            alt="프로필 이미지"
+            layout="fill"
+            className="rounded-xl border object-cover"
+            onClick={() => fileInputRef.current?.click()}
+            priority={false}
+          />
+        </div>
         <input
-          className="mb-1 border p-1 rounded-md"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
+          ref={fileInputRef}
+          className="hidden"
+          type="file"
+          onChange={(e) => ImageUploadHandler(e)}
         />
-        <p className="text-sm text-gray-600">{user?.email}</p>
+
+        <div>
+          <p className="text-sm font-semibold text-gray-600">닉네임</p>
+          <div className="flex justify-between items-center gap-2">
+            <input
+              className="border-b-2 flex-grow h-8 focus:outline-none w-3/5"
+              value={userName}
+              onChange={(e) => {
+                setUserName(e.target.value);
+                setIsUnique("change");
+              }}
+            />
+            <button
+              className="h-8 px-4 bg-gray-500 text-sm rounded-xl text-white"
+              onClick={validateNickname}
+            >
+              중복확인
+            </button>
+          </div>
+
+          <p className="text-xs text-red-500 mt-1">{validate}</p>
+        </div>
       </div>
+
       <button
-        className="py-2 px-3 bg-gray-300 rounded-lg text-xs font-semibold"
-        onClick={() => profileSaveHandler()}
+        className="w-full py-2 bg-gray-500 rounded-3xl font-medium text-white mt-6"
+        onClick={profileSaveHandler}
+        disabled={isUnique === "notUnique"}
       >
-        프로필 저장
+        적용하기
       </button>
-    </>
+    </div>
   );
 };
 

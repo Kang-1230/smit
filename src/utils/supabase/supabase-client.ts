@@ -72,22 +72,17 @@ export const deletePost = async (postId: number) => {
 
 // 특정 유저가 좋아요 누른 포스트 가져오기
 export const fetchLikedPostsByUser = async (userId: string | undefined) => {
-  const { data: posts } = await browserClient
+  const { data, error } = await browserClient
     .from("like")
-    .select("*")
+    .select("*, post(*)")
     .eq("like_user", userId);
 
-  const postIds = posts?.map((post) => post.like_post);
-  if (postIds) {
-    const { data: likePosts } = await browserClient
-      .from("post")
-      .select("*")
-      .in("post_id", postIds);
-
-    return likePosts as Tables<"post">[];
-  } else {
+  if (error) {
+    console.error("Error fetching liked posts:", error);
     return null;
   }
+
+  return (data?.map((like) => like.post) as Tables<"post">[]) || null;
 };
 
 // 특정 포스트를 좋아요 누른 유저 가져오기
@@ -269,4 +264,18 @@ export const fetchStudyMember = async (studyId: string) => {
   }
 
   return data as Pick<Tables<"study_applylist">, "user_id">[];
+};
+
+// 회원 탈퇴 라우트 핸들러 사용
+export const deleteUser = async () => {
+  const res = await fetch("/api/deleteUser", {
+    method: "DELETE",
+  });
+  const data = await res.json();
+
+  if (res.ok) {
+    console.log(data.message);
+  } else {
+    console.error(data.error);
+  }
 };
