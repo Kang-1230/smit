@@ -47,6 +47,7 @@ export type Database = {
           comment_createtime: string;
           comment_id: string;
           comment_updatetime: string | null;
+          parent_id: string | null;
           post_id: number;
           user_id: string;
         };
@@ -55,6 +56,7 @@ export type Database = {
           comment_createtime?: string;
           comment_id?: string;
           comment_updatetime?: string | null;
+          parent_id?: string | null;
           post_id: number;
           user_id?: string;
         };
@@ -63,10 +65,18 @@ export type Database = {
           comment_createtime?: string;
           comment_id?: string;
           comment_updatetime?: string | null;
+          parent_id?: string | null;
           post_id?: number;
           user_id?: string;
         };
         Relationships: [
+          {
+            foreignKeyName: "comment_parent_id_fkey";
+            columns: ["parent_id"];
+            isOneToOne: false;
+            referencedRelation: "comment";
+            referencedColumns: ["comment_id"];
+          },
           {
             foreignKeyName: "comment_post_id_fkey";
             columns: ["post_id"];
@@ -166,9 +176,12 @@ export type Database = {
       };
       study: {
         Row: {
-          study_category: string;
+          study_category: string[];
+          study_chaturl: string | null;
           study_createtime: string;
+          study_description: string | null;
           study_id: string;
+          study_imgurl: string | null;
           study_manager: string;
           study_max_people: number;
           study_name: string;
@@ -176,9 +189,12 @@ export type Database = {
           study_score: number;
         };
         Insert: {
-          study_category: string;
+          study_category: string[];
+          study_chaturl?: string | null;
           study_createtime?: string;
+          study_description?: string | null;
           study_id?: string;
+          study_imgurl?: string | null;
           study_manager?: string;
           study_max_people: number;
           study_name: string;
@@ -186,9 +202,12 @@ export type Database = {
           study_score?: number;
         };
         Update: {
-          study_category?: string;
+          study_category?: string[];
+          study_chaturl?: string | null;
           study_createtime?: string;
+          study_description?: string | null;
           study_id?: string;
+          study_imgurl?: string | null;
           study_manager?: string;
           study_max_people?: number;
           study_name?: string;
