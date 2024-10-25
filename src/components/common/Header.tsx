@@ -6,26 +6,29 @@ import SearchIcon from "../ui/icons/SearchIcon";
 import CustomButton from "../ui/CustomButton";
 import { useRouter } from "next/navigation";
 import supabase from "../../utils/supabase/client";
-import { useEffect, useState } from "react";
+import { useSession } from "@/hooks/useUserProfile";
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 const MENU_ICONS = [<SearchIcon key="search" />, <AlertIcon key="alert" />];
 
 export default function Header() {
   const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const queryClient = useQueryClient();
+  const { data: user } = useSession();
 
+  // 로그인 상태 구독!!
   useEffect(() => {
-    const handleGetSession = async () => {
-      const { data, error } = await supabase.auth.getSession();
-      if (data.session !== null && data) {
-        console.log("세션 정보 불러오기 완료", data);
-        setIsLoggedIn(true);
-      } else {
-        console.error("getSession Error", error);
-      }
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(() => {
+      queryClient.invalidateQueries({ queryKey: ["user", "session"] });
+    });
+    // 컴포넌트 나가면 구독 해제~
+    return () => {
+      subscription.unsubscribe();
     };
-    handleGetSession();
-  }, []);
+  }, [queryClient]);
 
   const handleLogin = () => {
     router.replace("/login");
@@ -38,7 +41,6 @@ export default function Header() {
       console.error("SignUp Error :", logoutError);
     } else {
       console.log("로그아웃 완료");
-      setIsLoggedIn(false);
     }
   };
 
@@ -55,7 +57,7 @@ export default function Header() {
             </li>
           ))}
           <li>
-            {isLoggedIn ? (
+            {user ? (
               <CustomButton text="로그아웃" onClick={(e) => handleLogout(e)} />
             ) : (
               <CustomButton text="로그인" onClick={() => handleLogin()} />
