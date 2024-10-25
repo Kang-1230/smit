@@ -3,10 +3,11 @@ import {
   fetchPublicUser,
   fetchSessionData,
 } from "@/utils/supabase/supabase-client";
+import { User } from "@supabase/supabase-js";
 import { useQuery } from "@tanstack/react-query";
 
 export const useSession = () => {
-  return useQuery({
+  return useQuery<User | null>({
     queryKey: ["user", "session"],
     queryFn: () => fetchSessionData(),
   });
