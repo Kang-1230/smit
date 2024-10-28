@@ -116,7 +116,9 @@ const CommentListItem = ({
           />
           <div>
             <span>{commentUser?.name}</span>
-            <span>{convertUTCToKST(comment.comment_createtime)}</span>
+            <span>
+              {convertUTCToKST(comment.comment_createtime).fullDateTime}
+            </span>
             {user?.id === comment.user_id ? (
               <>
                 <button onClick={() => toggleEditMode(comment.comment_id)}>
