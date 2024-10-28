@@ -1,10 +1,11 @@
 "use client";
 
-import { User } from "@supabase/supabase-js";
 import SquarePostCard from "../../../components/common/SquarePostCard";
 import { useLikedPostByUser } from "../../../hooks/useLikePost";
+import { useSession } from "@/hooks/useUserProfile";
 
-const MyLikePosts = ({ user }: { user: User | null }) => {
+const MyLikePosts = () => {
+  const { data: user = null } = useSession();
   const { data: likePosts } = useLikedPostByUser(user?.id);
 
   return (

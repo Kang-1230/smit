@@ -1,10 +1,10 @@
 "use client";
 
-import { User } from "@supabase/supabase-js";
-import { usePostByUser } from "../../../hooks/useUserProfile";
+import { usePostByUser, useSession } from "../../../hooks/useUserProfile";
 import MyPostCard from "./MyPostCard";
 
-const MyPostList = ({ user }: { user: User | null }) => {
+const MyPostList = () => {
+  const { data: user = null } = useSession();
   const {
     data: posts,
     isLoading: postsLoading,

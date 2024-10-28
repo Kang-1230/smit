@@ -268,7 +268,7 @@ export const fetchStudyMember = async (studyId: string) => {
 
 // 회원 탈퇴 라우트 핸들러 사용
 export const deleteUser = async () => {
-  const res = await fetch("/api/deleteUser", {
+  const res = await fetch("/api/delete-user", {
     method: "DELETE",
   });
   const data = await res.json();
