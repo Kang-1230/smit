@@ -52,26 +52,64 @@ export const updateUserProfile = async (name: string, img: string) => {
 };
 
 // 스터디 생성 (insert)
-export const insertStudy = async (name: string, img: string) => {
+export const insertStudy = async (
+  title: string,
+  studyCategory: string[],
+  studyMaxPeople: number,
+  userId: string | undefined,
+  studyDescription: string,
+  studyLink: string,
+) => {
+  const user = await fetchSessionData();
+  if (!user) {
+    throw new Error("로그인 상태가 아님");
+  }
+
+  const { error } = await browserClient.from("study").insert({
+    study_name: title,
+    study_category: studyCategory,
+    study_max_people: studyMaxPeople,
+    study_manager: userId,
+    study_description: studyDescription,
+    study_chaturl: studyLink,
+  });
+
+  if (error) {
+    throw new Error("스터디를 생성하지 못했어요.");
+  }
+};
+
+// 스터디 삭제 (delete)
+export const deleteStudy = async (studyId: string) => {
+  await browserClient.from("study").delete().eq("study_id", studyId);
+};
+
+// 스터디 업데이트 (update)
+export const updateStudy = async (
+  studyId: string,
+  title: string,
+  studyCategory: string[],
+  studyMaxPeople: number,
+  userId: string,
+  studyDescription: string,
+  studyLink: string,
+) => {
   const user = await fetchSessionData();
   if (!user) {
     throw new Error("로그인 상태가 아님");
   }
 
   await browserClient
-    .from("user")
-    .update({ name: name, profile_img: img })
-    .eq("id", user.id);
-};
-
-// 스터디 삭제 (insert)
-export const deleteStudy = async (studyId : string) => {
-  await browserClient
     .from("study")
-    .delete()
-    .eq("study_id", studyId)
+    .update({
+      study_name: title,
+      study_category: studyCategory,
+      study_max_people: studyMaxPeople,
+      study_description: studyDescription,
+      study_chaturl: studyLink,
+    })
+    .eq("study_id", studyId);
 };
-
 
 // 모집글 생성 (insert)
 export const insertPostWrite = async (name: string, img: string) => {

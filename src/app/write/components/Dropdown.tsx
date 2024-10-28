@@ -1,6 +1,6 @@
 "use client";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import browserClient from "@/utils/supabase/client";
 
 import Modal from "./Modal";
@@ -31,11 +31,10 @@ export default function Dropdown() {
 
       if (count === 0) {
         setModalMode("nonexist");
+        setIsModalOpen(true);
       } else {
-        setModalMode("exist");
+        router.replace("/write");
       }
-
-      setIsModalOpen(true);
     } else {
       alert("서비스를 이용하시려면 먼저 로그인 해주세요.");
     }
@@ -48,8 +47,12 @@ export default function Dropdown() {
   };
 
   const viewStudyModal = () => {
-    setModalMode("exist");
-    setIsModalOpen(true);
+    if (user) {
+      setModalMode("exist");
+      setIsModalOpen(true);
+    } else {
+      alert("서비스를 이용하시려면 먼저 로그인 해주세요.");
+    }
     setIsDropDownOpen(false);
   };
 
