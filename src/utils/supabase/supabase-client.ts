@@ -123,11 +123,12 @@ export const toggleLike = async (
 };
 
 // post의 댓글 목록 가져오기
-export const fetchDetailComments = async (id: string) => {
+export const fetchDetailComments = async (postId: string) => {
   const { data, error } = await browserClient
     .from("comment")
     .select("*")
-    .eq("post_id", id);
+    .eq("post_id", postId)
+    .order("comment_createtime", { ascending: false });
   if (!data || error) {
     throw new Error("댓글 정보를 불러오지 못했습니다.");
   }
@@ -138,12 +139,18 @@ export const fetchDetailComments = async (id: string) => {
 export const addPostComment = async (data: {
   id: string;
   commentItem: string;
+  parentId?: string;
 }) => {
   const user = await fetchSessionData();
+  if (!user) {
+    throw new Error("로그인 상태가 아님");
+  }
+
   const { error } = await browserClient.from("comment").insert({
     post_id: +data.id,
     user_id: user?.id,
     comment_contents: data.commentItem,
+    parent_id: data.parentId ?? null,
   });
   if (error) {
     throw new Error("댓글 입력에 실패했습니다.");

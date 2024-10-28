@@ -16,28 +16,19 @@ const DetailComments = ({ id }: { id: string }) => {
     .from("profile_img")
     .getPublicUrl(user?.profile_img ?? "default").data.publicUrl;
 
-  // 댓글 불러오기
+  // 댓글 불러오기(+답글)
   const { data: commentList, isLoading, isError } = useComments(id);
 
-  // 댓글 추가
+  // 댓글 추가(+답글)
   const { mutate: addComment } = useAddCommentMutation();
 
   if (isLoading) {
-    return <div>로딩중...</div>;
+    return <div>댓글을 불러오는 중...</div>;
   }
 
   if (isError) {
-    return <div>댓글 가져오기 오류</div>;
+    return <div>댓글을 불러오는데 실패했습니다.</div>;
   }
-
-  // 댓글 최신순 정렬
-  const sortedComments = commentList
-    ? [...commentList].sort(
-        (a, b) =>
-          new Date(b.comment_createtime).getTime() -
-          new Date(a.comment_createtime).getTime(),
-      )
-    : [];
 
   return (
     <div className="mt-10">
@@ -46,18 +37,24 @@ const DetailComments = ({ id }: { id: string }) => {
         onSubmit={(e) => {
           e.preventDefault();
           // 빈값 체크
-          if (commentItem.trim() === "") {
+          if (!commentItem.trim()) {
             alert("댓글 내용을 입력해주세요!");
             return;
           }
-          addComment({ id, commentItem });
-          setCommentItem("");
+          addComment(
+            { id, commentItem },
+            {
+              onSuccess: () => {
+                setCommentItem("");
+              },
+            },
+          );
         }}
         className="flex"
       >
         <Image
           src={profileImg}
-          alt="유저 이미지"
+          alt="프로필 이미지"
           width={50}
           height={50}
           className="rounded-full border aspect-square object-cover"
@@ -72,9 +69,13 @@ const DetailComments = ({ id }: { id: string }) => {
         <button>입력</button>
       </form>
       <div>
-        {sortedComments?.map((comment) => (
-          <CommentListItem key={comment.comment_id} comment={comment} />
-        ))}
+        {commentList && commentList.length > 0 ? (
+          commentList.map((comment) => (
+            <CommentListItem key={comment.comment_id} comment={comment} />
+          ))
+        ) : (
+          <div>작성된 댓글이 없습니다.</div>
+        )}
       </div>
     </div>
   );
