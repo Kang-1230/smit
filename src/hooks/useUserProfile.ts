@@ -29,10 +29,3 @@ export const usePostByUser = (userId: string | undefined) => {
     enabled: !!userId,
   });
 };
-
-export const useStudyByPost = (postId: string) => {
-  return useQuery({
-    queryKey: ["study", postId],
-    queryFn: () => {},
-  });
-};

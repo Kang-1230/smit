@@ -23,6 +23,7 @@ export default function Header() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(() => {
       queryClient.invalidateQueries({ queryKey: ["user", "session"] });
+      queryClient.invalidateQueries({ queryKey: ["user", "public"] });
     });
     // 컴포넌트 나가면 구독 해제~
     return () => {

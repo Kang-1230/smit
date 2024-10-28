@@ -27,6 +27,7 @@ const MyPostCard = ({
       <div className="flex flex-row justify-between items-center px-8">
         <p className="font-medium">{post.post_name}</p>
         <div className="text-white text-sm">
+          {/* 수정 페이지로 link 필요 */}
           <button className="p-2 bg-gray-500 rounded-xl">수정</button>
           <button
             className="p-2 bg-gray-500 rounded-xl ml-1"

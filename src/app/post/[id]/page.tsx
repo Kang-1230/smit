@@ -2,7 +2,7 @@ import DetailContents from "./components/DetailContents";
 import DetailComments from "./components/DetailComments";
 import ApplyStudy from "./components/ApplyStudy";
 import ShareStudy from "./components/ShareStudy";
-import LikeButton from "./components/LikeButton";
+import LikeButton from "@/components/common/LikeButton";
 import { fetchPostInfo } from "@/utils/supabase/supabase-server";
 
 export default async function PostDetailPage({
@@ -20,7 +20,7 @@ export default async function PostDetailPage({
       <DetailContents id={params.id} postData={postData} />
       <DetailComments id={params.id} />
       <div className="flex gap-2 items-center">
-        <LikeButton />
+        <LikeButton postId={+params.id} />
         <ShareStudy />
         <ApplyStudy postData={postData} />
       </div>
