@@ -1,5 +1,5 @@
 import browserClient from "@/utils/supabase/client";
-import { Tables } from "../../../database.types";
+import { Tables, TablesInsert, TablesUpdate } from "../../../database.types";
 import { User } from "@supabase/supabase-js";
 
 // 세션 정보 가져오기
@@ -47,7 +47,7 @@ export const updateUserProfile = async (name: string, img: string) => {
 
   await browserClient
     .from("user")
-    .update({ name: name, profile_img: img })
+    .update<TablesUpdate<"user">>({ name, profile_img: img })
     .eq("id", user.id);
 };
 
@@ -145,22 +145,17 @@ export const deletePost = async (postId: number) => {
 
 // 특정 유저가 좋아요 누른 포스트 가져오기
 export const fetchLikedPostsByUser = async (userId: string | undefined) => {
-  const { data: posts } = await browserClient
+  const { data, error } = await browserClient
     .from("like")
-    .select("*")
+    .select("*, post(*)")
     .eq("like_user", userId);
 
-  const postIds = posts?.map((post) => post.like_post);
-  if (postIds) {
-    const { data: likePosts } = await browserClient
-      .from("post")
-      .select("*")
-      .in("post_id", postIds);
-
-    return likePosts as Tables<"post">[];
-  } else {
+  if (error) {
+    console.error("Error fetching liked posts:", error);
     return null;
   }
+
+  return (data?.map((like) => like.post) as Tables<"post">[]) || null;
 };
 
 // 특정 포스트를 좋아요 누른 유저 가져오기
@@ -191,16 +186,17 @@ export const toggleLike = async (
   } else {
     await browserClient
       .from("like")
-      .insert({ like_post: postId, like_user: user.id });
+      .insert<TablesInsert<"like">>({ like_post: postId, like_user: user.id });
   }
 };
 
 // post의 댓글 목록 가져오기
-export const fetchDetailComments = async (id: string) => {
+export const fetchDetailComments = async (postId: string) => {
   const { data, error } = await browserClient
     .from("comment")
     .select("*")
-    .eq("post_id", id);
+    .eq("post_id", postId)
+    .order("comment_createtime", { ascending: false });
   if (!data || error) {
     throw new Error("댓글 정보를 불러오지 못했습니다.");
   }
@@ -211,12 +207,18 @@ export const fetchDetailComments = async (id: string) => {
 export const addPostComment = async (data: {
   id: string;
   commentItem: string;
+  parentId?: string;
 }) => {
   const user = await fetchSessionData();
+  if (!user) {
+    throw new Error("로그인 상태가 아님");
+  }
+
   const { error } = await browserClient.from("comment").insert({
     post_id: +data.id,
     user_id: user?.id,
     comment_contents: data.commentItem,
+    parent_id: data.parentId ?? null,
   });
   if (error) {
     throw new Error("댓글 입력에 실패했습니다.");
@@ -303,4 +305,57 @@ export const getUserByCommentId = async (user_id: string) => {
     throw new Error("사용자 정보를 불러오지 못했습니다.");
   }
   return data[0] as Tables<"user">;
+};
+
+// 좋아요 누른 포스트의 스터디 정보
+export const fetchStudyByPost = async (studyId: string) => {
+  const { data, error } = await browserClient
+    .from("study")
+    .select("*")
+    .eq("study_id", studyId);
+
+  if (error) {
+    console.error(error);
+    return null;
+  }
+
+  if (!data) {
+    return null;
+  }
+
+  return data[0] as Tables<"study">;
+};
+
+// 현재 스터디 참여중인 인원 가져오기
+export const fetchStudyMember = async (studyId: string) => {
+  const { data, error } = await browserClient
+    .from("study_applylist")
+    .select("user_id")
+    .eq("study_id", studyId)
+    .eq("is_approved", true);
+
+  if (error) {
+    console.error(error);
+    return null;
+  }
+
+  if (!data) {
+    return null;
+  }
+
+  return data as Pick<Tables<"study_applylist">, "user_id">[];
+};
+
+// 회원 탈퇴 라우트 핸들러 사용
+export const deleteUser = async () => {
+  const res = await fetch("/api/delete-user", {
+    method: "DELETE",
+  });
+  const data = await res.json();
+
+  if (res.ok) {
+    console.log(data.message);
+  } else {
+    console.error(data.error);
+  }
 };

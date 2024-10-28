@@ -68,49 +68,46 @@ export type Database = {
       }
       comment: {
         Row: {
-          comment_contents: string
-          comment_createtime: string
-          comment_id: string
-          comment_updatetime: string | null
-          parent_id: string | null
-          post_id: number
-          refOrder: number
-          user_id: string
-        }
+          comment_contents: string;
+          comment_createtime: string;
+          comment_id: string;
+          comment_updatetime: string | null;
+          parent_id: string | null;
+          post_id: number;
+          user_id: string;
+        };
         Insert: {
-          comment_contents?: string
-          comment_createtime?: string
-          comment_id?: string
-          comment_updatetime?: string | null
-          parent_id?: string | null
-          post_id: number
-          refOrder?: number
-          user_id?: string
-        }
+          comment_contents?: string;
+          comment_createtime?: string;
+          comment_id?: string;
+          comment_updatetime?: string | null;
+          parent_id?: string | null;
+          post_id: number;
+          user_id?: string;
+        };
         Update: {
-          comment_contents?: string
-          comment_createtime?: string
-          comment_id?: string
-          comment_updatetime?: string | null
-          parent_id?: string | null
-          post_id?: number
-          refOrder?: number
-          user_id?: string
-        }
+          comment_contents?: string;
+          comment_createtime?: string;
+          comment_id?: string;
+          comment_updatetime?: string | null;
+          parent_id?: string | null;
+          post_id?: number;
+          user_id?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "comment_parent_id_fkey"
-            columns: ["parent_id"]
-            isOneToOne: false
-            referencedRelation: "comment"
-            referencedColumns: ["comment_id"]
+            foreignKeyName: "comment_parent_id_fkey";
+            columns: ["parent_id"];
+            isOneToOne: false;
+            referencedRelation: "comment";
+            referencedColumns: ["comment_id"];
           },
           {
-            foreignKeyName: "comment_post_id_fkey"
-            columns: ["post_id"]
-            isOneToOne: false
-            referencedRelation: "post"
-            referencedColumns: ["post_id"]
+            foreignKeyName: "comment_post_id_fkey";
+            columns: ["post_id"];
+            isOneToOne: false;
+            referencedRelation: "post";
+            referencedColumns: ["post_id"];
           },
           {
             foreignKeyName: "comment_user_id_fkey"
@@ -204,44 +201,44 @@ export type Database = {
       }
       study: {
         Row: {
-          study_category: string[]
-          study_chaturl: string | null
-          study_createtime: string
-          study_description: string | null
-          study_id: string
-          study_imgurl: string | null
-          study_manager: string
-          study_max_people: number
-          study_name: string
-          study_period: string
-          study_score: number
-        }
+          study_category: string[];
+          study_chaturl: string | null;
+          study_createtime: string;
+          study_description: string | null;
+          study_id: string;
+          study_imgurl: string | null;
+          study_manager: string;
+          study_max_people: number;
+          study_name: string;
+          study_period: string;
+          study_score: number;
+        };
         Insert: {
-          study_category: string[]
-          study_chaturl?: string | null
-          study_createtime?: string
-          study_description?: string | null
-          study_id?: string
-          study_imgurl?: string | null
-          study_manager?: string
-          study_max_people: number
-          study_name: string
-          study_period: string
-          study_score?: number
-        }
+          study_category: string[];
+          study_chaturl?: string | null;
+          study_createtime?: string;
+          study_description?: string | null;
+          study_id?: string;
+          study_imgurl?: string | null;
+          study_manager?: string;
+          study_max_people: number;
+          study_name: string;
+          study_period: string;
+          study_score?: number;
+        };
         Update: {
-          study_category?: string[]
-          study_chaturl?: string | null
-          study_createtime?: string
-          study_description?: string | null
-          study_id?: string
-          study_imgurl?: string | null
-          study_manager?: string
-          study_max_people?: number
-          study_name?: string
-          study_period?: string
-          study_score?: number
-        }
+          study_category?: string[];
+          study_chaturl?: string | null;
+          study_createtime?: string;
+          study_description?: string | null;
+          study_id?: string;
+          study_imgurl?: string | null;
+          study_manager?: string;
+          study_max_people?: number;
+          study_name?: string;
+          study_period?: string;
+          study_score?: number;
+        };
         Relationships: [
           {
             foreignKeyName: "study_study_manager_fkey"
