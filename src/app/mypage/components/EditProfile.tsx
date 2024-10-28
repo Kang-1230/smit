@@ -70,6 +70,7 @@ const EditProfile = ({
     }
   };
 
+  // 닉네임 중복검사
   const validateNickname = async () => {
     const { data }: { data: Tables<"user">[] | null } = await browserClient
       .from("user")
@@ -80,6 +81,7 @@ const EditProfile = ({
     } else setIsUnique("unique");
   };
 
+  // 중복검사 후 띄울 안내 메세지
   const validate =
     isUnique === "change"
       ? ""
@@ -94,6 +96,7 @@ const EditProfile = ({
 
         <div className="w-full aspect-square relative">
           <Image
+            // supabase 내에서 캐싱된 이미지를 주는 바람에 뒤에 date.now 붙여서 계속 새 이미지로 받아옴
             src={uploadImg ? uploadImg : `${profileImg}?t=${Date.now()}`}
             alt="프로필 이미지"
             layout="fill"
