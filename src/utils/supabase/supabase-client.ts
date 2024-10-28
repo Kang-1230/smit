@@ -65,30 +65,13 @@ export const insertStudy = async (name: string, img: string) => {
 };
 
 // 스터디 삭제 (insert)
-export const deleteStudy = async (name: string, img: string) => {
-  const user = await fetchSessionData();
-  if (!user) {
-    throw new Error("로그인 상태가 아님");
-  }
-
+export const deleteStudy = async (studyId : string) => {
   await browserClient
-    .from("user")
-    .update({ name: name, profile_img: img })
-    .eq("id", user.id);
+    .from("study")
+    .delete()
+    .eq("study_id", studyId)
 };
 
-// 스터디 수정 (insert)
-export const updateStudy = async (name: string, img: string) => {
-  const user = await fetchSessionData();
-  if (!user) {
-    throw new Error("로그인 상태가 아님");
-  }
-
-  await browserClient
-    .from("user")
-    .update({ name: name, profile_img: img })
-    .eq("id", user.id);
-};
 
 // 모집글 생성 (insert)
 export const insertPostWrite = async (name: string, img: string) => {

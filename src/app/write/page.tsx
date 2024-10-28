@@ -1,14 +1,14 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
+import { Tables } from "../../../database.types";
 
 export const Write = () => {
   const [title, setTitle] = useState<string>("");
   const [desription, setDiscription] = useState<string>("");
   const [link, setLink] = useState<string>("");
   const [content, setContent] = useState<string>("");
-
-
+  const[study,setStudy] = useState<Tables<"study">>();
 
   const sendData = () => {
     alert("모집글을 성공적으로 작성됨 -> 모집글로 페이지네이션");
@@ -31,6 +31,7 @@ export const Write = () => {
       <input
         className="mb-1 border p-1 rounded-md"
         value={desription}
+        type="date"
         onChange={(e) => setDiscription(e.target.value)}
         placeholder="0000년 00월 00일"
       />
