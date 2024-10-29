@@ -9,25 +9,31 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      calender: {
+      calendar: {
         Row: {
-          calender_id: string;
-          plan: string | null;
-          plan_date: string | null;
+          calendar_id: string;
+          end_time: string;
+          event_date: string;
+          event_description: string;
+          start_time: string;
           study_id: string;
           user_id: string;
         };
         Insert: {
-          calender_id?: string;
-          plan?: string | null;
-          plan_date?: string | null;
+          calendar_id?: string;
+          end_time: string;
+          event_date: string;
+          event_description: string;
+          start_time: string;
           study_id?: string;
           user_id: string;
         };
         Update: {
-          calender_id?: string;
-          plan?: string | null;
-          plan_date?: string | null;
+          calendar_id?: string;
+          end_time?: string;
+          event_date?: string;
+          event_description?: string;
+          start_time?: string;
           study_id?: string;
           user_id?: string;
         };
@@ -39,6 +45,13 @@ export type Database = {
             referencedRelation: "study";
             referencedColumns: ["study_id"];
           },
+          {
+            foreignKeyName: "calender_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
+          },
         ];
       };
       comment: {
@@ -46,7 +59,7 @@ export type Database = {
           comment_contents: string;
           comment_createtime: string;
           comment_id: string;
-          comment_updatetime: string | null;
+          comment_updatetime: string;
           parent_id: string | null;
           post_id: number;
           user_id: string;
@@ -55,7 +68,7 @@ export type Database = {
           comment_contents?: string;
           comment_createtime?: string;
           comment_id?: string;
-          comment_updatetime?: string | null;
+          comment_updatetime?: string;
           parent_id?: string | null;
           post_id: number;
           user_id?: string;
@@ -64,7 +77,7 @@ export type Database = {
           comment_contents?: string;
           comment_createtime?: string;
           comment_id?: string;
-          comment_updatetime?: string | null;
+          comment_updatetime?: string;
           parent_id?: string | null;
           post_id?: number;
           user_id?: string;
@@ -185,7 +198,7 @@ export type Database = {
           study_manager: string;
           study_max_people: number;
           study_name: string;
-          study_period: string;
+          study_period: string | null;
           study_score: number;
         };
         Insert: {
@@ -198,7 +211,7 @@ export type Database = {
           study_manager?: string;
           study_max_people: number;
           study_name: string;
-          study_period: string;
+          study_period?: string | null;
           study_score?: number;
         };
         Update: {
@@ -211,7 +224,7 @@ export type Database = {
           study_manager?: string;
           study_max_people?: number;
           study_name?: string;
-          study_period?: string;
+          study_period?: string | null;
           study_score?: number;
         };
         Relationships: [
@@ -250,6 +263,13 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "study";
             referencedColumns: ["study_id"];
+          },
+          {
+            foreignKeyName: "study_applylist_user_id_fkey1";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
           },
         ];
       };
@@ -305,19 +325,37 @@ export type Database = {
       };
       timer: {
         Row: {
-          is_start: boolean | null;
-          study_id: string;
-          user_id: string;
+          accumulated_time: number | null;
+          created_at: string;
+          date: string | null;
+          id: number;
+          is_running: boolean | null;
+          last_updated: string | null;
+          late_start: string | null;
+          study_id: string | null;
+          user_id: string | null;
         };
         Insert: {
-          is_start?: boolean | null;
-          study_id?: string;
-          user_id?: string;
+          accumulated_time?: number | null;
+          created_at?: string;
+          date?: string | null;
+          id?: number;
+          is_running?: boolean | null;
+          last_updated?: string | null;
+          late_start?: string | null;
+          study_id?: string | null;
+          user_id?: string | null;
         };
         Update: {
-          is_start?: boolean | null;
-          study_id?: string;
-          user_id?: string;
+          accumulated_time?: number | null;
+          created_at?: string;
+          date?: string | null;
+          id?: number;
+          is_running?: boolean | null;
+          last_updated?: string | null;
+          late_start?: string | null;
+          study_id?: string | null;
+          user_id?: string | null;
         };
         Relationships: [
           {
@@ -326,6 +364,13 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "study";
             referencedColumns: ["study_id"];
+          },
+          {
+            foreignKeyName: "timer_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
           },
         ];
       };
