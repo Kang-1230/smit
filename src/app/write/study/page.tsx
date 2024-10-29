@@ -8,10 +8,12 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useRef, useState } from "react";
 import Modal from "../components/Modal";
+import { useRouter } from "next/navigation";
 
 export const Study = () => {
   const { data: user, isLoading, isError } = usePublicUser();
 
+  const router = useRouter();
   // 아래 useState 과다 객체 묶어서 정리 필요
   const params = useSearchParams();
   const isSolo: boolean = params.get("solo") === "true";
@@ -21,7 +23,10 @@ export const Study = () => {
   const [studyTarget, setStudyTarget] = useState<string>("");
   const [studychatLink, setStudyChatLink] = useState<string>("");
   const [studyDescription, setStudyDescription] = useState<string>("");
-  const [uploadImg, setUploadImg] = useState<null | string>(null);
+  const [uploadImg, setUploadImg] = useState(
+    browserClient.storage.from("study_img").getPublicUrl("default").data
+      .publicUrl,
+  );
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   // 모달 모드 상태관리 - 모달 공용 컴포넌트 사용
@@ -31,14 +36,15 @@ export const Study = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleModalClose = () => {
-    setIsModalOpen(false);
+    if (title) {
+      setModalMode("close");
+      setIsModalOpen(true);
+    } else {
+      router.replace("/");
+    }
   };
 
-  // 기존 스터디 이미지 불러오기
-  const studyImg = browserClient.storage
-    .from("study_img")
-    .getPublicUrl("default").data.publicUrl;
-
+  // 스터디 카테고리
   const handleStudyCategory = (category: string) => {
     setStudyCategory((prev) =>
       prev.includes(category)
@@ -47,18 +53,19 @@ export const Study = () => {
     );
   };
 
+  // 생성 버튼 클릭 시 스터디 생성
   const sendData = async () => {
     if (fileInputRef.current?.files) {
       if (fileInputRef.current.files.length > 0) {
-        // const { error } = await browserClient.storage
-        //   .from("profile_img")
-        //   .upload(`${user?.id}`, fileInputRef.current.files[0], {
-        //     upsert: true,
-        //   });
-        // if (error) {
-        //   console.log("이미지 업로드 중 오류 발생", error);
-        //   return;
-        // }
+        const { error } = await browserClient.storage
+          .from("profile_img")
+          .upload(`${user?.id}`, fileInputRef.current.files[0], {
+            upsert: true,
+          });
+        if (error) {
+          console.log("이미지 업로드 중 오류 발생", error);
+          return;
+        }
       }
     }
     createStudy();
@@ -73,12 +80,13 @@ export const Study = () => {
         reader.readAsDataURL(file);
         reader.onloadend = () => {
           setUploadImg(reader.result as string);
+          console.log(uploadImg);
         };
       }
     }
   };
 
-  // 스터디 생성
+  // 스터디 생성 tanstack
   const { mutate: createStudy } = useMutation({
     mutationFn: () =>
       insertStudy(
@@ -107,29 +115,31 @@ export const Study = () => {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="flex justify-between ... w-full p-5">
-        {/* <<p onClick={() => onsStop()}>X</p> */}
-        <p onClick={() => sendData()}>생성</p>
+      <div className="flex justify-between ... w-full p-5 text-2xl">
+        <p onClick={() => handleModalClose()}>✕</p>
+        <p className="text-xl font-bold">스터디 만들기</p>
+        <p onClick={() => sendData()}>✓</p>
       </div>
 
-      <Image
-        src={`${studyImg}`}
-        alt="유저 이미지"
-        width={100}
-        height={50}
-        className="w-full border object-cover p-5"
-        priority={true}
-        onClick={() => {
-          if (fileInputRef.current) fileInputRef.current.click();
-        }}
-      />
+      <div className="relative w-11/12 h-60 ">
+        <Image
+          src={`${uploadImg}`}
+          fill
+          alt="유저 이미지"
+          className="object-cover rounded-lg"
+          priority={true}
+          onClick={() => {
+            if (fileInputRef.current) fileInputRef.current.click();
+          }}
+        />
 
-      <input
-        ref={fileInputRef}
-        className="hidden"
-        type="file"
-        onChange={(e) => ImageUploadHandler(e)}
-      />
+        <input
+          ref={fileInputRef}
+          className="hidden"
+          type="file"
+          onChange={(e) => ImageUploadHandler(e)}
+        />
+      </div>
 
       <h1>제목</h1>
       <input
@@ -206,7 +216,7 @@ export const Study = () => {
         <button onClick={() => handleCategoryClick("취업 커리어")}>
           취업 커리어
         </button>
-        <button onClick={() => handleCategoryClick("토플")}>토플</button>
+        <button onClick={() => handleCategoryClick("토플")}>생산</button>
         <button onClick={() => handleCategoryClick("토익")}>토익</button>
         <button onClick={() => handleCategoryClick("오픽")}>오픽</button>
       </div>
@@ -214,8 +224,8 @@ export const Study = () => {
 
       <Modal
         isModalOpen={isModalOpen}
-        onClose={handleModalClose}
-        onConfirm={() => setModalMode("exist")}
+        onClose={() => handleModalClose()}
+        onConfirm={() => setIsModalOpen(false)}
         modalMode={modalMode}
       />
     </div>

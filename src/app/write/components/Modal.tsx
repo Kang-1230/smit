@@ -11,14 +11,12 @@ type ModalProps = {
 const Modal = (props: ModalProps) => {
   return props.isModalOpen ? (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center w-full">
-      <div className="bg-white p-6 rounded-3xl shadow-lg flex flex-col justify-center items-center w-5/6 h-1/3 overflow-y-auto overflow-x-hidden">
-        <div className="relative w-full pb-16">
-          <h1
-            onClick={props.onClose}
-            className="text-xl absolute top-4 right-4 cursor-pointer"
-          >
-            X
-          </h1>
+      <div className="bg-white p-6 rounded-3xl shadow-lg flex flex-col justify-center items-center w-5/6 h-fit overflow-y-auto overflow-x-hidden">
+        <div
+          className="flex justify-end w-full cursor-pointer text-2xl p-2"
+          onClick={props.onClose}
+        >
+          ✕
         </div>
 
         {props.modalMode === "nonexist" ? (
@@ -42,7 +40,7 @@ const Modal = (props: ModalProps) => {
               </button>
             </div>
           </>
-        ) : (
+        ) : props.modalMode === "exist" ? (
           <>
             <h3 className="text-center text-xl font-black mb-8">
               무슨 스터디 그룹을 만들까요?
@@ -62,6 +60,53 @@ const Modal = (props: ModalProps) => {
                 className="flex bg-black size-14 ... text-white rounded-full ... w-full ml-1 text-lg opacity-50 font-medium text-center items-center justify-center"
               >
                 다인원 스터디
+              </Link>
+            </div>
+          </>
+        ) : props.modalMode === "close" ? (
+          <>
+            <h3 className="text-center text-xl font-black mb-8">
+              지금 나가면 지금까지 <br></br> 작성한 기록이 사라져요.
+            </h3>
+            <p className="font-bold text-zinc-700 text-center">
+              정말 나가시겠습니까?
+            </p>
+            <div className="flex justify-center w-full size-16 m-6">
+              <Link
+                href="/"
+                className="flex text-black size-14 ... rounded-full ... border border-black w-full mr-1 text-lg font-medium text-center items-center justify-center"
+              >
+                나가기
+              </Link>
+              <button
+                onClick={props.onConfirm}
+                className="flex bg-black size-14 ... text-white rounded-full ... w-full ml-1 text-lg opacity-50 font-medium text-center items-center justify-center"
+              >
+                계속 작성하기
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <h3 className="text-center text-xl font-black mb-8">
+              모집글을 바로 <br></br> 작성하시겠어요?
+            </h3>
+            <p className="font-bold text-zinc-700 text-center">
+              모집글을 통해 나와 함께 스터디할 <br></br>팀원들을 바로 만날 수
+              있어요!
+            </p>
+            <div className="flex justify-center w-full size-16 m-6">
+              <Link
+                href="/"
+                className="flex text-black size-14 ... rounded-full ... border border-black w-full mr-1 text-lg font-medium text-center items-center justify-center"
+              >
+                아니오
+              </Link>
+              <Link
+                href="/write"
+                className="flex text-black size-14 ... rounded-full ... border border-black w-full mr-1 text-lg font-medium text-center items-center justify-center"
+              >
+                아니오
               </Link>
             </div>
           </>

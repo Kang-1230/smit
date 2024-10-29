@@ -2,13 +2,14 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { Tables } from "../../../database.types";
+import Modal from "./components/Modal";
 
 export const Write = () => {
   const [title, setTitle] = useState<string>("");
   const [desription, setDiscription] = useState<string>("");
   const [link, setLink] = useState<string>("");
   const [content, setContent] = useState<string>("");
-  const[study,setStudy] = useState<Tables<"study">>();
+  const [study, setStudy] = useState<Tables<"study">>();
 
   const sendData = () => {
     alert("모집글을 성공적으로 작성됨 -> 모집글로 페이지네이션");
@@ -49,6 +50,12 @@ export const Write = () => {
         onChange={(e) => setContent(e.target.value)}
         placeholder="내용을 작성해주세요"
       />
+      {/* <Modal
+        isModalOpen={isModalOpen}
+        onClose={() => handleModalClose()}
+        onConfirm={() => setIsModalOpen(false)}
+        modalMode={modalMode}
+      /> */}
     </div>
   );
 };
