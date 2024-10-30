@@ -5,10 +5,6 @@ const DateScrollPicker = () => {
   const [time, setTime] = useState(new Date());
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleClick = () => {
-    setIsOpen(true);
-  };
-
   const handleCancel = () => {
     setIsOpen(false);
   };
@@ -18,8 +14,6 @@ const DateScrollPicker = () => {
     setIsOpen(false);
     console.log(time);
   };
-
-  const testMonth = "4";
 
   return (
     <div className="text-black">

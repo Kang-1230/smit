@@ -15,9 +15,9 @@ type study = {
   name: string;
 };
 
-export const Write = () => {
+export default function Write() {
   //유저 가져오기
-  const { data: user, isLoading, isError } = usePublicUser();
+  const { data: user } = usePublicUser();
 
   // 전송 시 필요한 인자값 - 데이터 관련 정리 필요
   const [title, setTitle] = useState<string>("");
@@ -41,7 +41,7 @@ export const Write = () => {
   // const [study, setStudy] = useState<Tables<"study"> | null | undefined>();
 
   // 포스트 정보 받아올 시 routing
-  const [postId, setpostId] = useState<number>();
+  // const [postId, setpostId] = useState<number>();
 
   const router = useRouter();
 
@@ -49,8 +49,8 @@ export const Write = () => {
   const { mutate: createPost } = useMutation({
     mutationFn: () =>
       insertPostWrite(user?.id ?? "", study.id, contents, title, startDay),
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
+      alert("스터디 모집글 생성 완료 :PageNation 추가 기능 구현 진행 중입니다.");
     },
 
     onError: () => {
@@ -150,6 +150,4 @@ export const Write = () => {
       />
     </div>
   );
-};
-
-export default Write;
+}

@@ -5,17 +5,25 @@ import { insertStudy } from "@/utils/supabase/supabase-client";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import React, { useRef, useState } from "react";
+import React, { Suspense, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import StudyModal from "../components/StudyModal";
 
-export const Study = () => {
-  const { data: user, isLoading, isError } = usePublicUser();
+export default function Study() {
+  return (
+    <Suspense fallback={<div>로딩 중...</div>}>
+      <StudyContent />
+    </Suspense>
+  );
+}
 
-  const router = useRouter();
-  // 아래 useState 과다 객체 묶어서 정리 필요
+function StudyContent() {
+  // 검색 파라미터를 항상 호출
   const params = useSearchParams();
+  const { data: user } = usePublicUser();
+  const router = useRouter();
   const isSolo: boolean = params.get("solo") === "true";
+
   const [title, setTitle] = useState<string>("");
   const [userCnt, setUserCnt] = useState<number>(1);
   const [studyCategory, setStudyCategory] = useState<string[]>([]);
@@ -28,11 +36,35 @@ export const Study = () => {
   );
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  // 모달 모드 상태관리 - 모달 공용 컴포넌트 사용
   const [modalMode, setModalMode] = useState<string>("");
 
-  // 이미지 useRef
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // useMutation 훅을 항상 호출합니다.
+  const { mutate: createStudy } = useMutation({
+    mutationFn: (url: string) =>
+      insertStudy(
+        title,
+        [...studyCategory, studyTarget],
+        userCnt,
+        user?.id,
+        studyDescription,
+        studychatLink,
+        url,
+      ),
+    onSuccess: () => {
+      setModalMode("success");
+      setIsModalOpen(true);
+    },
+    onError: () => {
+      alert("스터디를 생성하지 못했습니다.");
+    },
+  });
+
+  // user가 준비되지 않았을 때 로딩 화면을 보여줍니다.
+  if (!user) {
+    return <div>로딩 중...</div>;
+  }
 
   const handleModalClose = () => {
     if (title && modalMode !== "success") {
@@ -43,7 +75,6 @@ export const Study = () => {
     }
   };
 
-  // 생성 버튼 클릭 시 스터디 생성
   const sendData = async () => {
     if (fileInputRef.current?.files) {
       const { data, error } = await browserClient.storage
@@ -58,11 +89,10 @@ export const Study = () => {
         .from("study_img")
         .getPublicUrl(`${data!.path}`).data.publicUrl;
 
-      createStudy(url);
+      createStudy(url); // useMutation 호출
     }
   };
 
-  // 이미지 업로드 : setUploadImg
   const ImageUploadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const file = e.target.files[0];
@@ -76,30 +106,8 @@ export const Study = () => {
     }
   };
 
-  // 스터디 생성 tanstack
-  const { mutate: createStudy } = useMutation({
-    mutationFn: (url: string) =>
-      insertStudy(
-        title,
-        [...studyCategory, studyTarget],
-        userCnt,
-        user?.id,
-        studyDescription,
-        studychatLink,
-        uploadImg,
-      ),
-    onSuccess: () => {
-      setModalMode("success");
-      setIsModalOpen(true);
-    },
-    onError: () => {
-      alert("스터디를 생성하지 못했습니다.");
-    },
-  });
-
   const handleCategoryClick = (category: string) => {
     setStudyCategory((prev) => {
-      // 이미 선택된 카테고리인 경우 제거, 그렇지 않으면 추가
       if (prev.includes(category)) {
         return prev.filter((item) => item !== category);
       } else {
@@ -225,6 +233,4 @@ export const Study = () => {
       />
     </div>
   );
-};
-
-export default Study;
+}

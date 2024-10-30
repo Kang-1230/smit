@@ -4,67 +4,73 @@ export type Json =
   | boolean
   | null
   | { [key: string]: Json | undefined }
-  | Json[]
+  | Json[];
 
 export type Database = {
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          operationName?: string
-          query?: string
-          variables?: Json
-          extensions?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
   public: {
     Tables: {
       calendar: {
         Row: {
-          calender_id: string;
-          plan: string | null;
-          plan_date: string | null;
+          calendar_id: string;
+          end_time: string;
+          event_date: string;
+          event_description: string;
+          start_time: string;
           study_id: string;
           user_id: string;
         };
         Insert: {
-          calender_id?: string;
-          plan?: string | null;
-          plan_date?: string | null;
+          calendar_id?: string;
+          end_time: string;
+          event_date: string;
+          event_description: string;
+          start_time: string;
           study_id?: string;
           user_id: string;
         };
         Update: {
-          calender_id?: string;
-          plan?: string | null;
-          plan_date?: string | null;
+          calendar_id?: string;
+          end_time?: string;
+          event_date?: string;
+          event_description?: string;
+          start_time?: string;
           study_id?: string;
           user_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: "calender_study_id_fkey"
-            columns: ["study_id"]
-            isOneToOne: false
-            referencedRelation: "study"
-            referencedColumns: ["study_id"]
+            foreignKeyName: "calender_study_id_fkey";
+            columns: ["study_id"];
+            isOneToOne: false;
+            referencedRelation: "study";
+            referencedColumns: ["study_id"];
+          },
+          {
+            foreignKeyName: "calender_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
           },
         ];
+      };
+      category_tag: {
+        Row: {
+          class: string | null;
+          id: number;
+          name: string | null;
+        };
+        Insert: {
+          class?: string | null;
+          id?: number;
+          name?: string | null;
+        };
+        Update: {
+          class?: string | null;
+          id?: number;
+          name?: string | null;
+        };
+        Relationships: [];
       };
       comment: {
         Row: {
@@ -110,50 +116,65 @@ export type Database = {
             referencedColumns: ["post_id"];
           },
           {
-            foreignKeyName: "comment_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "user"
-            referencedColumns: ["id"]
+            foreignKeyName: "comment_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
           },
         ];
       };
+      job_tag: {
+        Row: {
+          id: number;
+          name: string | null;
+        };
+        Insert: {
+          id?: number;
+          name?: string | null;
+        };
+        Update: {
+          id?: number;
+          name?: string | null;
+        };
+        Relationships: [];
+      };
       like: {
         Row: {
-          created_at: string
-          id: number
-          like_post: number | null
-          like_user: string | null
-        }
+          created_at: string;
+          id: number;
+          like_post: number | null;
+          like_user: string | null;
+        };
         Insert: {
-          created_at?: string
-          id?: number
-          like_post?: number | null
-          like_user?: string | null
-        }
+          created_at?: string;
+          id?: number;
+          like_post?: number | null;
+          like_user?: string | null;
+        };
         Update: {
-          created_at?: string
-          id?: number
-          like_post?: number | null
-          like_user?: string | null
-        }
+          created_at?: string;
+          id?: number;
+          like_post?: number | null;
+          like_user?: string | null;
+        };
         Relationships: [
           {
-            foreignKeyName: "like_like_post_fkey"
-            columns: ["like_post"]
-            isOneToOne: false
-            referencedRelation: "post"
-            referencedColumns: ["post_id"]
+            foreignKeyName: "like_like_post_fkey";
+            columns: ["like_post"];
+            isOneToOne: false;
+            referencedRelation: "post";
+            referencedColumns: ["post_id"];
           },
           {
-            foreignKeyName: "like_like_user_fkey"
-            columns: ["like_user"]
-            isOneToOne: false
-            referencedRelation: "user"
-            referencedColumns: ["id"]
+            foreignKeyName: "like_like_user_fkey";
+            columns: ["like_user"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       post: {
         Row: {
           post_contents: string;
@@ -162,15 +183,17 @@ export type Database = {
           post_name: string | null;
           post_updatetime: string | null;
           study_id: string;
+          study_startday: string | null;
           user_id: string;
         };
         Insert: {
           post_contents: string;
-          post_createtime: string;
+          post_createtime?: string;
           post_id?: number;
           post_name?: string | null;
           post_updatetime?: string | null;
           study_id?: string;
+          study_startday?: string | null;
           user_id?: string;
         };
         Update: {
@@ -180,25 +203,26 @@ export type Database = {
           post_name?: string | null;
           post_updatetime?: string | null;
           study_id?: string;
+          study_startday?: string | null;
           user_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: "post_study_id_fkey"
-            columns: ["study_id"]
-            isOneToOne: false
-            referencedRelation: "study"
-            referencedColumns: ["study_id"]
+            foreignKeyName: "post_study_id_fkey";
+            columns: ["study_id"];
+            isOneToOne: false;
+            referencedRelation: "study";
+            referencedColumns: ["study_id"];
           },
           {
-            foreignKeyName: "post_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "user"
-            referencedColumns: ["id"]
+            foreignKeyName: "post_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       study: {
         Row: {
           study_category: string[];
@@ -241,116 +265,187 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: "study_study_manager_fkey"
-            columns: ["study_manager"]
-            isOneToOne: false
-            referencedRelation: "user"
-            referencedColumns: ["id"]
+            foreignKeyName: "study_study_manager_fkey";
+            columns: ["study_manager"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       study_applylist: {
         Row: {
-          id: string
-          is_approved: boolean
-          study_id: string
-          user_id: string
-        }
+          id: string;
+          is_approved: boolean;
+          study_id: string;
+          user_id: string;
+        };
         Insert: {
-          id?: string
-          is_approved: boolean
-          study_id?: string
-          user_id?: string
-        }
+          id?: string;
+          is_approved: boolean;
+          study_id?: string;
+          user_id?: string;
+        };
         Update: {
-          id?: string
-          is_approved?: boolean
-          study_id?: string
-          user_id?: string
-        }
+          id?: string;
+          is_approved?: boolean;
+          study_id?: string;
+          user_id?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "study_applylist_study_id_fkey"
-            columns: ["study_id"]
-            isOneToOne: false
-            referencedRelation: "study"
-            referencedColumns: ["study_id"]
+            foreignKeyName: "study_applylist_study_id_fkey";
+            columns: ["study_id"];
+            isOneToOne: false;
+            referencedRelation: "study";
+            referencedColumns: ["study_id"];
+          },
+          {
+            foreignKeyName: "study_applylist_user_id_fkey1";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
           },
         ];
       };
       study_content: {
         Row: {
-          create_time: string | null
-          study_content: string | null
-          study_content_title: string | null
-          study_id: string
-        }
+          create_time: string | null;
+          study_content: string | null;
+          study_content_title: string | null;
+          study_id: string;
+        };
         Insert: {
-          create_time?: string | null
-          study_content?: string | null
-          study_content_title?: string | null
-          study_id?: string
-        }
+          create_time?: string | null;
+          study_content?: string | null;
+          study_content_title?: string | null;
+          study_id?: string;
+        };
         Update: {
-          create_time?: string | null
-          study_content?: string | null
-          study_content_title?: string | null
-          study_id?: string
-        }
-        Relationships: []
-      }
+          create_time?: string | null;
+          study_content?: string | null;
+          study_content_title?: string | null;
+          study_id?: string;
+        };
+        Relationships: [];
+      };
       study_goal: {
         Row: {
-          goal_name: string | null
-          is_success: boolean | null
-          study_id: string
-          user_id: string
-        }
+          goal_name: string | null;
+          is_success: boolean | null;
+          study_id: string;
+          user_id: string;
+        };
         Insert: {
-          goal_name?: string | null
-          is_success?: boolean | null
-          study_id?: string
-          user_id: string
-        }
+          goal_name?: string | null;
+          is_success?: boolean | null;
+          study_id?: string;
+          user_id: string;
+        };
         Update: {
-          goal_name?: string | null
-          is_success?: boolean | null
-          study_id?: string
-          user_id?: string
-        }
+          goal_name?: string | null;
+          is_success?: boolean | null;
+          study_id?: string;
+          user_id?: string;
+        };
         Relationships: [
           {
-            foreignKeyName: "study_goal_study_id_fkey"
-            columns: ["study_id"]
-            isOneToOne: true
-            referencedRelation: "study"
-            referencedColumns: ["study_id"]
+            foreignKeyName: "study_goal_study_id_fkey";
+            columns: ["study_id"];
+            isOneToOne: true;
+            referencedRelation: "study";
+            referencedColumns: ["study_id"];
+          },
+        ];
+      };
+      study_taglist: {
+        Row: {
+          category_id: number | null;
+          id: string;
+          job_id: number | null;
+          study_id: string | null;
+          tagtype: string;
+        };
+        Insert: {
+          category_id?: number | null;
+          id?: string;
+          job_id?: number | null;
+          study_id?: string | null;
+          tagtype: string;
+        };
+        Update: {
+          category_id?: number | null;
+          id?: string;
+          job_id?: number | null;
+          study_id?: string | null;
+          tagtype?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "study_taglist_category_id_fkey";
+            columns: ["category_id"];
+            isOneToOne: false;
+            referencedRelation: "category_tag";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "study_taglist_job_id_fkey";
+            columns: ["job_id"];
+            isOneToOne: false;
+            referencedRelation: "job_tag";
+            referencedColumns: ["id"];
           },
         ];
       };
       timer: {
         Row: {
-          is_start: boolean | null;
-          study_id: string;
-          user_id: string;
+          accumulated_time: number;
+          created_at: string;
+          date: string | null;
+          id: number;
+          is_running: boolean | null;
+          last_paused: string | null;
+          last_start: string | null;
+          study_id: string | null;
+          user_id: string | null;
         };
         Insert: {
-          is_start?: boolean | null;
-          study_id?: string;
-          user_id?: string;
+          accumulated_time?: number;
+          created_at?: string;
+          date?: string | null;
+          id?: number;
+          is_running?: boolean | null;
+          last_paused?: string | null;
+          last_start?: string | null;
+          study_id?: string | null;
+          user_id?: string | null;
         };
         Update: {
-          is_start?: boolean | null;
-          study_id?: string;
-          user_id?: string;
+          accumulated_time?: number;
+          created_at?: string;
+          date?: string | null;
+          id?: number;
+          is_running?: boolean | null;
+          last_paused?: string | null;
+          last_start?: string | null;
+          study_id?: string | null;
+          user_id?: string | null;
         };
         Relationships: [
           {
-            foreignKeyName: "timer_study_id_fkey"
-            columns: ["study_id"]
-            isOneToOne: false
-            referencedRelation: "study"
-            referencedColumns: ["study_id"]
+            foreignKeyName: "timer_study_id_fkey";
+            columns: ["study_id"];
+            isOneToOne: false;
+            referencedRelation: "study";
+            referencedColumns: ["study_id"];
+          },
+          {
+            foreignKeyName: "timer_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
           },
         ];
       };
@@ -361,6 +456,7 @@ export type Database = {
           id: string;
           name: string | null;
           profile_img: string | null;
+          study_time: number;
         };
         Insert: {
           created_at?: string;
@@ -368,6 +464,7 @@ export type Database = {
           id: string;
           name?: string | null;
           profile_img?: string | null;
+          study_time?: number;
         };
         Update: {
           created_at?: string;
@@ -375,26 +472,27 @@ export type Database = {
           id?: string;
           name?: string | null;
           profile_img?: string | null;
+          study_time?: number;
         };
         Relationships: [];
       };
     };
     Views: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Functions: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Enums: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     CompositeTypes: {
-      [_ in never]: never
-    }
-  }
-}
+      [_ in never]: never;
+    };
+  };
+};
 
-type PublicSchema = Database[Extract<keyof Database, "public">]
+type PublicSchema = Database[Extract<keyof Database, "public">];
 
 export type Tables<
   PublicTableNameOrOptions extends
@@ -407,19 +505,19 @@ export type Tables<
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-      Row: infer R
+      Row: infer R;
     }
     ? R
     : never
   : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
-        PublicSchema["Views"])
-    ? (PublicSchema["Tables"] &
-        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
-        Row: infer R
-      }
-      ? R
-      : never
+      PublicSchema["Views"])
+  ? (PublicSchema["Tables"] &
+      PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+      Row: infer R;
+    }
+    ? R
     : never
+  : never;
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
@@ -430,17 +528,17 @@ export type TablesInsert<
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I
+      Insert: infer I;
     }
     ? I
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Insert: infer I
-      }
-      ? I
-      : never
+  ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+      Insert: infer I;
+    }
+    ? I
     : never
+  : never;
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
@@ -451,17 +549,17 @@ export type TablesUpdate<
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U
+      Update: infer U;
     }
     ? U
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Update: infer U
-      }
-      ? U
-      : never
+  ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+      Update: infer U;
+    }
+    ? U
     : never
+  : never;
 
 export type Enums<
   PublicEnumNameOrOptions extends
@@ -473,20 +571,20 @@ export type Enums<
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
-    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
-    : never
+  ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+  : never;
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof PublicSchema["CompositeTypes"]
     | { schema: keyof Database },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof Database
+    schema: keyof Database;
   }
     ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
   ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
-    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never
+  ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+  : never;

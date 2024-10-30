@@ -1,6 +1,6 @@
 "use client";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import browserClient from "@/utils/supabase/client";
 
 import Modal from "./StudyModal";
@@ -15,7 +15,7 @@ export default function Dropdown() {
   // 모달 모드 상태관리 - 모달 공용 컴포넌트 사용
   const [modalMode, setModalMode] = useState<string>("");
 
-  const { data: user, isLoading, isError } = usePublicUser();
+  const { data: user } = usePublicUser();
   const router = useRouter();
 
   const getStudyList = async () => {
