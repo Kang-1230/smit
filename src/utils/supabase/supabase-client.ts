@@ -1,6 +1,7 @@
 import browserClient from "@/utils/supabase/client";
 import { Tables, TablesInsert, TablesUpdate } from "../../../database.types";
 import { User } from "@supabase/supabase-js";
+import { ApplyData, JoinPerson } from "@/app/study/components/ApplyStudyList";
 
 // 세션 정보 가져오기
 export const fetchSessionData = async () => {
@@ -49,6 +50,114 @@ export const updateUserProfile = async (name: string, img: string) => {
     .from("user")
     .update<TablesUpdate<"user">>({ name, profile_img: img })
     .eq("id", user.id);
+};
+
+// 스터디 생성 (insert)
+export const insertStudy = async (
+  title: string,
+  studyCategory: string[],
+  studyMaxPeople: number,
+  userId: string | undefined,
+  studyDescription: string,
+  studyLink: string,
+  imgUrl: string,
+) => {
+  const user = await fetchSessionData();
+  if (!user) {
+    throw new Error("로그인 상태가 아님");
+  }
+
+  const { error } = await browserClient.from("study").insert({
+    study_name: title,
+    study_category: studyCategory,
+    study_max_people: studyMaxPeople,
+    study_manager: userId,
+    study_description: studyDescription,
+    study_chaturl: studyLink,
+    study_imgurl: imgUrl,
+  });
+
+  if (error) {
+    throw new Error("스터디를 생성하지 못했어요.");
+  }
+};
+
+// 특정 유저의 스터디 정보 가져오기
+export const fetchUserStudyInfo = async (user_id: string | undefined) => {
+  const { data, error } = await browserClient
+    .from("study")
+    .select("*")
+    .eq("study_manager", user_id);
+
+  if (error || !data) {
+    console.log(error);
+    return null;
+  }
+  return data as Tables<"study">[];
+};
+
+// 스터디 삭제 (delete)
+export const deleteStudy = async (studyId: string) => {
+  await browserClient.from("study").delete().eq("study_id", studyId);
+};
+
+// 스터디 업데이트 (update)
+export const updateStudy = async (
+  studyId: string,
+  title: string,
+  studyCategory: string[],
+  studyMaxPeople: number,
+  userId: string,
+  studyDescription: string,
+  studyLink: string,
+) => {
+  const user = await fetchSessionData();
+  if (!user) {
+    throw new Error("로그인 상태가 아님");
+  }
+
+  await browserClient
+    .from("study")
+    .update({
+      study_name: title,
+      study_category: studyCategory,
+      study_max_people: studyMaxPeople,
+      study_description: studyDescription,
+      study_chaturl: studyLink,
+    })
+    .eq("study_id", studyId);
+};
+
+// 포스트 생성 (insert)
+export const insertPostWrite = async (
+  userId: string,
+  studyId: string,
+  contents: string,
+  title: string,
+  startDay: string,
+) => {
+  const user = await fetchSessionData();
+  if (!user) {
+    throw new Error("로그인 상태가 아님");
+  }
+
+  const { data, error } = await browserClient
+    .from("post")
+    .insert({
+      user_id: userId,
+      study_id: studyId,
+      post_contents: contents,
+      post_name: title,
+      study_startday: startDay,
+    })
+    .single();
+
+  if (error) {
+    console.log(error);
+    throw new Error("게시글 삽입 실패: " + error.message);
+  }
+
+  return data;
 };
 
 // 특정 사용자가 작성한 게시글 불러오기
@@ -115,6 +224,19 @@ export const toggleLike = async (
       .from("like")
       .insert<TablesInsert<"like">>({ like_post: postId, like_user: user.id });
   }
+};
+
+// 스터디 신청 데이터 가져오기
+export const getApplyStudyList = async (user: User | null) => {
+  const { data, error } = await browserClient
+    .from("study_applylist")
+    .select("*,study(*)")
+    .eq("user_id", user?.id)
+    .eq("is_approved", false);
+  if (!data || error) {
+    throw new Error("스터디 신청 정보를 불러오지 못했습니다.");
+  }
+  return data as ApplyData[];
 };
 
 // post의 댓글 목록 가져오기
@@ -206,6 +328,47 @@ export const applyNewStudy = async (studyId: string) => {
   if (error) {
     throw new Error("스터디 신청에 실패했습니다.");
   }
+};
+
+// 가입된 데이터 가져오기
+export const getJoinedStudyList = async (user: User | null) => {
+  const { data, error } = await browserClient
+    .from("study_applylist")
+    .select("*,study(*)")
+    .eq("user_id", user?.id)
+    .eq("is_approved", true);
+  if (!data || error) {
+    throw new Error("스터디 가입 정보를 불러오지 못했습니다.");
+  }
+  console.log("유저 테스트", user);
+  return data as ApplyData[];
+};
+
+//스터디 신청 취소(삭제)
+export const deleteApplyStudy = async (studyId: string) => {
+  const { error } = await browserClient
+    .from("study_applylist")
+    .delete()
+    .eq("study_id", studyId);
+  alert("신청이 취소되었습니다!");
+  if (error) {
+    throw new Error("스터디 신청 취소에 실패했습니다.");
+  }
+};
+
+//스터디에 가입한 사람들 목록 불러오기
+export const getJoinedStudyPeopleList = async (study_id: string) => {
+  const { data, error } = await browserClient
+    .from("study_applylist")
+    .select("*")
+    .eq("study_id", encodeURIComponent(study_id))
+    .eq("is_approved", true);
+  if (!data || error) {
+    throw new Error("가입한 사람들을 불러오지 못했습니다.");
+  } else if (data) {
+    console.log("가입한 사람들 목록", data);
+  }
+  return data as JoinPerson[];
 };
 
 // 모집글 삭제
