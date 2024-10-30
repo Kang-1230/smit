@@ -117,7 +117,7 @@ const CommentListItem = ({
           <div>
             <span>{commentUser?.name}</span>
             <span>
-              {convertUTCToKST(comment.comment_createtime).fullDateTime}
+              {convertUTCToKST(comment.comment_updatetime).fullDateTime}
             </span>
             {user?.id === comment.user_id ? (
               <>

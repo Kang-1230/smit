@@ -51,6 +51,114 @@ export const updateUserProfile = async (name: string, img: string) => {
     .eq("id", user.id);
 };
 
+// 스터디 생성 (insert)
+export const insertStudy = async (
+  title: string,
+  studyCategory: string[],
+  studyMaxPeople: number,
+  userId: string | undefined,
+  studyDescription: string,
+  studyLink: string,
+  imgUrl: string,
+) => {
+  const user = await fetchSessionData();
+  if (!user) {
+    throw new Error("로그인 상태가 아님");
+  }
+
+  const { error } = await browserClient.from("study").insert({
+    study_name: title,
+    study_category: studyCategory,
+    study_max_people: studyMaxPeople,
+    study_manager: userId,
+    study_description: studyDescription,
+    study_chaturl: studyLink,
+    study_imgurl: imgUrl,
+  });
+
+  if (error) {
+    throw new Error("스터디를 생성하지 못했어요.");
+  }
+};
+
+// 특정 유저의 스터디 정보 가져오기
+export const fetchUserStudyInfo = async (user_id: string | undefined) => {
+  const { data, error } = await browserClient
+    .from("study")
+    .select("*")
+    .eq("study_manager", user_id);
+
+  if (error || !data) {
+    console.log(error);
+    return null;
+  }
+  return data as Tables<"study">[];
+};
+
+// 스터디 삭제 (delete)
+export const deleteStudy = async (studyId: string) => {
+  await browserClient.from("study").delete().eq("study_id", studyId);
+};
+
+// 스터디 업데이트 (update)
+export const updateStudy = async (
+  studyId: string,
+  title: string,
+  studyCategory: string[],
+  studyMaxPeople: number,
+  userId: string,
+  studyDescription: string,
+  studyLink: string,
+) => {
+  const user = await fetchSessionData();
+  if (!user) {
+    throw new Error("로그인 상태가 아님");
+  }
+
+  await browserClient
+    .from("study")
+    .update({
+      study_name: title,
+      study_category: studyCategory,
+      study_max_people: studyMaxPeople,
+      study_description: studyDescription,
+      study_chaturl: studyLink,
+    })
+    .eq("study_id", studyId);
+};
+
+// 포스트 생성 (insert)
+export const insertPostWrite = async (
+  userId: string,
+  studyId: string,
+  contents: string,
+  title: string,
+  startDay: string,
+) => {
+  const user = await fetchSessionData();
+  if (!user) {
+    throw new Error("로그인 상태가 아님");
+  }
+
+  const { data, error } = await browserClient
+    .from("post")
+    .insert({
+      user_id: userId,
+      study_id: studyId,
+      post_contents: contents,
+      post_name: title,
+      study_startday: startDay,
+    })
+    .single();
+
+  if (error) {
+    console.log(error);
+    throw new Error("게시글 삽입 실패: " + error.message);
+  }
+
+  return data;
+};
+
 // 특정 사용자가 작성한 게시글 불러오기
 export const fetchPostByUser = async (userId: string | undefined) => {
   const { data, error } = await browserClient
@@ -284,5 +392,58 @@ export const deleteUser = async () => {
     console.log(data.message);
   } else {
     console.error(data.error);
+  }
+};
+
+// 캘린더 일정 정보 가져오기
+export const fetchCalenderEvent = async (
+  studyId: string,
+  eventDate: string,
+) => {
+  const { data, error } = await browserClient
+    .from("calendar")
+    .select("*")
+    .eq("study_id", studyId)
+    .eq("event_date", eventDate)
+    .order("start_time", { ascending: true });
+  if (!data || error) {
+    throw new Error("댓글 정보를 불러오지 못했습니다.");
+  }
+  return data as Tables<"calendar">[];
+};
+
+// 캘린더 일정 등록
+export const addCalenderEvent = async (data: {
+  studyId: string;
+  eventDate: string;
+  eventDescription: string;
+  eventStart: string;
+  eventEnd: string;
+}) => {
+  const user = await fetchSessionData();
+  if (!user) {
+    throw new Error("로그인 상태가 아님");
+  }
+  const { error } = await browserClient.from("calendar").insert({
+    user_id: user?.id,
+    study_id: data.studyId,
+    event_date: data.eventDate,
+    event_description: data.eventDescription,
+    start_time: data.eventStart,
+    end_time: data.eventEnd,
+  });
+  if (error) {
+    throw new Error("일정 등록에 실패했습니다.");
+  }
+};
+
+// 캘린더 일정 삭제
+export const deleteCalenderEvent = async (calendarId: string) => {
+  const { error } = await browserClient
+    .from("calendar")
+    .delete()
+    .eq("calendar_id", calendarId);
+  if (error) {
+    throw new Error("일정 삭제에 실패했습니다.");
   }
 };
