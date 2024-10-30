@@ -10,6 +10,11 @@ import {
 import { useRouter } from "next/navigation";
 import WriteModal from "./components/WriteModal";
 
+type study = {
+  id: string;
+  name: string;
+};
+
 export const Write = () => {
   //유저 가져오기
   const { data: user, isLoading, isError } = usePublicUser();
@@ -22,6 +27,11 @@ export const Write = () => {
   // 모달 모드 상태관리 - 모달 공용 컴포넌트 사용
   const [modalMode, setModalMode] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const [study, setStudy] = useState<study>({
+    id: "",
+    name: "선택해주세요 〉",
+  });
 
   // 가져온 스터디 그룹 데이터
   const [studyGroup, setStudyGroup] = useState<
@@ -38,10 +48,9 @@ export const Write = () => {
   // 스터디 모집글 생성
   const { mutate: createPost } = useMutation({
     mutationFn: () =>
-      insertPostWrite(user?.id ?? "", "study", contents, title, startDay),
-    onSuccess: () => {
-      setModalMode("success");
-      setIsModalOpen(true);
+      insertPostWrite(user?.id ?? "", study.id, contents, title, startDay),
+    onSuccess: (data) => {
+      console.log(data);
     },
 
     onError: () => {
@@ -106,11 +115,13 @@ export const Write = () => {
       </div>
 
       <div className="flex items-center justify-between w-10/12 border border-gray-300 rounded-lg mb-5">
-        <p className="p-3">스터디 그룹 선택</p>
+        <p className="p-3 whitespace-nowrap">스터디 그룹 선택</p>
         <p
-          className="p-3 text-gray-300 font-bold"
+          className="p-3 text-gray-300 font-bold h-full truncate"
           onClick={() => getStudy()}
-        >{`선택해주세요 〉`}</p>
+        >
+          {study.name}
+        </p>
       </div>
 
       <div className="w-10/12 h-[50vh]">
@@ -129,8 +140,11 @@ export const Write = () => {
 
       <WriteModal
         isModalOpen={isModalOpen}
-        onClose={() => handleModalClose()}
-        onConfirm={(studyId, studyName) => setIsModalOpen(false)}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={(studyId, studyName) => {
+          setStudy({ id: studyId, name: studyName });
+          setIsModalOpen(false);
+        }}
         modalMode={modalMode}
         studyGroup={studyGroup}
       />

@@ -130,8 +130,8 @@ export const updateStudy = async (
 // 포스트 생성 (insert)
 export const insertPostWrite = async (
   userId: string,
-  contents: string,
   studyId: string,
+  contents: string,
   title: string,
   startDay: string,
 ) => {
@@ -140,13 +140,23 @@ export const insertPostWrite = async (
     throw new Error("로그인 상태가 아님");
   }
 
-  await browserClient.from("post").insert({
-    user_id: userId,
-    post_contents: contents,
-    study_id: studyId,
-    post_name: title,
-    study_startday: startDay,
-  });
+  const { data, error } = await browserClient
+    .from("post")
+    .insert({
+      user_id: userId,
+      study_id: studyId,
+      post_contents: contents,
+      post_name: title,
+      study_startday: startDay,
+    })
+    .single();
+
+  if (error) {
+    console.log(error);
+    throw new Error("게시글 삽입 실패: " + error.message);
+  }
+
+  return data;
 };
 
 // 특정 사용자가 작성한 게시글 불러오기
