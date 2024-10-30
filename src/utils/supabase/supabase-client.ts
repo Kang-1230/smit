@@ -1,6 +1,7 @@
 import browserClient from "@/utils/supabase/client";
 import { Tables } from "../../../database.types";
 import { User } from "@supabase/supabase-js";
+import { ApplyData, JoinPerson } from "@/app/study/components/ApplyStudyList";
 
 // 세션 정보 가져오기
 export const fetchSessionData = async () => {
@@ -122,6 +123,19 @@ export const toggleLike = async (
   }
 };
 
+// 스터디 신청 데이터 가져오기
+export const getApplyStudyList = async (user: User | null) => {
+  const { data, error } = await browserClient
+    .from("study_applylist")
+    .select("*,study(*)")
+    .eq("user_id", user?.id)
+    .eq("is_approved", false);
+  if (!data || error) {
+    throw new Error("스터디 신청 정보를 불러오지 못했습니다.");
+  }
+  return data as ApplyData[];
+};
+
 // post의 댓글 목록 가져오기
 export const fetchDetailComments = async (id: string) => {
   const { data, error } = await browserClient
@@ -204,6 +218,47 @@ export const applyNewStudy = async (studyId: string) => {
   if (error) {
     throw new Error("스터디 신청에 실패했습니다.");
   }
+};
+
+// 가입된 데이터 가져오기
+export const getJoinedStudyList = async (user: User | null) => {
+  const { data, error } = await browserClient
+    .from("study_applylist")
+    .select("*,study(*)")
+    .eq("user_id", user?.id)
+    .eq("is_approved", true);
+  if (!data || error) {
+    throw new Error("스터디 가입 정보를 불러오지 못했습니다.");
+  }
+  console.log("유저 테스트", user);
+  return data as ApplyData[];
+};
+
+//스터디 신청 취소(삭제)
+export const deleteApplyStudy = async (studyId: string) => {
+  const { error } = await browserClient
+    .from("study_applylist")
+    .delete()
+    .eq("study_id", studyId);
+  alert("신청이 취소되었습니다!");
+  if (error) {
+    throw new Error("스터디 신청 취소에 실패했습니다.");
+  }
+};
+
+//스터디에 가입한 사람들 목록 불러오기
+export const getJoinedStudyPeopleList = async (study_id: string) => {
+  const { data, error } = await browserClient
+    .from("study_applylist")
+    .select("*")
+    .eq("study_id", encodeURIComponent(study_id))
+    .eq("is_approved", true);
+  if (!data || error) {
+    throw new Error("가입한 사람들을 불러오지 못했습니다.");
+  } else if (data) {
+    console.log("가입한 사람들 목록", data);
+  }
+  return data as JoinPerson[];
 };
 
 // 모집글 삭제
