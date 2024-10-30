@@ -1,3 +1,4 @@
+"use client";
 import { Tables } from "../../../../database.types";
 import { useDeleteCalendarEvent } from "../[id]/hooks/useCalendar";
 
