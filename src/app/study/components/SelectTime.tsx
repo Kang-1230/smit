@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import TimePicker from "./TimePicker";
+import ScrollPicker from "@/components/common/ScrollPicker";
 const buttonClass = "p-2.5 flex-1 rounded-xl bg-[#8D8D8D]";
 
 interface SelecTimeProps {
@@ -52,17 +52,17 @@ const SelectTime = ({ onTimeSelect, onClose }: SelecTimeProps) => {
           </p>
           <div className="flex justify-center items-center">
             {/* 시간 선택 */}
-            <TimePicker
-              time={hours}
-              handleTimeScroll={handleHourScroll}
-              selectedTime={selectedHour}
+            <ScrollPicker
+              options={hours}
+              handleScroll={handleHourScroll}
+              selectedItem={selectedHour}
             />
             <span className="text-xl font-bold mx-4">:</span>
             {/* 분 선택 */}
-            <TimePicker
-              time={minutes}
-              handleTimeScroll={handleMinuteScroll}
-              selectedTime={selectedMinute}
+            <ScrollPicker
+              options={minutes}
+              handleScroll={handleMinuteScroll}
+              selectedItem={selectedMinute}
             />
           </div>
           <div className="flex justify-center items-center gap-2 text-white mt-4">

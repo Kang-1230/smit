@@ -1,38 +1,40 @@
-interface TimePickerProps {
-  time: string[];
-  handleTimeScroll: (e: React.UIEvent<HTMLDivElement>) => void;
-  selectedTime: string;
+"use client";
+
+interface ScrollPickerProps {
+  options: string[];
+  handleScroll: (e: React.UIEvent<HTMLDivElement>) => void;
+  selectedItem: string;
 }
 
-const TimePicker = ({
-  time,
-  handleTimeScroll,
-  selectedTime,
-}: TimePickerProps) => {
+const ScrollPicker = ({
+  options,
+  handleScroll,
+  selectedItem,
+}: ScrollPickerProps) => {
   return (
     <div className="h-[140px] relative w-16">
       <div
         className={`absolute pointer-events-none  ${
-          time[0].length === 2
+          options[0].length < 3
             ? "w-10 top-[50px] right-[14px]"
             : "w-[50px] top-[50px] right-[8.5px]"
         }  h-10 w-10 border-y-2`}
       />
       <div
         className="h-full overflow-auto scrollbar-hide snap-y snap-mandatory overscroll-contain py-[60px]"
-        onScroll={handleTimeScroll}
+        onScroll={handleScroll}
       >
-        {time.map((t) => (
+        {options.map((item) => (
           <div
-            key={t}
+            key={item}
             className={`h-[40px] flex items-center justify-center snap-center
         ${
-          selectedTime === t
+          selectedItem === item
             ? "text-black font-medium mt:border-solid"
             : "text-gray-400"
         }`}
           >
-            {t}
+            {item}
           </div>
         ))}
       </div>
@@ -40,4 +42,4 @@ const TimePicker = ({
   );
 };
 
-export default TimePicker;
+export default ScrollPicker;
