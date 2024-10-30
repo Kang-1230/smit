@@ -8,6 +8,7 @@ import { Tables } from "../../../../../database.types";
 import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
 import { convertUTCToKST } from "@/utils/convertDate";
+import { fetchPostLikers } from "@/utils/supabase/supabase-client";
 
 type Contents = {
   id: string;
@@ -20,6 +21,7 @@ const DetailContents = async ({ id, postData }: Contents) => {
   const userData = await fetchUserInfo(postData.user_id);
   const applyNumber = applyData ? applyData.length : 0;
   const serverClient = createClient();
+  const likeUsers = await fetchPostLikers(+id);
 
   // 프로필 이미지
   const profileImg = serverClient.storage
@@ -50,7 +52,7 @@ const DetailContents = async ({ id, postData }: Contents) => {
           />
           <span>{userData.name}</span>
           <span className="ml-[11px]">
-            {convertUTCToKST(postData?.post_createtime)}
+            {convertUTCToKST(postData?.post_createtime).dateOnly}
           </span>
         </div>
         <span>
@@ -64,6 +66,7 @@ const DetailContents = async ({ id, postData }: Contents) => {
       <main>
         <p className="whitespace-pre">{postData.post_contents}</p>
       </main>
+      <span>♥ {likeUsers.length}</span>
     </div>
   );
 };
