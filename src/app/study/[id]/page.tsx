@@ -16,7 +16,7 @@ const Page = ({ params }: { params: { id: string } }) => {
     <div>
       <GroupCalendar studyId={params.id} />
       <WaitApplyList urlStudyId={urlStudyId} />
-      </div>
-  )
-
-  export default Page;
+    </div>
+  );
+};
+export default Page;
