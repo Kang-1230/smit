@@ -31,7 +31,7 @@ const CalendarPage = ({ params }: Props) => {
       </header>
       <main>
         <EventList studyId={id} eventDate={date} />
-        <CreateEventForm />
+        <CreateEventForm studyId={id} eventDate={date} />
       </main>
     </>
   );
