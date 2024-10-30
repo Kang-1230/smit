@@ -1,29 +1,16 @@
-// import { useState } from "react";
-// import { createClient } from "../../utils/supabase/client";
+//ssr, 컴포넌트 분리해서 csr로
 
-const page = () => {
-  //   const supabase = createClient();
+import { getUser } from "@/utils/supabase/supabase-server";
+import ApplyStudyList from "./components/ApplyStudyList";
 
-  //   const [userId, setUserId] = useState("");
+const page = async () => {
+  const user = await getUser();
 
-  //유저 정보 가져오기
-
-  //스터디 신청 데이터 가져오기
-  //   const getStudyApplyList = async () => {
-  //     const { data, error } = await supabase
-  //       .from("study_applylist")
-  //       .select("user_point")
-  //       .eq("user_id", userId);
-  //     console.log("포인트 데이터", data);
-  //     if (error) {
-  //       console.error("Error fetching data getPoint : ", error.message);
-  //     } else if (data) {
-  //       console.log("유저 포인트 데이터 test", data[0]?.user_point);
-  //       setPoints(data[0]?.user_point);
-  //     }
-  //   };
-
-  return <div>page</div>;
+  return (
+    <div>
+      <ApplyStudyList user={user} />
+    </div>
+  );
 };
 
 export default page;
