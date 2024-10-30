@@ -3,7 +3,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { useEffect, useState } from "react";
 import browserClient from "@/utils/supabase/client";
 
-import Modal from "./Modal";
+import Modal from "./StudyModal";
 import { useRouter } from "next/navigation";
 import { usePublicUser } from "@/hooks/useUserProfile";
 

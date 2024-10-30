@@ -1,14 +1,13 @@
 "use client";
-import { usePostByUser, usePublicUser } from "@/hooks/useUserProfile";
+import { usePublicUser } from "@/hooks/useUserProfile";
 import browserClient from "@/utils/supabase/client";
 import { insertStudy } from "@/utils/supabase/supabase-client";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useRef, useState } from "react";
-import Modal from "../components/Modal";
 import { useRouter } from "next/navigation";
+import StudyModal from "../components/StudyModal";
 
 export const Study = () => {
   const { data: user, isLoading, isError } = usePublicUser();
@@ -23,7 +22,7 @@ export const Study = () => {
   const [studyTarget, setStudyTarget] = useState<string>("");
   const [studychatLink, setStudyChatLink] = useState<string>("");
   const [studyDescription, setStudyDescription] = useState<string>("");
-  const [uploadImg, setUploadImg] = useState(
+  const [uploadImg, setUploadImg] = useState<string>(
     browserClient.storage.from("study_img").getPublicUrl("default").data
       .publicUrl,
   );
@@ -36,7 +35,7 @@ export const Study = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleModalClose = () => {
-    if (title) {
+    if (title && modalMode !== "success") {
       setModalMode("close");
       setIsModalOpen(true);
     } else {
@@ -44,31 +43,23 @@ export const Study = () => {
     }
   };
 
-  // 스터디 카테고리
-  const handleStudyCategory = (category: string) => {
-    setStudyCategory((prev) =>
-      prev.includes(category)
-        ? prev.filter((item) => item != category)
-        : [...prev, category],
-    );
-  };
-
   // 생성 버튼 클릭 시 스터디 생성
   const sendData = async () => {
     if (fileInputRef.current?.files) {
-      if (fileInputRef.current.files.length > 0) {
-        const { error } = await browserClient.storage
-          .from("profile_img")
-          .upload(`${user?.id}`, fileInputRef.current.files[0], {
-            upsert: true,
-          });
-        if (error) {
-          console.log("이미지 업로드 중 오류 발생", error);
-          return;
-        }
+      const { data, error } = await browserClient.storage
+        .from("study_img")
+        .upload(`${user?.id}${Date.now()}`, fileInputRef.current.files[0]);
+      if (error) {
+        console.log("이미지 업로드 중 오류 발생", error);
+        return;
       }
+
+      const url = browserClient.storage
+        .from("study_img")
+        .getPublicUrl(`${data!.path}`).data.publicUrl;
+
+      createStudy(url);
     }
-    createStudy();
   };
 
   // 이미지 업로드 : setUploadImg
@@ -80,7 +71,6 @@ export const Study = () => {
         reader.readAsDataURL(file);
         reader.onloadend = () => {
           setUploadImg(reader.result as string);
-          console.log(uploadImg);
         };
       }
     }
@@ -88,7 +78,7 @@ export const Study = () => {
 
   // 스터디 생성 tanstack
   const { mutate: createStudy } = useMutation({
-    mutationFn: () =>
+    mutationFn: (url: string) =>
       insertStudy(
         title,
         [...studyCategory, studyTarget],
@@ -96,9 +86,14 @@ export const Study = () => {
         user?.id,
         studyDescription,
         studychatLink,
+        uploadImg,
       ),
     onSuccess: () => {
-      alert("스터디가 성공적으로 생성되었습니다!"); // 알림 표시
+      setModalMode("success");
+      setIsModalOpen(true);
+    },
+    onError: () => {
+      alert("스터디를 생성하지 못했습니다.");
     },
   });
 
@@ -222,7 +217,7 @@ export const Study = () => {
       </div>
       <h1>{studyCategory}</h1>
 
-      <Modal
+      <StudyModal
         isModalOpen={isModalOpen}
         onClose={() => handleModalClose()}
         onConfirm={() => setIsModalOpen(false)}

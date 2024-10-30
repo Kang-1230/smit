@@ -8,7 +8,7 @@ type ModalProps = {
   modalMode: string;
 };
 
-const Modal = (props: ModalProps) => {
+const StudyModal = (props: ModalProps) => {
   return props.isModalOpen ? (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center w-full">
       <div className="bg-white p-6 rounded-3xl shadow-lg flex flex-col justify-center items-center w-5/6 h-fit overflow-y-auto overflow-x-hidden">
@@ -104,9 +104,9 @@ const Modal = (props: ModalProps) => {
               </Link>
               <Link
                 href="/write"
-                className="flex text-black size-14 ... rounded-full ... border border-black w-full mr-1 text-lg font-medium text-center items-center justify-center"
+                className="flex bg-black size-14 ... text-white rounded-full ... w-full ml-1 text-lg opacity-50 font-medium text-center items-center justify-center"
               >
-                아니오
+                네
               </Link>
             </div>
           </>
@@ -116,4 +116,4 @@ const Modal = (props: ModalProps) => {
   ) : null;
 };
 
-export default Modal;
+export default StudyModal;

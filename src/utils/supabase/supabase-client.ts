@@ -59,6 +59,7 @@ export const insertStudy = async (
   userId: string | undefined,
   studyDescription: string,
   studyLink: string,
+  imgUrl: string,
 ) => {
   const user = await fetchSessionData();
   if (!user) {
@@ -72,11 +73,26 @@ export const insertStudy = async (
     study_manager: userId,
     study_description: studyDescription,
     study_chaturl: studyLink,
+    study_imgurl: imgUrl,
   });
 
   if (error) {
     throw new Error("스터디를 생성하지 못했어요.");
   }
+};
+
+// 특정 유저의 스터디 정보 가져오기
+export const fetchUserStudyInfo = async (user_id: string | undefined) => {
+  const { data, error } = await browserClient
+    .from("study")
+    .select("*")
+    .eq("study_manager", user_id);
+
+  if (error || !data) {
+    console.log(error);
+    return null;
+  }
+  return data as Tables<"study">[];
 };
 
 // 스터디 삭제 (delete)
@@ -111,17 +127,26 @@ export const updateStudy = async (
     .eq("study_id", studyId);
 };
 
-// 모집글 생성 (insert)
-export const insertPostWrite = async (name: string, img: string) => {
+// 포스트 생성 (insert)
+export const insertPostWrite = async (
+  userId: string,
+  contents: string,
+  studyId: string,
+  title: string,
+  startDay: string,
+) => {
   const user = await fetchSessionData();
   if (!user) {
     throw new Error("로그인 상태가 아님");
   }
 
-  await browserClient
-    .from("user")
-    .update({ name: name, profile_img: img })
-    .eq("id", user.id);
+  await browserClient.from("post").insert({
+    user_id: userId,
+    post_contents: contents,
+    study_id: studyId,
+    post_name: title,
+    study_startday: startDay,
+  });
 };
 
 // 특정 사용자가 작성한 게시글 불러오기
