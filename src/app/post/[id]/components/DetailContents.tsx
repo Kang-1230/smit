@@ -32,6 +32,8 @@ const DetailContents = async ({ id, postData }: Contents) => {
     return <div>정보를 불러오는 데 실패했습니다.</div>;
   }
 
+  console.log("프로필 이미지 예시", userData.profile_img);
+
   return (
     <div>
       <section>
