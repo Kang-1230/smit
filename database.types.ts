@@ -54,6 +54,24 @@ export type Database = {
           },
         ];
       };
+      category_tag: {
+        Row: {
+          class: string | null;
+          id: number;
+          name: string | null;
+        };
+        Insert: {
+          class?: string | null;
+          id?: number;
+          name?: string | null;
+        };
+        Update: {
+          class?: string | null;
+          id?: number;
+          name?: string | null;
+        };
+        Relationships: [];
+      };
       comment: {
         Row: {
           comment_contents: string;
@@ -106,6 +124,21 @@ export type Database = {
           },
         ];
       };
+      job_tag: {
+        Row: {
+          id: number;
+          name: string | null;
+        };
+        Insert: {
+          id?: number;
+          name?: string | null;
+        };
+        Update: {
+          id?: number;
+          name?: string | null;
+        };
+        Relationships: [];
+      };
       like: {
         Row: {
           created_at: string;
@@ -150,15 +183,17 @@ export type Database = {
           post_name: string | null;
           post_updatetime: string | null;
           study_id: string;
+          study_startday: string | null;
           user_id: string;
         };
         Insert: {
           post_contents: string;
-          post_createtime: string;
+          post_createtime?: string;
           post_id?: number;
           post_name?: string | null;
           post_updatetime?: string | null;
           study_id?: string;
+          study_startday?: string | null;
           user_id?: string;
         };
         Update: {
@@ -168,6 +203,7 @@ export type Database = {
           post_name?: string | null;
           post_updatetime?: string | null;
           study_id?: string;
+          study_startday?: string | null;
           user_id?: string;
         };
         Relationships: [
@@ -323,37 +359,76 @@ export type Database = {
           },
         ];
       };
+      study_taglist: {
+        Row: {
+          category_id: number | null;
+          id: string;
+          job_id: number | null;
+          study_id: string | null;
+          tagtype: string;
+        };
+        Insert: {
+          category_id?: number | null;
+          id?: string;
+          job_id?: number | null;
+          study_id?: string | null;
+          tagtype: string;
+        };
+        Update: {
+          category_id?: number | null;
+          id?: string;
+          job_id?: number | null;
+          study_id?: string | null;
+          tagtype?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "study_taglist_category_id_fkey";
+            columns: ["category_id"];
+            isOneToOne: false;
+            referencedRelation: "category_tag";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "study_taglist_job_id_fkey";
+            columns: ["job_id"];
+            isOneToOne: false;
+            referencedRelation: "job_tag";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       timer: {
         Row: {
-          accumulated_time: number | null;
+          accumulated_time: number;
           created_at: string;
           date: string | null;
           id: number;
           is_running: boolean | null;
-          last_updated: string | null;
-          late_start: string | null;
+          last_paused: string | null;
+          last_start: string | null;
           study_id: string | null;
           user_id: string | null;
         };
         Insert: {
-          accumulated_time?: number | null;
+          accumulated_time?: number;
           created_at?: string;
           date?: string | null;
           id?: number;
           is_running?: boolean | null;
-          last_updated?: string | null;
-          late_start?: string | null;
+          last_paused?: string | null;
+          last_start?: string | null;
           study_id?: string | null;
           user_id?: string | null;
         };
         Update: {
-          accumulated_time?: number | null;
+          accumulated_time?: number;
           created_at?: string;
           date?: string | null;
           id?: number;
           is_running?: boolean | null;
-          last_updated?: string | null;
-          late_start?: string | null;
+          last_paused?: string | null;
+          last_start?: string | null;
           study_id?: string | null;
           user_id?: string | null;
         };
@@ -381,6 +456,7 @@ export type Database = {
           id: string;
           name: string | null;
           profile_img: string | null;
+          study_time: number;
         };
         Insert: {
           created_at?: string;
@@ -388,6 +464,7 @@ export type Database = {
           id: string;
           name?: string | null;
           profile_img?: string | null;
+          study_time?: number;
         };
         Update: {
           created_at?: string;
@@ -395,6 +472,7 @@ export type Database = {
           id?: string;
           name?: string | null;
           profile_img?: string | null;
+          study_time?: number;
         };
         Relationships: [];
       };

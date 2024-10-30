@@ -8,9 +8,10 @@ import { deleteUser } from "@/utils/supabase/supabase-client";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "@/hooks/useUserProfile";
+import useModalOpen from "@/hooks/useModalOpen";
 
 const DeleteUserButton = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isModalOpen, modalClose, modalOpen } = useModalOpen();
   const [isUserGroupOwner, setIsUserGroupOwner] = useState(false);
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -24,17 +25,17 @@ const DeleteUserButton = () => {
         .eq("study_manager", user!.id);
 
     if (studyByUser?.length) {
-      setIsModalOpen(true);
+      modalOpen();
       setIsUserGroupOwner(true);
       return;
     } else {
-      setIsModalOpen(true);
+      modalOpen();
       setIsUserGroupOwner(false);
     }
   };
 
   const deleteUserHandler = async () => {
-    setIsModalOpen(false);
+    modalClose();
     await deleteUser();
     await queryClient.invalidateQueries({ queryKey: ["user", "session"] });
     router.push("/");
@@ -50,7 +51,7 @@ const DeleteUserButton = () => {
         탈퇴하기
       </button>
       {isModalOpen && (
-        <ModalOverlay onClick={() => setIsModalOpen(false)}>
+        <ModalOverlay onClick={modalClose}>
           {isUserGroupOwner ? (
             <div className="flex flex-col gap-y-6 w-full mt-6 text-center">
               <p className="text-xl font-semibold">
@@ -74,7 +75,10 @@ const DeleteUserButton = () => {
                 복구가 불가능합니다.
               </p>
               <div className="flex flex-row justify-between">
-                <button className="w-[calc(50%-2px)] py-2 border-gray-500 border rounded-3xl">
+                <button
+                  onClick={modalClose}
+                  className="w-[calc(50%-2px)] py-2 border-gray-500 border rounded-3xl"
+                >
                   아니오
                 </button>
                 <button
