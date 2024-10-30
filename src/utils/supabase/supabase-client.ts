@@ -341,3 +341,56 @@ export const deleteUser = async () => {
     console.error(data.error);
   }
 };
+
+// 캘린더 일정 정보 가져오기
+export const fetchCalenderEvent = async (
+  studyId: string,
+  eventDate: string,
+) => {
+  const { data, error } = await browserClient
+    .from("calendar")
+    .select("*")
+    .eq("study_id", studyId)
+    .eq("event_date", eventDate)
+    .order("start_time", { ascending: true });
+  if (!data || error) {
+    throw new Error("댓글 정보를 불러오지 못했습니다.");
+  }
+  return data as Tables<"calendar">[];
+};
+
+// 캘린더 일정 등록
+export const addCalenderEvent = async (data: {
+  studyId: string;
+  eventDate: string;
+  eventDescription: string;
+  eventStart: string;
+  eventEnd: string;
+}) => {
+  const user = await fetchSessionData();
+  if (!user) {
+    throw new Error("로그인 상태가 아님");
+  }
+  const { error } = await browserClient.from("calendar").insert({
+    user_id: user?.id,
+    study_id: data.studyId,
+    event_date: data.eventDate,
+    event_description: data.eventDescription,
+    start_time: data.eventStart,
+    end_time: data.eventEnd,
+  });
+  if (error) {
+    throw new Error("일정 등록에 실패했습니다.");
+  }
+};
+
+// 캘린더 일정 삭제
+export const deleteCalenderEvent = async (calendarId: string) => {
+  const { error } = await browserClient
+    .from("calendar")
+    .delete()
+    .eq("calendar_id", calendarId);
+  if (error) {
+    throw new Error("일정 삭제에 실패했습니다.");
+  }
+};
