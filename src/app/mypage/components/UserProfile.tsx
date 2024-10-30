@@ -4,12 +4,12 @@ import browserClient from "@/utils/supabase/client";
 import { usePublicUser } from "../../../hooks/useUserProfile";
 import Image from "next/image";
 import EditProfile from "./EditProfile";
-import useProfileStore from "@/store/profileStore";
 import ModalOverlay from "../../../components/common/ModalOverlay";
+import useModalOpen from "@/hooks/useModalOpen";
 
 const UserProfile = () => {
   const { data: user, isLoading, isError } = usePublicUser();
-  const { isProfileModalOpen, modalOpen, modalClose } = useProfileStore();
+  const { isModalOpen, modalClose, modalOpen } = useModalOpen();
 
   // 기존 이미지 불러오기
   const profileImg = browserClient.storage
@@ -50,7 +50,7 @@ const UserProfile = () => {
               프로필 수정
             </button>
           </>
-          {isProfileModalOpen && (
+          {isModalOpen && (
             <ModalOverlay onClick={modalClose}>
               <EditProfile profileImg={profileImg} user={user} />
             </ModalOverlay>
