@@ -328,3 +328,14 @@ export const addCalenderEvent = async (data: {
     throw new Error("일정 등록에 실패했습니다.");
   }
 };
+
+// 캘린더 일정 삭제
+export const deleteCalenderEvent = async (calendarId: string) => {
+  const { error } = await browserClient
+    .from("calendar")
+    .delete()
+    .eq("calendar_id", calendarId);
+  if (error) {
+    throw new Error("일정 삭제에 실패했습니다.");
+  }
+};

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCalendarByStudy } from "../[id]/hooks/useCalendar";
-import EventListCard from "./EventListCard";
+import EventListItem from "./EventListItem";
 
 const EventList = ({
   studyId,
@@ -23,7 +23,7 @@ const EventList = ({
   return (
     <div>
       {data?.map((event) => (
-        <EventListCard key={event.calendar_id} event={event} />
+        <EventListItem key={event.calendar_id} event={event} />
       ))}
     </div>
   );
