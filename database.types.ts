@@ -34,28 +34,28 @@ export type Database = {
   }
   public: {
     Tables: {
-      calender: {
+      calendar: {
         Row: {
-          calender_id: string
-          plan: string | null
-          plan_date: string | null
-          study_id: string
-          user_id: string
-        }
+          calender_id: string;
+          plan: string | null;
+          plan_date: string | null;
+          study_id: string;
+          user_id: string;
+        };
         Insert: {
-          calender_id?: string
-          plan?: string | null
-          plan_date?: string | null
-          study_id?: string
-          user_id: string
-        }
+          calender_id?: string;
+          plan?: string | null;
+          plan_date?: string | null;
+          study_id?: string;
+          user_id: string;
+        };
         Update: {
-          calender_id?: string
-          plan?: string | null
-          plan_date?: string | null
-          study_id?: string
-          user_id?: string
-        }
+          calender_id?: string;
+          plan?: string | null;
+          plan_date?: string | null;
+          study_id?: string;
+          user_id?: string;
+        };
         Relationships: [
           {
             foreignKeyName: "calender_study_id_fkey"
@@ -64,14 +64,14 @@ export type Database = {
             referencedRelation: "study"
             referencedColumns: ["study_id"]
           },
-        ]
-      }
+        ];
+      };
       comment: {
         Row: {
           comment_contents: string;
           comment_createtime: string;
           comment_id: string;
-          comment_updatetime: string | null;
+          comment_updatetime: string;
           parent_id: string | null;
           post_id: number;
           user_id: string;
@@ -80,7 +80,7 @@ export type Database = {
           comment_contents?: string;
           comment_createtime?: string;
           comment_id?: string;
-          comment_updatetime?: string | null;
+          comment_updatetime?: string;
           parent_id?: string | null;
           post_id: number;
           user_id?: string;
@@ -89,7 +89,7 @@ export type Database = {
           comment_contents?: string;
           comment_createtime?: string;
           comment_id?: string;
-          comment_updatetime?: string | null;
+          comment_updatetime?: string;
           parent_id?: string | null;
           post_id?: number;
           user_id?: string;
@@ -116,8 +116,8 @@ export type Database = {
             referencedRelation: "user"
             referencedColumns: ["id"]
           },
-        ]
-      }
+        ];
+      };
       like: {
         Row: {
           created_at: string
@@ -156,32 +156,32 @@ export type Database = {
       }
       post: {
         Row: {
-          post_contents: string
-          post_createtime: string
-          post_id: number
-          post_name: string | null
-          post_updatetime: string | null
-          study_id: string
-          user_id: string
-        }
+          post_contents: string;
+          post_createtime: string;
+          post_id: number;
+          post_name: string | null;
+          post_updatetime: string | null;
+          study_id: string;
+          user_id: string;
+        };
         Insert: {
-          post_contents: string
-          post_createtime: string
-          post_id?: number
-          post_name?: string | null
-          post_updatetime?: string | null
-          study_id?: string
-          user_id?: string
-        }
+          post_contents: string;
+          post_createtime: string;
+          post_id?: number;
+          post_name?: string | null;
+          post_updatetime?: string | null;
+          study_id?: string;
+          user_id?: string;
+        };
         Update: {
-          post_contents?: string
-          post_createtime?: string
-          post_id?: number
-          post_name?: string | null
-          post_updatetime?: string | null
-          study_id?: string
-          user_id?: string
-        }
+          post_contents?: string;
+          post_createtime?: string;
+          post_id?: number;
+          post_name?: string | null;
+          post_updatetime?: string | null;
+          study_id?: string;
+          user_id?: string;
+        };
         Relationships: [
           {
             foreignKeyName: "post_study_id_fkey"
@@ -210,7 +210,7 @@ export type Database = {
           study_manager: string;
           study_max_people: number;
           study_name: string;
-          study_period: string;
+          study_period: string | null;
           study_score: number;
         };
         Insert: {
@@ -223,7 +223,7 @@ export type Database = {
           study_manager?: string;
           study_max_people: number;
           study_name: string;
-          study_period: string;
+          study_period?: string | null;
           study_score?: number;
         };
         Update: {
@@ -236,7 +236,7 @@ export type Database = {
           study_manager?: string;
           study_max_people?: number;
           study_name?: string;
-          study_period?: string;
+          study_period?: string | null;
           study_score?: number;
         };
         Relationships: [
@@ -276,8 +276,8 @@ export type Database = {
             referencedRelation: "study"
             referencedColumns: ["study_id"]
           },
-        ]
-      }
+        ];
+      };
       study_content: {
         Row: {
           create_time: string | null
@@ -326,24 +326,24 @@ export type Database = {
             referencedRelation: "study"
             referencedColumns: ["study_id"]
           },
-        ]
-      }
+        ];
+      };
       timer: {
         Row: {
-          is_start: boolean | null
-          study_id: string
-          user_id: string
-        }
+          is_start: boolean | null;
+          study_id: string;
+          user_id: string;
+        };
         Insert: {
-          is_start?: boolean | null
-          study_id?: string
-          user_id?: string
-        }
+          is_start?: boolean | null;
+          study_id?: string;
+          user_id?: string;
+        };
         Update: {
-          is_start?: boolean | null
-          study_id?: string
-          user_id?: string
-        }
+          is_start?: boolean | null;
+          study_id?: string;
+          user_id?: string;
+        };
         Relationships: [
           {
             foreignKeyName: "timer_study_id_fkey"
@@ -352,33 +352,33 @@ export type Database = {
             referencedRelation: "study"
             referencedColumns: ["study_id"]
           },
-        ]
-      }
+        ];
+      };
       user: {
         Row: {
-          created_at: string
-          email: string | null
-          id: string
-          name: string | null
-          profile_img: string | null
-        }
+          created_at: string;
+          email: string | null;
+          id: string;
+          name: string | null;
+          profile_img: string | null;
+        };
         Insert: {
-          created_at?: string
-          email?: string | null
-          id: string
-          name?: string | null
-          profile_img?: string | null
-        }
+          created_at?: string;
+          email?: string | null;
+          id: string;
+          name?: string | null;
+          profile_img?: string | null;
+        };
         Update: {
-          created_at?: string
-          email?: string | null
-          id?: string
-          name?: string | null
-          profile_img?: string | null
-        }
-        Relationships: []
-      }
-    }
+          created_at?: string;
+          email?: string | null;
+          id?: string;
+          name?: string | null;
+          profile_img?: string | null;
+        };
+        Relationships: [];
+      };
+    };
     Views: {
       [_ in never]: never
     }
