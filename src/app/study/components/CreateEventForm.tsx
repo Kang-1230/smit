@@ -7,9 +7,11 @@ import { useAddCalendarEvent } from "../[id]/hooks/useCalendar";
 const CreateEventForm = ({
   studyId,
   eventDate,
+  closeForm,
 }: {
   studyId: string;
   eventDate: string;
+  closeForm: () => void;
 }) => {
   const [eventDescription, setEventDescription] = useState("");
   const [eventStart, setEventStart] = useState("");
@@ -23,8 +25,6 @@ const CreateEventForm = ({
     } else if (activeInput === "end") {
       setEventEnd(time);
     }
-    setIsModalOpen(false);
-    setActiveInput(null);
   };
 
   // 일정 등록
@@ -65,7 +65,10 @@ const CreateEventForm = ({
         </div>
 
         <div className="flex  gap-2 mt-4 self-stretch">
-          <button className="flex justify-center items-center p-2.5 gap-2.5 flex-1 rounded-lg bg-[#8D8D8D] text-[#FFF]">
+          <button
+            onClick={closeForm}
+            className="flex justify-center items-center p-2.5 gap-2.5 flex-1 rounded-lg bg-[#8D8D8D] text-[#FFF]"
+          >
             삭제하기
           </button>
           <button
@@ -90,13 +93,6 @@ const CreateEventForm = ({
           </button>
         </div>
       </div>
-      <div className="h-[117px] bg-[#ECECEC] m-[25px] p-4 flex flex-col justify-center items-center gap-2 flex-shrink-0 rounded-[20px]">
-        <span>일정을 등록해보세요</span>
-        <button className="w-8 h-8 p-2.5 flex justify-center items-center rounded-full bg-white">
-          +
-        </button>
-      </div>
-
       {isModalOpen && (
         <SelectTime
           onTimeSelect={handleTimeSelect}

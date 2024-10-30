@@ -1,6 +1,5 @@
 import { format } from "date-fns-tz";
 import { ko } from "date-fns/locale";
-import CreateEventForm from "../../components/CreateEventForm";
 import EventList from "../../components/EventList";
 
 interface Props {
@@ -31,7 +30,6 @@ const CalendarPage = ({ params }: Props) => {
       </header>
       <main>
         <EventList studyId={id} eventDate={date} />
-        <CreateEventForm studyId={id} eventDate={date} />
       </main>
     </>
   );
