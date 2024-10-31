@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAddCommentMutation } from "../hooks/useComments";
 import { usePublicUser } from "@/hooks/useUserProfile";
 import Image from "next/image";
@@ -25,14 +25,9 @@ const ReplyComment = ({
     .from("profile_img")
     .getPublicUrl(user?.profile_img ?? "default").data.publicUrl;
 
-  // 답글 대상이 바뀔 때마다 입력창 멘션 업데이트
-  useEffect(() => {
-    setReplyContent(`@${replyToName} `);
-  }, [replyToName]);
-
   return (
     <form
-      className="flex ml-12 mt-2"
+      className="flex mt-2"
       onSubmit={(e) => {
         e.preventDefault();
         if (!replyContent.trim()) {
@@ -42,7 +37,7 @@ const ReplyComment = ({
         addComment(
           {
             id: postId,
-            commentItem: replyContent,
+            commentItem: `@${replyToName} ${replyContent}`,
             parentId: parentId,
           },
           {
@@ -59,16 +54,20 @@ const ReplyComment = ({
         alt="유저 이미지"
         width={40}
         height={40}
-        className="rounded-full border aspect-square object-cover"
+        className="rounded-full border aspect-square object-cover flex-shrink-0"
       />
-      <input
-        type="text"
-        value={replyContent}
-        onChange={(e) => setReplyContent(e.target.value)}
-        placeholder={`@${replyToName}에게 답글 작성`}
-        className="border-b-2 border-gray-500 focus:outline-none ml-2"
-      />
-      <button className="ml-2">답글 작성</button>
+
+      <div className="flex items-center border-b-2 border-gray-500 flex-1 min-w-0">
+        <span className="text-blue-500 py-2 flex-shrink-0">@{replyToName}</span>
+        <input
+          type="text"
+          value={replyContent}
+          onChange={(e) => setReplyContent(e.target.value)}
+          className="focus:outline-none ml-1 py-2 w-full min-w-0"
+          placeholder="답글 작성"
+        />
+      </div>
+      <button className="ml-2 flex-shrink-0">답글 작성</button>
     </form>
   );
 };

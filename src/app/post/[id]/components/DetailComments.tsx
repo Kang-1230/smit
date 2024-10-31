@@ -31,7 +31,7 @@ const DetailComments = ({ id }: { id: string }) => {
   }
 
   return (
-    <div className="mt-10">
+    <div className="mt-10 w-full">
       <span>댓글 {commentList?.length}</span>
       <form
         onSubmit={(e) => {
@@ -50,7 +50,7 @@ const DetailComments = ({ id }: { id: string }) => {
             },
           );
         }}
-        className="flex"
+        className="flex mb-5"
       >
         <Image
           src={profileImg}
@@ -64,9 +64,9 @@ const DetailComments = ({ id }: { id: string }) => {
           value={commentItem}
           onChange={(e) => setCommentItem(e.target.value)}
           placeholder="댓글 작성"
-          className="border-b-2 border-gray-500 focus:outline-none"
+          className="w-full border-b-2 border-gray-500 focus:outline-none"
         />
-        <button>입력</button>
+        <button className="flex-shrink-0">입력</button>
       </form>
       <div>
         {commentList && commentList.length > 0 ? (
