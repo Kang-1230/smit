@@ -2,8 +2,8 @@ import Dropdown from "./write/components/Dropdown";
 
 export default function HomePage() {
   return (
-    <>
-      <Dropdown />
-    </>
+    <div>
+      <Dropdown></Dropdown>
+    </div>
   );
 }

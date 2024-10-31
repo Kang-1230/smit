@@ -6,7 +6,7 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "nkzghifllapgjxacdfbr.supabase.co",
-        pathname: "/storage/v1/object/public/profile_img/**",
+        pathname: "/storage/v1/object/public/**",
       },
     ],
     formats: ["image/avif", "image/webp"],
