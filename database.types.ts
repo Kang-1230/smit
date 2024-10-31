@@ -177,30 +177,36 @@ export type Database = {
       };
       post: {
         Row: {
+          like_count: number;
           post_contents: string;
           post_createtime: string;
           post_id: number;
           post_name: string | null;
           post_updatetime: string | null;
           study_id: string;
+          study_startday: string | null;
           user_id: string;
         };
         Insert: {
+          like_count?: number;
           post_contents: string;
           post_createtime?: string;
           post_id?: number;
           post_name?: string | null;
           post_updatetime?: string | null;
           study_id?: string;
+          study_startday?: string | null;
           user_id?: string;
         };
         Update: {
+          like_count?: number;
           post_contents?: string;
           post_createtime?: string;
           post_id?: number;
           post_name?: string | null;
           post_updatetime?: string | null;
           study_id?: string;
+          study_startday?: string | null;
           user_id?: string;
         };
         Relationships: [
@@ -272,22 +278,25 @@ export type Database = {
       };
       study_applylist: {
         Row: {
+          apply_message: string | null;
           id: string;
-          is_approved: boolean;
-          study_id: string;
-          user_id: string;
+          is_approved: boolean | null;
+          study_id: string | null;
+          user_id: string | null;
         };
         Insert: {
+          apply_message?: string | null;
           id?: string;
-          is_approved: boolean;
-          study_id?: string;
-          user_id?: string;
+          is_approved?: boolean | null;
+          study_id?: string | null;
+          user_id?: string | null;
         };
         Update: {
+          apply_message?: string | null;
           id?: string;
-          is_approved?: boolean;
-          study_id?: string;
-          user_id?: string;
+          is_approved?: boolean | null;
+          study_id?: string | null;
+          user_id?: string | null;
         };
         Relationships: [
           {
@@ -453,6 +462,7 @@ export type Database = {
           id: string;
           name: string | null;
           profile_img: string | null;
+          study_time: number;
         };
         Insert: {
           created_at?: string;
@@ -460,6 +470,7 @@ export type Database = {
           id: string;
           name?: string | null;
           profile_img?: string | null;
+          study_time?: number;
         };
         Update: {
           created_at?: string;
@@ -467,6 +478,7 @@ export type Database = {
           id?: string;
           name?: string | null;
           profile_img?: string | null;
+          study_time?: number;
         };
         Relationships: [];
       };
