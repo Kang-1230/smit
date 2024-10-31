@@ -2,6 +2,7 @@ import {
   addCalenderEvent,
   deleteCalenderEvent,
   fetchCalenderEvent,
+  updateCalendarEvent,
 } from "@/utils/supabase/supabase-client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -40,6 +41,31 @@ export const useDeleteCalendarEvent = (studyId: string, eventDate: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["calendar", studyId, eventDate],
+      });
+    },
+  });
+};
+
+// 캘린더 일정 수정
+export const useUpdateCalendarEvent = (data: {
+  studyId: string;
+  eventDate: string;
+  eventDescription: string;
+  eventStart: string;
+  eventEnd: string;
+}) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (calendarId: string) =>
+      updateCalendarEvent(
+        calendarId,
+        data.eventDescription,
+        data.eventStart,
+        data.eventEnd,
+      ),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["calendar", data.studyId, data.eventDate],
       });
     },
   });

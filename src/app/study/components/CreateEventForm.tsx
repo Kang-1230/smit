@@ -2,20 +2,40 @@
 
 import { useState } from "react";
 import SelectTime from "./SelectTime";
-import { useAddCalendarEvent } from "../[id]/hooks/useCalendar";
+import {
+  useAddCalendarEvent,
+  useUpdateCalendarEvent,
+} from "../[id]/hooks/useCalendar";
+
+interface CreateEventFormProps {
+  studyId: string;
+  eventDate: string;
+  deleteForm: () => void;
+  setIsEdit?: React.Dispatch<React.SetStateAction<boolean>>;
+  initialData?: {
+    calendarId: string;
+    description: string;
+    startTime: string;
+    endTime: string;
+  };
+}
 
 const CreateEventForm = ({
   studyId,
   eventDate,
-  closeForm,
-}: {
-  studyId: string;
-  eventDate: string;
-  closeForm: () => void;
-}) => {
-  const [eventDescription, setEventDescription] = useState("");
-  const [eventStart, setEventStart] = useState("");
-  const [eventEnd, setEventEnd] = useState("");
+  deleteForm,
+  setIsEdit,
+  initialData,
+}: CreateEventFormProps) => {
+  const [eventDescription, setEventDescription] = useState(
+    initialData?.description || "",
+  );
+  const [eventStart, setEventStart] = useState(
+    initialData?.startTime.slice(0, -3) || "",
+  );
+  const [eventEnd, setEventEnd] = useState(
+    initialData?.endTime.slice(0, -3) || "",
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeInput, setActiveInput] = useState<"start" | "end" | null>(null);
 
@@ -27,8 +47,19 @@ const CreateEventForm = ({
     }
   };
 
+  const updateEventData = {
+    studyId,
+    eventDate,
+    eventDescription,
+    eventStart,
+    eventEnd,
+  };
+
   // 일정 등록
   const { mutate: addEvent } = useAddCalendarEvent();
+
+  // 일정 수정
+  const { mutate: updateEvent } = useUpdateCalendarEvent(updateEventData);
 
   return (
     <>
@@ -66,31 +97,52 @@ const CreateEventForm = ({
 
         <div className="flex  gap-2 mt-4 self-stretch">
           <button
-            onClick={closeForm}
+            onClick={deleteForm}
             className="flex justify-center items-center p-2.5 gap-2.5 flex-1 rounded-lg bg-[#8D8D8D] text-[#FFF]"
           >
             삭제하기
           </button>
-          <button
-            onClick={() => {
-              // 빈값 체크
-              if (!eventDescription.trim()) {
-                alert("일정 정보를 작성해주세요!");
-                return;
-              }
-              addEvent(
-                { studyId, eventDate, eventDescription, eventStart, eventEnd },
-                {
+          {!initialData ? (
+            <button
+              onClick={() => {
+                // 빈값 체크
+                if (!eventDescription.trim())
+                  return alert("일정 내용을 작성해주세요!");
+                if (!eventStart.trim() || !eventEnd.trim())
+                  return alert("시간을 선택해주세요!");
+                addEvent(updateEventData, {
                   onSuccess: () => {
                     setEventDescription("");
+                    setEventStart("");
+                    setEventEnd("");
                   },
-                },
-              );
-            }}
-            className="flex justify-center items-center p-2.5 gap-2.5 flex-1 rounded-lg bg-[#8D8D8D] text-[#FFF]"
-          >
-            적용하기
-          </button>
+                });
+              }}
+              className="flex justify-center items-center p-2.5 gap-2.5 flex-1 rounded-lg bg-[#8D8D8D] text-[#FFF]"
+            >
+              적용하기
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                // 빈값 체크
+                if (!eventDescription.trim())
+                  return alert("일정 내용을 작성해주세요!");
+                if (!eventStart.trim() || !eventEnd.trim())
+                  return alert("시간을 선택해주세요!");
+                updateEvent(initialData.calendarId, {
+                  onSuccess: () => {
+                    if (setIsEdit) {
+                      setIsEdit(false);
+                    }
+                  },
+                });
+              }}
+              className="flex justify-center items-center p-2.5 gap-2.5 flex-1 rounded-lg bg-[#8D8D8D] text-[#FFF]"
+            >
+              적용하기
+            </button>
+          )}
         </div>
       </div>
       {isModalOpen && (
@@ -100,6 +152,9 @@ const CreateEventForm = ({
             setIsModalOpen(false);
             setActiveInput(null);
           }}
+          eventStart={eventStart}
+          eventEnd={eventEnd}
+          selectingType={activeInput === "start" ? "start" : "end"}
         />
       )}
     </>

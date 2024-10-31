@@ -40,7 +40,7 @@ const EventList = ({
         <CreateEventForm
           studyId={studyId}
           eventDate={eventDate}
-          closeForm={closeForm}
+          deleteForm={closeForm}
         />
       )}
       {!isFormOpen ? (
