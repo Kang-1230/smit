@@ -6,9 +6,18 @@ const buttonClass = "p-2.5 flex-1 rounded-xl bg-[#8D8D8D]";
 interface SelecTimeProps {
   onTimeSelect: (time: string) => void;
   onClose: () => void;
+  eventStart: string;
+  eventEnd: string;
+  selectingType: "start" | "end";
 }
 
-const SelectTime = ({ onTimeSelect, onClose }: SelecTimeProps) => {
+const SelectTime = ({
+  onTimeSelect,
+  onClose,
+  eventStart,
+  eventEnd,
+  selectingType,
+}: SelecTimeProps) => {
   const [selectedHour, setSelectedHour] = useState("");
   const [selectedMinute, setSelectedMinute] = useState("");
 
@@ -29,9 +38,34 @@ const SelectTime = ({ onTimeSelect, onClose }: SelecTimeProps) => {
     setSelectedMinute(minutes[index] || "00");
   };
 
-  // 확인 + 모달닫기 버튼 (부모 컴포넌트의 setEventStart || setEventEnd 상태 업데이트)
+  // 시간을 분으로 변환
+  const convertTimeToMinutes = (time: string) => {
+    const [hours, minutes] = time.split(":").map(Number);
+    return hours * 60 + minutes;
+  };
+
+  // 확인&유효성(시작시간 < 종료시간)
   const handleConfirm = () => {
-    onTimeSelect(`${selectedHour}:${selectedMinute}`);
+    const selectedTime = `${selectedHour}:${selectedMinute}`;
+    const selectedMinutes = convertTimeToMinutes(selectedTime);
+
+    if (selectingType === "start" && eventEnd) {
+      const endMinutes = convertTimeToMinutes(eventEnd);
+      if (selectedMinutes >= endMinutes) {
+        alert("시작 시간이 종료 시간보다 늦을 수 없습니다! 다시 확인해주세요!");
+        return;
+      }
+    }
+
+    if (selectingType === "end" && eventStart) {
+      const startMinutes = convertTimeToMinutes(eventStart);
+      if (selectedMinutes <= startMinutes) {
+        alert("종료 시간이 시작 시간보다 빠를 수 없습니다! 다시 확인해주세요!");
+        return;
+      }
+    }
+
+    onTimeSelect(selectedTime);
     onClose();
   };
 
