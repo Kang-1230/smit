@@ -177,6 +177,7 @@ export type Database = {
       };
       post: {
         Row: {
+          like_count: number;
           post_contents: string;
           post_createtime: string;
           post_id: number;
@@ -187,6 +188,7 @@ export type Database = {
           user_id: string;
         };
         Insert: {
+          like_count?: number;
           post_contents: string;
           post_createtime?: string;
           post_id?: number;
@@ -197,6 +199,7 @@ export type Database = {
           user_id?: string;
         };
         Update: {
+          like_count?: number;
           post_contents?: string;
           post_createtime?: string;
           post_id?: number;
