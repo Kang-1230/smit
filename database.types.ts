@@ -278,22 +278,25 @@ export type Database = {
       };
       study_applylist: {
         Row: {
+          apply_message: string | null;
           id: string;
-          is_approved: boolean;
-          study_id: string;
-          user_id: string;
+          is_approved: boolean | null;
+          study_id: string | null;
+          user_id: string | null;
         };
         Insert: {
+          apply_message?: string | null;
           id?: string;
-          is_approved: boolean;
-          study_id?: string;
-          user_id?: string;
+          is_approved?: boolean | null;
+          study_id?: string | null;
+          user_id?: string | null;
         };
         Update: {
+          apply_message?: string | null;
           id?: string;
-          is_approved?: boolean;
-          study_id?: string;
-          user_id?: string;
+          is_approved?: boolean | null;
+          study_id?: string | null;
+          user_id?: string | null;
         };
         Relationships: [
           {

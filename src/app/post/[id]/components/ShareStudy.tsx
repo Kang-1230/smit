@@ -23,7 +23,7 @@ const ShareStudy = () => {
   return (
     <button
       onClick={() => handleCopyClipBoard(url)}
-      className="w-[127px] h-[42px] bg-[#777777] text-white rounded-full my-5"
+      className="flex-1 h-[42px] bg-[#777777] text-white rounded-full my-5"
     >
       공유하기
     </button>

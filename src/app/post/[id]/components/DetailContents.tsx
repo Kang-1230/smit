@@ -8,7 +8,7 @@ import { Tables } from "../../../../../database.types";
 import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
 import { convertUTCToKST } from "@/utils/convertDate";
-import { fetchPostLikers } from "@/utils/supabase/supabase-client";
+import LikeCount from "./LikeCount";
 
 type Contents = {
   id: string;
@@ -21,7 +21,6 @@ const DetailContents = async ({ id, postData }: Contents) => {
   const userData = await fetchUserInfo(postData.user_id);
   const applyNumber = applyData ? applyData.length : 0;
   const serverClient = createClient();
-  const likeUsers = await fetchPostLikers(+id);
 
   // 프로필 이미지
   const profileImg = serverClient.storage
@@ -35,19 +34,30 @@ const DetailContents = async ({ id, postData }: Contents) => {
   console.log("프로필 이미지 예시", userData.profile_img);
 
   return (
-    <div>
+    <div className="w-full">
       <section>
         <div className="flex justify-between relative">
-          <h1 className="text-[20px]">{postData.post_name}</h1>
+          <h1 className="text-[#444] text-xl font-semibold tracking-tight mb-3">
+            {postData.post_name}
+          </h1>
           <EditButton postId={id} userId={postData.user_id} />
         </div>
-        <span>{studyData.study_category}</span>
-        <div className="flex items-center">
+        <div>
+          {studyData.study_category.map((category) => (
+            <span
+              className="px-3 py-1 mr-1.5 rounded-2xl bg-[#F2F2F2] text-[#595959] text-xs font-bold tracking-tight"
+              key={category}
+            >
+              {category}
+            </span>
+          ))}
+        </div>
+        <div className="flex items-center mt-6">
           <Image
             src={`${profileImg}?t=${Date.now()}`}
             alt="유저 이미지"
-            width={40}
-            height={40}
+            width={27}
+            height={27}
             className="rounded-full border aspect-square object-cover mr-[8px]"
           />
           <span>{userData.name}</span>
@@ -55,18 +65,27 @@ const DetailContents = async ({ id, postData }: Contents) => {
             {convertUTCToKST(postData?.post_createtime).dateOnly}
           </span>
         </div>
-        <span>
-          모집 인원 {applyNumber} / {studyData.study_max_people}
-        </span>
-        <br />
-        <span>모집 기간 {studyData.study_period}</span>
-        <br />
-        <span>스터디 이름 {studyData.study_name}</span>
+        <hr className="mt-3 mb-4" />
+        <div className="grid grid-cols-[82px_1fr]">
+          <p>모집 인원</p>
+          <p>
+            {applyNumber} / {studyData.study_max_people}
+          </p>
+          <p>시작 예정일</p>
+          <p> {postData.study_startday}</p>
+          <p>스터디 이름</p>
+          <p> {studyData.study_name}</p>
+        </div>
+        <hr className="mt-3 mb-4" />
       </section>
       <main>
-        <p className="whitespace-pre">{postData.post_contents}</p>
+        <p className="whitespace-pre-wrap break-words mb-20">
+          {postData.post_contents}
+        </p>
       </main>
-      <span>♥ {likeUsers.length}</span>
+      <div className="flex justify-end border-b-2 pb-2">
+        <LikeCount postId={id} />
+      </div>
     </div>
   );
 };

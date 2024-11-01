@@ -82,7 +82,7 @@ const CommentListItem = ({
   };
 
   return (
-    <div key={comment.comment_id}>
+    <div>
       {edited[comment.comment_id] ? (
         <form
           onSubmit={(e) => {
@@ -106,7 +106,7 @@ const CommentListItem = ({
           <button>완료</button>
         </form>
       ) : (
-        <div className="flex items-start my-1 border">
+        <div className="flex items-start my-1 border relative">
           <Image
             src={UserProfileImg}
             alt="유저 이미지"
@@ -115,19 +115,21 @@ const CommentListItem = ({
             className="rounded-full border aspect-square object-cover"
           />
           <div>
-            <span>{commentUser?.name}</span>
-            <span>
-              {convertUTCToKST(comment.comment_updatetime).fullDateTime}
-            </span>
+            <div className="flex items-center">
+              <span>{commentUser?.name}</span>
+              <span className="text-neutral-400 text-xs font-normal ml-2">
+                {convertUTCToKST(comment.comment_updatetime).fullDateTime}
+              </span>
+            </div>
             {user?.id === comment.user_id ? (
-              <>
+              <div className="absolute top-0 right-0 flex gap-2 text-[#8A8A8A] text-sm font-medium">
                 <button onClick={() => toggleEditMode(comment.comment_id)}>
                   수정
                 </button>
                 <button onClick={() => deleteComment(comment.comment_id)}>
                   삭제
                 </button>
-              </>
+              </div>
             ) : null}
             <p>{comment.comment_contents}</p>
             <button onClick={handleReplyClick}>
