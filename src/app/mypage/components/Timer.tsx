@@ -16,18 +16,16 @@ const formatTime = (seconds: number) => {
 };
 
 const TimerTimer = ({ studyId }: { studyId: string }) => {
-  const { data: user = null } = useSession();
-
   const {
+    schedules,
     time,
     isRunning,
     isWithinTimeRange,
-    currentSchedule,
     handleStart,
     handlePause,
-  } = useStudyTimer(studyId, user?.id);
+  } = useStudyTimer(studyId);
 
-  if (currentSchedule) {
+  if (schedules) {
     return (
       <div className="bg-gray-300 mx-6 flex flex-row rounded-2xl w-full py-6 justify-center">
         <p className="text-4xl font-semibold mr-3">{formatTime(time)}</p>

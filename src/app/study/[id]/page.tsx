@@ -19,7 +19,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
       <TimerTimer studyId={studyId} />
       <GroupCalendar studyId={studyId} />
       <div className="w-full h-[214px] flex flex-row gap-x-3">
-        <UserRate />
+        <UserRate studyId={studyId} />
         <div className="flex flex-col w-32 gap-y-3">
           <AttendanceRate
             today={today}
