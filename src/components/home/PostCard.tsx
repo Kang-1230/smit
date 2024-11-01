@@ -1,7 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import LikeButton from "../common/LikeButton";
-import { createClient } from "@/utils/supabase/server";
-import { PostWithRelations, StudyApplyList } from "@/service/posts";
+import { PostWithRelations } from "@/service/posts";
+import OccupancyCounter from "./OccupancyCounter";
 
 const STYLES = {
   card: {
@@ -15,12 +17,6 @@ const STYLES = {
   },
 };
 
-const calculateApprovedApplicants = (data: StudyApplyList[] | null) => {
-  return (
-    data?.reduce((acc, curr) => (curr.is_approved ? acc + 1 : acc), 0) ?? 0
-  );
-};
-
 export type Props = {
   post: PostWithRelations;
   variant?: "white" | "gray";
@@ -29,7 +25,7 @@ export type Props = {
   showLikesCount?: boolean;
 };
 
-export default async function PostCard({
+export default function PostCard({
   post,
   variant = "white",
   showAuthor = false,
@@ -39,14 +35,6 @@ export default async function PostCard({
   const { post_name, post_id, study_id, study, user } = post;
   const { study_max_people, study_category, study_name } = study;
   const { name } = user;
-
-  const serverClient = createClient();
-  const { data } = await serverClient
-    .from("study_applylist")
-    .select(`*`)
-    .eq("study_id", study_id);
-
-  const currentNum = calculateApprovedApplicants(data);
 
   return (
     <Link href={`/post/${post_id}`}>
@@ -73,9 +61,10 @@ export default async function PostCard({
         </div>
 
         <div className="flex items-center justify-between text-sm text-gray-500">
-          <span>
-            모집 {currentNum}/{study_max_people}
-          </span>
+          <OccupancyCounter
+            studyId={study_id}
+            maxParticipants={study_max_people}
+          />
           <div className="flex items-center gap-1">
             <LikeButton postId={post_id} showLikesCount={showLikesCount} />
           </div>

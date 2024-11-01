@@ -1,72 +1,107 @@
+"use server";
+
 import { createClient } from "@/utils/supabase/server";
 import { Tables } from "../../database.types";
+import browserClient from "@/utils/supabase/client";
 
 export type PostWithRelations = Tables<"post"> & {
   study: Tables<"study">;
   user: Tables<"user">;
 };
 
+export type SortCategory = "최신순" | "인기순";
+
 export type StudyApplyList = Tables<"study_applylist">;
 
-type LikeWithPost = Tables<"like"> & {
-  post: Tables<"post">;
+const sortByRanking = (posts: PostWithRelations[], topN = 6) => {
+  return posts.sort((a, b) => b.like_count - a.like_count).slice(0, topN);
 };
 
-type PostLikesCount = {
-  count: number;
-  post: Tables<"post">;
-};
-
-const getTopPostsByLikes = (
-  likes: LikeWithPost[],
-  limit = 5,
-): PostLikesCount[] => {
-  const postLikeCounts = likes.reduce<Record<number, PostLikesCount>>(
-    (acc, item) => {
-      const postId = item.like_post;
-
-      if (postId != null) {
-        if (!acc[postId]) {
-          acc[postId] = { count: 0, post: item.post };
-        }
-        acc[postId].count += 1;
-      }
-
-      return acc;
-    },
-    {},
+const sortByCreatedTime = (posts: PostWithRelations[]) => {
+  return posts.sort(
+    (a, b) => Number(b.post_createtime) - Number(a.post_createtime),
   );
-
-  return Object.values(postLikeCounts)
-    .sort((a, b) => b.count - a.count)
-    .slice(0, limit);
 };
 
-export const postApi = {
-  async fetchAllPosts(): Promise<PostWithRelations[]> {
-    const serverClient = createClient();
-    const { data: posts } = await serverClient
-      .from("post")
-      .select(`*, study(*), user(*)`);
+function filterByKeywords(data: PostWithRelations[], keywords: string[]) {
+  return data.filter((item) =>
+    keywords.every((keyword) => item.study.study_category.includes(keyword)),
+  );
+}
 
-    if (!posts) {
-      throw new Error("Failed to retrieve posts");
-    }
+function filtredByCategory(
+  data: PostWithRelations[],
+  category: "최신순" | "인기순",
+) {
+  if (category === "인기순") return sortByRanking(data, data.length);
+  if (category === "최신순") return sortByCreatedTime(data);
+}
 
-    return posts;
-  },
+export async function fetchAllPostsClient(): Promise<PostWithRelations[]> {
+  const { data: posts } = await browserClient
+    .from("post")
+    .select(`*, study(*), user(*)`);
 
-  async fetchFeaturedPosts(): Promise<Tables<"post">[]> {
-    const serverClient = createClient();
-    const { data: likes } = await serverClient
-      .from("like")
-      .select(`*, post(*)`);
+  if (!posts) {
+    throw new Error("Failed to retrieve posts");
+  }
 
-    if (!likes) {
-      throw new Error("Failed to retrieve likes");
-    }
+  return posts;
+}
 
-    const topPosts = getTopPostsByLikes(likes, 4);
-    return topPosts.map((item) => item.post);
-  },
-};
+export async function fetchApplyStudyList(): Promise<StudyApplyList[]> {
+  const { data } = await browserClient.from("study_applylist").select();
+
+  if (!data) {
+    throw new Error("Failed to retrieve data");
+  }
+
+  return data;
+}
+
+export async function fetchCategoryPosts(
+  keywords: string[],
+  category: SortCategory,
+): Promise<PostWithRelations[]> {
+  const posts = await fetchAllPostsClient();
+
+  const filteredPosts = filterByKeywords(posts, keywords);
+  return filtredByCategory(filteredPosts, category) || [];
+}
+
+export async function fetchAllPostsServer(): Promise<PostWithRelations[]> {
+  const serverClient = createClient();
+  const { data: posts } = await serverClient
+    .from("post")
+    .select(`*, study(*), user(*)`);
+
+  if (!posts) {
+    throw new Error("Failed to retrieve posts");
+  }
+  return posts;
+}
+
+export async function fetchFeaturedPosts() {
+  const posts = await fetchAllPostsServer();
+  return sortByRanking(posts);
+}
+
+export async function fetchRecentPosts() {
+  const posts = await fetchAllPostsServer();
+  return sortByCreatedTime(posts);
+}
+
+export async function fetchStudyApplyList(
+  studyId: string,
+): Promise<StudyApplyList[]> {
+  const { data: posts } = await browserClient
+    .from("study_applylist")
+    .select(`*`)
+    .eq("study_id", studyId);
+
+  if (!posts) {
+    throw new Error("Failed to retrieve posts");
+  }
+
+  return posts;
+}
