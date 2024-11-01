@@ -1,36 +1,32 @@
 "use client";
 
-import Link from "next/link";
-import HomeFillIcon from "../ui/icons/HomeFillIcon";
-import HomeIcon from "../ui/icons/HomeIcon";
 import { usePathname } from "next/navigation";
-import AlertIcon from "../ui/icons/AlertIcon";
-import AlertFillIcon from "../ui/icons/AlertFillIcon";
+import { MenuItem } from "./MenuItem";
 
 const menus = [
   {
     href: "/",
-    icon: <HomeIcon />,
-    clicckedIcon: <HomeFillIcon />,
-    text: "홈",
+    icon: "Home",
+    clickedIcon: "HomeFill",
+    text: "모집",
   },
   {
     href: "/study",
-    icon: <HomeIcon />,
-    clicckedIcon: <HomeFillIcon />,
-    text: "내 스터디",
+    icon: "Study",
+    clickedIcon: "StudyFill",
+    text: "스터디",
   },
   {
     href: "/ranking",
-    icon: <HomeIcon />,
-    clicckedIcon: <HomeFillIcon />,
+    icon: "Ranking",
+    clickedIcon: "RankingFill",
     text: "랭킹",
   },
   {
     href: "/mypage",
-    icon: <AlertIcon />,
-    clicckedIcon: <AlertFillIcon />,
-    text: "마이페이지",
+    icon: "User",
+    clickedIcon: "UserFill",
+    text: "마이",
   },
 ];
 
@@ -38,21 +34,15 @@ export default function Footer() {
   const pathName = usePathname();
 
   return (
-    <footer className="sticky bottom-0 px-4 bg-white z-10 border-t rounded-t-xl">
+    <footer className="sticky bottom-2 bg-[#C4C4C3] z-10 rounded-full mx-4 p-1 bg-opacity-60 backdrop-blur-sm">
       <nav>
-        <ul className="flex justify-between items-center gap-4 p-4">
-          {menus.map(({ href, icon, clicckedIcon, text }) => (
-            <li key={href}>
-              {
-                <Link
-                  href={href}
-                  className="flex flex-col gap-[0.1rem] items-center"
-                >
-                  {pathName === href ? clicckedIcon : icon}
-                  <span className="text-sm">{text}</span>
-                </Link>
-              }
-            </li>
+        <ul className="flex justify-between items-center gap-4">
+          {menus.map((menu) => (
+            <MenuItem
+              key={menu.href}
+              {...menu}
+              isActive={pathName === menu.href}
+            />
           ))}
         </ul>
       </nav>
