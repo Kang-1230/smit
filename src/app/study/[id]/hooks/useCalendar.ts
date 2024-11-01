@@ -2,15 +2,24 @@ import {
   addCalenderEvent,
   deleteCalenderEvent,
   fetchCalenderEvent,
+  fetchCalenderEventByStudy,
   updateCalendarEvent,
 } from "@/utils/supabase/supabase-client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-// 날짜별 스터디 일정 가져오기
-export const useCalendarByStudy = (studyId: string, eventDate: string) => {
+// 날짜별 캘린더 일정 가져오기
+export const useCalendarByDate = (studyId: string, eventDate: string) => {
   return useQuery({
     queryKey: ["calendar", studyId, eventDate],
     queryFn: () => fetchCalenderEvent(studyId, eventDate),
+  });
+};
+
+// 스터디별 캘린더 일정 가져오기
+export const useCalendarByStudy = (studyId: string) => {
+  return useQuery({
+    queryKey: ["calendar", studyId],
+    queryFn: () => fetchCalenderEventByStudy(studyId),
   });
 };
 

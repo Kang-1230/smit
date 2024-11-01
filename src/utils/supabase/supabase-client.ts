@@ -451,7 +451,7 @@ export const deleteUser = async () => {
   }
 };
 
-// 캘린더 일정 정보 가져오기
+// 캘린더 일정 정보 가져오기 (날짜별)
 export const fetchCalenderEvent = async (
   studyId: string,
   eventDate: string,
@@ -463,7 +463,19 @@ export const fetchCalenderEvent = async (
     .eq("event_date", eventDate)
     .order("start_time", { ascending: true });
   if (!data || error) {
-    throw new Error("댓글 정보를 불러오지 못했습니다.");
+    throw new Error("일정 정보를 불러오지 못했습니다.");
+  }
+  return data as Tables<"calendar">[];
+};
+
+// 캘린더 일정 정보 가져오기 (스터디별)
+export const fetchCalenderEventByStudy = async (studyId: string) => {
+  const { data, error } = await browserClient
+    .from("calendar")
+    .select("*")
+    .eq("study_id", studyId);
+  if (!data || error) {
+    throw new Error("일정 정보를 불러오지 못했습니다.");
   }
   return data as Tables<"calendar">[];
 };
