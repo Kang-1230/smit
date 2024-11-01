@@ -4,7 +4,15 @@ import { Tables } from "../../../../database.types";
 import { useDeleteCalendarEvent } from "../[id]/hooks/useCalendar";
 import CreateEventForm from "./CreateEventForm";
 
-const EventListItem = ({ event }: { event: Tables<"calendar"> }) => {
+const EventListItem = ({
+  event,
+  managerId,
+  sessionId,
+}: {
+  event: Tables<"calendar">;
+  managerId: string | undefined;
+  sessionId: string | undefined;
+}) => {
   const [isEdit, setIsEdit] = useState(false);
 
   // 일정 삭제
@@ -31,8 +39,12 @@ const EventListItem = ({ event }: { event: Tables<"calendar"> }) => {
           )} - ${event.end_time.slice(0, -3)}`}</p>
           <p>{event.event_description}</p>
           <div className="flex flex-col items-end absolute top-4 right-5 gap-2">
-            <button onClick={handleDelete}>X</button>
-            <button onClick={() => setIsEdit(true)}>✐</button>
+            {managerId === sessionId && (
+              <>
+                <button onClick={handleDelete}>X</button>
+                <button onClick={() => setIsEdit(true)}>✐</button>
+              </>
+            )}
           </div>
         </div>
       ) : (
