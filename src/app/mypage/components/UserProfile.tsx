@@ -52,7 +52,11 @@ const UserProfile = () => {
           </>
           {isModalOpen && (
             <ModalOverlay onClick={modalClose}>
-              <EditProfile profileImg={profileImg} user={user} />
+              <EditProfile
+                profileImg={profileImg}
+                user={user}
+                modalClose={modalClose}
+              />
             </ModalOverlay>
           )}
           <div className="flex flex-col gap-y-2">

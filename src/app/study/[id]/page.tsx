@@ -1,23 +1,35 @@
-"use client";
-
-import { useParams } from "next/navigation";
 import WaitApplyList from "./components/WaitApplyList";
 import GroupCalendar from "../components/GroupCalendar";
 import TimerTimer from "@/app/mypage/components/Timer";
+import { addAttendanceList } from "@/utils/supabase/supabase-server";
+import AttendanceRate from "../components/AttendanceRate";
+import GroupRate from "../components/GroupRate";
+import UserRate from "../components/UserRate";
+import { fetchStudyMember } from "@/utils/supabase/supabase-client";
 
-const Page = ({ params }: { params: { id: string } }) => {
-  const paramsurl = useParams();
-  const urlStudyId: string = Array.isArray(paramsurl.id)
-    ? paramsurl.id[0]
-    : params.id;
-
-  console.log("url :", urlStudyId);
+const Page = async ({ params }: { params: { id: string } }) => {
+  const studyId = params.id;
+  const today = new Date().toISOString().split("T")[0];
+  await addAttendanceList(studyId, today);
+  const studyMember = await fetchStudyMember(studyId);
+  console.log("url :", studyId);
 
   return (
-    <div>
-      <TimerTimer studyId={urlStudyId} />
-      <GroupCalendar studyId={params.id} />
-      <WaitApplyList urlStudyId={urlStudyId} />
+    <div className="flex flex-col items-center px-6">
+      <TimerTimer studyId={studyId} />
+      <GroupCalendar studyId={studyId} />
+      <div className="w-full h-[214px] flex flex-row gap-x-3">
+        <UserRate />
+        <div className="flex flex-col w-32 gap-y-3">
+          <AttendanceRate
+            today={today}
+            studyId={studyId}
+            member={studyMember}
+          />
+          <GroupRate member={studyMember} />
+        </div>
+      </div>
+      <WaitApplyList urlStudyId={studyId} />
     </div>
   );
 };

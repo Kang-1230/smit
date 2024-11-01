@@ -9,6 +9,45 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      attendance_list: {
+        Row: {
+          created_at: string;
+          date: string | null;
+          id: number;
+          study_id: string | null;
+          user_id: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          date?: string | null;
+          id?: number;
+          study_id?: string | null;
+          user_id?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          date?: string | null;
+          id?: number;
+          study_id?: string | null;
+          user_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "attendance_list_study_id_fkey";
+            columns: ["study_id"];
+            isOneToOne: false;
+            referencedRelation: "study";
+            referencedColumns: ["study_id"];
+          },
+          {
+            foreignKeyName: "attendance_list_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       calendar: {
         Row: {
           calendar_id: string;
@@ -321,20 +360,31 @@ export type Database = {
           study_content: string | null;
           study_content_title: string | null;
           study_id: string;
+          user_id: string;
         };
         Insert: {
           create_time?: string | null;
           study_content?: string | null;
           study_content_title?: string | null;
           study_id?: string;
+          user_id?: string;
         };
         Update: {
           create_time?: string | null;
           study_content?: string | null;
           study_content_title?: string | null;
           study_id?: string;
+          user_id?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "study_content_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       study_goal: {
         Row: {

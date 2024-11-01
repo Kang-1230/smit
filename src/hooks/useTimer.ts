@@ -124,28 +124,28 @@ export const useStudyTimer = (studyId: string, userId: string | undefined) => {
 
     initializeTimer();
 
-    // 실시간 구독 설정
-    const subscription = browserClient
-      .channel(`timer_${studyId}_${userId}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "timer",
-          filter: `study_id=eq.${studyId} AND user_id=eq.${userId} AND date=eq.${today}`,
-        },
-        (payload) => {
-          if (payload.new) {
-            const newTimer = payload.new as Tables<"timer">;
-            setTimerState(newTimer);
-          }
-        },
-      )
-      .subscribe();
+    // // 실시간 구독 설정
+    // const subscription = browserClient
+    //   .channel(`timer_${studyId}_${userId}`)
+    //   .on(
+    //     "postgres_changes",
+    //     {
+    //       event: "*",
+    //       schema: "public",
+    //       table: "timer",
+    //       filter: `study_id=eq.${studyId} AND user_id=eq.${userId} AND date=eq.${today}`,
+    //     },
+    //     (payload) => {
+    //       if (payload.new) {
+    //         const newTimer = payload.new as Tables<"timer">;
+    //         setTimerState(newTimer);
+    //       }
+    //     },
+    //   )
+    //   .subscribe();
 
     return () => {
-      subscription.unsubscribe();
+      // subscription.unsubscribe();
     };
   }, [studyId, userId]);
 
