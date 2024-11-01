@@ -306,7 +306,7 @@ export const updatePostComment = async (
 };
 
 // 스터디 신청하기
-export const applyNewStudy = async (studyId: string) => {
+export const applyNewStudy = async (studyId: string, message: string) => {
   const user = await fetchSessionData();
   const res = await browserClient
     .from("study_applylist")
@@ -322,6 +322,7 @@ export const applyNewStudy = async (studyId: string) => {
     user_id: user?.id,
     study_id: studyId,
     is_approved: false,
+    apply_message: message,
   });
   alert("신청되었습니다!");
 
@@ -500,5 +501,25 @@ export const deleteCalenderEvent = async (calendarId: string) => {
     .eq("calendar_id", calendarId);
   if (error) {
     throw new Error("일정 삭제에 실패했습니다.");
+  }
+};
+
+// 캘린더 일정 수정
+export const updateCalendarEvent = async (
+  calendarId: string | undefined,
+  description: string,
+  eventStart: string,
+  eventEnd: string,
+) => {
+  const { error } = await browserClient
+    .from("calendar")
+    .update({
+      event_description: description,
+      start_time: eventStart,
+      end_time: eventEnd,
+    })
+    .eq("calendar_id", calendarId);
+  if (error) {
+    throw new Error("일정 수정에 실패했습니다.");
   }
 };
