@@ -4,7 +4,11 @@ import { getJoinedStudyPeopleList } from "@/utils/supabase/supabase-client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const ApplyUserProfileImgList = ({ studyId }: { studyId: string }) => {
+const ApplyUserIncludeManagerProfileImgList = ({
+  studyId,
+}: {
+  studyId: string;
+}) => {
   const [profileUrls, setProfileUrls] = useState<string[]>([]);
 
   //studyid 바뀔 때 마다 이미지 불러오게
@@ -16,7 +20,7 @@ const ApplyUserProfileImgList = ({ studyId }: { studyId: string }) => {
           setProfileUrls([]);
           return;
         }
-
+        console.log("매니저 프로필도 들어갔나?", joinedUserId);
         const memberUrls: string[] = joinedUserId?.map(
           (item: JoinPersonWithManager) => {
             return getProfileImgUrl(item.user.id);
@@ -69,4 +73,4 @@ const ApplyUserProfileImgList = ({ studyId }: { studyId: string }) => {
   );
 };
 
-export default ApplyUserProfileImgList;
+export default ApplyUserIncludeManagerProfileImgList;
