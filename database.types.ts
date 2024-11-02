@@ -177,6 +177,7 @@ export type Database = {
       };
       post: {
         Row: {
+          like_count: number;
           post_contents: string;
           post_createtime: string;
           post_id: number;
@@ -187,6 +188,7 @@ export type Database = {
           user_id: string;
         };
         Insert: {
+          like_count?: number;
           post_contents: string;
           post_createtime?: string;
           post_id?: number;
@@ -197,6 +199,7 @@ export type Database = {
           user_id?: string;
         };
         Update: {
+          like_count?: number;
           post_contents?: string;
           post_createtime?: string;
           post_id?: number;
@@ -275,22 +278,25 @@ export type Database = {
       };
       study_applylist: {
         Row: {
+          apply_message: string | null;
           id: string;
-          is_approved: boolean;
-          study_id: string;
-          user_id: string;
+          is_approved: boolean | null;
+          study_id: string | null;
+          user_id: string | null;
         };
         Insert: {
+          apply_message?: string | null;
           id?: string;
-          is_approved: boolean;
-          study_id?: string;
-          user_id?: string;
+          is_approved?: boolean | null;
+          study_id?: string | null;
+          user_id?: string | null;
         };
         Update: {
+          apply_message?: string | null;
           id?: string;
-          is_approved?: boolean;
-          study_id?: string;
-          user_id?: string;
+          is_approved?: boolean | null;
+          study_id?: string | null;
+          user_id?: string | null;
         };
         Relationships: [
           {
@@ -315,20 +321,31 @@ export type Database = {
           study_content: string | null;
           study_content_title: string | null;
           study_id: string;
+          user_id: string;
         };
         Insert: {
           create_time?: string | null;
           study_content?: string | null;
           study_content_title?: string | null;
           study_id?: string;
+          user_id?: string;
         };
         Update: {
           create_time?: string | null;
           study_content?: string | null;
           study_content_title?: string | null;
           study_id?: string;
+          user_id?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "study_content_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       study_goal: {
         Row: {
