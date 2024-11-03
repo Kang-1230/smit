@@ -12,10 +12,9 @@ const Page = ({ params }: { params: { id: string } }) => {
     ? paramsurl.id[0]
     : params.id;
 
-  console.log("url :", urlStudyId);
-
   return (
-    <div>
+    // UI 변경 하실 분들 계속해서
+    <div className="bg-[#333333] w-full h-full">
       <StudyInfo studyId={urlStudyId} />
       <TimerTimer studyId={urlStudyId} />
       <GroupCalendar studyId={params.id} />
