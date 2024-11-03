@@ -321,20 +321,31 @@ export type Database = {
           study_content: string | null;
           study_content_title: string | null;
           study_id: string;
+          user_id: string;
         };
         Insert: {
           create_time?: string | null;
           study_content?: string | null;
           study_content_title?: string | null;
           study_id?: string;
+          user_id?: string;
         };
         Update: {
           create_time?: string | null;
           study_content?: string | null;
           study_content_title?: string | null;
           study_id?: string;
+          user_id?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "study_content_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       study_goal: {
         Row: {
