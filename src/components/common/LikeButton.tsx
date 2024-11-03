@@ -3,7 +3,12 @@
 import { usePostLikers, useToggleLikeButton } from "@/hooks/useLikePost";
 import { useSession } from "@/hooks/useUserProfile";
 
-const LikeButton = ({ postId }: { postId: number }) => {
+type Props = {
+  postId: number;
+  showLikesCount?: boolean;
+};
+
+const LikeButton = ({ postId, showLikesCount = false }: Props) => {
   // 지금 로그인한 유저 정보
   const { data: user = null } = useSession();
   // 현재 포스트에 좋아요를 누른 유저
@@ -16,19 +21,23 @@ const LikeButton = ({ postId }: { postId: number }) => {
   // 실제로 클릭하면 실행되는 부분
   const handleClick = (e: React.MouseEvent) => {
     // 카드 눌렀을 때 모집글 페이지로 가면 이동 안되게 할라구
+    e.preventDefault();
     e.stopPropagation();
     // 뮤테이션 실행
     likeButtonHandler();
   };
 
   return (
-    <button onClick={handleClick}>
-      {isLike ? (
-        <div className="w-5 h-5 rounded-full bg-red-300 "></div>
-      ) : (
-        <div className="w-5 h-5 rounded-full border-2 border-red-300"></div>
-      )}
-    </button>
+    <>
+      <button onClick={handleClick}>
+        {isLike ? (
+          <div className="w-5 h-5 rounded-full bg-red-300 "></div>
+        ) : (
+          <div className="w-5 h-5 rounded-full border-2 border-red-300"></div>
+        )}
+      </button>
+      {showLikesCount && <span>{likes?.length}</span>}
+    </>
   );
 };
 
