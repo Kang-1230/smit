@@ -7,8 +7,72 @@ export type Json =
   | Json[];
 
 export type Database = {
+  graphql_public: {
+    Tables: {
+      [_ in never]: never;
+    };
+    Views: {
+      [_ in never]: never;
+    };
+    Functions: {
+      graphql: {
+        Args: {
+          operationName?: string;
+          query?: string;
+          variables?: Json;
+          extensions?: Json;
+        };
+        Returns: Json;
+      };
+    };
+    Enums: {
+      [_ in never]: never;
+    };
+    CompositeTypes: {
+      [_ in never]: never;
+    };
+  };
   public: {
     Tables: {
+      attendance_list: {
+        Row: {
+          created_at: string;
+          date: string | null;
+          id: number;
+          study_id: string | null;
+          user_id: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          date?: string | null;
+          id?: number;
+          study_id?: string | null;
+          user_id?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          date?: string | null;
+          id?: number;
+          study_id?: string | null;
+          user_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "attendance_list_study_id_fkey";
+            columns: ["study_id"];
+            isOneToOne: false;
+            referencedRelation: "study";
+            referencedColumns: ["study_id"];
+          },
+          {
+            foreignKeyName: "attendance_list_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       calendar: {
         Row: {
           calendar_id: string;
@@ -78,6 +142,7 @@ export type Database = {
           comment_createtime: string;
           comment_id: string;
           comment_updatetime: string;
+          is_deleted: boolean;
           parent_id: string | null;
           post_id: number;
           user_id: string;
@@ -87,6 +152,7 @@ export type Database = {
           comment_createtime?: string;
           comment_id?: string;
           comment_updatetime?: string;
+          is_deleted?: boolean;
           parent_id?: string | null;
           post_id: number;
           user_id?: string;
@@ -96,6 +162,7 @@ export type Database = {
           comment_createtime?: string;
           comment_id?: string;
           comment_updatetime?: string;
+          is_deleted?: boolean;
           parent_id?: string | null;
           post_id?: number;
           user_id?: string;
@@ -177,6 +244,7 @@ export type Database = {
       };
       post: {
         Row: {
+          comment_count: number;
           like_count: number;
           post_contents: string;
           post_createtime: string;
@@ -188,6 +256,7 @@ export type Database = {
           user_id: string;
         };
         Insert: {
+          comment_count?: number;
           like_count?: number;
           post_contents: string;
           post_createtime?: string;
@@ -199,6 +268,7 @@ export type Database = {
           user_id?: string;
         };
         Update: {
+          comment_count?: number;
           like_count?: number;
           post_contents?: string;
           post_createtime?: string;
@@ -315,38 +385,6 @@ export type Database = {
           },
         ];
       };
-      study_content: {
-        Row: {
-          create_time: string | null;
-          study_content: string | null;
-          study_content_title: string | null;
-          study_id: string;
-          user_id: string;
-        };
-        Insert: {
-          create_time?: string | null;
-          study_content?: string | null;
-          study_content_title?: string | null;
-          study_id?: string;
-          user_id?: string;
-        };
-        Update: {
-          create_time?: string | null;
-          study_content?: string | null;
-          study_content_title?: string | null;
-          study_id?: string;
-          user_id?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "study_content_user_id_fkey";
-            columns: ["user_id"];
-            isOneToOne: false;
-            referencedRelation: "user";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
       study_goal: {
         Row: {
           goal_name: string | null;
@@ -373,6 +411,49 @@ export type Database = {
             isOneToOne: true;
             referencedRelation: "study";
             referencedColumns: ["study_id"];
+          },
+        ];
+      };
+      study_personal_memo: {
+        Row: {
+          memo_content: string | null;
+          memo_id: string;
+          study_id: string;
+          user_id: string;
+        };
+        Insert: {
+          memo_content?: string | null;
+          memo_id?: string;
+          study_id: string;
+          user_id?: string;
+        };
+        Update: {
+          memo_content?: string | null;
+          memo_id?: string;
+          study_id?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "study_content_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "study_personal_memo_study_id_fkey";
+            columns: ["study_id"];
+            isOneToOne: false;
+            referencedRelation: "study";
+            referencedColumns: ["study_id"];
+          },
+          {
+            foreignKeyName: "study_personal_memo_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "user";
+            referencedColumns: ["id"];
           },
         ];
       };
@@ -418,6 +499,7 @@ export type Database = {
       timer: {
         Row: {
           accumulated_time: number;
+          calendar_id: string | null;
           created_at: string;
           date: string | null;
           id: number;
@@ -425,10 +507,12 @@ export type Database = {
           last_paused: string | null;
           last_start: string | null;
           study_id: string | null;
+          time_rate: number;
           user_id: string | null;
         };
         Insert: {
           accumulated_time?: number;
+          calendar_id?: string | null;
           created_at?: string;
           date?: string | null;
           id?: number;
@@ -436,10 +520,12 @@ export type Database = {
           last_paused?: string | null;
           last_start?: string | null;
           study_id?: string | null;
+          time_rate?: number;
           user_id?: string | null;
         };
         Update: {
           accumulated_time?: number;
+          calendar_id?: string | null;
           created_at?: string;
           date?: string | null;
           id?: number;
@@ -447,9 +533,17 @@ export type Database = {
           last_paused?: string | null;
           last_start?: string | null;
           study_id?: string | null;
+          time_rate?: number;
           user_id?: string | null;
         };
         Relationships: [
+          {
+            foreignKeyName: "timer_calendar_id_fkey";
+            columns: ["calendar_id"];
+            isOneToOne: false;
+            referencedRelation: "calendar";
+            referencedColumns: ["calendar_id"];
+          },
           {
             foreignKeyName: "timer_study_id_fkey";
             columns: ["study_id"];
