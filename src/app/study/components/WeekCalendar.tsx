@@ -41,17 +41,34 @@ const StudyScheduleList = () => {
       } = await browserClient.auth.getUser();
       if (!user) throw new Error("로그인이 필요합니다.");
 
-      // 유저가 속한 스터디 목록 가져오기 (approved된 것만)
+      // 1. 내가 멤버인 스터디 목록 가져오기
       const { data: userStudies } = await browserClient
         .from("study_applylist")
         .select("study_id")
         .eq("user_id", user.id)
         .eq("is_approved", true);
 
-      if (!userStudies || userStudies.length === 0) return [];
+      // 2. 내가 방장인 스터디 목록 가져오기
+      const { data: managedStudies } = await browserClient
+        .from("study")
+        .select("study_id")
+        .eq("study_manager", user.id);
 
-      // 해당 스터디들의 일정 가져오기
-      const studyIds = userStudies.map((study) => study.study_id);
+      console.log("멤버인 스터디:", userStudies);
+      console.log("방장인 스터디:", managedStudies);
+
+      // 두 목록 합치기
+      const allStudyIds = [
+        ...(userStudies?.map((study: { study_id: string }) => study.study_id) ||
+          []),
+        ...(managedStudies?.map(
+          (study: { study_id: string }) => study.study_id,
+        ) || []),
+      ];
+
+      if (allStudyIds.length === 0) return [];
+
+      // 모든 스터디의 일정 가져오기
       const { data: schedules, error } = await browserClient
         .from("calendar")
         .select(
@@ -62,11 +79,12 @@ const StudyScheduleList = () => {
           )
         `,
         )
-        .in("study_id", studyIds)
+        .in("study_id", allStudyIds)
         .eq("event_date", format(selectedDate, "yyyy-MM-dd"))
         .order("start_time", { ascending: true });
 
       if (error) throw error;
+      console.log("모든 일정:", schedules);
       return schedules as EventWithStudy[];
     },
   });
@@ -130,7 +148,7 @@ const StudyScheduleList = () => {
       {/* 일정 리스트 */}
       <div className="p-4">
         {events.length > 0 ? (
-          events.map((event) => (
+          events.map((event: EventWithStudy) => (
             <div
               key={event.calendar_id}
               className="mb-4 p-4 bg-white rounded-lg border hover:shadow-md transition-shadow"
