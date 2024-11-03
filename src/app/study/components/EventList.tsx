@@ -35,8 +35,6 @@ const EventList = ({
     setIsFormOpen(false);
   };
 
-  console.log(data);
-
   return (
     <div>
       {data?.map((event) => (
@@ -45,6 +43,7 @@ const EventList = ({
           event={event}
           managerId={managerId}
           sessionId={sessionData?.id}
+          calendarData={data}
         />
       ))}
 
@@ -62,6 +61,7 @@ const EventList = ({
           eventDate={eventDate}
           deleteForm={closeForm}
           calendarData={data}
+          mode="create"
         />
       )}
       {managerId === sessionData?.id && !isFormOpen ? (

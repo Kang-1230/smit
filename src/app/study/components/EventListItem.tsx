@@ -8,10 +8,12 @@ const EventListItem = ({
   event,
   managerId,
   sessionId,
+  calendarData,
 }: {
   event: Tables<"calendar">;
   managerId: string | undefined;
   sessionId: string | undefined;
+  calendarData: Tables<"calendar">[];
 }) => {
   const [isEdit, setIsEdit] = useState(false);
 
@@ -28,6 +30,11 @@ const EventListItem = ({
       deleteEvent(event.calendar_id);
     }
   };
+
+  // 전체일정에서 수정중인 일정 제외한 리스트
+  const existTimeWithoutEdit = calendarData?.filter(
+    (data) => data.calendar_id !== event.calendar_id,
+  );
 
   return (
     <>
@@ -59,6 +66,9 @@ const EventListItem = ({
             startTime: event.start_time,
             endTime: event.end_time,
           }}
+          calendarData={calendarData}
+          withoutEditData={existTimeWithoutEdit}
+          mode="edit"
         />
       )}
     </>

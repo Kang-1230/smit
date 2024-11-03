@@ -6,6 +6,7 @@ import {
   useAddCalendarEvent,
   useUpdateCalendarEvent,
 } from "../[id]/hooks/useCalendar";
+import { Tables } from "../../../../database.types";
 
 interface CreateEventFormProps {
   studyId: string;
@@ -18,6 +19,9 @@ interface CreateEventFormProps {
     startTime: string;
     endTime: string;
   };
+  calendarData: Tables<"calendar">[] | undefined;
+  withoutEditData?: Tables<"calendar">[];
+  mode: "create" | "edit";
 }
 
 const CreateEventForm = ({
@@ -26,6 +30,9 @@ const CreateEventForm = ({
   deleteForm,
   setIsEdit,
   initialData,
+  calendarData,
+  withoutEditData,
+  mode,
 }: CreateEventFormProps) => {
   const [eventDescription, setEventDescription] = useState(
     initialData?.description || "",
@@ -155,6 +162,9 @@ const CreateEventForm = ({
           eventStart={eventStart}
           eventEnd={eventEnd}
           selectingType={activeInput === "start" ? "start" : "end"}
+          calendarData={calendarData}
+          withoutEditData={withoutEditData}
+          mode={mode}
         />
       )}
     </>

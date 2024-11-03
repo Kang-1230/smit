@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import ScrollPicker from "@/components/common/ScrollPicker";
+import { Tables } from "../../../../database.types";
 const buttonClass = "p-2.5 flex-1 rounded-xl bg-[#8D8D8D]";
 
 interface SelecTimeProps {
@@ -9,6 +10,9 @@ interface SelecTimeProps {
   eventStart: string;
   eventEnd: string;
   selectingType: "start" | "end";
+  calendarData: Tables<"calendar">[] | undefined;
+  withoutEditData?: Tables<"calendar">[];
+  mode: "create" | "edit";
 }
 
 const SelectTime = ({
@@ -17,6 +21,9 @@ const SelectTime = ({
   eventStart,
   eventEnd,
   selectingType,
+  calendarData,
+  withoutEditData,
+  mode,
 }: SelecTimeProps) => {
   const [selectedHour, setSelectedHour] = useState("");
   const [selectedMinute, setSelectedMinute] = useState("");
@@ -44,10 +51,76 @@ const SelectTime = ({
     return hours * 60 + minutes;
   };
 
+  // 기존 일정의 시간데이터 가공(등록 모드)
+  const existTimeRanges = calendarData?.map((event) => ({
+    start: convertTimeToMinutes(event.start_time.slice(0, -3)),
+    end: convertTimeToMinutes(event.end_time.slice(0, -3)),
+  }));
+
+  // 기존 일정의 시간데이터 가공(수정 모드)
+  const existTimeRangesWithoutEdit = withoutEditData?.map((event) => ({
+    start: convertTimeToMinutes(event.start_time.slice(0, -3)),
+    end: convertTimeToMinutes(event.end_time.slice(0, -3)),
+  }));
+
+  // 선택된 시간이 이미 존재하는지 확인하는 함수(등록 모드)
+  const checkTimeExist = (selectedMinutes: number) => {
+    for (const timeRange of existTimeRanges!) {
+      if (selectingType === "start") {
+        if (
+          selectedMinutes === timeRange.start ||
+          (selectedMinutes > timeRange.start && selectedMinutes < timeRange.end)
+        ) {
+          return true;
+        }
+      } else {
+        if (
+          selectedMinutes > timeRange.start &&
+          selectedMinutes < timeRange.end
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
+  // 선택된 시간이 이미 존재하는지 확인하는 함수(등록 모드)
+  const checkTimeExistWithoutEdit = (selectedMinutes: number) => {
+    for (const timeRange of existTimeRangesWithoutEdit!) {
+      if (selectingType === "start") {
+        if (
+          selectedMinutes === timeRange.start ||
+          (selectedMinutes > timeRange.start && selectedMinutes < timeRange.end)
+        ) {
+          return true;
+        }
+      } else {
+        if (
+          selectedMinutes > timeRange.start &&
+          selectedMinutes < timeRange.end
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
+  };
+
   // 확인&유효성(시작시간 < 종료시간)
   const handleConfirm = () => {
     const selectedTime = `${selectedHour}:${selectedMinute}`;
     const selectedMinutes = convertTimeToMinutes(selectedTime);
+
+    if (mode === "create" && checkTimeExist(selectedMinutes)) {
+      alert("등록된 일정 중 겹치는 시간이 있습니다! 확인해주세요!");
+      return;
+    }
+
+    if (mode === "edit" && checkTimeExistWithoutEdit(selectedMinutes)) {
+      alert("등록된 일정 중 겹치는 시간이 있습니다! 확인해주세요!");
+      return;
+    }
 
     if (selectingType === "start" && eventEnd) {
       const endMinutes = convertTimeToMinutes(eventEnd);
