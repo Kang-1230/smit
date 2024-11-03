@@ -104,3 +104,10 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@font-face {
+  font-family: "Pretendard";
+  src: url("/fonts/PretendardVariable.woff2") format("woff2");
+  font-weight: 45 920; /* 원하는 범위로 조정 */
+  font-style: normal;
+}
