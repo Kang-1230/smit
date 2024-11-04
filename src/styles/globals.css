@@ -155,13 +155,13 @@ body {
 
   /* 버튼 클래스 정의 */
   .lgBtn {
-    @apply py-3 px-5 rounded-24 body-16-s;
+    @apply py-3 px-5 rounded-24 body-16-s min-w-fit;
   }
-  .mdRtn {
-    @apply py-2 px-4 rounded-[18px] body-14-s;
+  .mdBtn {
+    @apply py-2 px-4 rounded-[18px] body-14-s min-w-fit;
   }
   .smBtn {
-    @apply py-1 px-3 rounded-[14px] body-14-s;
+    @apply py-1 px-3 rounded-[14px] body-14-s min-w-fit;
   }
 
   .black-fill {

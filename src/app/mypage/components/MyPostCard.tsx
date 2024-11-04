@@ -3,6 +3,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Tables } from "../../../../database.types";
 import { deletePost } from "@/utils/supabase/supabase-client";
+import MyButton from "@/components/common/Button";
 
 const MyPostCard = ({
   post,
@@ -24,20 +25,22 @@ const MyPostCard = ({
 
   return (
     <div>
-      <div className="flex flex-row justify-between items-center px-8">
-        <p className="font-medium">{post.post_name}</p>
-        <div className="text-white text-sm">
+      <div className="flex flex-row justify-between items-center h-10">
+        <p className="body-16-m">{post.post_name}</p>
+        <div className="flex flex-row gap-x-1">
           {/* 수정 페이지로 link 필요 */}
-          <button className="p-2 bg-gray-500 rounded-xl">수정</button>
-          <button
-            className="p-2 bg-gray-500 rounded-xl ml-1"
-            onClick={() => deletePostMutation()}
+          <MyButton style="black-fill" size="smBtn">
+            수정
+          </MyButton>
+          <MyButton
+            style="black-line"
+            size="smBtn"
+            onClick={deletePostMutation}
           >
             삭제
-          </button>
+          </MyButton>
         </div>
       </div>
-      <hr className="my-3" />
     </div>
   );
 };

@@ -28,10 +28,10 @@ const SquarePostCard = ({ post }: { post: Tables<"post"> }) => {
   }
 
   return (
-    <div className="w-60 h-48 border border-gray-300 rounded-3xl p-5 flex flex-col justify-between">
+    <div className="w-[260px] h-[216px] bg-secondary-900 text-white rounded-3xl px-5 pt-5 pb-6 flex flex-col justify-between">
       <div>
-        <p className="font-semibold">{post.post_name}</p>
-        <div className="flex flex-row flex-wrap my-3 gap-1">
+        <p className="body-16-s mb-3 line-clamp-2">{post.post_name}</p>
+        <div className="flex flex-row flex-wrap gap-1">
           {study.study_category.map((category) => (
             <Category
               category={category}
@@ -41,10 +41,16 @@ const SquarePostCard = ({ post }: { post: Tables<"post"> }) => {
         </div>
       </div>
       <div className="flex flex-row justify-between items-center">
-        <p className="text-xs">
-          모집 인원 {studyMember ? studyMember.length : 0}/
-          {study.study_max_people + 1}
-        </p>
+        <div className="flex flex-col gap-y-2 caption">
+          <p>
+            모집 {studyMember ? studyMember.length : 0}/
+            {study.study_max_people + 1}
+          </p>
+          <p className="text-secondary-400">
+            관심 {post.like_count}
+            <span className="mx-[5px]">·</span>댓글 {post.comment_count}
+          </p>
+        </div>
         <LikeButton postId={post.post_id} />
       </div>
     </div>
