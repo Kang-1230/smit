@@ -142,13 +142,27 @@ const CommentListItem = ({
             });
             toggleEditMode(comment.comment_id);
           }}
+          className="flex my-1 border relative w-full"
         >
-          <input
-            value={updateCommentItem}
-            onChange={(e) => setUpdateCommentItem(e.target.value)}
-            placeholder="댓글을 입력하세요"
+          <Image
+            src={UserProfileImg}
+            alt="유저 이미지"
+            width={50}
+            height={50}
+            className="rounded-full border aspect-square object-cover flex-shrink-0"
           />
-          <button>완료</button>
+          <div className="flex flex-col flex-1 min-w-0">
+            <span>{commentUser?.name}</span>
+            <div className="flex items-center w-full relative">
+              <input
+                value={updateCommentItem}
+                onChange={(e) => setUpdateCommentItem(e.target.value)}
+                placeholder="댓글을 입력하세요"
+                className="w-full pr-16 focus:outline-none min-w-0"
+              />
+              <button className="absolute bottom-0 right-0">완료</button>
+            </div>
+          </div>
         </form>
       ) : (
         <div className="flex items-start my-1 border relative">
