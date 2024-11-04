@@ -5,11 +5,13 @@ import { MemoWithUser } from "@/types/PersonalMemo";
 import browserClient from "@/utils/supabase/client";
 import Image from "next/image";
 import { useUpdateStudyMemo } from "../[id]/hooks/usePersonalMemo";
+import { useSession } from "@/hooks/useUserProfile";
 
 const PersonalMemoItem = ({ memoData }: { memoData: MemoWithUser }) => {
   const [isOpenMemo, setIsOpenMemo] = useState(false);
   const [contents, setContents] = useState(memoData.memo_content);
   const [isEdit, setIsEdit] = useState(false);
+  const { data } = useSession();
 
   const profileImg = browserClient.storage
     .from("profile_img")
@@ -58,7 +60,7 @@ const PersonalMemoItem = ({ memoData }: { memoData: MemoWithUser }) => {
               <textarea
                 value={contents || ""}
                 onChange={(e) => setContents(e.target.value)}
-                className="bg-[#1E1E1E] focus:outline-none text-white mt-3 h-32 w-full resize-none"
+                className="bg-[#1E1E1E] focus:outline-none text-white mt-3 h-40 w-full resize-none"
                 style={{
                   scrollbarWidth: "thin",
                   scrollbarColor: "white transparent",
@@ -73,15 +75,23 @@ const PersonalMemoItem = ({ memoData }: { memoData: MemoWithUser }) => {
             </>
           ) : (
             <>
-              <p className="text-white h-32 mt-3 whitespace-pre-wrap">
+              <p
+                className="text-white h-40 mt-3 whitespace-pre-wrap overflow-y-auto"
+                style={{
+                  scrollbarWidth: "thin",
+                  scrollbarColor: "white transparent",
+                }}
+              >
                 {memoData.memo_content}
               </p>
-              <button
-                onClick={() => setIsEdit(true)}
-                className="absolute right-3 bottom-3 p-2 w-6 h-6 rounded-[20px] bg-[#4D4D4D]"
-              >
-                ✎
-              </button>
+              {data?.id === memoData.user_id && (
+                <button
+                  onClick={() => setIsEdit(true)}
+                  className="absolute right-3 bottom-3 p-2 w-6 h-6 rounded-[20px] bg-[#4D4D4D]"
+                >
+                  ✎
+                </button>
+              )}
             </>
           )}
         </>
