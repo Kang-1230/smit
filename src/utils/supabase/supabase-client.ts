@@ -2,6 +2,7 @@ import browserClient from "@/utils/supabase/client";
 import { Tables, TablesInsert, TablesUpdate } from "../../../database.types";
 import { User } from "@supabase/supabase-js";
 import { ApplyData, JoinPerson } from "@/app/study/components/ApplyStudyList";
+import { MemoWithUser } from "@/types/PersonalMemo";
 
 // 세션 정보 가져오기
 export const fetchSessionData = async () => {
@@ -599,4 +600,41 @@ export const fetchTimer = async (
     .single();
 
   return newTimer;
+};
+
+// 스터디 회고록 데이터, 멤버정보(닉네임) 불러오기
+export const getStudyMemoList = async (studyId: string) => {
+  const { data, error } = await browserClient
+    .from("study_personal_memo")
+    .select(
+      `
+      *,
+      user!study_personal_memo_user_id_fkey (
+        name
+      )
+    `,
+    )
+    .eq("study_id", studyId);
+
+  if (!data || error) {
+    throw new Error("스터디 회고록 데이터를 불러오지 못했습니다.");
+  }
+  return data as MemoWithUser[];
+};
+
+// 스터디 회고록 내용 수정
+export const updateStudyMemo = async (
+  memoId: string,
+  contents: string | null,
+) => {
+  const { error } = await browserClient
+    .from("study_personal_memo")
+    .update({
+      memo_content: contents,
+    })
+    .eq("memo_id", memoId);
+  if (error) {
+    console.log(error);
+    throw new Error("일정 수정에 실패했습니다.");
+  }
 };
