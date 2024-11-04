@@ -6,6 +6,7 @@ import Image from "next/image";
 import EditProfile from "./EditProfile";
 import ModalOverlay from "../../../components/common/ModalOverlay";
 import useModalOpen from "@/hooks/useModalOpen";
+import MyButton from "@/components/common/Button";
 
 const UserProfile = () => {
   const { data: user, isLoading, isError } = usePublicUser();
@@ -40,14 +41,11 @@ const UserProfile = () => {
             <p className="title-20-s mb-2">
               {user?.name ? user.name : "익명의 사용자"}
             </p>
-            <p className="body-14-r text-secondary-300">{user.email}</p>
+            <p className="body-14-r text-secondary-300 mb-4">{user.email}</p>
           </div>
-          <button
-            className="py-1 px-3 body-14-s bg-tertiary-100 rounded-16 mt-4"
-            onClick={modalOpen}
-          >
+          <MyButton style="beige" size="smBtn" onClick={modalOpen}>
             프로필 수정
-          </button>
+          </MyButton>
           {isModalOpen && (
             <ModalOverlay onClick={modalClose}>
               <EditProfile
