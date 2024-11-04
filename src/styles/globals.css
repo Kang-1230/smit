@@ -104,3 +104,51 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  .title-32-b {
+    @apply font-pretendard font-bold text-[32px] leading-[1.2] tracking-[-0.02em];
+  }
+  .title-28-b {
+    @apply font-pretendard font-bold text-[28px] leading-[1.2] tracking-[-0.02em];
+  }
+  .title-24-b {
+    @apply font-pretendard font-bold text-[24px] leading-[1.2] tracking-[-0.02em];
+  }
+  .title-20-b {
+    @apply font-pretendard font-bold text-[20px] leading-[1.2] tracking-[-0.02em];
+  }
+  .title-20-s {
+    @apply font-pretendard font-semibold text-[20px] leading-[1.2] tracking-[-0.02em];
+  }
+  .title-20-m {
+    @apply font-pretendard font-medium text-[20px] leading-[1.2] tracking-[-0.02em];
+  }
+  .title-18-b {
+    @apply font-pretendard font-bold text-[18px] leading-[1.2] tracking-[-0.02em];
+  }
+  .body-long {
+    @apply font-pretendard font-medium text-[16px] leading-[1.5] tracking-[-0.02em];
+  }
+  .body-16-s {
+    @apply font-pretendard font-semibold text-[16px] leading-[1.35] tracking-[-0.02em];
+  }
+  .body-16-m {
+    @apply font-pretendard font-medium text-[16px] leading-[1.35] tracking-[-0.02em];
+  }
+  .body-16-r {
+    @apply font-pretendard font-normal text-[16px] leading-[1.35] tracking-[-0.02em];
+  }
+  .body-14-s {
+    @apply font-pretendard font-semibold text-[14px] leading-[1.35] tracking-[-0.02em];
+  }
+  .body-14-m {
+    @apply font-pretendard font-medium text-[14px] leading-[1.35] tracking-[-0.02em];
+  }
+  .body-14-r {
+    @apply font-pretendard font-normal text-[14px] leading-[1.35] tracking-[-0.02em];
+  }
+  .caption {
+    @apply font-pretendard font-normal text-[12px] leading-[1] tracking-[-0.02em];
+  }
+}
