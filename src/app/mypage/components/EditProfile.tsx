@@ -10,9 +10,11 @@ import browserClient from "@/utils/supabase/client";
 const EditProfile = ({
   profileImg,
   user,
+  modalClose,
 }: {
   profileImg: string;
   user: Tables<"user">;
+  modalClose: () => void;
 }) => {
   const queryClient = useQueryClient();
   const [uploadImg, setUploadImg] = useState<null | string>(null);
@@ -99,7 +101,7 @@ const EditProfile = ({
             // supabase 내에서 캐싱된 이미지를 주는 바람에 뒤에 date.now 붙여서 계속 새 이미지로 받아옴
             src={uploadImg ? uploadImg : `${profileImg}?t=${Date.now()}`}
             alt="프로필 이미지"
-            layout="fill"
+            fill
             className="rounded-xl border object-cover"
             onClick={() => fileInputRef.current?.click()}
             priority={false}
@@ -137,7 +139,10 @@ const EditProfile = ({
 
       <button
         className="w-full py-2 bg-gray-500 rounded-3xl font-medium text-white mt-6"
-        onClick={profileSaveHandler}
+        onClick={() => {
+          profileSaveHandler();
+          modalClose();
+        }}
         disabled={isUnique === "notUnique"}
       >
         적용하기

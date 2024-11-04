@@ -1,7 +1,5 @@
 "use client";
 
-import { useSession } from "@/hooks/useUserProfile";
-
 import { useStudyTimer } from "../../../hooks/useTimer";
 
 const formatTime = (seconds: number) => {
@@ -16,21 +14,19 @@ const formatTime = (seconds: number) => {
 };
 
 const TimerTimer = ({ studyId }: { studyId: string }) => {
-  const { data: user = null } = useSession();
-
   const {
+    schedules,
     time,
     isRunning,
     isWithinTimeRange,
-    currentSchedule,
     handleStart,
     handlePause,
-  } = useStudyTimer(studyId, user?.id);
+  } = useStudyTimer(studyId);
 
-  if (currentSchedule) {
+  if (schedules.length) {
     return (
-      <div className="bg-gray-300 mx-6 flex flex-row rounded-2xl p-5 justify-center">
-        <p className="text-[2.5rem] font-semibold mr-3">{formatTime(time)}</p>
+      <div className="bg-gray-300 mx-6 flex flex-row rounded-2xl w-full py-6 justify-center">
+        <p className="text-4xl font-semibold mr-3">{formatTime(time)}</p>
         {!isRunning ? (
           <button
             onClick={handleStart}

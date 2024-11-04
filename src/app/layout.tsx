@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
-import { Open_Sans } from "next/font/google";
 import "../styles/globals.css";
 import Header from "@/components/common/Header";
 import Footer from "@/components/common/Footer";
 import Providers from "@/components/providers/QueryClientProvider";
+import localFont from "next/font/local";
 
-const sans = Open_Sans({
-  subsets: ["latin"],
+const pretendard = localFont({
+  src: "../../public/fonts/PretendardVariable.woff2",
+  display: "swap",
+  weight: "45 920",
+  variable: "--font-pretendard",
 });
 
 export const metadata: Metadata = {
@@ -23,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={sans.className}>
+    <html lang="ko" className={`${pretendard.variable} font-pretendard`}>
       <body className="flex flex-col w-full max-w-screen-xl mx-auto">
         <Providers>
           <Header />
