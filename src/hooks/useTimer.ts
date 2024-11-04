@@ -3,7 +3,7 @@ import { Tables } from "../../database.types";
 import browserClient from "@/utils/supabase/client";
 import { usePublicUser } from "./useUserProfile";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { getTime, timeStringToSeconds, today } from "@/utils/getTime";
+import { getTime, getToday, timeStringToSeconds } from "@/utils/getTime";
 import { useTimerState, useTodayCalendar } from "./useTimerQuery";
 
 export const useStudyTimer = (studyId: string) => {
@@ -13,6 +13,7 @@ export const useStudyTimer = (studyId: string) => {
   const [time, setTime] = useState(0);
   const { data: user = null } = usePublicUser();
   const queryClient = useQueryClient();
+  const today = getToday(new Date());
 
   // 오늘의 스터디 일정 조회 쿼리
   const { data: schedules = [] } = useTodayCalendar(studyId, today);
