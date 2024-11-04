@@ -280,7 +280,6 @@ export const deletePostComment = async (comment_id: string) => {
     .from("comment")
     .delete()
     .eq("comment_id", comment_id);
-  alert("댓글이 삭제되었습니다!");
   if (error) {
     throw new Error("댓글 삭제에 실패했습니다.");
   }
@@ -302,6 +301,47 @@ export const updatePostComment = async (
     .eq("comment_id", comment_id);
   if (error) {
     throw new Error("댓글 수정에 실패했습니다.");
+  }
+};
+
+// 답글이 존재하는 부모댓글 삭제시 삭제상태로 변경
+export const updateStateToDelete = async (
+  comment_id: string,
+  postId: string,
+) => {
+  // comment 테이블 업데이트
+  const { error: commentError } = await browserClient
+    .from("comment")
+    .update({
+      is_deleted: true,
+    })
+    .eq("comment_id", comment_id);
+
+  if (commentError) {
+    throw new Error("삭제 상태 변경에 실패했습니다.");
+  }
+
+  // 현재 comment_count 조회
+  const { data: post } = await browserClient
+    .from("post")
+    .select("comment_count")
+    .eq("post_id", postId)
+    .single();
+
+  if (!post) {
+    throw new Error("댓글을 찾을 수 없습니다.");
+  }
+
+  // post 테이블의 comment_count 감소
+  const { error: postError } = await browserClient
+    .from("post")
+    .update({
+      comment_count: post.comment_count - 1,
+    })
+    .eq("post_id", postId);
+
+  if (postError) {
+    throw new Error("댓글 카운트 감소에 실패했습니다.");
   }
 };
 
