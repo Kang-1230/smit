@@ -563,3 +563,40 @@ export const updateCalendarEvent = async (
     throw new Error("일정 수정에 실패했습니다.");
   }
 };
+
+// 현재 일정의 유저 타이머 조회
+export const fetchTimer = async (
+  userId: string | undefined,
+  currentSchedule: Tables<"calendar"> | null,
+  studyId: string,
+  today: string,
+) => {
+  if (!userId || !currentSchedule) return null;
+
+  const { data: timer } = await browserClient
+    .from("timer")
+    .select("*")
+    .eq("study_id", studyId)
+    .eq("user_id", userId)
+    .eq("date", today)
+    .eq("calendar_id", currentSchedule.calendar_id)
+    .single();
+
+  if (timer) return timer;
+
+  // 타이머가 없으면 새로 생성
+  const { data: newTimer } = await browserClient
+    .from("timer")
+    .insert({
+      study_id: studyId,
+      user_id: userId,
+      accumulated_time: 0,
+      is_running: false,
+      date: today,
+      calendar_id: currentSchedule.calendar_id,
+    })
+    .select()
+    .single();
+
+  return newTimer;
+};
