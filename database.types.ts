@@ -117,6 +117,7 @@ export type Database = {
           comment_createtime: string;
           comment_id: string;
           comment_updatetime: string;
+          is_deleted: boolean;
           parent_id: string | null;
           post_id: number;
           user_id: string;
@@ -126,6 +127,7 @@ export type Database = {
           comment_createtime?: string;
           comment_id?: string;
           comment_updatetime?: string;
+          is_deleted?: boolean;
           parent_id?: string | null;
           post_id: number;
           user_id?: string;
@@ -135,6 +137,7 @@ export type Database = {
           comment_createtime?: string;
           comment_id?: string;
           comment_updatetime?: string;
+          is_deleted?: boolean;
           parent_id?: string | null;
           post_id?: number;
           user_id?: string;
@@ -216,6 +219,7 @@ export type Database = {
       };
       post: {
         Row: {
+          comment_count: number;
           like_count: number;
           post_contents: string;
           post_createtime: string;
@@ -227,6 +231,7 @@ export type Database = {
           user_id: string;
         };
         Insert: {
+          comment_count?: number;
           like_count?: number;
           post_contents: string;
           post_createtime?: string;
@@ -238,6 +243,7 @@ export type Database = {
           user_id?: string;
         };
         Update: {
+          comment_count?: number;
           like_count?: number;
           post_contents?: string;
           post_createtime?: string;
