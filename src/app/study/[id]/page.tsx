@@ -1,24 +1,28 @@
-"use client";
-
-import { useParams } from "next/navigation";
 import WaitApplyList from "./components/WaitApplyList";
 import GroupCalendar from "../components/GroupCalendar";
 import TimerTimer from "@/app/mypage/components/Timer";
+import { addAttendanceList } from "@/utils/supabase/supabase-server";
+import { fetchStudyMember } from "@/utils/supabase/supabase-client";
+import RateGroupBox from "../components/RateGroupBox";
+import AttendanceRate from "../components/AttendanceRate";
+import { getToday } from "@/utils/getTime";
 import StudyInfo from "./components/StudyInfo";
 
-const Page = ({ params }: { params: { id: string } }) => {
-  const paramsurl = useParams();
-  const urlStudyId: string = Array.isArray(paramsurl.id)
-    ? paramsurl.id[0]
-    : params.id;
+const Page = async ({ params }: { params: { id: string } }) => {
+  const studyId = params.id;
+  const today = getToday(new Date());
+  await addAttendanceList(studyId, today);
+  const studyMember = await fetchStudyMember(studyId);
 
   return (
-    // UI 변경 하실 분들 계속해서
-    <div className="bg-[#333333] w-full h-full">
-      <StudyInfo studyId={urlStudyId} />
-      <TimerTimer studyId={urlStudyId} />
-      <GroupCalendar studyId={params.id} />
-      <WaitApplyList urlStudyId={urlStudyId} />
+    <div className="flex flex-col items-center px-6">
+      <StudyInfo studyId={studyId} />
+      <TimerTimer studyId={studyId} />
+      <GroupCalendar studyId={studyId} />
+      <RateGroupBox member={studyMember} studyId={studyId} today={today}>
+        <AttendanceRate studyId={studyId} member={studyMember} today={today} />
+      </RateGroupBox>
+      <WaitApplyList urlStudyId={studyId} />
     </div>
   );
 };

@@ -105,9 +105,85 @@ body {
   }
 }
 
-@font-face {
-  font-family: "Pretendard";
-  src: url("/fonts/PretendardVariable.woff2") format("woff2");
-  font-weight: 45 920; /* 원하는 범위로 조정 */
-  font-style: normal;
+@layer components {
+  /* 폰트 클래스 정의 */
+  .title-32-b {
+    @apply font-pretendard font-bold text-[32px] leading-[1.2] tracking-[-0.02em];
+  }
+  .title-28-b {
+    @apply font-pretendard font-bold text-[28px] leading-[1.2] tracking-[-0.02em];
+  }
+  .title-24-b {
+    @apply font-pretendard font-bold text-[24px] leading-[1.2] tracking-[-0.02em];
+  }
+  .title-20-b {
+    @apply font-pretendard font-bold text-[20px] leading-[1.2] tracking-[-0.02em];
+  }
+  .title-20-s {
+    @apply font-pretendard font-semibold text-[20px] leading-[1.2] tracking-[-0.02em];
+  }
+  .title-20-m {
+    @apply font-pretendard font-medium text-[20px] leading-[1.2] tracking-[-0.02em];
+  }
+  .title-18-b {
+    @apply font-pretendard font-bold text-[18px] leading-[1.2] tracking-[-0.02em];
+  }
+  .body-long {
+    @apply font-pretendard font-medium text-[16px] leading-[1.5] tracking-[-0.02em];
+  }
+  .body-16-s {
+    @apply font-pretendard font-semibold text-[16px] leading-[1.35] tracking-[-0.02em];
+  }
+  .body-16-m {
+    @apply font-pretendard font-medium text-[16px] leading-[1.35] tracking-[-0.02em];
+  }
+  .body-16-r {
+    @apply font-pretendard font-normal text-[16px] leading-[1.35] tracking-[-0.02em];
+  }
+  .body-14-s {
+    @apply font-pretendard font-semibold text-[14px] leading-[1.35] tracking-[-0.02em];
+  }
+  .body-14-m {
+    @apply font-pretendard font-medium text-[14px] leading-[1.35] tracking-[-0.02em];
+  }
+  .body-14-r {
+    @apply font-pretendard font-normal text-[14px] leading-[1.35] tracking-[-0.02em];
+  }
+  .caption {
+    @apply font-pretendard font-normal text-[12px] leading-[1] tracking-[-0.02em];
+  }
+
+  /* 버튼 클래스 정의 */
+  .lgBtn {
+    @apply py-3 px-5 rounded-24 body-16-s;
+  }
+  .mdRtn {
+    @apply py-2 px-4 rounded-[18px] body-14-s;
+  }
+  .smBtn {
+    @apply py-1 px-3 rounded-[14px] body-14-s;
+  }
+
+  .black-fill {
+    @apply bg-secondary-900 text-white disabled:bg-secondary-50 disabled:text-secondary-200 active:bg-secondary-600;
+  }
+
+  .black-line {
+    @apply bg-white text-secondary-900  disabled:text-secondary-200 active:bg-secondary-50 border-[1px] border-secondary-900 disabled:border-secondary-200;
+  }
+
+  .orange-fill {
+    @apply bg-primary-50 text-white disabled:bg-primary-5 disabled:text-primary-35 active:bg-primary-300;
+  }
+
+  .orange-line {
+    @apply bg-white text-primary-100  disabled:text-primary-20 active:bg-primary-50 border-[1px] border-primary-100 disabled:border-primary-20;
+  }
+
+  .white-fill {
+    @apply bg-white text-secondary-900 active:bg-secondary-50 disabled:text-secondary-200;
+  }
+  .beige {
+    @apply bg-tertiary-100 text-black active:bg-tertiary-300 disabled:bg-tertiary-50 disabled:text-tertiary-100;
+  }
 }

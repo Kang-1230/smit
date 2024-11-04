@@ -153,6 +153,48 @@ export const fetchStudyApplyList = async (study_id: string) => {
   return data as Tables<"study_applylist">[];
 };
 
+export const addAttendanceList = async (studyId: string, today: string) => {
+  const supabase = createClient();
+  const user = await getUser();
+  if (user) {
+    const { data }: { data: Tables<"attendance_list"> | null } = await supabase
+      .from("attendance_list")
+      .select("*")
+      .eq("user_id", user.id)
+      .eq("study_id", studyId)
+      .single();
+    if (data) {
+      if (data.date !== today) {
+        await supabase
+          .from("attendance_list")
+          .update({ date: today })
+          .eq("user_id", user.id)
+          .eq("study_id", studyId);
+        return;
+      } else {
+        return;
+      }
+    }
+    return;
+  }
+  return;
+};
+
+// 오늘 출석한 사람 몇명인지 가져오기
+export const fetchAttendanceRate = async (studyId: string, today: string) => {
+  const supabase = createClient();
+  const { data }: { data: Tables<"attendance_list">[] | null } = await supabase
+    .from("attendance_list")
+    .select("*")
+    .eq("study_id", studyId)
+    .eq("date", today);
+  if (!data) {
+    return 0;
+  } else {
+    return data.length;
+  }
+};
+
 // 특정 스터디에 소속된 유저ID 가져오기
 export const fetchStudyApplyUserId = async (study_id: string) => {
   const serverClient = createClient();

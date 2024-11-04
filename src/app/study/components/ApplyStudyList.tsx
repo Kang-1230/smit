@@ -44,7 +44,7 @@ const ApplyStudyList = ({ user }: { user: User | null }) => {
 
   return (
     <div className="flex flex-col">
-      <div className=" mx-6 my-4			">
+      <div className=" mx-6 my-4">
         <h1>신청한 스터디</h1>
         <section className="bg-slate-100 rounded-lg p-5">
           {applyStudyData?.map((dataItem: ApplyData) => {
