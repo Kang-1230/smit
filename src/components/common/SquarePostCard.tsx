@@ -43,7 +43,7 @@ const SquarePostCard = ({ post }: { post: Tables<"post"> }) => {
       <div className="flex flex-row justify-between items-center">
         <p className="text-xs">
           모집 인원 {studyMember ? studyMember.length : 0}/
-          {study.study_max_people}
+          {study.study_max_people + 1}
         </p>
         <LikeButton postId={post.post_id} />
       </div>

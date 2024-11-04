@@ -1,3 +1,5 @@
+"use client";
+
 import browserClient from "@/utils/supabase/client";
 import { JoinPerson } from "../../components/MyStudyList";
 import { useQuery } from "@tanstack/react-query";
