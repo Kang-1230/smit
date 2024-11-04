@@ -6,6 +6,7 @@ import Image from "next/image";
 import EditProfile from "./EditProfile";
 import ModalOverlay from "../../../components/common/ModalOverlay";
 import useModalOpen from "@/hooks/useModalOpen";
+import MyButton from "@/components/common/Button";
 
 const UserProfile = () => {
   const { data: user, isLoading, isError } = usePublicUser();
@@ -27,37 +28,33 @@ const UserProfile = () => {
   if (user)
     return (
       <>
-        <div className="flex flex-col gap-y-4 items-center">
-          <>
-            <Image
-              src={`${profileImg}?t=${Date.now()}`}
-              alt="프로필 이미지"
-              width={128}
-              height={128}
-              className="rounded-full border aspect-square object-cover"
-              priority={false}
-            />
-            <div className="text-center">
-              <p className="font-bold text-xl mb-1">
-                {user?.name ? user.name : "익명의 사용자"}
-              </p>
-              <p className="text-sm text-gray-600">{user.email}</p>
-            </div>
-            <button
-              className="py-2 px-3 bg-gray-300 rounded-lg text-xs font-semibold"
-              onClick={modalOpen}
-            >
-              프로필 수정
-            </button>
-          </>
+        <div className="flex flex-col items-center pt-[30px] pb-8 bg-c-background">
+          <Image
+            src={`${profileImg}?t=${Date.now()}`}
+            alt="프로필 이미지"
+            width={119}
+            height={119}
+            className="rounded-full border aspect-square object-cover"
+            priority={false}
+          />
+          <div className="text-center mt-5">
+            <p className="title-20-s mb-2">
+              {user?.name ? user.name : "익명의 사용자"}
+            </p>
+            <p className="body-14-r text-secondary-300 mb-4">{user.email}</p>
+          </div>
+          <MyButton style="beige" size="smBtn" onClick={modalOpen}>
+            프로필 수정
+          </MyButton>
           {isModalOpen && (
             <ModalOverlay onClick={modalClose}>
-              <EditProfile profileImg={profileImg} user={user} />
+              <EditProfile
+                profileImg={profileImg}
+                user={user}
+                modalClose={modalClose}
+              />
             </ModalOverlay>
           )}
-          <div className="flex flex-col gap-y-2">
-            <button className="text-xs font-semibold">로그아웃</button>
-          </div>
         </div>
       </>
     );
