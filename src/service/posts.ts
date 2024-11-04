@@ -9,7 +9,7 @@ export type PostWithRelations = Tables<"post"> & {
   user: Tables<"user">;
 };
 
-export type SortCategory = "최신순" | "인기순";
+export type SortCategory = "최신순" | "인기순" | "댓글순";
 
 export type StudyApplyList = Tables<"study_applylist">;
 
@@ -23,18 +23,22 @@ const sortByCreatedTime = (posts: PostWithRelations[]) => {
   );
 };
 
+const sortByComments = (posts: PostWithRelations[]) => {
+  return posts.sort(
+    (a, b) => Number(b.comment_count) - Number(a.comment_count),
+  );
+};
+
 function filterByKeywords(data: PostWithRelations[], keywords: string[]) {
   return data.filter((item) =>
     keywords.every((keyword) => item.study.study_category.includes(keyword)),
   );
 }
 
-function filtredByCategory(
-  data: PostWithRelations[],
-  category: "최신순" | "인기순",
-) {
+function filtredByCategory(data: PostWithRelations[], category: SortCategory) {
   if (category === "인기순") return sortByRanking(data, data.length);
   if (category === "최신순") return sortByCreatedTime(data);
+  if (category === "댓글순") return sortByComments(data);
 }
 
 export async function fetchAllPostsClient(): Promise<PostWithRelations[]> {
