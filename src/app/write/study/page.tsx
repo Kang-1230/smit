@@ -128,7 +128,7 @@ function StudyContent() {
         <Image
           src={`${uploadImg}`}
           fill
-          alt="유저 이미지"
+          alt="userImg"
           className="object-cover rounded-lg"
           priority={true}
           onClick={() => {

@@ -38,11 +38,6 @@ export default function Write() {
     Tables<"study">[] | null | undefined
   >(null);
 
-  // const [study, setStudy] = useState<Tables<"study"> | null | undefined>();
-
-  // 포스트 정보 받아올 시 routing
-  // const [postId, setpostId] = useState<number>();
-
   const router = useRouter();
 
   // 스터디 모집글 생성
