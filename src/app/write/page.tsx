@@ -38,19 +38,14 @@ export default function Write() {
     Tables<"study">[] | null | undefined
   >(null);
 
-  // const [study, setStudy] = useState<Tables<"study"> | null | undefined>();
-
-  // 포스트 정보 받아올 시 routing
-  // const [postId, setpostId] = useState<number>();
-
   const router = useRouter();
 
   // 스터디 모집글 생성
   const { mutate: createPost } = useMutation({
     mutationFn: () =>
       insertPostWrite(user?.id ?? "", study.id, contents, title, startDay),
-    onSuccess: () => {
-      alert("스터디 모집글 생성 완료 :PageNation 추가 기능 구현 진행 중입니다.");
+    onSuccess: (data) => {
+      router.replace(`/post/${data}`);
     },
 
     onError: () => {

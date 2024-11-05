@@ -1,7 +1,11 @@
 import browserClient from "@/utils/supabase/client";
 import { Tables, TablesInsert, TablesUpdate } from "../../../database.types";
 import { User } from "@supabase/supabase-js";
-import { ApplyData, JoinPerson } from "@/app/study/components/ApplyStudyList";
+import {
+  ApplyData,
+  JoinPersonWithManager,
+} from "@/app/study/components/MyStudyList";
+import { MemoWithUser } from "@/types/PersonalMemo";
 
 // 세션 정보 가져오기
 export const fetchSessionData = async () => {
@@ -150,14 +154,14 @@ export const insertPostWrite = async (
       post_name: title,
       study_startday: startDay,
     })
-    .single();
+    .select("post_id");
 
   if (error) {
     console.log(error);
     throw new Error("게시글 삽입 실패: " + error.message);
   }
 
-  return data;
+  return data[0].post_id;
 };
 
 // 특정 사용자가 작성한 게시글 불러오기
@@ -381,7 +385,6 @@ export const getJoinedStudyList = async (user: User | null) => {
   if (!data || error) {
     throw new Error("스터디 가입 정보를 불러오지 못했습니다.");
   }
-  console.log("유저 테스트", user);
   return data as ApplyData[];
 };
 
@@ -397,19 +400,20 @@ export const deleteApplyStudy = async (studyId: string) => {
   }
 };
 
-//스터디에 가입한 사람들 목록 불러오기
+//스터디에 가입한 사람들(매니저 추가) 목록 불러오기
 export const getJoinedStudyPeopleList = async (study_id: string) => {
   const { data, error } = await browserClient
     .from("study_applylist")
-    .select("*")
+    .select(`*, user : user_id(*), study(*)`)
     .eq("study_id", encodeURIComponent(study_id))
     .eq("is_approved", true);
   if (!data || error) {
     throw new Error("가입한 사람들을 불러오지 못했습니다.");
   } else if (data) {
     console.log("가입한 사람들 목록", data);
+
+    return data as JoinPersonWithManager[];
   }
-  return data as JoinPerson[];
 };
 
 // 모집글 삭제
@@ -491,7 +495,7 @@ export const deleteUser = async () => {
   }
 };
 
-// 캘린더 일정 정보 가져오기
+// 캘린더 일정 정보 가져오기 (날짜별)
 export const fetchCalenderEvent = async (
   studyId: string,
   eventDate: string,
@@ -503,7 +507,19 @@ export const fetchCalenderEvent = async (
     .eq("event_date", eventDate)
     .order("start_time", { ascending: true });
   if (!data || error) {
-    throw new Error("댓글 정보를 불러오지 못했습니다.");
+    throw new Error("일정 정보를 불러오지 못했습니다.");
+  }
+  return data as Tables<"calendar">[];
+};
+
+// 캘린더 일정 정보 가져오기 (스터디별)
+export const fetchCalenderEventByStudy = async (studyId: string) => {
+  const { data, error } = await browserClient
+    .from("calendar")
+    .select("*")
+    .eq("study_id", studyId);
+  if (!data || error) {
+    throw new Error("일정 정보를 불러오지 못했습니다.");
   }
   return data as Tables<"calendar">[];
 };
@@ -599,4 +615,41 @@ export const fetchTimer = async (
     .single();
 
   return newTimer;
+};
+
+// 스터디 회고록 데이터, 멤버정보(닉네임) 불러오기
+export const getStudyMemoList = async (studyId: string) => {
+  const { data, error } = await browserClient
+    .from("study_personal_memo")
+    .select(
+      `
+      *,
+      user!study_personal_memo_user_id_fkey (
+        name
+      )
+    `,
+    )
+    .eq("study_id", studyId);
+
+  if (!data || error) {
+    throw new Error("스터디 회고록 데이터를 불러오지 못했습니다.");
+  }
+  return data as MemoWithUser[];
+};
+
+// 스터디 회고록 내용 수정
+export const updateStudyMemo = async (
+  memoId: string,
+  contents: string | null,
+) => {
+  const { error } = await browserClient
+    .from("study_personal_memo")
+    .update({
+      memo_content: contents,
+    })
+    .eq("memo_id", memoId);
+  if (error) {
+    console.log(error);
+    throw new Error("일정 수정에 실패했습니다.");
+  }
 };
