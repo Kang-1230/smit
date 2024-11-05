@@ -109,3 +109,14 @@ export async function fetchStudyApplyList(
 
   return posts;
 }
+
+export async function fetchAllStudyByRanking(): Promise<Tables<"study">[]> {
+  const serverClient = createClient();
+  const { data: studys } = await serverClient.from("study").select(`*`);
+
+  if (!studys) {
+    throw new Error("Failed to retrieve studys");
+  }
+
+  return studys.sort((a, b) => b.study_score - a.study_score);
+}
