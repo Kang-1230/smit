@@ -14,8 +14,8 @@ export default async function HomePage() {
           link="/event"
         />
       </MultiCarousel>
-      <FeaturedPosts />
-      <FilterablePosts />
+      {/* <FeaturedPosts /> */}
+      {/* <FilterablePosts /> */}
       <Dropdown></Dropdown>
     </section>
   );
