@@ -1,12 +1,12 @@
 "use client";
 
-import { Tables } from "../../../../database.types";
-import GroupRate from "./GroupRate";
-import UserRate from "./UserRate";
 import { useSession } from "@/hooks/useUserProfile";
 import { useTimerState, useTodayCalendar } from "@/hooks/useTimerQuery";
 import { getTime } from "@/utils/getTime";
 import { useEffect, useState } from "react";
+import { Tables } from "../../../../../database.types";
+import UserRate from "./UserRate";
+import GroupRate from "./GroupRate";
 
 const RateGroupBox = ({
   member,

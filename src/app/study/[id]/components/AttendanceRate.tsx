@@ -1,7 +1,7 @@
 // 출석률 표시
 
 import { fetchAttendanceRate } from "@/utils/supabase/supabase-server";
-import { Tables } from "../../../../database.types";
+import { Tables } from "../../../../../database.types";
 
 // 출석부 만드는 법.
 // 1. 유저가 스터디 페이지에 입장하면 오늘 날짜, 유저ID, 스터디 아이디가 출석 테이블에 저장됨

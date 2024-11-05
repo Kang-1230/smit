@@ -71,7 +71,9 @@ const DeleteUserButton = () => {
                 <br />
                 스터디원에게 방장 권한을 넘겨주세요.
               </p>
-              <button className="lgBtn black-fill w-full mt-7">바로가기</button>
+              <MyButton style="black-fill" size="lg" className="w-full mt-7">
+                바로가기
+              </MyButton>
             </div>
           ) : (
             <div className="flex flex-col w-full text-center py-8 px-5 items-center">
@@ -90,15 +92,17 @@ const DeleteUserButton = () => {
                 복구가 불가능합니다.
               </p>
               <div className="flex flex-row w-full gap-x-1 mt-7">
-                <MyButton style="black-line" size="lgBtn" onClick={modalClose}>
+                <MyButton style="black-line" size="lg" onClick={modalClose}>
                   취소
                 </MyButton>
-                <button
-                  className="lgBtn black-fill grow"
+                <MyButton
+                  style="black-fill"
+                  size="lg"
+                  className="w-full"
                   onClick={deleteUserHandler}
                 >
                   탈퇴하기
-                </button>
+                </MyButton>
               </div>
             </div>
           )}

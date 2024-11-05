@@ -51,7 +51,7 @@ const ValidateInput = ({
           </div>
           <MyButton
             style="black-fill"
-            size="mdBtn"
+            size="md"
             onClick={onClick}
             disabled={!!success}
           >

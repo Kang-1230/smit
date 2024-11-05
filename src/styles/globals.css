@@ -16,29 +16,16 @@ body {
     -ms-overflow-style: none; /* IE and 엣지 */
     scrollbar-width: none; /* 파이어폭스 */
   }
-}
 
-/* .menu {
-  background: #fff;
-  border-radius: 8px;
-  position: absolute;
-  top: 30px;
-  right: 0;
-  width: 150px;
-  text-align: center;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-20px);
-  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
-  padding: 10px;
-}
+  .scrollbar-show::-webkit-scrollbar {
+    display: block;
+  }
 
-.active {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-} */
+  .scrollbar-show {
+    -ms-overflow-style: auto; /* IE and 엣지 */
+    scrollbar-width: thin; /* 파이어폭스 */
+  }
+}
 
 @layer base {
   :root {
@@ -154,15 +141,6 @@ body {
   }
 
   /* 버튼 클래스 정의 */
-  .lgBtn {
-    @apply py-3 px-5 rounded-24 body-16-s min-w-fit;
-  }
-  .mdBtn {
-    @apply py-2 px-4 rounded-[18px] body-14-s min-w-fit;
-  }
-  .smBtn {
-    @apply py-1 px-3 rounded-[14px] body-14-s min-w-fit;
-  }
 
   .black-fill {
     @apply bg-secondary-900 text-white disabled:bg-secondary-50 disabled:text-secondary-200 active:bg-secondary-600;

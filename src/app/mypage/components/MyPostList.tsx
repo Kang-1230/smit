@@ -33,7 +33,12 @@ const MyPostList = () => {
 
           {posts.length > 3 && (
             <div className="flex flex-row justify-center mt-8">
-              <button className="caption text-secondary-700">더보기</button>
+              <button
+                className="caption text-secondary-700"
+                onClick={() => setShowPost(true)}
+              >
+                더보기
+              </button>
               <Image
                 src={`/icons/ChevronDown.svg`}
                 alt="dropdown"

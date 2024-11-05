@@ -93,27 +93,28 @@ const EditProfile = ({
   return (
     <div className="flex flex-col p-5 items-center w-full">
       <p className="title-20-s text-center">프로필 수정</p>
-      <div
-        className="w-[264px] h-[264px] rounded-20 bg-black/20 relative my-4"
-        style={{
-          backgroundImage: `url('${
-            uploadImg ? uploadImg : `${profileImg}?t=${Date.now()}`
-          }')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundBlendMode: "overlay",
-        }}
-        onClick={() => fileInputRef.current?.click()}
-      >
-        <div className="p-[10px] rounded-full bg-white/60 inline-block absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2">
-          <Image
-            src={`icons/Picture.svg`}
-            alt="icon"
-            width={24}
-            height={24}
-          ></Image>
+      <div className="relative w-fit h-wit my-4">
+        <Image
+          src={uploadImg ? uploadImg : `${profileImg}?t=${Date.now()}`}
+          alt="프로필 이미지"
+          width={264}
+          height={264}
+          className="rounded-20"
+        />
+        <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-full h-full">
+          <div className="bg-black/20 bg-blend-overlay w-full h-full rounded-20 relative">
+            <div className="p-[10px] rounded-full bg-white/60 inline-block absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2">
+              <Image
+                src={`icons/Picture.svg`}
+                alt="icon"
+                width={24}
+                height={24}
+              ></Image>
+            </div>
+          </div>
         </div>
       </div>
+
       <input
         ref={fileInputRef}
         className="hidden"
@@ -148,11 +149,13 @@ const EditProfile = ({
       </div>
 
       <div className="flex flex-row gap-x-1 w-full mt-7">
-        <MyButton style="black-line" size="lgBtn" onClick={modalClose}>
+        <MyButton style="black-line" size="lg" onClick={modalClose}>
           취소
         </MyButton>
-        <button
-          className="black-fill lgBtn w-full"
+        <MyButton
+          size="lg"
+          style="black-fill"
+          className="w-full"
           onClick={() => {
             profileSaveHandler();
             modalClose();
@@ -164,7 +167,7 @@ const EditProfile = ({
           }
         >
           적용하기
-        </button>
+        </MyButton>
       </div>
     </div>
   );

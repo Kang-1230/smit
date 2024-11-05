@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { Tables } from "../../../../database.types";
+import { Tables } from "../../../../../database.types";
 import browserClient from "@/utils/supabase/client";
 
 const GroupRate = ({
@@ -24,6 +24,7 @@ const GroupRate = ({
         .gte("time_rate", 80);
       return data;
     },
+    enabled: !!current,
   });
 
   return (

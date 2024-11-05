@@ -10,7 +10,7 @@ const MyLikePosts = () => {
 
   return (
     <div>
-      <div className="w-full overflow-x-scroll scrollbar-hide">
+      <div className="w-full overflow-x-scroll scrollbar-hide lg:scrollbar-show">
         <div className="flex flex-row w-fit gap-x-3 mr-8">
           {likePosts?.length ? (
             likePosts.map((post) => (

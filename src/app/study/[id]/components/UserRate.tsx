@@ -1,6 +1,6 @@
 "use client";
 
-import { Tables } from "../../../../database.types";
+import { Tables } from "../../../../../database.types";
 
 // 그룹 내 개인의 시간 달성률
 // 캘린더에 등록된 시간 (종료-시작) 초로 변환하여 퍼센트 계산
