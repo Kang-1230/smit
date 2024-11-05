@@ -3,7 +3,6 @@ import { useState } from "react";
 import ScrollPicker from "@/components/common/ScrollPicker";
 import { Tables } from "../../../../../database.types";
 import SelectDateModal from "@/components/common/SelectDateModal";
-const buttonClass = "p-2.5 flex-1 rounded-xl bg-[#8D8D8D]";
 
 interface SelecTimeProps {
   onTimeSelect: (time: string) => void;
