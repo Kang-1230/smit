@@ -6,8 +6,8 @@ import Avatar from "./components/Avatar";
 import RankingCard from "./components/RankingCard";
 import { useQuery } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
-import ModalOverlay from "@/components/common/ModalOverlay";
 import RankingModal from "./components/RankingModal";
+import RankingModalOverlay from "./components/RankingModalOverlay";
 
 const fetchAllStudy = async (page: number) => {
   const data = await fetchAllStudyByRanking(page);
@@ -15,9 +15,11 @@ const fetchAllStudy = async (page: number) => {
 };
 
 export default function RankingPage() {
+  // 마지막페이지 계산해서 호출안하게 하는 로직추가 예정
   const [page, setPage] = useState(1);
   const [isModal, setIsModal] = useState(false);
   const [id, setId] = useState("");
+  const [rank, setRank] = useState(0);
 
   const {
     data: ranking,
@@ -30,9 +32,10 @@ export default function RankingPage() {
     placeholderData: (previousData) => previousData,
   });
 
-  const onModalClick = (id: string) => {
+  const onModalClick = (id: string, rank: number) => {
     setIsModal(true);
     setId(id);
+    setRank(rank);
   };
 
   const handleMore = useCallback(() => {
@@ -76,17 +79,17 @@ export default function RankingPage() {
             <Avatar
               rank={2}
               study={ranking[1]}
-              onClick={() => onModalClick(ranking[1].study_id)}
+              onClick={() => onModalClick(ranking[1].study_id, 2)}
             />
             <Avatar
               rank={1}
               study={ranking[0]}
-              onClick={() => onModalClick(ranking[0].study_id)}
+              onClick={() => onModalClick(ranking[0].study_id, 1)}
             />
             <Avatar
               rank={3}
               study={ranking[2]}
-              onClick={() => onModalClick(ranking[2].study_id)}
+              onClick={() => onModalClick(ranking[2].study_id, 3)}
             />
           </div>
         )}
@@ -98,7 +101,7 @@ export default function RankingPage() {
               study={study}
               rank={i + 4}
               key={study.study_id}
-              onClick={() => onModalClick(study.study_id)}
+              onClick={() => onModalClick(study.study_id, i + 4)}
             />
           ))}
           <div className="mb-24 mt-3 text-secondary-300 text-[14px] text-center">
@@ -108,9 +111,9 @@ export default function RankingPage() {
 
         {/* 모달 */}
         {isModal && (
-          <ModalOverlay
+          <RankingModalOverlay
             onClick={() => setIsModal(false)}
-            children={<RankingModal id={id} />}
+            children={<RankingModal id={id} rank={rank} />}
           />
         )}
       </section>
