@@ -44,27 +44,35 @@ const WriteModal = (props: ModalProps) => {
         </div>
       </div>
     ) : (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center w-full z-50">
-        <div className="fixed inset-x-0 bottom-0 bg-white rounded-t-2xl w-full shadow-lg flex flex-col w-5/6 h-2/5 overflow-y-auto focus:overscroll-contain">
-          <h1 className="text-xl font-bold pl-5 pt-5">스터디 그룹 선택</h1>
-          {props.studyGroup &&
-            props.studyGroup.map((item) => (
-              <div
-                key={item.study_id}
-                className="flex justify-between items-center w-full p-2 h-fit"
-              >
-                <p className="font-bold ml-3">{item.study_name}</p>
-                <button
-                  type="button"
-                  className="bg-zinc-400 rounded-lg text-white p-1 ml-4 w-1/6 font-bold mr-3"
-                  onClick={() =>
-                    props.onConfirm(item.study_id, item.study_name)
-                  }
+      <div
+        className="fixed inset-0 bg-black bg-opacity-50 flex justify-center w-full z-50"
+        onClick={props.onClose}
+      >
+        <div className="fixed inset-x-0 bottom-0 bg-white rounded-t-2xl w-full shadow-lg flex flex-col h-2/5 overflow-y-auto focus:overscroll-contain">
+          <div onClick={(e) => e.stopPropagation()}>
+            <h1 className="text-xl font-bold pl-5 pt-5">스터디 그룹 선택</h1>
+            <p className="pl-5 pt-5">
+              모집글을 작성할 스터디 그룹을 선택해주세요.
+            </p>
+            {props.studyGroup &&
+              props.studyGroup.map((item) => (
+                <div
+                  key={item.study_id}
+                  className="flex justify-between items-center w-full p-2 h-fit"
                 >
-                  선택
-                </button>
-              </div>
-            ))}
+                  <p className="font-bold ml-3">{item.study_name}</p>
+                  <button
+                    type="button"
+                    className="bg-zinc-400 rounded-lg text-white p-1 ml-4 w-1/6 font-bold mr-3"
+                    onClick={() =>
+                      props.onConfirm(item.study_id, item.study_name)
+                    }
+                  >
+                    선택
+                  </button>
+                </div>
+              ))}
+          </div>
         </div>
       </div>
     )

@@ -113,18 +113,13 @@ function StudyContent() {
   };
 
   const handleModalClick = (mode: string) => {
-    if (mode === "job") {
-      setStudyTarget("학생");
-    } else {
-      setStudyCategory(["디자인", "개발"]);
-    }
-    setIsCommonModalOpen(true);
     setCommonModalMode(mode);
+    setIsCommonModalOpen(true);
   };
 
   return (
     <div className="flex flex-col w-11/12 mx-auto">
-      <div className="flex justify-between ... w-full p-2 text-2xl">
+      <div className="flex justify-between ... w-full p-2 text-2xl items-center">
         <p onClick={() => handleModalClose()}>✕</p>
         <p className="body-16-s text-black ">스터디 만들기</p>
         <p onClick={() => sendData()}>✓</p>
@@ -194,7 +189,7 @@ function StudyContent() {
           className="p-3 text-gray-300 font-bold h-full truncate"
           onClick={() => setUserCnt(1)}
         >
-          {/* {`${userCnt} >`} */}
+          {`${userCnt} >`}
         </p>
       </div>
 
@@ -204,7 +199,7 @@ function StudyContent() {
           className="p-3 text-gray-300 font-bold h-full truncate"
           onClick={() => handleModalClick("job")}
         >
-          {/* {`${studyTarget} >`} */}
+          {`${studyTarget} >`}
         </p>
       </div>
 
@@ -214,7 +209,7 @@ function StudyContent() {
           className="p-3 text-gray-300 font-bold h-full truncate"
           onClick={() => handleModalClick("study")}
         >
-          {/* {`${studyCategory} >`} */}
+          {`${studyCategory} >`}
         </p>
       </div>
 
@@ -228,6 +223,16 @@ function StudyContent() {
       <Modal
         isModalOpen={isCommonModalOpen}
         onClose={() => setIsCommonModalOpen(false)}
+        onConfirm={(arr: string[]) => {
+          if (commonModalMode === "job") {
+            if (arr.length > 0) {
+              setStudyTarget(arr[0]);
+            }
+          } else {
+            setStudyCategory(arr);
+          }
+          setIsCommonModalOpen(false);
+        }}
         modalMode={commonModalMode}
       />
     </div>
