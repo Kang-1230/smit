@@ -5,6 +5,7 @@ import {
   fetchDetailComments,
   getUserByCommentId,
   updatePostComment,
+  updateStateToDelete,
 } from "@/utils/supabase/supabase-client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Tables } from "../../../../../database.types";
@@ -84,6 +85,19 @@ export const useDeleteCommentMutation = (postId: string) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deletePostComment,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["comment", postId],
+      });
+    },
+  });
+};
+
+// 답글이 존재하는 부모댓글 삭제 시 is_deleted 상태 변경
+export const useUpdateStateToDelete = (postId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (commentId: string) => updateStateToDelete(commentId, postId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["comment", postId],

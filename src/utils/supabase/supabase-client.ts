@@ -5,6 +5,7 @@ import {
   ApplyData,
   JoinPersonWithManager,
 } from "@/app/study/components/MyStudyList";
+import { MemoWithUser } from "@/types/PersonalMemo";
 
 // 세션 정보 가져오기
 export const fetchSessionData = async () => {
@@ -283,7 +284,6 @@ export const deletePostComment = async (comment_id: string) => {
     .from("comment")
     .delete()
     .eq("comment_id", comment_id);
-  alert("댓글이 삭제되었습니다!");
   if (error) {
     throw new Error("댓글 삭제에 실패했습니다.");
   }
@@ -305,6 +305,47 @@ export const updatePostComment = async (
     .eq("comment_id", comment_id);
   if (error) {
     throw new Error("댓글 수정에 실패했습니다.");
+  }
+};
+
+// 답글이 존재하는 부모댓글 삭제시 삭제상태로 변경
+export const updateStateToDelete = async (
+  comment_id: string,
+  postId: string,
+) => {
+  // comment 테이블 업데이트
+  const { error: commentError } = await browserClient
+    .from("comment")
+    .update({
+      is_deleted: true,
+    })
+    .eq("comment_id", comment_id);
+
+  if (commentError) {
+    throw new Error("삭제 상태 변경에 실패했습니다.");
+  }
+
+  // 현재 comment_count 조회
+  const { data: post } = await browserClient
+    .from("post")
+    .select("comment_count")
+    .eq("post_id", postId)
+    .single();
+
+  if (!post) {
+    throw new Error("댓글을 찾을 수 없습니다.");
+  }
+
+  // post 테이블의 comment_count 감소
+  const { error: postError } = await browserClient
+    .from("post")
+    .update({
+      comment_count: post.comment_count - 1,
+    })
+    .eq("post_id", postId);
+
+  if (postError) {
+    throw new Error("댓글 카운트 감소에 실패했습니다.");
   }
 };
 
@@ -454,7 +495,7 @@ export const deleteUser = async () => {
   }
 };
 
-// 캘린더 일정 정보 가져오기
+// 캘린더 일정 정보 가져오기 (날짜별)
 export const fetchCalenderEvent = async (
   studyId: string,
   eventDate: string,
@@ -466,7 +507,19 @@ export const fetchCalenderEvent = async (
     .eq("event_date", eventDate)
     .order("start_time", { ascending: true });
   if (!data || error) {
-    throw new Error("댓글 정보를 불러오지 못했습니다.");
+    throw new Error("일정 정보를 불러오지 못했습니다.");
+  }
+  return data as Tables<"calendar">[];
+};
+
+// 캘린더 일정 정보 가져오기 (스터디별)
+export const fetchCalenderEventByStudy = async (studyId: string) => {
+  const { data, error } = await browserClient
+    .from("calendar")
+    .select("*")
+    .eq("study_id", studyId);
+  if (!data || error) {
+    throw new Error("일정 정보를 불러오지 못했습니다.");
   }
   return data as Tables<"calendar">[];
 };
@@ -562,4 +615,41 @@ export const fetchTimer = async (
     .single();
 
   return newTimer;
+};
+
+// 스터디 회고록 데이터, 멤버정보(닉네임) 불러오기
+export const getStudyMemoList = async (studyId: string) => {
+  const { data, error } = await browserClient
+    .from("study_personal_memo")
+    .select(
+      `
+      *,
+      user!study_personal_memo_user_id_fkey (
+        name
+      )
+    `,
+    )
+    .eq("study_id", studyId);
+
+  if (!data || error) {
+    throw new Error("스터디 회고록 데이터를 불러오지 못했습니다.");
+  }
+  return data as MemoWithUser[];
+};
+
+// 스터디 회고록 내용 수정
+export const updateStudyMemo = async (
+  memoId: string,
+  contents: string | null,
+) => {
+  const { error } = await browserClient
+    .from("study_personal_memo")
+    .update({
+      memo_content: contents,
+    })
+    .eq("memo_id", memoId);
+  if (error) {
+    console.log(error);
+    throw new Error("일정 수정에 실패했습니다.");
+  }
 };

@@ -94,7 +94,7 @@ export default function LoginPage() {
             <h1 className="body-16-r">스밋에서 모여서 함께 공부하자</h1>
           </div>
         </div>
-        <form className="relative z-10">
+        <form className="w-[327px] relative z-10">
           <input
             type="email"
             placeholder="이메일"
