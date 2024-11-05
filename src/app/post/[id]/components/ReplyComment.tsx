@@ -25,30 +25,36 @@ const ReplyComment = ({
     .from("profile_img")
     .getPublicUrl(user?.profile_img ?? "default").data.publicUrl;
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!replyContent.trim()) {
+      alert("답글 내용을 입력해주세요!");
+      return;
+    }
+    // 멘션이 이미 있는지 확인
+    const mention = `@${replyToName}`;
+    let finalContent = replyContent;
+    // 답글 내용에 멘션이 없을 경우에만 멘션 추가
+    if (!replyContent.includes(mention)) {
+      finalContent = `${mention} ${replyContent}`;
+    }
+    addComment(
+      {
+        id: postId,
+        commentItem: finalContent,
+        parentId: parentId,
+      },
+      {
+        onSuccess: () => {
+          setReplyContent("");
+          onSuccess?.();
+        },
+      },
+    );
+  };
+
   return (
-    <form
-      className="flex mt-2"
-      onSubmit={(e) => {
-        e.preventDefault();
-        if (!replyContent.trim()) {
-          alert("답글 내용을 입력해주세요!");
-          return;
-        }
-        addComment(
-          {
-            id: postId,
-            commentItem: `@${replyToName} ${replyContent}`,
-            parentId: parentId,
-          },
-          {
-            onSuccess: () => {
-              setReplyContent(`@${replyToName} `);
-              onSuccess?.();
-            },
-          },
-        );
-      }}
-    >
+    <form className="flex mt-2" onSubmit={handleSubmit}>
       <Image
         src={profileImg}
         alt="유저 이미지"
