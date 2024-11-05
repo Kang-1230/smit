@@ -4,15 +4,17 @@ import Link from "next/link";
 import AlertIcon from "../ui/icons/AlertIcon";
 import SearchIcon from "../ui/icons/SearchIcon";
 import CustomButton from "../ui/CustomButton";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import supabase from "../../utils/supabase/client";
 import { useSession } from "@/hooks/useUserProfile";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 
 const MENU_ICONS = [<SearchIcon key="search" />, <AlertIcon key="alert" />];
+const HIDDEN_HEADER_PATHS = ["/login", "/signup"];
 
 export default function Header() {
+  const pathname = usePathname();
   const router = useRouter();
   const queryClient = useQueryClient();
   const { data: user } = useSession();
@@ -44,6 +46,11 @@ export default function Header() {
       console.log("로그아웃 완료");
     }
   };
+
+  //현재 경로가 HIDDEN_HEADER_PATHS에 포함되어 있으면 숨기기
+  if (HIDDEN_HEADER_PATHS.includes(pathname)) {
+    return null;
+  }
 
   return (
     <header className="flex justify-between items-center px-4 bg-white border-b">
