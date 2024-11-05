@@ -50,7 +50,9 @@ export default function Write() {
     mutationFn: () =>
       insertPostWrite(user?.id ?? "", study.id, contents, title, startDay),
     onSuccess: () => {
-      alert("스터디 모집글 생성 완료 :PageNation 추가 기능 구현 진행 중입니다.");
+      alert(
+        "스터디 모집글 생성 완료 :PageNation 추가 기능 구현 진행 중입니다.",
+      );
     },
 
     onError: () => {
