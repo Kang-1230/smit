@@ -1,8 +1,11 @@
 "use client";
 import { useState } from "react";
-import { Tables } from "../../../../database.types";
-import { useDeleteCalendarEvent } from "../[id]/hooks/useCalendar";
+import { Tables } from "../../../../../database.types";
+import { useDeleteCalendarEvent } from "../hooks/useCalendar";
 import CreateEventForm from "./CreateEventForm";
+import Image from "next/image";
+import PencilLined from "../../../../../public/icons/PencilLined.svg";
+import XSmall from "../../../../../public/icons/XSmall.svg";
 
 const EventListItem = ({
   event,
@@ -39,18 +42,40 @@ const EventListItem = ({
   return (
     <>
       {!isEdit ? (
-        <div className="h-[141px] m-[25px] p-5 self-stretch rounded-[20px] bg-[#E0E0E0] relative">
-          <p className="mb-5 text-[#666] text-xl font-medium">{`${event.start_time.slice(
-            0,
-            -3,
-          )} - ${event.end_time.slice(0, -3)}`}</p>
-          <p>{event.event_description}</p>
-          <div className="flex flex-col items-end absolute top-4 right-5 gap-2">
+        <div className="h-[141px] m-[25px] p-5 self-stretch rounded-[20px] bg-secondary-800 relative">
+          <div className="flex items-center gap-1">
+            <p className="text-white title-20-m">{`${event.start_time.slice(
+              0,
+              -3,
+            )} - ${event.end_time.slice(0, -3)}`}</p>{" "}
             {managerId === sessionId && (
-              <>
-                <button onClick={handleDelete}>X</button>
-                <button onClick={() => setIsEdit(true)}>✐</button>
-              </>
+              <Image
+                onClick={() => setIsEdit(true)}
+                src={PencilLined}
+                alt="edit"
+                width={16}
+                height={16}
+                className="cursor-pointer"
+              />
+            )}
+          </div>
+          <p className="text-secondary-300 body-14-r mt-5">
+            {event.event_description}
+          </p>
+          <div className="flex flex-col items-end absolute top-3 right-3 gap-2">
+            {managerId === sessionId && (
+              <div
+                onClick={handleDelete}
+                className="shrink-0 rounded-[18px] bg-white/20"
+              >
+                <Image
+                  src={XSmall}
+                  alt="edit"
+                  width={24}
+                  height={24}
+                  className="cursor-pointer"
+                />
+              </div>
             )}
           </div>
         </div>
