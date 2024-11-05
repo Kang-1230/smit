@@ -53,8 +53,8 @@ export default function Avatar({ rank, study }: Props) {
       </div>
 
       <div className="flex flex-col items-center text-[14px] gap-[2px]">
-        <div className="text-[#B2611D] font-semibold">
-          {study_name.slice(0, 5)}
+        <div className="text-[#B2611D] w-[60px] truncate text-center font-[500]">
+          {study_name}
         </div>
         <div className="text-white font-semibold bg-[#F28327] px-[8px] rounded-16">
           {study_score.toLocaleString()}점

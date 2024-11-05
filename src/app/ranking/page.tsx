@@ -1,6 +1,7 @@
 import { fetchAllStudyByRanking } from "@/service/posts";
 import Image from "next/image";
 import Avatar from "./components/Avatar";
+import RankingCard from "./components/RankingCard";
 
 export default async function RankingPage() {
   const ranking = await fetchAllStudyByRanking();
@@ -34,36 +35,13 @@ export default async function RankingPage() {
           <Avatar rank={3} study={ranking[2]} />
         </div>
 
-        <section className="bg-white w-full absolute top-[333px] rounded-t-20">
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="text-xs">testa</div>
-          <div className="mb-10">더보기</div>
+        <section className="bg-white w-full absolute top-[333px] rounded-t-20 px-[24px] py-[12px]">
+          {ranking.slice(3).map((study, i) => (
+            <RankingCard study={study} rank={i + 4} />
+          ))}
+          <div className="mb-24 mt-3 text-secondary-300 text-[14px] text-center">
+            <button>더보기</button>
+          </div>
         </section>
       </section>
     </>
