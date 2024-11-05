@@ -188,9 +188,70 @@ export const fetchAttendanceRate = async (studyId: string, today: string) => {
     .select("*")
     .eq("study_id", studyId)
     .eq("date", today);
+
   if (!data) {
     return 0;
   } else {
     return data.length;
   }
+};
+
+// 특정 스터디에 소속된 유저ID 가져오기
+export const fetchStudyApplyUserId = async (study_id: string) => {
+  const serverClient = createClient();
+  const { data, error } = await serverClient
+    .from("study_applylist")
+    .select("user_id")
+    .eq("study_id", study_id)
+    .eq("is_approved", true);
+
+  if (error || !data) {
+    console.log(error);
+    return null;
+  }
+  return data;
+};
+
+// 특정 스터디의 소속된 여러 명의 유저 프로필 url 가져오기
+export const fetchUsersImgUrl = async (userIds: string[]) => {
+  const serverClient = createClient();
+  const { data, error } = await serverClient
+    .from("user")
+    .select("id,profile_img")
+    .in("id", userIds);
+
+  if (error || !data) {
+    console.log(error);
+    return null;
+  }
+  return data;
+};
+
+// 직업 태그 가져오기
+export const fetchJobTags = async () => {
+  const serverClient = createClient();
+  const { data, error } = await serverClient
+    .from("job_tag")
+    .select("*");
+
+  if (error || !data) {
+    console.log(error);
+    return [];
+  }
+  return data as Tables<"job_tag">[];
+};
+
+
+// 스터디 태그 가져오기
+export const fetchCategoryTags = async () => {
+  const serverClient = createClient();
+  const { data, error } = await serverClient
+    .from("category_tag")
+    .select("*");
+
+  if (error || !data) {
+    console.log(error);
+    return [];
+  }
+  return data as Tables<"category_tag">[];
 };
