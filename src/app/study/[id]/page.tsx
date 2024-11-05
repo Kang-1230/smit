@@ -19,7 +19,6 @@ const Page = async ({ params }: { params: { id: string } }) => {
   return (
     <div className="flex flex-col items-center px-6">
       <StudyInfo studyId={studyId} />
-      <TimerTimer studyId={studyId} />
       <GroupCalendar studyId={studyId} />
       <TimerTimer studyId={studyId} />
       <RateGroupBox member={studyMember} studyId={studyId} today={today}>
