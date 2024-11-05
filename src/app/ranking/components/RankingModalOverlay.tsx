@@ -9,7 +9,7 @@ const RankingModalOverlay = ({
 }: {
   children: React.ReactNode;
   onClick: () => void;
-  isXButtonVisible: boolean;
+  isXButtonVisible?: boolean;
 }) => {
   return (
     <div

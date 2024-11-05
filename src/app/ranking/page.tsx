@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
 import RankingModal from "./components/RankingModal";
 import RankingModalOverlay from "./components/RankingModalOverlay";
+import QuestionModal from "./components/QuestionModal";
 
 const fetchAllStudy = async (page: number) => {
   const data = await fetchAllStudyByRanking(page);
@@ -16,8 +17,10 @@ const fetchAllStudy = async (page: number) => {
 
 export default function RankingPage() {
   // 마지막페이지 계산해서 호출안하게 하는 로직추가 예정
+  // 더보기 로딩시 로딩스피너 구현 필요 + 클릭 방지
   const [page, setPage] = useState(1);
   const [isModal, setIsModal] = useState(false);
+  const [isQuestionModal, setIsQuestionModal] = useState(false);
   const [id, setId] = useState("");
   const [rank, setRank] = useState(0);
 
@@ -68,7 +71,10 @@ export default function RankingPage() {
           <h1 className="relative z-10 text-[20px] leading-normal font-semibold">
             주간 그룹 랭킹
           </h1>
-          <button className="flex justify-center items-center">
+          <button
+            className="flex justify-center items-center relative"
+            onClick={() => setIsQuestionModal(true)}
+          >
             <Image src="/icons/Info.svg" alt="info" width={24} height={24} />
           </button>
         </div>
@@ -114,6 +120,13 @@ export default function RankingPage() {
           <RankingModalOverlay
             onClick={() => setIsModal(false)}
             children={<RankingModal id={id} rank={rank} />}
+          />
+        )}
+        {isQuestionModal && (
+          <RankingModalOverlay
+            isXButtonVisible={false}
+            onClick={() => setIsQuestionModal(false)}
+            children={<QuestionModal />}
           />
         )}
       </section>
