@@ -4,30 +4,39 @@ import { getJoinedStudyPeopleList } from "@/utils/supabase/supabase-client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const ApplyUserProfileImgList = ({ studyId }: { studyId: string }) => {
+const ApplyUserIncludeManagerProfileImgList = ({
+  studyId,
+}: {
+  studyId: string;
+}) => {
   const [profileUrls, setProfileUrls] = useState<string[]>([]);
 
   //studyid 바뀔 때 마다 이미지 불러오게
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (studyId: string) => {
       try {
         const joinedUserId = await getJoinedStudyPeopleList(studyId);
-        if (!joinedUserId) {
-          setProfileUrls([]);
-          return;
+        //매니저 프로필 불러오기
+        const { data: studyData } = await browserClient
+          .from("study")
+          .select("study_manager")
+          .eq("study_id", studyId)
+          .single();
+
+        const memberUrls: string[] = [];
+        //매니저 프로필 먼저 넣기
+        if (studyData?.study_manager) {
+          const managerUrl = getProfileImgUrl(studyData?.study_manager);
+          memberUrls.push(managerUrl);
         }
-
-        const memberUrls: string[] = joinedUserId?.map(
-          (item: JoinPersonWithManager) => {
-            return getProfileImgUrl(item.user.id);
-          },
-        );
-
-        if (joinedUserId[0]?.study?.study_manager) {
-          const managerUrl = getProfileImgUrl(
-            joinedUserId[0].study.study_manager,
-          );
-          memberUrls.unshift(managerUrl);
+        //매니저를 제외한 userProfile넣기
+        if (joinedUserId) {
+          const memberProfileUrls = joinedUserId
+            .filter((item) => item.user.id !== studyData?.study_manager)
+            .map((item: JoinPersonWithManager) => {
+              return getProfileImgUrl(item.user.id);
+            });
+          memberUrls.push(...memberProfileUrls);
         }
 
         setProfileUrls(memberUrls);
@@ -36,7 +45,7 @@ const ApplyUserProfileImgList = ({ studyId }: { studyId: string }) => {
         setProfileUrls([]);
       }
     };
-    fetchData();
+    fetchData(studyId);
   }, [studyId]);
 
   //이미지 프로필 불러오기(user당 하나)
@@ -69,4 +78,4 @@ const ApplyUserProfileImgList = ({ studyId }: { studyId: string }) => {
   );
 };
 
-export default ApplyUserProfileImgList;
+export default ApplyUserIncludeManagerProfileImgList;

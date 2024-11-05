@@ -4,10 +4,11 @@ import { useState } from "react";
 import browserClient from "@/utils/supabase/client";
 
 import Modal from "./StudyModal";
-import { useRouter } from "next/navigation";
 import { usePublicUser } from "@/hooks/useUserProfile";
+import { useRouter } from "next/navigation";
 
 export default function Dropdown() {
+  const router = useRouter();
   // 드롭다운 열림, 닫힘 상태 관리
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
   // 모달 열림, 닫힘 상태 관리
@@ -16,7 +17,6 @@ export default function Dropdown() {
   const [modalMode, setModalMode] = useState<string>("");
 
   const { data: user } = usePublicUser();
-  const router = useRouter();
 
   const getStudyList = async () => {
     if (user) {
@@ -33,7 +33,8 @@ export default function Dropdown() {
         setModalMode("nonexist");
         setIsModalOpen(true);
       } else {
-        router.replace("/write");
+        setModalMode("exist");
+        setIsModalOpen(true);
       }
     } else {
       alert("서비스를 이용하시려면 먼저 로그인 해주세요.");
@@ -44,26 +45,30 @@ export default function Dropdown() {
 
   const handleModalClose = () => {
     setIsModalOpen(false);
+    setIsDropDownOpen(false);
   };
 
-  const viewStudyModal = () => {
-    if (user) {
-      setModalMode("exist");
-      setIsModalOpen(true);
-    } else {
+  const routeStudyPage = () => {
+    if (!user) {
       alert("서비스를 이용하시려면 먼저 로그인 해주세요.");
+    } else {
+      router.push("/write/study");
     }
-    setIsDropDownOpen(false);
   };
 
   return (
     <>
-      {/* 드롭다운이 열렸을 때만 배경 표시 */}
       {isDropDownOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" />
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+          onClick={handleModalClose}
+        ></div>
       )}
       <Menu>
-        <div className="bottom-24 right-4 fixed">
+        <div
+          className="bottom-24 right-4 fixed"
+          onClick={(e) => e.stopPropagation()}
+        >
           <MenuButton
             className="text-xl font-bold bg-black rounded-full w-12 h-12 text-white"
             onClick={() => setIsDropDownOpen(!isDropDownOpen)}
@@ -76,8 +81,8 @@ export default function Dropdown() {
           >
             <MenuItem>
               <a
-                className="block data-[focus]:bg-blue-100 mb-2 font-bold"
-                onClick={() => viewStudyModal()}
+                className="block data-[focus]:bg-blue-100 font-bold"
+                onClick={() => routeStudyPage()}
               >
                 스터디 만들기
               </a>
@@ -96,7 +101,7 @@ export default function Dropdown() {
 
       <Modal
         isModalOpen={isModalOpen}
-        onClose={handleModalClose}
+        onClose={() => handleModalClose()}
         onConfirm={() => setModalMode("exist")}
         modalMode={modalMode}
       />
