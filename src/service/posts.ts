@@ -126,3 +126,17 @@ export async function fetchAllStudyByRanking(
 
   return studys;
 }
+
+export async function fetchByStudyId(id: string): Promise<Tables<"study">> {
+  const serverClient = createClient();
+  const { data: study } = await serverClient
+    .from("study")
+    .select(`*`)
+    .eq("study_id", id);
+
+  if (!study) {
+    throw new Error("Failed to retrieve studys");
+  }
+
+  return study[0];
+}

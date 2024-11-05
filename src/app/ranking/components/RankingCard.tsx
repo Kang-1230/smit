@@ -5,12 +5,16 @@ import { Tables } from "../../../../database.types";
 type Props = {
   study: Tables<"study">;
   rank: number;
+  onClick: () => void;
 };
 
-const RankingCard = ({ study, rank }: Props) => {
+const RankingCard = ({ study, rank, onClick }: Props) => {
   const { study_name, study_score, study_imgurl } = study;
   return (
-    <div className="flex items-center justify-between px-2 py-[12px] h-[64px] border-b border-[##E6E6E6]">
+    <div
+      className="flex items-center justify-between px-2 py-[12px] h-[64px] border-b border-[##E6E6E6]"
+      onClick={onClick}
+    >
       <div className="rounded-full relative w-[40px] h-[40px] border">
         <Image
           priority

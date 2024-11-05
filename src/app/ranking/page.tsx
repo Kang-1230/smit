@@ -6,6 +6,8 @@ import Avatar from "./components/Avatar";
 import RankingCard from "./components/RankingCard";
 import { useQuery } from "@tanstack/react-query";
 import { useCallback, useState } from "react";
+import ModalOverlay from "@/components/common/ModalOverlay";
+import RankingModal from "./components/RankingModal";
 
 const fetchAllStudy = async (page: number) => {
   const data = await fetchAllStudyByRanking(page);
@@ -14,6 +16,8 @@ const fetchAllStudy = async (page: number) => {
 
 export default function RankingPage() {
   const [page, setPage] = useState(1);
+  const [isModal, setIsModal] = useState(false);
+  const [id, setId] = useState("");
 
   const {
     data: ranking,
@@ -26,6 +30,11 @@ export default function RankingPage() {
     placeholderData: (previousData) => previousData,
   });
 
+  const onModalClick = (id: string) => {
+    setIsModal(true);
+    setId(id);
+  };
+
   const handleMore = useCallback(() => {
     setPage((prev) => prev + 1);
     refetch();
@@ -36,7 +45,7 @@ export default function RankingPage() {
   }
 
   if (isError) {
-    return <div>Error occurred while fetching data.</div>;
+    return <div>Error occurred while fetching data</div>;
   }
 
   return (
@@ -64,16 +73,33 @@ export default function RankingPage() {
         {/* 아바타(1,2,3) */}
         {ranking?.length && (
           <div className="w-full absolute top-[125px] flex gap-[31px] justify-center">
-            <Avatar rank={2} study={ranking[1]} />
-            <Avatar rank={1} study={ranking[0]} />
-            <Avatar rank={3} study={ranking[2]} />
+            <Avatar
+              rank={2}
+              study={ranking[1]}
+              onClick={() => onModalClick(ranking[1].study_id)}
+            />
+            <Avatar
+              rank={1}
+              study={ranking[0]}
+              onClick={() => onModalClick(ranking[0].study_id)}
+            />
+            <Avatar
+              rank={3}
+              study={ranking[2]}
+              onClick={() => onModalClick(ranking[2].study_id)}
+            />
           </div>
         )}
 
         {/* 랭킹카드들 */}
-        <section className="bg-white w-full absolute top-[333px] rounded-t-20 px-[24px] py-[12px]">
+        <section className="w-full absolute top-[333px] rounded-t-20 px-[24px] py-[12px] bg-gradient-to-b from-[#FFFCF9] via-[#FFF] to-[#FFF] backdrop-blur-[15px]">
           {ranking?.slice(3).map((study, i) => (
-            <RankingCard study={study} rank={i + 4} key={study.study_id} />
+            <RankingCard
+              study={study}
+              rank={i + 4}
+              key={study.study_id}
+              onClick={() => onModalClick(study.study_id)}
+            />
           ))}
           <div className="mb-24 mt-3 text-secondary-300 text-[14px] text-center">
             <button onClick={handleMore}>더보기</button>
@@ -81,6 +107,12 @@ export default function RankingPage() {
         </section>
 
         {/* 모달 */}
+        {isModal && (
+          <ModalOverlay
+            onClick={() => setIsModal(false)}
+            children={<RankingModal id={id} />}
+          />
+        )}
       </section>
     </>
   );

@@ -2,13 +2,12 @@ import Image from "next/image";
 import { Tables } from "../../../../database.types";
 import { getRankConfig } from "@/service/study";
 
-// bronze
-
 type Props = {
   rank: number;
   study: Tables<"study">;
+  onClick: () => void;
 };
-export default function Avatar({ rank, study }: Props) {
+export default function Avatar({ rank, study, onClick }: Props) {
   const {
     borderColorMain,
     imageSize,
@@ -24,6 +23,7 @@ export default function Avatar({ rank, study }: Props) {
     <div
       className="flex flex-col items-center gap-[32px]"
       style={{ marginTop: marginTop }}
+      onClick={onClick}
     >
       <div
         className="rounded-full relative"
