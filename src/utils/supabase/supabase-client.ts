@@ -1,7 +1,10 @@
 import browserClient from "@/utils/supabase/client";
 import { Tables, TablesInsert, TablesUpdate } from "../../../database.types";
 import { User } from "@supabase/supabase-js";
-import { ApplyData, JoinPerson } from "@/app/study/components/ApplyStudyList";
+import {
+  ApplyData,
+  JoinPersonWithManager,
+} from "@/app/study/components/MyStudyList";
 import { MemoWithUser } from "@/types/PersonalMemo";
 
 // 세션 정보 가져오기
@@ -382,7 +385,6 @@ export const getJoinedStudyList = async (user: User | null) => {
   if (!data || error) {
     throw new Error("스터디 가입 정보를 불러오지 못했습니다.");
   }
-  console.log("유저 테스트", user);
   return data as ApplyData[];
 };
 
@@ -398,19 +400,20 @@ export const deleteApplyStudy = async (studyId: string) => {
   }
 };
 
-//스터디에 가입한 사람들 목록 불러오기
+//스터디에 가입한 사람들(매니저 추가) 목록 불러오기
 export const getJoinedStudyPeopleList = async (study_id: string) => {
   const { data, error } = await browserClient
     .from("study_applylist")
-    .select("*")
+    .select(`*, user : user_id(*), study(*)`)
     .eq("study_id", encodeURIComponent(study_id))
     .eq("is_approved", true);
   if (!data || error) {
     throw new Error("가입한 사람들을 불러오지 못했습니다.");
   } else if (data) {
     console.log("가입한 사람들 목록", data);
+
+    return data as JoinPersonWithManager[];
   }
-  return data as JoinPerson[];
 };
 
 // 모집글 삭제
