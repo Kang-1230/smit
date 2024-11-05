@@ -1,24 +1,16 @@
 type Props = {
   text: string;
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void> | void;
-  size?: "small" | "big";
 };
 
-export default function CustomButton({ text, onClick, size = "small" }: Props) {
+export default function CustomButton({ text, onClick }: Props) {
   return (
-    <div
-      className={`rounded-md bg-gradient-to-bl from-fuchsia-600 via-rose-500 to-amber-300 ${
-        size === "big" ? "p-[0.3rem]" : "p-[0.15rem]"
-      }`}
+    <button
+      className={`bg-[#1E1E1E] text-white py-[4px] px-[12px] rounded-[14px] text-[14px] font-semibold`}
+      style={{ lineHeight: "135%", letterSpacing: "-0.28px" }}
+      onClick={onClick}
     >
-      <button
-        className={`rounded-sm bg-white hover:opacity-90 transition-opacity ${
-          size === "big" ? "p-4 text-2xl" : "p-[0.3rem] text-base"
-        }`}
-        onClick={onClick}
-      >
-        {text}
-      </button>
-    </div>
+      {text}
+    </button>
   );
 }
