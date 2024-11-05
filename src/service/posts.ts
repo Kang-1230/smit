@@ -110,13 +110,19 @@ export async function fetchStudyApplyList(
   return posts;
 }
 
-export async function fetchAllStudyByRanking(): Promise<Tables<"study">[]> {
+export async function fetchAllStudyByRanking(
+  page = 1,
+): Promise<Tables<"study">[]> {
   const serverClient = createClient();
-  const { data: studys } = await serverClient.from("study").select(`*`);
+  const { data: studys } = await serverClient
+    .from("study")
+    .select(`*`)
+    .order("study_score", { ascending: false })
+    .range(0, page * 15 - 1);
 
   if (!studys) {
     throw new Error("Failed to retrieve studys");
   }
 
-  return studys.sort((a, b) => b.study_score - a.study_score);
+  return studys;
 }
