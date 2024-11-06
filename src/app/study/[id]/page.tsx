@@ -8,7 +8,6 @@ import {
 import { fetchStudyMember } from "@/utils/supabase/supabase-client";
 
 import { getToday } from "@/utils/getTime";
-import TimerTimer from "./components/Timer";
 
 import StudyInfo from "./components/StudyInfo";
 import StudyStateBox from "./components/StudyStateBox";
@@ -21,16 +20,14 @@ const Page = async ({ params }: { params: { id: string } }) => {
   const studyMember = await fetchStudyMember(studyId);
 
   return (
-    <div className="flex flex-col items-center px-6 w-full bg-secondary-800 pt-[64px] text-white overflow-x-hidden">
+    <div className="flex w-full flex-col items-center overflow-x-hidden bg-secondary-800 px-6 pt-[64px] text-white">
       <StudyInfo study={study} member={studyMember} />
       <StudyStateBox
         studyId={studyId}
         member={studyMember}
         today={today}
         study={study}
-      >
-        <TimerTimer studyId={studyId} />
-      </StudyStateBox>
+      ></StudyStateBox>
       <GroupCalendar studyId={studyId} />
       <PersonalMemos studyId={studyId} />
       <WaitApplyList urlStudyId={studyId} />

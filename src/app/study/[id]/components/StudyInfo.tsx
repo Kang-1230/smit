@@ -15,7 +15,7 @@ const StudyInfo = ({
   member,
 }: {
   study: Tables<"study"> | null;
-  member: Pick<Tables<"study_applylist">, "user_id">[] | null;
+  member: string[] | null;
 }) => {
   const [memberProfile, setMemberProfile] = useState<Tables<"user">[] | null>(
     null,
@@ -39,15 +39,13 @@ const StudyInfo = ({
   }
 
   return (
-    <div className="flex flex-col justify-center items-center min-w-[327px]">
-      <h1 className="mb-2 title-24-b">{study.study_name}</h1>
-      <p className="mb-6 body-14-r text-secondary-200">
+    <div className="flex min-w-[327px] flex-col items-center justify-center">
+      <h1 className="title-24-b mb-2">{study.study_name}</h1>
+      <p className="body-14-r mb-6 text-secondary-200">
         {study.study_description}
       </p>
-      <div className="flex items-center justify-center mb-8 gap-x-3">
-        {memberProfile?.map((user) => (
-          <MemberImg key={user.id} user={user} />
-        ))}
+      <div className="mb-8 flex items-center justify-center gap-x-3">
+        {memberProfile?.map((user) => <MemberImg key={user.id} user={user} />)}
       </div>
     </div>
   );

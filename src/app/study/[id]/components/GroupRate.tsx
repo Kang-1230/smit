@@ -7,10 +7,10 @@ const GroupRate = ({
   achieverList,
 }: {
   achieverList: Tables<"timer">[] | null;
-  member: Pick<Tables<"study_applylist">, "user_id">[] | null;
+  member: string[] | null;
 }) => {
   return (
-    <div className="bg-secondary-50 h-1/2 rounded-[20px] p-4 min-w-[128px]">
+    <div className="h-1/2 min-w-[128px] rounded-[20px] bg-secondary-50 p-4">
       <div className="caption text-secondary-800">시간 달성인원</div>
       <p className="title-20-r mt-[14px] text-center text-black">
         <span className="title-20-b">

@@ -1,8 +1,8 @@
 "use client";
 
-import { useStudyManager } from "@/hooks/useStudyManager";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { Tables } from "../../../../../database.types";
 
 const formatTime = (seconds: number) => {
   const hours = Math.floor(seconds / 3600);
@@ -15,16 +15,20 @@ const formatTime = (seconds: number) => {
   )}:${String(remainingSeconds).padStart(2, "0")}`;
 };
 
-const TimerTimer = ({ studyId }: { studyId: string }) => {
-  const {
-    todaySchedules,
-    time,
-    isRunning,
-    isWithinTimeRange,
-    handleStart,
-    handlePause,
-  } = useStudyManager(studyId);
-
+const TimerTimer = ({
+  time,
+  isRunning,
+  isWithinTimeRange,
+  handleStart,
+  handlePause,
+}: {
+  todaySchedules: Tables<"calendar">[];
+  time: number;
+  isRunning: boolean | undefined | null;
+  isWithinTimeRange: boolean;
+  handleStart: () => void;
+  handlePause: () => void;
+}) => {
   const [rotation, setRotation] = useState(0);
 
   useEffect(() => {
@@ -43,52 +47,48 @@ const TimerTimer = ({ studyId }: { studyId: string }) => {
     };
   }, [isRunning]);
 
-  if (todaySchedules.length) {
-    return (
-      <div className="bg-secondary-900 rounded-20 w-full h-[316px] relative my-6">
-        <Image
-          src={`/icons/timer/Spinner.svg`}
-          alt="timer_spinner"
-          width={276}
-          height={276}
-          className="absolute top-1/2 left-1/2"
-          style={{
-            transform: `translate(-50%, -50%) rotate(${rotation}deg)`,
-          }}
-        />
-        <p className="font-pretendard text-[54px] text-white font-light mr-3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          {formatTime(time)}
-        </p>
-        <div className="absolute bottom-6 right-5">
-          {!isRunning ? (
-            <button
-              onClick={handleStart}
-              disabled={!isWithinTimeRange}
-              className="focus:outline-none"
-            >
-              <Image
-                src={`/icons/timer/Start.svg`}
-                alt="start"
-                width={24}
-                height={24}
-              />
-            </button>
-          ) : (
-            <button onClick={handlePause} className="focus:outline-none">
-              <Image
-                src={`/icons/timer/Pause.svg`}
-                alt="start"
-                width={24}
-                height={24}
-              />
-            </button>
-          )}
-        </div>
+  return (
+    <div className="relative my-6 h-[316px] w-full rounded-20 bg-secondary-900">
+      <Image
+        src={`/icons/timer/Spinner.svg`}
+        alt="timer_spinner"
+        width={276}
+        height={276}
+        className="absolute left-1/2 top-1/2"
+        style={{
+          transform: `translate(-50%, -50%) rotate(${rotation}deg)`,
+        }}
+      />
+      <p className="absolute left-1/2 top-1/2 mr-3 -translate-x-1/2 -translate-y-1/2 font-pretendard text-[54px] font-light text-white">
+        {formatTime(time)}
+      </p>
+      <div className="absolute bottom-6 right-5">
+        {!isRunning ? (
+          <button
+            onClick={handleStart}
+            disabled={!isWithinTimeRange}
+            className="focus:outline-none"
+          >
+            <Image
+              src={`/icons/timer/Start.svg`}
+              alt="start"
+              width={24}
+              height={24}
+            />
+          </button>
+        ) : (
+          <button onClick={handlePause} className="focus:outline-none">
+            <Image
+              src={`/icons/timer/Pause.svg`}
+              alt="start"
+              width={24}
+              height={24}
+            />
+          </button>
+        )}
       </div>
-    );
-  } else {
-    return <div>오늘 일정이 없습니다</div>;
-  }
+    </div>
+  );
 };
 
 export default TimerTimer;

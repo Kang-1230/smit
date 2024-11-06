@@ -484,7 +484,7 @@ export const fetchStudyMember = async (studyId: string) => {
     return null;
   }
 
-  return [...data.map((d) => d.user_id), manager.study_manager];
+  return [...data.map((d) => d.user_id), manager.study_manager] as string[];
 };
 
 // 회원 탈퇴 라우트 핸들러 사용

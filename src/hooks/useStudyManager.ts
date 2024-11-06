@@ -6,6 +6,7 @@ import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { getTime, getToday, timeStringToSeconds } from "@/utils/getTime";
 import { useTimerState, useTodayCalendar } from "./useTimerQuery";
 import { fetchAttendanceRate } from "@/utils/supabase/supabase-client";
+import { calculateScore } from "@/utils/calculateScore";
 
 // 끝점 좌표 구하는 함수
 const getEndpointPosition = (percent: number) => {
@@ -16,7 +17,7 @@ const getEndpointPosition = (percent: number) => {
   };
 };
 
-export const useStudyManager = (studyId: string) => {
+export const useStudyManager = (studyId: string, member: string[] | null) => {
   const queryClient = useQueryClient();
 
   // 현재 시간에 해당하는 스케쥴
@@ -26,8 +27,10 @@ export const useStudyManager = (studyId: string) => {
   const [isWithinTimeRange, setIsWithinTimeRange] = useState(false);
   // 총 경과 시간
   const [time, setTime] = useState(0);
-  // 오늘 출석한 사람 저장
-  const [todayAttendee, setTodayAttendee] = useState(0);
+  // 이번 스터디에 받은 점수
+  const [studyScore, setStudyScore] = useState(0);
+  // 스터디 종료 모달
+  const [endModalOpen, setEndModalOpen] = useState(false);
 
   // 유저 정보 불러오기
   const { data: user = null } = usePublicUser();
@@ -120,6 +123,12 @@ export const useStudyManager = (studyId: string) => {
     },
   });
 
+  // 출석 인원 쿼리
+  const { data: attendee = null } = useQuery({
+    queryKey: ["attendeeList", studyId, today],
+    queryFn: () => fetchAttendanceRate(studyId, today),
+  });
+
   // 달성자 리스트 쿼리
   const { data: achieverList = null } = useQuery<Tables<"timer">[] | null>({
     queryKey: ["achievers", studyId, currentSchedule?.calendar_id],
@@ -164,6 +173,34 @@ export const useStudyManager = (studyId: string) => {
     userTimeMutation.mutate(elapsedSinceStart);
   };
 
+  const handleScheduleEnd = async (schedule: Tables<"calendar">) => {
+    try {
+      // 1. 달성자 목록 새로 가져오기
+      await queryClient.invalidateQueries({
+        queryKey: ["achievers", studyId, schedule.calendar_id],
+      });
+
+      // 2. 새로운 달성자 목록으로 점수 계산
+      if (member) {
+        const score = calculateScore(member.length, achieverList, {
+          start_time: schedule.start_time,
+          end_time: schedule.end_time,
+        });
+        setStudyScore(score);
+
+        // 3. 계산된 점수로 DB 업데이트
+        if (score > 0) {
+          await browserClient
+            .from("study")
+            .update({ study_score: score })
+            .eq("study_id", studyId);
+        }
+      }
+    } catch (error) {
+      console.error("Error updating study score:", error);
+    }
+  };
+
   // 현재 일정 찾기 및 초기화
   useEffect(() => {
     const initializeTimer = () => {
@@ -193,18 +230,41 @@ export const useStudyManager = (studyId: string) => {
     return () => clearInterval(interval);
   }, [todaySchedules, timerState]);
 
-  // 타이머 실행 로직
+  // 타이머 종료 시간 체크
+  useEffect(() => {
+    if (!currentSchedule) return;
+
+    // 스케줄 종료 시간 체크
+    const scheduleEndCheck = setInterval(async () => {
+      const now = getTime(new Date());
+
+      // 현재 시간이 스케줄 종료 시간을 지났는지 체크
+      if (now >= currentSchedule.end_time) {
+        // 1. 타이머가 실행 중이었다면 정지
+        if (timerState?.is_running) {
+          handlePause();
+        }
+
+        // 2. 스케줄 종료 처리 및 점수 계산
+        await handleScheduleEnd(currentSchedule);
+
+        // 3. 상태 초기화
+        setCurrentSchedule(null);
+        setIsWithinTimeRange(false);
+        setTime(0);
+        setEndModalOpen(true);
+
+        clearInterval(scheduleEndCheck);
+      }
+    }, 1000);
+
+    return () => clearInterval(scheduleEndCheck);
+  }, [currentSchedule]);
+
+  // 타이머 실행 중일 때
   useEffect(() => {
     if (!isWithinTimeRange || !currentSchedule || !timerState?.is_running)
       return;
-
-    const timeCheckInterval = setInterval(() => {
-      const isValid = checkTimeRange(currentSchedule);
-      setIsWithinTimeRange(isValid);
-      if (!isValid) {
-        handlePause();
-      }
-    }, 1000);
 
     const timerInterval = setInterval(() => {
       const totalElapsed = calculateElapsedTime(
@@ -214,22 +274,8 @@ export const useStudyManager = (studyId: string) => {
       setTime(totalElapsed);
     }, 1000);
 
-    return () => {
-      clearInterval(timerInterval);
-      clearInterval(timeCheckInterval);
-    };
+    return () => clearInterval(timerInterval);
   }, [timerState?.is_running, currentSchedule, isWithinTimeRange]);
-
-  // 출석 인원 가져오기
-  useEffect(() => {
-    const getAttendee = async () => {
-      const attendee = await fetchAttendanceRate(studyId, today);
-      if (attendee) {
-        setTodayAttendee(attendee);
-      }
-    };
-    getAttendee();
-  }, [studyId, today]);
 
   return {
     // 타이머 관련
@@ -245,8 +291,11 @@ export const useStudyManager = (studyId: string) => {
     strokeDashoffset,
     endPoint,
     circumference,
-    todayAttendee,
+    attendee,
     achieverList,
     timerState,
+    studyScore,
+    endModalOpen,
+    setEndModalOpen,
   };
 };
