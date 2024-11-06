@@ -96,5 +96,6 @@ export const config = {
     "/study",
     "/write",
     "/ranking",
+    "/write/study",
   ],
 };
