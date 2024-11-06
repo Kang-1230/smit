@@ -4,6 +4,7 @@ import supabase from "../../utils/supabase/client";
 import { FormEvent, useEffect, useState } from "react";
 import RectangleSighUpBack from "../../../public/icons/RectangleLoginBack.svg";
 import Image from "next/image";
+import BackButton from "@/components/common/BackButton";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
@@ -46,7 +47,7 @@ export default function SignupPage() {
     try {
       // 이메일 중복 체크
       const { data: existingUser } = await supabase
-        .from("users")
+        .from("user")
         .select("email")
         .eq("email", email)
         .single();
@@ -70,7 +71,7 @@ export default function SignupPage() {
       try {
         // user 테이블에 정보 저장
         const { error: insertError } = await supabase
-          .from("users")
+          .from("user")
           .insert({
             id: authData.user.id,
             user_name: name,
@@ -112,15 +113,21 @@ export default function SignupPage() {
   };
 
   return (
-    <form onSubmit={(e) => handleSignUp(e)} className="w-[375px] h-[690px]">
-      <div className="relative h-[690px]">
-        <div className="absolute w-[165px] h-[165px] top-56 left-[163px] bg-primary-50 rounded-[82.5px]" />
-        <Image
-          className="absolute w-[375px] h-[690px] top-0 left-0 z-0 backdrop-blur-xl"
-          alt="Rectangle"
-          src={RectangleSighUpBack}
-        />
-        <section className="absolute left-[24px] top-[60px] z-10">
+    <div className=" flex flex-col w-[375px] h-full"><div className="absolute w-[165px] h-[165px] top-56 left-[163px] bg-primary-50 rounded-[82.5px]" />
+    <Image
+      className="absolute w-[375px] h-[690px] z-0 backdrop-blur-xl "
+      alt="Rectangle"
+      src={RectangleSighUpBack}
+    />
+      <div className="relative self-stretch mb-[-1.00px] w-full h-[43px] bg-white">
+        <div className="!relative !w-6 !h-6 top-[10px] left-[27px]"><BackButton color="black" /></div>
+        
+        <div className="absolute left-[99px] top-[10.96px] w-[176px] h-[22px] body-16-s text-center overflow-hidden text-ellipsis [display:-webkit] [-webkit-line-clamp:1] [-webkit-box-orient:vertical] ">회원가입</div>
+      </div>
+      <form onSubmit={(e) => handleSignUp(e)} className="w-[375px] h-[690px]">
+      <div className="relative h-full flex items-center justify-center">
+        
+        <section className="absolute left-[24px] top-[17px] z-10">
           <div className="w-[327px]">
             <div className="relative body-14-m left-[12px] mb-[8px]">
               이메일
@@ -129,7 +136,8 @@ export default function SignupPage() {
               type="email"
               placeholder="이메일 주소를 입력해주세요"
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full h-[40px] white-fill text-secondary-300 rounded-20 placeholder:body-14-r pl-[16px] "
+              value={email}
+              className = {`w-full h-[40px] white-fill rounded-20 placeholder:body-14-r pl-[16px] placeholder:text-secondary-300 body-14-r${email ? "text-black" : ""}`}
             />
           </div>
           <div>
@@ -140,8 +148,12 @@ export default function SignupPage() {
               type="password"
               placeholder="비밀번호를 입력해주세요"
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full h-[40px] white-fill text-secondary-300 rounded-20 placeholder:body-14-r pl-[16px] "
+              value={password}
+              className = {`w-full h-[40px] white-fill rounded-20 placeholder:body-14-r pl-[16px] placeholder:text-secondary-300 body-14-r${password ? "text-black" : ""}`}
             />
+            <div className="caption text-secondary-500 ml-[12px] mt-[8px]">
+              영문,숫자,특수문자(*&^_-)포함
+            </div>
           </div>
           <div>
             <div className="relative body-14-m left-[12px] mt-[20px] mb-[8px]">
@@ -153,7 +165,8 @@ export default function SignupPage() {
               onChange={(e) => {
                 setVerifyPassword(e.target.value);
               }}
-              className="w-full h-[40px] white-fill text-secondary-300 rounded-20 placeholder:body-14-r pl-[16px]"
+              value={verifyPassword}
+              className = {`w-full h-[40px] white-fill rounded-20 placeholder:body-14-r pl-[16px] placeholder:text-secondary-300 body-14-r${verifyPassword ? "text-black" : ""}`}
             />
             <p className="caption text-red-600">{passwordMessage}</p>
           </div>
@@ -165,67 +178,86 @@ export default function SignupPage() {
               type="text"
               placeholder="성함을 적어주세요"
               onChange={(e) => setName(e.target.value)}
-              className="w-full h-[40px] white-fill text-secondary-300 rounded-20 placeholder:body-14-r pl-[16px] "
+              value={name}
+              className = {`w-full h-[40px] white-fill rounded-20 placeholder:body-14-r pl-[16px] placeholder:text-secondary-300 body-14-r${name ? "text-black" : ""}`}
             />
           </div>
           <div>
             <div className="relative body-14-m left-[12px] mt-[20px] mb-[8px]">
               닉네임
             </div>
-            <input
-              type="text"
-              placeholder="스밋에서 활동할 닉네임을 적어주세요"
-              onChange={(e) => setNickName(e.target.value)}
-              className="w-full h-[40px] white-fill text-secondary-300 rounded-20 placeholder:body-14-r pl-[16px] "
-            />
+            <div className="flex">
+              <input
+                type="text"
+                placeholder="스밋에서 활동할 닉네임을 적어주세요"
+                onChange={(e) => setNickName(e.target.value)}
+                value={nickName}
+                className = {`w-full h-[40px] white-fill rounded-20 placeholder:body-14-r pl-[16px] placeholder:text-secondary-300 body-14-r${nickName ? "text-black" : ""}`}
+              />
+              <button className="black-fill text-white w-[80px] rounded-[18px] body-14-s ml-[8px]">
+                중복확인
+              </button>
+            </div>
           </div>
-          <div className="w-[199px]">
+          <div className="w-full">
             <div className="relative body-14-m left-[12px] mt-[20px] mb-[8px]">
               생년월일
             </div>
-            <div className="flex">
+            <div className="flex item-end gap-3 relative self-stretch w-full flex-[0_0_auto]">
               <input
                 type="text"
                 placeholder="YYYY.MM.DD"
                 onChange={(e) => setBirthDate(e.target.value)}
-                className="w-full h-[40px] white-fill text-secondary-300 rounded-20 placeholder:body-14-r pl-[16px]"
+                value={birthDate}
+                className = {`w-full h-[40px] white-fill rounded-20 placeholder:body-14-r pl-[16px] placeholder:text-secondary-300 body-14-r${birthDate ? "text-black" : ""}`}
               />
-              <div className="flex items-center gap-4 mt-4">
-                <div className="flex gap-4">
-                  <label className="flex items-center gap-[0.5px] body-14-r text-#666666">
-                    <input
-                      type="radio"
-                      name="gender"
-                      value="male"
-                      checked={gender === "male"}
-                      onChange={(e) => setGender(e.target.value as "male")}
-                    />
+
+              <div className="w-[116px] inline-flex items-center gap-3 px-1 py-2.5 relative flex-[0_0_auto]">
+                <label className="inline-flex items-center gap-1 relative flex-[0_0_auto]">
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="male"
+                    checked={gender === "male"}
+                    onChange={(e) => setGender(e.target.value as "male")}
+                    className="!flex-[0_0_auto] accent-black	w-[20px] h-[20px]"
+                  />
+                  <p className="relative w-fit mt-[-0.50px] body-14-r whitespace-nowrap text-#666666">
                     남자
-                  </label>
-                  <label className="flex items-center gap-1 body-14-r text-#666666">
-                    <input
-                      type="radio"
-                      name="gender"
-                      value="female"
-                      checked={gender === "female"}
-                      onChange={(e) => setGender(e.target.value as "female")}
-                    />
+                  </p>
+                </label>
+                <label className="inline-flex items-center gap-1 relative flex-[0_0_auto]">
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="male"
+                    checked={gender === "male"}
+                    onChange={(e) => setGender(e.target.value as "male")}
+                    className="!flex-[0_0_auto] accent-black w-[20px] h-[20px]"
+                  />
+                  <p className="relative w-fit mt-[-0.50px] body-14-r whitespace-nowrap text-#666666">
                     여자
-                  </label>
-                </div>
+                  </p>
+                </label>
               </div>
             </div>
           </div>
-
-          <button
-            type="submit"
-            className={`${!isPasswordValid && "opacity-50 cursor-not-allowed"}`}
-            disabled={!isPasswordValid}
-          >
-            가입하기
-          </button>
         </section>
+        <div className="fixed bottom-0 left-0 w-full h-[72px] px-6 py-4 bg-white border-t border-[#e6e6e6] z-10 flex justify-center items-center">
+          <div className="w-[327px] h-[48px] black-fill rounded-[24px]">
+            <button
+              type="submit"
+              className={`w-full h-[44px] text-white body-16-s  ${
+                !isPasswordValid && "opacity-50 cursor-not-allowed"
+              }`}
+              disabled={!isPasswordValid}
+            >
+              가입하기
+            </button>
+          </div>
+        </div>
       </div>
     </form>
+    </div>
   );
 }
