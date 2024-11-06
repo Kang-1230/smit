@@ -48,7 +48,7 @@ const WriteModal = (props: ModalProps) => {
     ) : (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center w-full z-50">
         <div className="fixed inset-x-0 bottom-0 bg-white rounded-t-2xl w-full shadow-lg flex flex-col h-2/5 overflow-y-auto focus:overscroll-contain p-5">
-          <h1 className="title-20-m ">스터디 그룹 선택</h1>2
+          <h1 className="title-20-m ">스터디 그룹 선택</h1>
           <p className="body-14-m text-secondary-400 pt-2">
             모집글을 작성할 스터디 그룹을 선택해주세요.
           </p>

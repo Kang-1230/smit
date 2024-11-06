@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tables } from "../../../database.types";
 import { usePublicUser } from "@/hooks/useUserProfile";
 import { useMutation } from "@tanstack/react-query";
@@ -13,6 +13,7 @@ import Image from "next/image";
 import Xmedium from "../../../public/icons/XMedium.svg";
 import Check from "../../../public/icons/Check.svg";
 import stroke from "../../../public/icons/Next.svg";
+import { fetchStudyInfo } from "@/utils/supabase/supabase-server";
 
 type study = {
   id: string;
@@ -41,6 +42,9 @@ export default function Write() {
   const [studyGroup, setStudyGroup] = useState<
     Tables<"study">[] | null | undefined
   >(null);
+
+  // 가져온 스터디 하나의 데이터
+  const [studyInfo, setStudyInfo] = useState<Tables<"study">>();
 
   const router = useRouter();
 
@@ -81,6 +85,17 @@ export default function Write() {
       alert("생성한 스터디 그룹을 가져오지 못했습니다.");
     },
   });
+
+  useEffect(() => {
+    const getStudyInfo = async () => {
+      const data = await fetchStudyInfo(study.id);
+      if (data) {
+        setStudyInfo(data);
+      }
+    };
+
+    getStudyInfo();
+  }, [study]);
 
   return (
     <div className="flex flex-col w-full items-center">
@@ -137,6 +152,15 @@ export default function Write() {
               <Image src={stroke} alt="selectBtn" width={0} className="mr-3" />
             </div>
           </div>
+          {study.id !== "" ? (
+            <div className="w-full flex-col rounded-2xl bg-tertiary-50">
+              <div className="w-full">
+                {studyInfo?.study_name}
+                {studyInfo?.study_category}
+                {studyInfo?.study_imgurl}
+              </div>
+            </div>
+          ) : null}
         </div>
 
         <div className="w-10/12 h-[50vh]">
