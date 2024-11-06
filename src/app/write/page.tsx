@@ -121,7 +121,7 @@ export default function Write() {
             제목 <span className="text-primary-50">*</span>
           </p>
           <input
-            className="p-3 rounded-2xl w-full my-3 text-secondary-300 bg-secondary-50 body-16-m placeholder-secondary-300"
+            className="p-3 rounded-2xl w-full my-3 bg-secondary-50 body-16-m placeholder-secondary-300"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="제목을 작성해주세요"
@@ -152,12 +152,35 @@ export default function Write() {
               <Image src={stroke} alt="selectBtn" width={0} className="mr-3" />
             </div>
           </div>
+
           {study.id !== "" ? (
-            <div className="w-full flex-col rounded-2xl bg-tertiary-50">
-              <div className="w-full">
-                {studyInfo?.study_name}
-                {studyInfo?.study_category}
-                {studyInfo?.study_imgurl}
+            <div className="w-11/12 flex-col rounded-2xl bg-tertiary-75 justify-center h-fit m-4">
+              <div className="flex items-center m-4">
+                <Image
+                  src={
+                    studyInfo?.study_imgurl ||
+                    "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/study_img/default"
+                  }
+                  alt="img"
+                  width={100}
+                  height={100}
+                  className="object-full rounded-xl border aspect-square w-1/4 h-1/4"
+                />
+                <p className="mx-2 text-secondary-800 body-16-s">{studyInfo?.study_name}</p>
+              </div>
+              <div className="flex w-full justify-around mb-3">
+                <p className="bg-primary-50 text-white rounded-full ... px-2 py-1 caption overflow-hidden text-ellipsis whitespace-nowrap flex items-center">
+                  {studyInfo?.study_category[0]}
+                </p>
+                <p className="bg-primary-50 text-white rounded-full ... px-2 py-1 caption overflow-hidden text-ellipsis whitespace-nowrap flex items-center">
+                  {studyInfo?.study_category[1]}
+                </p>
+                <p className="bg-primary-50 text-white rounded-full ... px-2 py-1 caption overflow-hidden text-ellipsis whitespace-nowrap flex items-center">
+                  {studyInfo?.study_category[2]}
+                </p>
+                <p className="bg-primary-50 text-white rounded-full ... px-2 py-1 caption overflow-hidden text-ellipsis whitespace-nowrap flex items-center">
+                  {studyInfo?.study_category[3]}
+                </p>
               </div>
             </div>
           ) : null}
@@ -170,7 +193,7 @@ export default function Write() {
             </p>
           </div>
           <textarea
-            className="p-4 rounded-2xl w-full bg-gray-100 text-secondary-300 placeholder-secondary-300 h-[80%]" // textarea 높이
+            className="p-4 rounded-2xl w-full bg-gray-100 placeholder-secondary-300 h-[80%]" // textarea 높이
             value={contents}
             maxLength={500}
             onChange={(e) => setContents(e.target.value)}
