@@ -1,15 +1,19 @@
 "use client";
-import EditIcon from "@/components/ui/icons/EditIcon";
 import { useEffect, useRef, useState } from "react";
-import { useDeleteMyPost } from "../hooks/useComments";
-import { useRouter } from "next/navigation";
 import { useSession } from "@/hooks/useUserProfile";
+import DotEditVertical from "../../../../../public/icons/DotEditVertical.svg";
+import Image from "next/image";
 
-const EditButton = ({ postId, userId }: { postId: string; userId: string }) => {
+interface EditButtonProps {
+  userId: string;
+  handleEdit?: () => void;
+  handleDelete: () => void;
+}
+
+const EditButton = ({ userId, handleDelete, handleEdit }: EditButtonProps) => {
   const [isSelect, setIsSelect] = useState(false);
   const outSection = useRef<HTMLDivElement | null>(null);
   const { data } = useSession();
-  const router = useRouter();
 
   useEffect(() => {
     window.addEventListener("mousedown", handleClickOutside);
@@ -29,30 +33,30 @@ const EditButton = ({ postId, userId }: { postId: string; userId: string }) => {
     setIsSelect(!isSelect);
   };
 
-  const { mutate } = useDeleteMyPost();
-
-  // 삭제 버튼
-  const handleDelete = () => {
-    const isConfirmed = window.confirm("해당 모집글을 삭제하시겠습니까?");
-    if (isConfirmed) {
-      mutate(postId);
-      router.replace("/");
-    }
-  };
-
   return data?.id === userId ? (
-    <div ref={outSection} className="flex flex-col items-end absolute right-0">
+    <div
+      ref={outSection}
+      className="flex flex-col absolute top-0 right-0 items-end"
+    >
       <button onClick={handleSelect}>
-        <EditIcon />
+        <Image
+          src={DotEditVertical}
+          alt="이미지"
+          width={24}
+          height={24}
+          className="z-10"
+        />
       </button>
       <ul
         className={
           isSelect
-            ? "flex flex-col justify-center items-center w-[60px] h-[64px] shadow-md shadow-gray-300 rounded-xl mt-1"
+            ? "flex flex-col z-30 gap-2 justify-center items-center px-4 py-[6px] [box-shadow:0_2px_10px_0_rgba(0,0,0,0.20)] rounded-lg mt-1 bg-white text-[#444] body-16-m"
             : "hidden"
         }
       >
-        <li className="cursor-pointer mb-[2px]">수정</li>
+        <li className="cursor-pointer" onClick={handleEdit}>
+          수정
+        </li>
         <li className="cursor-pointer" onClick={handleDelete}>
           삭제
         </li>

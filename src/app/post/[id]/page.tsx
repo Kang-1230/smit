@@ -19,7 +19,7 @@ export default async function PostDetailPage({
     <div className="flex flex-col mt-10 items-center mx-6">
       <DetailContents id={params.id} postData={postData} />
       <DetailComments id={params.id} />
-      <div className="flex w-full gap-2 items-center">
+      <div className="flex w-full gap-2 items-center mt-[11px] py-3">
         <LikeButton postId={+params.id} />
         <ShareStudy />
         <ApplyStudy postData={postData} />
