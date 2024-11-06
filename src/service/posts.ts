@@ -30,8 +30,12 @@ const sortByComments = (posts: PostWithRelations[]) => {
 };
 
 function filterByKeywords(data: PostWithRelations[], keywords: string[]) {
+  let newKeywords = ["", "개발"];
+
+  newKeywords = keywords.filter((keyword) => keyword !== "");
+
   return data.filter((item) =>
-    keywords.every((keyword) => item.study.study_category.includes(keyword)),
+    newKeywords.every((keyword) => item.study.study_category.includes(keyword)),
   );
 }
 

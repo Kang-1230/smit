@@ -10,7 +10,7 @@ import Image from "next/image";
 export default function FilterablePosts() {
   const [selectedCategory, setSelectedCategory] =
     useState<SortCategory>("최신순");
-  const [selectedJobs, setSelectedJobs] = useState<string[]>([]);
+  const [selectedJobs, setSelectedJobs] = useState<string[]>([""]);
   const { data: posts, refetch } = usePostsCategoryQuery(
     selectedJobs,
     selectedCategory,
@@ -32,8 +32,8 @@ export default function FilterablePosts() {
       <Category
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
-        selectedJobs={selectedJobs}
-        setSelectedJobs={setSelectedJobs}
+        arr={selectedJobs}
+        setArr={setSelectedJobs}
       />
 
       <ul className="flex flex-col gap-5">

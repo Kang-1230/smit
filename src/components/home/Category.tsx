@@ -2,39 +2,35 @@ import { SortCategory } from "@/service/posts";
 import { Dispatch, SetStateAction, useState } from "react";
 import Filter from "../common/Filter";
 import Dropdown from "../common/Dropdown";
+import Modal from "../common/Modal";
 
 type Props = {
   selectedCategory: string;
   setSelectedCategory: Dispatch<SetStateAction<SortCategory>>;
-  selectedJobs: string[];
-  setSelectedJobs: Dispatch<SetStateAction<string[]>>;
+  arr: string[];
+  setArr: Dispatch<SetStateAction<string[]>>;
 };
 
 export default function CategoryComponent({
   selectedCategory,
   setSelectedCategory,
-  selectedJobs,
-  setSelectedJobs,
+  arr,
+  setArr,
 }: Props) {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-  const [isJobOpen, setIsJobOpen] = useState(false);
+  const [isCommonModalOpen, setIsCommonModalOpen] = useState<boolean>(false);
+  const [commonModalMode, setCommonModalMode] = useState<string>("");
+
+  const handleModalClick = (mode: string) => {
+    setCommonModalMode(mode);
+    setIsCommonModalOpen(true);
+  };
 
   const categories: SortCategory[] = ["최신순", "인기순", "댓글순"];
-  const jobs = ["개발", "고등학생", "토익"];
 
   const handleCategoryClick = (category: SortCategory) => {
     setSelectedCategory(category);
     setIsCategoryOpen(false);
-  };
-
-  const handleJobClick = (job: string) => {
-    setSelectedJobs((prev) => {
-      if (prev.includes(job)) {
-        return prev.filter((j) => j !== job);
-      } else {
-        return [...prev, job];
-      }
-    });
   };
 
   return (
@@ -53,24 +49,37 @@ export default function CategoryComponent({
 
       <div>
         <Filter
-          text={selectedJobs.length > 0 ? selectedJobs.join(", ") : "직업 선택"}
-          onClick={() => setIsJobOpen(!isJobOpen)}
-          color="white"
+          text={arr[0] === "" ? "직업" : arr[0]}
+          onClick={() => handleModalClick("job")}
+          color={arr[0] === "" ? "white" : "black"}
         />
-        {isJobOpen && <Dropdown array={jobs} onClick={handleJobClick} />}
       </div>
+      <div>
+        <Filter
+          text={
+            !arr[1]
+              ? "스터디"
+              : arr.slice(1).length === 1
+                ? `${arr[1]}`
+                : `${arr[1]} 외 ${arr.slice(1).length - 1}개`
+          }
+          onClick={() => handleModalClick("study")}
+          color={!arr[1] ? "white" : "black"}
+        />
+      </div>
+
+      <Modal
+        isModalOpen={isCommonModalOpen}
+        onClose={() => {
+          setIsCommonModalOpen(false);
+        }}
+        onConfirm={(arr: string[]) => {
+          setArr(arr);
+          setIsCommonModalOpen(false);
+        }}
+        modalMode={commonModalMode}
+        arr={arr}
+      />
     </div>
   );
 }
-
-// <div className="absolute left-0 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg top-full">
-// {categories.map((category) => (
-//   <button
-//     key={category}
-//     className="flex items-center w-full gap-1 px-4 py-2 text-sm text-left hover:bg-gray-50"
-//     onClick={() => handleCategoryClick(category)}
-//   >
-//     {category}
-//   </button>
-// ))}
-// </div>
