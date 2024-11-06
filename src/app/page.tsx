@@ -10,8 +10,11 @@ export default async function HomePage() {
       <MultiCarousel>
         <Banner title="스밋과 함께 공부하자!" link="/event" />
       </MultiCarousel>
-      <FeaturedPosts />
-      <FilterablePosts />
+
+      <section className="my-12">
+        <FeaturedPosts />
+        <FilterablePosts />
+      </section>
       <Dropdown></Dropdown>
     </section>
   );
