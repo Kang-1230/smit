@@ -30,18 +30,29 @@ const menus = [
   },
 ];
 
-const HIDDEN_FOOTER_PATHS = ["/post","/write","/write/study"];
+const STATIC_HIDDEN_PATHS = ["/post","/write","/write/study"];
+const DYNAMIC_HIDDEN_PATHS = [
+  { prefix: "/post/" },
+  { prefix: "/study/" }, 
+];
 
 
 export default function Footer() {
   const pathName = usePathname();
 
-  // 헤더를 숨겨야 하는지 확인
-  const shouldHideHeader = () => {
-    return HIDDEN_FOOTER_PATHS.includes(pathName);
+  // 푸터를 숨겨야 하는지 확인
+  const shouldHideFooter = () => {
+    // 정적 경로 체크
+    if (STATIC_HIDDEN_PATHS.includes(pathName)) {
+      return true;
+    }
+    // 동적 경로 체크
+    return DYNAMIC_HIDDEN_PATHS.some(({ prefix }) => 
+      pathName.startsWith(prefix)
+    );
   };
 
-  if (shouldHideHeader()) {
+  if (shouldHideFooter()) {
     return null;
   }
 
