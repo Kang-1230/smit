@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Tables } from "../../../../../database.types";
 
 const StudyChat = ({ study }: { study: Tables<"study"> | null }) => {
@@ -11,17 +12,25 @@ const StudyChat = ({ study }: { study: Tables<"study"> | null }) => {
     }
   };
   return (
-    <div className="relative w-1/2 h-full p-4 bg-secondary-900 rounded-20">
+    <div className="relative h-full w-1/2 rounded-20 bg-secondary-900 p-4">
       <p className="body-16-m mb-[59px]">
         오픈 채팅방
         <br />
         바로가기
       </p>
-      <div className="w-[122px] h-[40px] rounded-full bg-gradient-to-r from-transparent to-white/60 from-30% absolute bottom-[13px] right-[13px] flex justify-end">
+      <div className="absolute bottom-[13px] right-[13px] flex h-[40px] w-[122px] justify-end rounded-full bg-gradient-to-r from-transparent from-30% to-white/60">
         <div
-          className="w-10 h-10 rounded-full bg-primary-50"
+          className="relative h-10 w-10 rounded-full bg-primary-50"
           onClick={openChatHandler}
-        />
+        >
+          <Image
+            src={`/icons/timer/ArrowLined.svg`}
+            alt="book icon"
+            width={20}
+            height={20}
+            className="absolute-center"
+          />
+        </div>
       </div>
     </div>
   );
