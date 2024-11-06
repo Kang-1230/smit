@@ -30,7 +30,7 @@ const SquarePostCard = ({ post }: { post: Tables<"post"> }) => {
 
   return (
     <Link href={`/post/${post.post_id}`}>
-      <div className="w-[260px] h-[216px] bg-secondary-900 text-white rounded-3xl px-5 pt-5 pb-6 flex flex-col justify-between">
+      <div className="flex h-[216px] w-[260px] flex-col justify-between rounded-3xl bg-secondary-900 px-5 pb-6 pt-5 text-white">
         <div>
           <p className="mb-3 body-16-s line-clamp-2">{post.post_name}</p>
           <div className="flex flex-row flex-wrap gap-1">
