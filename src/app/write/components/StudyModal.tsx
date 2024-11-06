@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import Write from "../../../../public/icons/Write.svg";
 import Warning from "../../../../public/icons/Warning.svg";
 
@@ -12,10 +12,12 @@ type ModalProps = {
 };
 
 const StudyModal = (props: ModalProps) => {
+// 모달이 열릴 때
+
   return props.isModalOpen ? (
-    <div className="fixed inset-0 flex items-center justify-center w-full h-full bg-black/70 z-50">
+    <div className="fixed inset-0 flex items-center justify-center w-full h-full bg-black/70 z-100">
       <div
-        className="bg-white p-6 rounded-3xl shadow-lg flex flex-col justify-center items-center w-5/6 h-fit overflow-y-auto overflow-x-hidden"
+        className="bg-white px-6 py-4 rounded-3xl shadow-lg flex flex-col justify-center items-center w-5/6 h-2/5 overflow-y-auto overflow-x-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {props.modalMode === "nonexist" ? (
@@ -27,7 +29,7 @@ const StudyModal = (props: ModalProps) => {
             <p className="body-14-m text-center text-gray-700 mb-4">
               지금 바로 스터디를 만드시겠습니까?
             </p>
-            <div className="flex justify-center w-full size-12 m-6">
+            <div className="flex justify-center">
               <button
                 onClick={props.onClose}
                 className="flex text-black border border-black rounded-full ... w-2/6 ml-1 text-lg text-center items-center justify-center"
