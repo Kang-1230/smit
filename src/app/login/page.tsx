@@ -28,6 +28,7 @@ export default function LoginPage() {
     } else {
       console.log("로그인 완료", data);
       alert("로그인 되었습니다.");
+      window.location.href = "/";
     }
   };
 
@@ -161,9 +162,11 @@ export default function LoginPage() {
                 </button>
               </>
             )}
-            <button className="beige lgBtn w-[327px] h-[48px] mt-[8px]">
-              <Link href={"/signup"}>계정 만들기</Link>
-            </button>
+            <Link href={"/signup"}>
+              <button className="beige lgBtn w-[327px] h-[48px] mt-[8px] flex items-center justify-center">
+                계정 만들기
+              </button>
+            </Link>
           </div>
 
           <div className="mt-[32px] flex flex-col w-[327px] items-center gap-5 ">
