@@ -20,6 +20,8 @@ export default function FilterablePosts() {
     refetch();
   }, [selectedJobs, selectedCategory, refetch]);
 
+  console.log(!posts);
+
   if (!posts) return <>Posts가 없습니다</>;
 
   return (
@@ -37,6 +39,11 @@ export default function FilterablePosts() {
       />
 
       <ul className="flex flex-col gap-5">
+        {!posts.length && (
+          <div className="mt-6 text-center text-sm font-bold">
+            관련된 POST가 없습니다..!
+          </div>
+        )}
         {posts?.map((post) => (
           <li key={post.post_id}>
             <PostCard post={post} />
