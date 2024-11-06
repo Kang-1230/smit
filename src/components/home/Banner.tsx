@@ -8,20 +8,22 @@ type Props = {
 
 export default function Banner({ title, link }: Props) {
   return (
-    <section className="bg-[url('/images/BannerImage.jpg')] bg-cover bg-center py-8 px-6 h-[472px] text-white flex flex-col justify-end">
+    <section className="flex h-[472px] flex-col justify-end bg-[url('/images/BannerImage.jpg')] bg-cover bg-center px-6 py-8 text-white">
+      {/* <div className="absolute inset-0 bg-opacity-10 bg-gradient-to-b from-black via-white to-black"></div> */}
       <Link href={link}>
         {/* 어두운 오버레이 */}
-        <div className="absolute inset-0 bg-[black] bg-opacity-45"></div>
+        {/* <div className="absolute inset-0 bg-black bg-opacity-45"></div> */}
+        <div className="absolute inset-0 bg-opacity-35 bg-gradient-to-b from-[rgba(34,34,34,0.6)] via-transparent to-[#010101]"></div>
 
-        <div className="z-10 relative">
-          <div className="px-2 mb-4">
-            <h2 className="font-medium text-xs">EVENT</h2>
-            <h1 className="font-semibold text-2xl">{title}</h1>
+        <div className="relative z-10">
+          <div className="mb-4 px-2">
+            <h2 className="text-xs font-medium">EVENT</h2>
+            <h1 className="text-2xl font-semibold">{title}</h1>
           </div>
 
-          <button className="bg-white text-white rounded-24 pl-5 pr-1 py-1 flex font-light items-center gap-11 text-base bg-opacity-35 backdrop-blur-sm">
+          <button className="flex items-center gap-11 rounded-24 bg-white bg-opacity-35 py-1 pl-5 pr-1 text-base font-light text-white backdrop-blur-sm">
             바로가기
-            <div className="rounded-full bg-secondary-900 w-11 h-11 flex justify-center items-center">
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-secondary-900">
               <Image
                 src={`/icons/ArrowTopRight.svg`}
                 width={20}
