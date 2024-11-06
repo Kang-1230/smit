@@ -1,5 +1,7 @@
 import { SortCategory } from "@/service/posts";
 import { Dispatch, SetStateAction, useState } from "react";
+import Filter from "../common/Filter";
+import Dropdown from "../common/Dropdown";
 
 type Props = {
   selectedCategory: string;
@@ -36,80 +38,39 @@ export default function CategoryComponent({
   };
 
   return (
-    <div className="flex gap-2 relative">
+    <div className="relative my-4 flex gap-1">
       {/* 카테고리 */}
-      <button
-        className="flex items-center gap-1 rounded-full border border-gray-200 px-4 py-2 text-sm hover:bg-gray-50"
-        onClick={() => setIsCategoryOpen(!isCategoryOpen)}
-      >
-        {selectedCategory}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-4 w-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
-      </button>
+      <div className="flex flex-col items-center gap-1">
+        <Filter
+          text={selectedCategory}
+          onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+          color="white"
+        />
+        {isCategoryOpen && (
+          <Dropdown array={categories} onClick={handleCategoryClick} />
+        )}
+      </div>
 
-      {isCategoryOpen && (
-        <div className="absolute top-full left-0 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg">
-          {categories.map((category) => (
-            <button
-              key={category}
-              className="flex items-center gap-1 w-full px-4 py-2 text-sm text-left hover:bg-gray-50"
-              onClick={() => handleCategoryClick(category)}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* 직업 */}
-      <button
-        className="flex items-center gap-1 rounded-full border border-gray-200 px-4 py-2 text-sm hover:bg-gray-50"
-        onClick={() => setIsJobOpen(!isJobOpen)}
-      >
-        {selectedJobs.length > 0 ? selectedJobs.join(", ") : "직업 선택"}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-4 w-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
-      </button>
-
-      {isJobOpen && (
-        <div className="absolute top-full left-0 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg">
-          {jobs.map((job) => (
-            <button
-              key={job}
-              className={`flex items-center gap-1 w-full px-4 py-2 text-sm text-left hover:bg-gray-50 ${
-                selectedJobs.includes(job) ? "bg-gray-200" : ""
-              }`}
-              onClick={() => handleJobClick(job)}
-            >
-              {job}
-            </button>
-          ))}
-        </div>
-      )}
+      <div>
+        <Filter
+          text={selectedJobs.length > 0 ? selectedJobs.join(", ") : "직업 선택"}
+          onClick={() => setIsJobOpen(!isJobOpen)}
+          color="white"
+        />
+        {isJobOpen && <Dropdown array={jobs} onClick={handleJobClick} />}
+      </div>
     </div>
   );
 }
+
+// <div className="absolute left-0 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg top-full">
+// {categories.map((category) => (
+//   <button
+//     key={category}
+//     className="flex items-center w-full gap-1 px-4 py-2 text-sm text-left hover:bg-gray-50"
+//     onClick={() => handleCategoryClick(category)}
+//   >
+//     {category}
+//   </button>
+// ))}
+// </div>
