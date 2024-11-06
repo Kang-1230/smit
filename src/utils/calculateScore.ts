@@ -23,9 +23,6 @@ export const calculateScore = (
     const endHour = parseInt(currentSchedule.end_time.split(":")[0]);
     const timeDiff = endHour - startHour;
 
-    console.log("여기", rawAchievementRate);
-    console.log("저기", achievementRate);
-
     const scoreTable: ScoreTable = {
       100: {
         1: 100,
@@ -112,8 +109,6 @@ export const calculateScore = (
         12: 600,
       },
     };
-
-    console.log("최종 점수", scoreTable[achievementRate][timeDiff]);
 
     return scoreTable[achievementRate][timeDiff] || 0;
   } else return 0;

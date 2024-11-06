@@ -17,7 +17,11 @@ const getEndpointPosition = (percent: number) => {
   };
 };
 
-export const useStudyManager = (studyId: string, member: string[] | null) => {
+export const useStudyManager = (
+  studyId: string,
+  member: string[] | null,
+  study: Tables<"study"> | null,
+) => {
   const queryClient = useQueryClient();
 
   // 현재 시간에 해당하는 스케쥴
@@ -130,7 +134,9 @@ export const useStudyManager = (studyId: string, member: string[] | null) => {
   });
 
   // 달성자 리스트 쿼리
-  const { data: achieverList = null } = useQuery<Tables<"timer">[] | null>({
+  const { data: achieverList = null, refetch: refetchAchievers } = useQuery<
+    Tables<"timer">[] | null
+  >({
     queryKey: ["achievers", studyId, currentSchedule?.calendar_id],
     queryFn: async () => {
       const { data } = await browserClient
@@ -140,7 +146,6 @@ export const useStudyManager = (studyId: string, member: string[] | null) => {
         .gte("time_rate", 80);
       return data;
     },
-    enabled: !!currentSchedule,
   });
 
   const handleStart = () => {
@@ -175,24 +180,25 @@ export const useStudyManager = (studyId: string, member: string[] | null) => {
 
   const handleScheduleEnd = async (schedule: Tables<"calendar">) => {
     try {
-      // 1. 달성자 목록 새로 가져오기
-      await queryClient.invalidateQueries({
-        queryKey: ["achievers", studyId, schedule.calendar_id],
-      });
+      const { data: achievers = null, error } = await refetchAchievers();
+      if (error) {
+        console.error("Achiever refetch error:", error);
+        return;
+      }
 
       // 2. 새로운 달성자 목록으로 점수 계산
       if (member) {
-        const score = calculateScore(member.length, achieverList, {
+        const score = calculateScore(member.length, achievers, {
           start_time: schedule.start_time,
           end_time: schedule.end_time,
         });
         setStudyScore(score);
 
         // 3. 계산된 점수로 DB 업데이트
-        if (score > 0) {
+        if (score > 0 && study) {
           await browserClient
             .from("study")
-            .update({ study_score: score })
+            .update({ study_score: study?.study_score + score })
             .eq("study_id", studyId);
         }
       }
@@ -200,7 +206,6 @@ export const useStudyManager = (studyId: string, member: string[] | null) => {
       console.error("Error updating study score:", error);
     }
   };
-
   // 현재 일정 찾기 및 초기화
   useEffect(() => {
     const initializeTimer = () => {
