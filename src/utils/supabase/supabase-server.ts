@@ -141,7 +141,7 @@ export const fetchStudyInfo = async (study_id: string) => {
 };
 
 // post 정보와 study 정보 함께 가져오기
-export const fetchPostStudyInfo = async (id: string) => {
+export const fetchPostStudyInfo = async (id: number) => {
   const serverClient = createClient();
   const { data, error } = await serverClient
     .from("post")

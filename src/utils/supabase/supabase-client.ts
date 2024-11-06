@@ -82,6 +82,7 @@ export const insertStudy = async (
   });
 
   if (error) {
+    console.log(error);
     throw new Error("스터디를 생성하지 못했어요.");
   }
 };
@@ -172,7 +173,7 @@ export const updatePostWrite = async (
   contents: string,
   title: string,
   startDay: string,
-  post_id: string,
+  post_id: number,
 ) => {
   const user = await fetchSessionData();
   if (!user) {

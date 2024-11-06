@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Tables } from "../../../database.types";
 import { usePublicUser } from "@/hooks/useUserProfile";
 import { useMutation } from "@tanstack/react-query";
@@ -24,12 +24,18 @@ type study = {
 };
 
 export default function Write() {
+  <Suspense fallback={<div>로딩 중입니다. 잠시만 기다려주십시오..</div>}>
+    <WriteContent></WriteContent>
+  </Suspense>
+}
+
+ function WriteContent() {
   //유저 가져오기
   const { data: user } = usePublicUser();
   
   const router = useRouter();
   const params = useSearchParams();
-  const post_id = params.get('post');
+  const post_id = Number(params.get('post'));
 
   // 전송 시 필요한 인자값 - 데이터 관련 정리 필요
   const [title, setTitle] = useState<string>("");
@@ -71,6 +77,7 @@ export default function Write() {
       } else {
         router.replace(`/post/${data}`);   
       }
+
     },
 
     onError: () => {
