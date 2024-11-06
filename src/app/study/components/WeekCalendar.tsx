@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { ChevronRight, Clock } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import browserClient from "@/utils/supabase/client";
 import { Tables } from "../../../../database.types";
