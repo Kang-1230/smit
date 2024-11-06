@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
 import ScrollPicker from "@/components/common/ScrollPicker";
-import { Tables } from "../../../../database.types";
-const buttonClass = "p-2.5 flex-1 rounded-xl bg-[#8D8D8D]";
+import { Tables } from "../../../../../database.types";
+import SelectDateModal from "@/components/common/SelectDateModal";
 
 interface SelecTimeProps {
   onTimeSelect: (time: string) => void;
@@ -149,44 +149,25 @@ const SelectTime = ({
   };
 
   return (
-    <div
-      onClick={onClose}
-      className="fixed inset-0 flex items-center justify-center w-full h-full bg-black/70 z-50"
+    <SelectDateModal
+      handleClose={onClose}
+      handleConfirm={handleConfirm}
+      selectedDate={convertTimeFormat(`${selectedHour}:${selectedMinute}`)}
     >
-      <div
-        className="w-full m-6 h-[258px] bg-white rounded-2xl flex items-center justify-center p-6"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <section className="w-full">
-          <p className="text-center text-xl font-medium border-b-2 pb-2">
-            {convertTimeFormat(`${selectedHour}:${selectedMinute}`)}
-          </p>
-          <div className="flex justify-center items-center">
-            {/* 시간 선택 */}
-            <ScrollPicker
-              options={hours}
-              handleScroll={handleHourScroll}
-              selectedItem={selectedHour}
-            />
-            <span className="text-xl font-bold mx-4">:</span>
-            {/* 분 선택 */}
-            <ScrollPicker
-              options={minutes}
-              handleScroll={handleMinuteScroll}
-              selectedItem={selectedMinute}
-            />
-          </div>
-          <div className="flex justify-center items-center gap-2 text-white mt-4">
-            <button onClick={onClose} className={buttonClass}>
-              취소
-            </button>
-            <button onClick={handleConfirm} className={buttonClass}>
-              확인
-            </button>
-          </div>
-        </section>
-      </div>
-    </div>
+      {/* 시간 선택 */}
+      <ScrollPicker
+        options={hours}
+        handleScroll={handleHourScroll}
+        selectedItem={selectedHour}
+      />
+      <span className="text-xl font-bold mx-4">:</span>
+      {/* 분 선택 */}
+      <ScrollPicker
+        options={minutes}
+        handleScroll={handleMinuteScroll}
+        selectedItem={selectedMinute}
+      />
+    </SelectDateModal>
   );
 };
 
