@@ -4,7 +4,6 @@ import PersonalMemos from "../components/PersonalMemos";
 import {
   addAttendanceList,
   fetchStudyInfo,
-  getUser,
 } from "@/utils/supabase/supabase-server";
 import { fetchStudyMember } from "@/utils/supabase/supabase-client";
 
@@ -21,8 +20,6 @@ const Page = async ({ params }: { params: { id: string } }) => {
   await addAttendanceList(studyId, today);
   const studyMember = await fetchStudyMember(studyId);
 
-  console.log(studyMember);
-
   return (
     <div className="flex flex-col items-center px-6 w-full bg-secondary-800 pt-[64px] text-white overflow-x-hidden">
       <StudyInfo study={study} member={studyMember} />
@@ -32,9 +29,9 @@ const Page = async ({ params }: { params: { id: string } }) => {
         today={today}
         study={study}
       >
-        <GroupCalendar studyId={studyId} />
         <TimerTimer studyId={studyId} />
       </StudyStateBox>
+      <GroupCalendar studyId={studyId} />
       <PersonalMemos studyId={studyId} />
       <WaitApplyList urlStudyId={studyId} />
     </div>

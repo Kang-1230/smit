@@ -17,7 +17,7 @@ const StudyStateBox = ({
   member: Pick<Tables<"study_applylist">, "user_id">[] | null;
   studyId: string;
   today: string;
-  children: JSX.Element[];
+  children: JSX.Element;
   study: Tables<"study"> | null;
 }) => {
   const {

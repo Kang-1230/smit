@@ -17,7 +17,7 @@ const StudyChat = ({ study }: { study: Tables<"study"> | null }) => {
         <br />
         바로가기
       </p>
-      <div className="w-[122px] h-[40px] rounded-full bg-gradient-to-r from-transparent to-white/60 from-35% absolute bottom-[13px] right-[13px] flex justify-end">
+      <div className="w-[122px] h-[40px] rounded-full bg-gradient-to-r from-transparent to-white/60 from-30% absolute bottom-[13px] right-[13px] flex justify-end">
         <div
           className="w-10 h-10 rounded-full bg-primary-50"
           onClick={openChatHandler}

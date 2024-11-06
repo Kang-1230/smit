@@ -28,6 +28,7 @@ export default function LoginPage() {
     } else {
       console.log("로그인 완료", data);
       alert("로그인 되었습니다.");
+      window.location.href = "/";
     }
   };
 
@@ -161,12 +162,14 @@ export default function LoginPage() {
                 </button>
               </>
             )}
-            <button className="beige lgBtn w-[327px] h-[48px] mt-[8px]">
-              <Link href={"/signup"}>계정 만들기</Link>
-            </button>
+            <Link href={"/signup"}>
+              <button className="beige lgBtn w-[327px] h-[48px] mt-[8px] flex items-center justify-center">
+                계정 만들기
+              </button>
+            </Link>
           </div>
 
-          <div className="mt-[32px] flex flex-col w-[327px] items-center gap-5 absolute top-[500px] left-6">
+          <div className="mt-[32px] flex flex-col w-[327px] items-center gap-5 ">
             <div className="flex items-center justify-center gap-2 relative self-stretch w-full flex-{0_0_auto]">
               <Image alt="Vector" src={SNSVector} />
               <div className="relative w-fit mt-[-1.00px] caption text-center whitespace-nowrap text-#7e7b72">
@@ -174,18 +177,30 @@ export default function LoginPage() {
               </div>
               <Image alt="Vector" src={SNSVector} />
             </div>
-
-            <button onClick={() => handleGoogleSignIn()}>
-              <Image
-                src={GoogleLogo}
-                alt="Google Login"
-                width={24}
-                height={24}
-              />
-            </button>
-            <button onClick={() => handleKaKaoSignIn()}>
-              <Image src={KakaoLogo} alt="Kakao Login" width={24} height={24} />
-            </button>
+            <div className="flex gap-[9px]">
+              <button
+                onClick={() => handleGoogleSignIn()}
+                className="w-[60px] h-[60px] bg-white rounded-full flex items-center justify-center"
+              >
+                <Image
+                  src={KakaoLogo}
+                  alt="Kakao Login"
+                  width={32}
+                  height={32}
+                />
+              </button>
+              <button
+                onClick={() => handleKaKaoSignIn()}
+                className="w-[60px] h-[60px] bg-white rounded-full flex items-center justify-center"
+              >
+                <Image
+                  src={GoogleLogo}
+                  alt="Google Login"
+                  width={32}
+                  height={32}
+                />
+              </button>
+            </div>
           </div>
         </section>
       </div>
