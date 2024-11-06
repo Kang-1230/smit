@@ -80,7 +80,7 @@ export async function fetchAllPostsServer(): Promise<PostWithRelations[]> {
     .select(`*, study(*), user(*)`);
 
   if (!posts) {
-    throw new Error("Failed to retrieve posts");
+    return [];
   }
   return posts;
 }

@@ -128,7 +128,7 @@ export default function RankingPage() {
             isXButtonVisible={false}
             onClick={() => setIsQuestionModal(false)}
           >
-            <QuestionModal />
+            <QuestionModal onClick={() => setIsQuestionModal(false)} />
           </RankingModalOverlay>
         )}
       </section>
