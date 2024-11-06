@@ -1,19 +1,20 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Tables } from "../../../database.types";
 import { usePublicUser } from "@/hooks/useUserProfile";
 import { useMutation } from "@tanstack/react-query";
 import {
   fetchUserStudyInfo,
   insertPostWrite,
+  updatePostWrite,
 } from "@/utils/supabase/supabase-client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import WriteModal from "./components/WriteModal";
 import Image from "next/image";
 import Xmedium from "../../../public/icons/XMedium.svg";
 import Check from "../../../public/icons/Check.svg";
 import stroke from "../../../public/icons/Next.svg";
-import { fetchStudyInfo } from "@/utils/supabase/supabase-server";
+import { fetchPostStudyInfo, fetchStudyInfo } from "@/utils/supabase/supabase-server";
 
 import SelectDate from "./components/SelectDate";
 
@@ -23,10 +24,18 @@ type study = {
 };
 
 export default function Write() {
+  <Suspense fallback={<div>로딩 중입니다. 잠시만 기다려주십시오..</div>}>
+    <WriteContent></WriteContent>
+  </Suspense>
+}
+
+ function WriteContent() {
   //유저 가져오기
   const { data: user } = usePublicUser();
-
+  
   const router = useRouter();
+  const params = useSearchParams();
+  const post_id = Number(params.get('post'));
 
   // 전송 시 필요한 인자값 - 데이터 관련 정리 필요
   const [title, setTitle] = useState<string>("");
@@ -55,28 +64,34 @@ export default function Write() {
 
   // 스터디 모집글 생성
   const { mutate: createPost } = useMutation({
-    mutationFn: () =>
-      insertPostWrite(user?.id ?? "", study.id, contents, title, startDay),
+    mutationFn: async() => {
+      if(post_id) {
+        await updatePostWrite(user?.id ?? "", study.id, contents, title, startDay,post_id);
+      } else {
+        await insertPostWrite(user?.id ?? "", study.id, contents, title, startDay);
+      }
+    },
     onSuccess: (data) => {
-      router.replace(`/post/${data}`);
+      if(post_id) {
+        router.replace(`/post/${post_id}`);
+      } else {
+        router.replace(`/post/${data}`);   
+      }
+
     },
 
     onError: () => {
-      alert("스터디 모집글을 생성하지 못했습니다.");
+      if(post_id) {
+        alert("스터디 모집글을 수정하지 못했습니다.");
+      } else {
+        alert("스터디 모집글을 생성하지 못했습니다.");
+      }
+      
     },
   });
 
-  // 작성 취소 버튼 클릭 시
-  const handleModalClose = () => {
-    if (title) {
-      setModalMode("close");
-      setIsModalOpen(true);
-    } else {
-      router.replace("/");
-    }
-  };
 
-  // 스터디 생성 tanstack
+  // 스터디 그룹 가져오기 모달
   const { mutate: getStudy } = useMutation({
     mutationFn: () => fetchUserStudyInfo(user?.id),
     onSuccess: (data) => {
@@ -91,6 +106,17 @@ export default function Write() {
     },
   });
 
+    // 작성 취소 버튼 클릭 시
+    const handleModalClose = () => {
+      if (title) {
+        setModalMode("close");
+        setIsModalOpen(true);
+      } else {
+        router.replace("/");
+      }
+    };
+  
+
   // 선택한 스터디 객체가 바뀔 때마다 스터디 데이터 가져옴
   useEffect(() => {
     const getStudyInfo = async () => {
@@ -103,6 +129,23 @@ export default function Write() {
     getStudyInfo();
   }, [study]);
 
+
+  // 페이지 첫 접근 시 postID 존재 시 말이 달라짐 - 한번만 실행해서 값을 가져오자
+  useEffect(() => {
+    if (post_id) {
+      const fetchPostData = async () => {
+        const data = await fetchPostStudyInfo(post_id);
+        if (data) {
+          setTitle(data.post_name || "");
+          setStartDay(data.study_startday || "");
+          setContents(data.post_contents || "");
+          setStudy({ id: data.study_id, name: data.study.study_name });
+        }
+      };
+      fetchPostData();
+    }
+  }, [post_id]);
+  
   return (
     <div className="flex flex-col w-full items-center">
       <div className="body-16-m flex flex-col w-full items-center">
@@ -113,7 +156,7 @@ export default function Write() {
             width={0}
             onClick={() => handleModalClose()}
           />
-          <p className="body-16-s text-black ">모집글 쓰기</p>
+          <p className="body-16-s text-black ">{post_id ? "모집글 수정" : "모집글 쓰기"}</p>
           <Image
             src={Check}
             alt="selectBtn"
@@ -129,6 +172,7 @@ export default function Write() {
           <input
             className="p-3 rounded-2xl w-full my-3 bg-secondary-50 body-16-m placeholder-secondary-300"
             value={title}
+            maxLength={20}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="제목을 작성해주세요"
           />
