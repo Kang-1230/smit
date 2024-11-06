@@ -54,8 +54,18 @@ export default function Header() {
     }
   };
 
-  //현재 경로가 HIDDEN_HEADER_PATHS에 포함되어 있으면 숨기기
-  if (HIDDEN_HEADER_PATHS.includes(pathname)) {
+  // pathname이 study/{id} 형식인지 확인
+  const isStudyDetailPath = () => {
+    const pathSegments = pathname.split("/");
+    return pathSegments[1] === "study" && pathSegments[2]; // study 다음에 id가 있는지 체크
+  };
+
+  // 헤더를 숨겨야 하는지 확인
+  const shouldHideHeader = () => {
+    return HIDDEN_HEADER_PATHS.includes(pathname) || isStudyDetailPath();
+  };
+
+  if (shouldHideHeader()) {
     return null;
   }
 
