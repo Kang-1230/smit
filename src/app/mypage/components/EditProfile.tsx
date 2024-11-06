@@ -101,16 +101,15 @@ const EditProfile = ({
           height={264}
           className="rounded-20"
         />
-        <div className="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 w-full h-full">
+        <div className="absolute-center w-full h-full">
           <div className="bg-black/20 bg-blend-overlay w-full h-full rounded-20 relative">
-            <div className="p-[10px] rounded-full bg-white/60 inline-block absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2">
-              <Image
-                src={`icons/Picture.svg`}
-                alt="icon"
-                width={24}
-                height={24}
-              ></Image>
-            </div>
+            <Image
+              src={`icons/ImageSelect.svg`}
+              alt="icon"
+              width={44}
+              height={44}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            ></Image>
           </div>
         </div>
       </div>

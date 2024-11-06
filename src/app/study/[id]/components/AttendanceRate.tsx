@@ -24,13 +24,18 @@ const AttendanceRate = async ({
   const todayAttendee = fetchAttendanceRate(studyId, today);
 
   return (
-    <div className="bg-blue-200 h-1/2 rounded-[20px] p-4">
-      <p className="text-xs">출석인원</p>
-      <p className="text-xl mt-[14px] text-center">
-        {/* 매니저는 applylist에 없어서 +1 해줌 */}
-        <span className="font-semibold">{todayAttendee}</span>/
-        {member ? member.length + 1 : 1}
-      </p>
+    <div className="p-[1px] w-full min-h-[99px] bg-gradient-to-br from-[#8D8D8D] to-[#656565] rounded-20 relative">
+      <div className="w-full h-full rounded-20 relative overflow-hidden text-white bg-secondary-800">
+        <div className="w-14 h-12 rounded-full bg-[rgba(255,153,69,0.3)] blur-xl absolute -top-3 left-0"></div>
+        <div className="bg-gradient-to-b from-[#6d6d6d80] to-[#6b696980] w-full h-full p-4 rounded-20">
+          <div className="caption text-secondary-200">출석인원</div>
+          <p className="title-20-r mt-[14px] text-center">
+            {/* 매니저는 applylist에 없어서 +1 해줌 */}
+            <span className="title-20-b">{todayAttendee}</span> /{" "}
+            {member ? member.length + 1 : 1}
+          </p>
+        </div>
+      </div>
     </div>
   );
 };

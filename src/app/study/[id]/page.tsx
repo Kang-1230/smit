@@ -17,7 +17,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
   const studyMember = await fetchStudyMember(studyId);
 
   return (
-    <div className="flex flex-col items-center px-6">
+    <div className="flex flex-col items-center px-6 w-full bg-secondary-800">
       <StudyInfo studyId={studyId} />
       <GroupCalendar studyId={studyId} />
       <TimerTimer studyId={studyId} />
