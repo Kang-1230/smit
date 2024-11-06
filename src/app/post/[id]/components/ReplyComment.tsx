@@ -3,6 +3,7 @@ import { useAddCommentMutation } from "../hooks/useComments";
 import { usePublicUser } from "@/hooks/useUserProfile";
 import Image from "next/image";
 import browserClient from "@/utils/supabase/client";
+import SendLined from "../../../../../public/icons/SendLined.svg";
 
 interface ReplyCommentProps {
   parentId: string;
@@ -54,7 +55,7 @@ const ReplyComment = ({
   };
 
   return (
-    <form className="flex mt-2" onSubmit={handleSubmit}>
+    <form className="flex my-2" onSubmit={handleSubmit}>
       <Image
         src={profileImg}
         alt="유저 이미지"
@@ -62,18 +63,27 @@ const ReplyComment = ({
         height={40}
         className="rounded-full border aspect-square object-cover flex-shrink-0"
       />
-
-      <div className="flex items-center border-b-2 border-gray-500 flex-1 min-w-0">
-        <span className="text-blue-500 py-2 flex-shrink-0">@{replyToName}</span>
+      <div className="flex items-center border-b border-secondary-200 flex-1 ml-2">
+        <span className="text-[#30A1D1] body-16-m flex-shrink-0">
+          @{replyToName}
+        </span>
         <input
           type="text"
           value={replyContent}
           onChange={(e) => setReplyContent(e.target.value)}
-          className="focus:outline-none ml-1 py-2 w-full min-w-0"
+          className="focus:outline-none ml-1 w-full body-16-m text-[#444]"
           placeholder="답글 작성"
         />
+        <button>
+          <Image
+            src={SendLined}
+            alt="입력"
+            width={24}
+            height={24}
+            className="flex-shrink-0"
+          />
+        </button>
       </div>
-      <button className="ml-2 flex-shrink-0">답글 작성</button>
     </form>
   );
 };

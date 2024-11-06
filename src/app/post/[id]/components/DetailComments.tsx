@@ -6,6 +6,7 @@ import { usePublicUser } from "@/hooks/useUserProfile";
 import Image from "next/image";
 import browserClient from "@/utils/supabase/client";
 import CommentListItem from "./CommentListItem";
+import SendLined from "../../../../../public/icons/SendLined.svg";
 
 const DetailComments = ({ id }: { id: string }) => {
   const [commentItem, setCommentItem] = useState("");
@@ -31,43 +32,53 @@ const DetailComments = ({ id }: { id: string }) => {
   }
 
   return (
-    <div className="mt-10 w-full">
-      <span>댓글 {commentList?.length}</span>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          // 빈값 체크
-          if (!commentItem.trim()) {
-            alert("댓글 내용을 입력해주세요!");
-            return;
-          }
-          addComment(
-            { id, commentItem },
-            {
-              onSuccess: () => {
-                setCommentItem("");
-              },
-            },
-          );
-        }}
-        className="flex mb-5"
-      >
+    <div className="mt-4 w-full">
+      <span className="body-16-s">댓글 {commentList?.length}</span>
+      <div className="flex mt-3 mb-7">
         <Image
           src={profileImg}
           alt="프로필 이미지"
-          width={50}
-          height={50}
-          className="rounded-full border aspect-square object-cover"
+          width={40}
+          height={40}
+          className="rounded-full aspect-square object-cover shrink-0 mr-2"
         />
-        <input
-          type="text"
-          value={commentItem}
-          onChange={(e) => setCommentItem(e.target.value)}
-          placeholder="댓글 작성"
-          className="w-full border-b-2 border-gray-500 focus:outline-none"
-        />
-        <button className="flex-shrink-0">입력</button>
-      </form>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            // 빈값 체크
+            if (!commentItem.trim()) {
+              alert("댓글 내용을 입력해주세요!");
+              return;
+            }
+            addComment(
+              { id, commentItem },
+              {
+                onSuccess: () => {
+                  setCommentItem("");
+                },
+              },
+            );
+          }}
+          className="flex flex-1 border-b border-secondary-200"
+        >
+          <input
+            type="text"
+            value={commentItem}
+            onChange={(e) => setCommentItem(e.target.value)}
+            placeholder="댓글 작성"
+            className="w-full focus:outline-none body-16-m text-[#444]"
+          />
+          <button>
+            <Image
+              src={SendLined}
+              alt="입력"
+              width={24}
+              height={24}
+              className="flex-shrink-0"
+            />
+          </button>
+        </form>
+      </div>
       <div>
         {commentList && commentList.length > 0 ? (
           commentList.map((comment) => (
