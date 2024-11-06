@@ -12,6 +12,7 @@ import ImageSelect from "../../../../public/icons/ImageSelect.svg";
 import Xmedium from "../../../../public/icons/XMedium.svg";
 import Check from "../../../../public/icons/Check.svg";
 import stroke from "../../../../public/icons/Next.svg";
+import SelectDate from "../components/SelectDate";
 
 export default function Study() {
   return (
@@ -44,6 +45,9 @@ function StudyContent() {
   // 공용 모달 관리 - 직업 태그, 분류 태그 관리
   const [isCommonModalOpen, setIsCommonModalOpen] = useState<boolean>(false);
   const [commonModalMode, setCommonModalMode] = useState<string>("");
+
+  // Date 모달 상태관리
+  const [isDateOpen, setIsDateOpen] = useState<boolean>(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -163,6 +167,7 @@ function StudyContent() {
           ref={fileInputRef}
           className="hidden"
           type="file"
+          accept="image/*"
           onChange={ImageUploadHandler}
         />
       </div>
@@ -199,8 +204,8 @@ function StudyContent() {
 
       <div className="flex items-center justify-between w-full border border-gray-300 rounded-2xl mb-5">
         <p className="p-3">인원</p>
-        <div onClick={() => setUserCnt(1)} className="flex">
-          <p className="text-secondary-300 body-16-m pr-3">{`${userCnt}`}</p>
+        <div onClick={() => setIsDateOpen(true)} className="flex">
+          <p className="text-secondary-300 body-16-m pr-3">{`${userCnt}명`}</p>
           <Image src={stroke} alt="selectBtn" width={0} className="mr-3" />
         </div>
       </div>
@@ -250,6 +255,20 @@ function StudyContent() {
         modalMode={commonModalMode}
         arr={arr}
       />
+
+      {isDateOpen && (
+        <SelectDate
+          onConfirm={(cnt: string) => {
+            setUserCnt(Number(cnt));
+            setIsDateOpen(false);
+          }}
+          onClose={() => {
+            setIsModalOpen(false);
+            setIsDateOpen(false);
+          }}
+          mode="cnt"
+        />
+      )}
     </div>
   );
 }
