@@ -7,9 +7,14 @@ import Image from "next/image";
 type Props = {
   postId: number;
   showLikesCount?: boolean;
+  isBoundary?: boolean;
 };
 
-const LikeButton = ({ postId, showLikesCount = false }: Props) => {
+const LikeButton = ({
+  postId,
+  showLikesCount = false,
+  isBoundary = true,
+}: Props) => {
   // 지금 로그인한 유저 정보
   const { data: user = null } = useSession();
   // 현재 포스트에 좋아요를 누른 유저
@@ -32,21 +37,21 @@ const LikeButton = ({ postId, showLikesCount = false }: Props) => {
     <>
       <button
         onClick={handleClick}
-        className="p-2 rounded-full bg-secondary-700"
+        className={`rounded-full ${isBoundary ? "bg-secondary-700" : ""} p-2`}
       >
         {isLike ? (
           <Image
             src={`/icons/HeartFill.svg`}
             alt="fill-heart"
-            width={24}
-            height={24}
+            width={30}
+            height={30}
           />
         ) : (
           <Image
             src={`/icons/Heart.svg`}
             alt="fill-heart"
-            width={24}
-            height={24}
+            width={30}
+            height={30}
           />
         )}
       </button>
