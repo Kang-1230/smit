@@ -1,6 +1,6 @@
 import { StudyApplyList } from "@/service/posts";
 import browserClient from "@/utils/supabase/client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Tables } from "../../../database.types";
 
 const countApprovedApplicants = (applications: StudyApplyList[] | null) => {
@@ -22,7 +22,7 @@ export default function OccupancyCounter({ studyId, maxParticipants }: Props) {
     [],
   );
 
-  const fetchApplications = async () => {
+  const fetchApplications = useCallback(async () => {
     const { data, error } = await browserClient
       .from("study_applylist")
       .select(`*`)
@@ -34,7 +34,7 @@ export default function OccupancyCounter({ studyId, maxParticipants }: Props) {
     }
 
     setApplications(data);
-  };
+  }, [studyId]);
 
   useEffect(() => {
     fetchApplications();

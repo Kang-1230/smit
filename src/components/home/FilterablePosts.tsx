@@ -5,6 +5,7 @@ import Category from "./Category";
 import PostCard from "./PostCard";
 import { useEffect, useState } from "react";
 import { SortCategory } from "@/service/posts";
+import Image from "next/image";
 
 export default function FilterablePosts() {
   const [selectedCategory, setSelectedCategory] =
@@ -22,8 +23,14 @@ export default function FilterablePosts() {
   if (!posts) return <>Posts가 없습니다</>;
 
   return (
-    <section className="my-4 flex flex-col gap-4">
-      <h2 className="text-2xl font-bold my-2">신규 스터디</h2>
+    <section className="my-4 flex flex-col gap-4 px-6">
+      <h2 className="text-xl font-medium flex gap-1">
+        <Image src={`/icons/Book.svg`} width={20} height={20} alt="user" />
+        최근 스터디
+      </h2>
+      <p className="text-secondary-500 text-sm">
+        최근 가장 많은 관심을 받았어요.
+      </p>
       <Category
         selectedCategory={selectedCategory}
         setSelectedCategory={setSelectedCategory}
