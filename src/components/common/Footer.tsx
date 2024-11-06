@@ -34,9 +34,9 @@ export default function Footer() {
   const pathName = usePathname();
 
   return (
-    <footer className="sticky bottom-2 bg-[#C4C4C3] z-10 rounded-full mx-4 p-1 bg-opacity-60 backdrop-blur-sm">
-      <nav>
-        <ul className="flex justify-between items-center gap-4">
+    <footer className="fixed bottom-[12px] px-[24px] w-full">
+      <nav className="bg-[#C4C4C3] z-10 rounded-full p-[4px] bg-opacity-60 backdrop-blur-sm h-[60px]">
+        <ul className="flex justify-between items-center">
           {menus.map((menu) => (
             <MenuItem
               key={menu.href}

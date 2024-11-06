@@ -2,13 +2,19 @@
 
 import { usePostLikers, useToggleLikeButton } from "@/hooks/useLikePost";
 import { useSession } from "@/hooks/useUserProfile";
+import Image from "next/image";
 
 type Props = {
   postId: number;
   showLikesCount?: boolean;
+  isBoundary?: boolean;
 };
 
-const LikeButton = ({ postId, showLikesCount = false }: Props) => {
+const LikeButton = ({
+  postId,
+  showLikesCount = false,
+  isBoundary = true,
+}: Props) => {
   // 지금 로그인한 유저 정보
   const { data: user = null } = useSession();
   // 현재 포스트에 좋아요를 누른 유저
@@ -29,11 +35,24 @@ const LikeButton = ({ postId, showLikesCount = false }: Props) => {
 
   return (
     <>
-      <button onClick={handleClick}>
+      <button
+        onClick={handleClick}
+        className={`rounded-full ${isBoundary ? "bg-secondary-700" : ""} p-2`}
+      >
         {isLike ? (
-          <div className="w-5 h-5 rounded-full bg-red-300 "></div>
+          <Image
+            src={`/icons/HeartFill.svg`}
+            alt="fill-heart"
+            width={30}
+            height={30}
+          />
         ) : (
-          <div className="w-5 h-5 rounded-full border-2 border-red-300"></div>
+          <Image
+            src={`/icons/Heart.svg`}
+            alt="fill-heart"
+            width={30}
+            height={30}
+          />
         )}
       </button>
       {showLikesCount && <span>{likes?.length}</span>}

@@ -5,7 +5,6 @@ import { applyNewStudy } from "@/utils/supabase/supabase-client";
 import { useMutation } from "@tanstack/react-query";
 import { Tables } from "../../../../../database.types";
 import { useState } from "react";
-import ModalOverlay from "@/components/common/ModalOverlay";
 import Image from "next/image";
 import Ractangle from "../../../../../public/icons/Rectangle33772.svg";
 import Ellipse from "../../../../../public/icons/Ellipse661.svg";

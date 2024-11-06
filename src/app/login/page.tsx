@@ -6,13 +6,16 @@ import Link from "next/link";
 import KakaoLogo from "../../../public/icons/Kakao.svg";
 import GoogleLogo from "../../../public/icons/Google.svg";
 import SmitLogo from "../../../public/icons/SmitLogo.svg";
+import SNSVector from "../../../public/icons/SNSSignUpVector.svg";
 import RectangleLoginBack from "../../../public/icons/RectangleLoginBack.svg";
 import Image from "next/image";
+import { Checkbox } from "@headlessui/react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [checked, setChecked] = useState(false);
 
   const handleSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -25,6 +28,7 @@ export default function LoginPage() {
     } else {
       console.log("로그인 완료", data);
       alert("로그인 되었습니다.");
+      window.location.href = "/";
     }
   };
 
@@ -94,45 +98,111 @@ export default function LoginPage() {
             <h1 className="body-16-r">스밋에서 모여서 함께 공부하자</h1>
           </div>
         </div>
-        <form className="w-[327px] relative z-10">
-          <input
-            type="email"
-            placeholder="이메일"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="비밀번호"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {isLoggedIn ? (
-            <button onClick={(e) => handleLogout(e)}>로그아웃</button>
-          ) : (
-            <>
-              <button onClick={(e) => handleSignIn(e)}>로그인</button>
-
-              <button onClick={() => handleGoogleSignIn()}>
-                <Image
-                  src={GoogleLogo}
-                  alt="Google Login"
-                  width={24}
-                  height={24}
-                />
+        <section className="flex flex-col w-[327px] item-start gap-2 absolute top-[198px] left-6 z-10">
+          <div className="flex flex-col	item-start relative selt-stretch w-full flex-[0_0_auto]">
+            <input
+              type="email"
+              placeholder="이메일"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="body-16-r pl-[20px] w-[327px] h-[48px] mb-[12px] rounded-[24px] text-secondary-400 "
+            />
+            <input
+              type="password"
+              placeholder="비밀번호"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="body-16-r w-[327px] h-[48px] rounded-[24px] pl-[20px] text-secondary-400"
+            />
+          </div>
+          <div className="inline-flex items-center gap-1 pl-3 pr-0 py-0 relative flex-[0_0_auto]">
+            <Checkbox
+              checked={checked}
+              onChange={setChecked}
+              className={`
+          w-[15px] h-[15px]
+          border-2 border-[#c2c2c2] rounded-sm
+          ${checked ? "bg-primary border-primary" : "bg-white"}
+          relative
+        `}
+            >
+              {checked && (
+                <svg
+                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M2.5 6L5 8.5L9.5 4"
+                    stroke="white"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              )}
+            </Checkbox>
+            <span className="caption text-#7E7B72 text-center">
+              자동 로그인
+            </span>
+          </div>
+          <div>
+            {isLoggedIn ? (
+              <button onClick={(e) => handleLogout(e)}>로그아웃</button>
+            ) : (
+              <>
+                <button
+                  className="black-fill lgBtn w-[327px] h-[48px] mt-[30px]"
+                  onClick={(e) => handleSignIn(e)}
+                >
+                  로그인
+                </button>
+              </>
+            )}
+            <Link href={"/signup"}>
+              <button className="beige lgBtn w-[327px] h-[48px] mt-[8px] flex items-center justify-center">
+                계정 만들기
               </button>
-              <button onClick={() => handleKaKaoSignIn()}>
+            </Link>
+          </div>
+
+          <div className="mt-[32px] flex flex-col w-[327px] items-center gap-5 ">
+            <div className="flex items-center justify-center gap-2 relative self-stretch w-full flex-{0_0_auto]">
+              <Image alt="Vector" src={SNSVector} />
+              <div className="relative w-fit mt-[-1.00px] caption text-center whitespace-nowrap text-#7e7b72">
+                SNS 계정으로 가입하기
+              </div>
+              <Image alt="Vector" src={SNSVector} />
+            </div>
+            <div className="flex gap-[9px]">
+              <button
+                onClick={() => handleGoogleSignIn()}
+                className="w-[60px] h-[60px] bg-white rounded-full flex items-center justify-center"
+              >
                 <Image
                   src={KakaoLogo}
                   alt="Kakao Login"
-                  width={24}
-                  height={24}
+                  width={32}
+                  height={32}
                 />
               </button>
-            </>
-          )}
-        </form>
-        <Link href={"/signup"}>회원가입하러 가기</Link>
+              <button
+                onClick={() => handleKaKaoSignIn()}
+                className="w-[60px] h-[60px] bg-white rounded-full flex items-center justify-center"
+              >
+                <Image
+                  src={GoogleLogo}
+                  alt="Google Login"
+                  width={32}
+                  height={32}
+                />
+              </button>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );

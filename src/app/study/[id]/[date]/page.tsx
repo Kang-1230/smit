@@ -1,8 +1,8 @@
 import { format } from "date-fns-tz";
 import { ko } from "date-fns/locale";
-import EventList from "../../components/EventList";
+import EventList from "../components/EventList";
 import { fetchStudyInfo } from "@/utils/supabase/supabase-server";
-import BackButton from "../../components/BackButton";
+import BackButton from "../../../../components/common/BackButton";
 
 interface Props {
   params: {
@@ -25,11 +25,17 @@ const CalendarPage = async ({ params }: Props) => {
   const { monthWithDay, weekday } = formatDateToMixed(date);
 
   return (
-    <>
+    <div className="bg-[#F6F6F4] h-full w-full">
       <header className="mx-6">
-        <BackButton />
-        <h1 className="text-[24px] font-semibold">{monthWithDay}</h1>
-        <span className="text-[15px]">{weekday}</span>
+        <div className="flex justify-center items-center relative pt-[10px]">
+          <BackButton color="#666666" />
+          <span className="body-16-s text-secondary-600">일정잡기</span>
+        </div>
+        <div className="flex items-center mt-[30px]">
+          <h1 className="title-24-b">{monthWithDay}</h1>
+          <div className="border-l h-[22px] w-[1px] border-secondary-300 mx-2" />
+          <span className="text-[15px]">{weekday}</span>
+        </div>
       </header>
       <main>
         <EventList
@@ -38,7 +44,7 @@ const CalendarPage = async ({ params }: Props) => {
           managerId={studyData?.study_manager}
         />
       </main>
-    </>
+    </div>
   );
 };
 

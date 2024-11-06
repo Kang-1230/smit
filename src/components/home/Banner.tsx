@@ -1,18 +1,39 @@
+import Image from "next/image";
 import Link from "next/link";
 
 type Props = {
   title: string;
-  description: string;
   link: string;
 };
 
-export default function Banner({ title, description, link }: Props) {
+export default function Banner({ title, link }: Props) {
   return (
-    <section className="bg-[#d9d9d9] p-6 rounded-md">
+    <section className="flex h-[472px] flex-col justify-end bg-[url('/images/BannerImage.jpg')] bg-cover bg-center px-6 py-8 text-white">
+      {/* <div className="absolute inset-0 bg-opacity-10 bg-gradient-to-b from-black via-white to-black"></div> */}
       <Link href={link}>
-        <h2 className="font-semibold text-xs">EVENT</h2>
-        <h1 className="font-bold text-2xl">{title}</h1>
-        <p className="text-[#666] text-xs mt-4">{description}</p>
+        {/* 어두운 오버레이 */}
+        {/* <div className="absolute inset-0 bg-black bg-opacity-45"></div> */}
+        <div className="absolute inset-0 bg-opacity-35 bg-gradient-to-b from-[rgba(34,34,34,0.6)] via-transparent to-[#010101]"></div>
+
+        <div className="relative z-10">
+          <div className="mb-4 px-2">
+            <h2 className="text-xs font-medium">EVENT</h2>
+            <h1 className="text-2xl font-semibold">{title}</h1>
+          </div>
+
+          <button className="flex items-center gap-11 rounded-24 bg-white bg-opacity-35 py-1 pl-5 pr-1 text-base font-light text-white backdrop-blur-sm">
+            바로가기
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-secondary-900">
+              <Image
+                src={`/icons/ArrowTopRight.svg`}
+                width={20}
+                height={20}
+                alt="user"
+                className="text-secondary-500"
+              />
+            </div>
+          </button>
+        </div>
       </Link>
     </section>
   );

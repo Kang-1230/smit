@@ -15,7 +15,7 @@ const ScrollPicker = ({
     <div className="h-[140px] relative w-16">
       <div
         className={`absolute pointer-events-none  ${
-          options[0].length < 3
+          options.length > 0 && options[0].length < 5
             ? "w-10 top-[50px] right-[14px]"
             : "w-[50px] top-[50px] right-[8.5px]"
         }  h-10 w-10 border-y-2`}
