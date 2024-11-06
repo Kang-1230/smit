@@ -1,12 +1,13 @@
 import WaitApplyList from "./components/WaitApplyList";
 import GroupCalendar from "../components/GroupCalendar";
-import TimerTimer from "@/app/mypage/components/Timer";
 import PersonalMemos from "../components/PersonalMemos";
 import { addAttendanceList } from "@/utils/supabase/supabase-server";
 import { fetchStudyMember } from "@/utils/supabase/supabase-client";
-import RateGroupBox from "../components/RateGroupBox";
-import AttendanceRate from "../components/AttendanceRate";
+
+import AttendanceRate from "./components/AttendanceRate";
 import { getToday } from "@/utils/getTime";
+import TimerTimer from "./components/Timer";
+import RateGroupBox from "./components/RateGroupBox";
 import StudyInfo from "./components/StudyInfo";
 
 const Page = async ({ params }: { params: { id: string } }) => {
@@ -16,7 +17,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
   const studyMember = await fetchStudyMember(studyId);
 
   return (
-    <div className="flex flex-col items-center px-6 bg-secondary-800">
+    <div className="flex flex-col items-center px-6 w-full bg-secondary-800">
       <StudyInfo studyId={studyId} />
       <TimerTimer studyId={studyId} />
       <RateGroupBox member={studyMember} studyId={studyId} today={today}>

@@ -7,9 +7,10 @@ interface buttonProps {
     | "orange-line"
     | "white-fill"
     | "beige";
-  size: "lgBtn" | "mdBtn" | "smBtn";
+  size: "lg" | "md" | "sm";
   onClick?: () => void;
   disabled?: boolean;
+  className?: string;
 }
 
 const MyButton = ({
@@ -18,13 +19,20 @@ const MyButton = ({
   size,
   onClick,
   disabled,
+  className,
 }: buttonProps) => {
+  const sizeClass = {
+    lg: "py-3 px-5 rounded-24 body-16-s",
+    md: "py-2 px-4 rounded-[18px] body-14-s",
+    sm: "py-1 px-3 rounded-[14px] body-14-s",
+  };
+
   return (
     <button
-      className={`
+      className={`min-w-fit
       ${style}
-      ${size}
-      `}
+      ${sizeClass[size]}
+      ${className}`}
       onClick={onClick}
       disabled={disabled}
     >
