@@ -56,10 +56,10 @@ export default function RankingPage() {
 
   return (
     <>
-      <section className="bg-gradient-to-b from-[#FF8F32] to-[#FFC799] relative h-screen">
+      <section className="relative h-screen bg-gradient-to-b from-[#FF8F32] to-[#FFC799]">
         {/* 단상 및 빛깔 */}
         <Image
-          className="absolute top-0 left-1/2 -translate-x-1/2"
+          className="absolute left-1/2 top-0 -translate-x-1/2"
           src="/images/rankingBackground.svg"
           alt="rankingbg"
           width={375}
@@ -67,12 +67,12 @@ export default function RankingPage() {
         />
 
         {/* 헤더 */}
-        <div className="py-[64px] px-[24px] flex justify-between">
-          <h1 className="relative z-10 text-[20px] leading-normal font-semibold">
+        <div className="flex justify-between px-[24px] py-[64px]">
+          <h1 className="relative z-10 text-[20px] font-semibold leading-normal">
             주간 그룹 랭킹
           </h1>
           <button
-            className="flex justify-center items-center relative"
+            className="relative flex items-center justify-center"
             onClick={() => setIsQuestionModal(true)}
           >
             <Image src="/icons/Info.svg" alt="info" width={24} height={24} />
@@ -80,8 +80,8 @@ export default function RankingPage() {
         </div>
 
         {/* 아바타(1,2,3) */}
-        {ranking?.length && (
-          <div className="w-full absolute top-[125px] flex gap-[31px] justify-center">
+        {ranking?.length && ranking.length >= 3 && (
+          <div className="absolute top-[125px] flex w-full justify-center gap-[31px]">
             <Avatar
               rank={2}
               study={ranking[1]}
@@ -101,16 +101,18 @@ export default function RankingPage() {
         )}
 
         {/* 랭킹카드들 */}
-        <section className="w-full absolute top-[333px] rounded-t-20 px-[24px] py-[12px] bg-gradient-to-b from-[#FFFCF9] via-[#FFF] to-[#FFF] backdrop-blur-[15px]">
-          {ranking?.slice(3).map((study, i) => (
-            <RankingCard
-              study={study}
-              rank={i + 4}
-              key={study.study_id}
-              onClick={() => onModalClick(study.study_id, i + 4)}
-            />
-          ))}
-          <div className="mb-24 mt-3 text-secondary-300 text-[14px] text-center">
+        <section className="absolute top-[333px] min-h-[30rem] w-full rounded-t-20 bg-gradient-to-b from-[#FFFCF9] via-[#FFF] to-[#FFF] px-[24px] py-[12px] backdrop-blur-[15px]">
+          {ranking
+            ?.slice(3)
+            .map((study, i) => (
+              <RankingCard
+                study={study}
+                rank={i + 4}
+                key={study.study_id}
+                onClick={() => onModalClick(study.study_id, i + 4)}
+              />
+            ))}
+          <div className="mb-24 mt-3 text-center text-[14px] text-secondary-300">
             <button onClick={handleMore}>더보기</button>
           </div>
         </section>
