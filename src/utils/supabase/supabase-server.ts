@@ -125,6 +125,7 @@ export const fetchPostInfo = async (id: string) => {
   return data[0] as Tables<"post">;
 };
 
+
 // study 정보 가져오기
 export const fetchStudyInfo = async (study_id: string) => {
   const serverClient = createClient();
@@ -137,6 +138,21 @@ export const fetchStudyInfo = async (study_id: string) => {
     return null;
   }
   return data[0] as Tables<"study">;
+};
+
+// post 정보와 study 정보 함께 가져오기
+export const fetchPostStudyInfo = async (id: string) => {
+  const serverClient = createClient();
+  const { data, error } = await serverClient
+    .from("post")
+    .select("*,study(*)")
+    .eq("post_id", id);
+  if (error || !data) {
+    console.log(error);
+    return null;
+  }
+
+  return data[0];
 };
 
 // 스터디 신청리스트 가져오기
