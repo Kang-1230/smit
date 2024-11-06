@@ -10,39 +10,29 @@ import { Tables } from "../../../../../database.types";
 // userTimer?.time_rate ? userTimer.time_rate / 100 : 0;
 
 const UserRate = ({
-  current,
   userTimer,
+  endPoint,
+  strokeDashoffset,
+  circumference,
+  currentSchedule,
 }: {
-  current: Tables<"calendar"> | null;
   userTimer: Tables<"timer"> | null;
+  endPoint: { x: number; y: number };
+  strokeDashoffset: number;
+  circumference: number;
+  currentSchedule: Tables<"calendar"> | null;
 }) => {
-  const circumference = 2 * Math.PI * 57; // 원의 둘레
-  const strokeDashoffset =
-    circumference -
-    (userTimer?.time_rate ? userTimer.time_rate / 100 : 0) * -circumference;
-
-  const getEndpointPosition = (percent: number) => {
-    const radian = -(percent / 100) * 360 * (Math.PI / 180);
-    return {
-      x: 60 + 57 * Math.cos(radian),
-      y: 60 + 57 * Math.sin(radian),
-    };
-  };
-
-  const endPoint = getEndpointPosition(
-    userTimer?.time_rate ? userTimer.time_rate : 0,
-  );
-
   return (
     <div className="bg-secondary-900 text-white min-w-[187px] rounded-20 p-4 relative overflow-hidden w-full mr-3">
-      <div className="w-3/4 h-full absolute top-48 bg-white rounded-full blur-2xl left-1/2 -translate-x-1/2 bg-opacity-80"></div>
-      <p className="caption flex flex-row items-center">
+      <div className="absolute w-3/4 h-full -translate-x-1/2 bg-white rounded-full top-48 blur-2xl left-1/2 bg-opacity-80"></div>
+      <p className="flex flex-row items-center caption">
         <Image
-          src={`/icons/BookLined.svg`}
+          src={`/icons/Book.svg`}
           alt="book icon"
           width={16}
           height={16}
           className="mr-1"
+          style={{ stroke: "white", fill: "white" }}
         />
         공부시간 달성률
       </p>
@@ -57,7 +47,7 @@ const UserRate = ({
           className="absolute-center rotate-[-90deg]"
         >
           <circle
-            className="stroke-white transition-all duration-1000 ease-out"
+            className="transition-all duration-1000 ease-out stroke-white"
             fill="none"
             strokeWidth="1.5"
             strokeLinecap="round"
@@ -78,7 +68,7 @@ const UserRate = ({
           )}
         </svg>
         <p className="font-pretendard text-[32px] font-medium absolute-center">
-          {current && userTimer ? userTimer.time_rate : 0}
+          {currentSchedule && userTimer ? userTimer.time_rate : 0}
           <span className="caption">%</span>
         </p>
       </div>
