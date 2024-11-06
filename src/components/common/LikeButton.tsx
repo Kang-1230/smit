@@ -2,6 +2,7 @@
 
 import { usePostLikers, useToggleLikeButton } from "@/hooks/useLikePost";
 import { useSession } from "@/hooks/useUserProfile";
+import Image from "next/image";
 
 type Props = {
   postId: number;
@@ -29,11 +30,24 @@ const LikeButton = ({ postId, showLikesCount = false }: Props) => {
 
   return (
     <>
-      <button onClick={handleClick}>
+      <button
+        onClick={handleClick}
+        className="p-2 rounded-full bg-secondary-700"
+      >
         {isLike ? (
-          <div className="w-5 h-5 rounded-full bg-red-300 "></div>
+          <Image
+            src={`/icons/HeartFill.svg`}
+            alt="fill-heart"
+            width={24}
+            height={24}
+          />
         ) : (
-          <div className="w-5 h-5 rounded-full border-2 border-red-300"></div>
+          <Image
+            src={`/icons/Heart.svg`}
+            alt="fill-heart"
+            width={24}
+            height={24}
+          />
         )}
       </button>
       {showLikesCount && <span>{likes?.length}</span>}

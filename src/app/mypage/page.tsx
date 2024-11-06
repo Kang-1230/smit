@@ -11,15 +11,18 @@ export default async function MyPage() {
   return (
     <div className="flex flex-col">
       <UserProfile />
-      <div className="flex flex-col pt-7 bg-white px-6">
-        <p className="title-20-s">내가 작성한 글</p>
+      <div className="flex flex-col pt-7 px-6">
+        <p className="title-20-s mb-5">내가 작성한 글</p>
         <MyPostList />
       </div>
-      <p className="text-xl font-semibold px-9 mb-5">찜 목록</p>
-      <MyLikePosts />
-      <div className="pl-8 pb-10 font-medium">
-        <DeleteUserButton />
+      <hr className="mt-5 mb-7" />
+      <div className="flex flex-col pt-7 px-6">
+        <p className="title-20-s mb-5">찜 목록</p>
+        <MyLikePosts />
       </div>
+      <hr className="my-7" />
+      <DeleteUserButton />
+      <hr className="my-7" />
     </div>
   );
 }
