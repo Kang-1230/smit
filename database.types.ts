@@ -296,7 +296,7 @@ export type Database = {
           study_max_people: number;
           study_name: string;
           study_period?: string | null;
-          study_score?: number;
+          study_score: number;
         };
         Update: {
           study_category?: string[];
@@ -537,28 +537,67 @@ export type Database = {
       };
       user: {
         Row: {
+          birth_date: string | null;
           created_at: string;
           email: string | null;
           id: string;
           name: string | null;
           profile_img: string | null;
           study_time: number;
+          user_name: string | null;
         };
         Insert: {
+          birth_date?: string | null;
           created_at?: string;
           email?: string | null;
           id: string;
           name?: string | null;
           profile_img?: string | null;
           study_time?: number;
+          user_name?: string | null;
         };
         Update: {
+          birth_date?: string | null;
           created_at?: string;
           email?: string | null;
           id?: string;
           name?: string | null;
           profile_img?: string | null;
           study_time?: number;
+          user_name?: string | null;
+        };
+        Relationships: [];
+      };
+      users: {
+        Row: {
+          birth_date: string | null;
+          created_at: string;
+          email: string | null;
+          id: string;
+          name: string | null;
+          profile_img: string | null;
+          study_time: number;
+          user_name: string | null;
+        };
+        Insert: {
+          birth_date?: string | null;
+          created_at: string;
+          email?: string | null;
+          id: string;
+          name?: string | null;
+          profile_img?: string | null;
+          study_time?: number;
+          user_name?: string | null;
+        };
+        Update: {
+          birth_date?: string | null;
+          created_at?: string;
+          email?: string | null;
+          id?: string;
+          name?: string | null;
+          profile_img?: string | null;
+          study_time?: number;
+          user_name?: string | null;
         };
         Relationships: [];
       };
@@ -596,14 +635,14 @@ export type Tables<
     ? R
     : never
   : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
-      PublicSchema["Views"])
-  ? (PublicSchema["Tables"] &
-      PublicSchema["Views"])[PublicTableNameOrOptions] extends {
-      Row: infer R;
-    }
-    ? R
-    : never
-  : never;
+        PublicSchema["Views"])
+    ? (PublicSchema["Tables"] &
+        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+        Row: infer R;
+      }
+      ? R
+      : never
+    : never;
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
@@ -619,12 +658,12 @@ export type TablesInsert<
     ? I
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-  ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-      Insert: infer I;
-    }
-    ? I
-    : never
-  : never;
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Insert: infer I;
+      }
+      ? I
+      : never
+    : never;
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
@@ -640,12 +679,12 @@ export type TablesUpdate<
     ? U
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
-  ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-      Update: infer U;
-    }
-    ? U
-    : never
-  : never;
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Update: infer U;
+      }
+      ? U
+      : never
+    : never;
 
 export type Enums<
   PublicEnumNameOrOptions extends
@@ -657,8 +696,8 @@ export type Enums<
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
-  ? PublicSchema["Enums"][PublicEnumNameOrOptions]
-  : never;
+    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never;
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
@@ -672,5 +711,5 @@ export type CompositeTypes<
 > = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
   ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
-  ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-  : never;
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never;

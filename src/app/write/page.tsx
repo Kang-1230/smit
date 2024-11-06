@@ -24,9 +24,11 @@ type study = {
 };
 
 export default function Write() {
+  return (
   <Suspense fallback={<div>로딩 중입니다. 잠시만 기다려주십시오..</div>}>
     <WriteContent></WriteContent>
   </Suspense>
+  );
 }
 
  function WriteContent() {

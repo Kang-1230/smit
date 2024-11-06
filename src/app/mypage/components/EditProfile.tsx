@@ -8,7 +8,6 @@ import { updateUserProfile } from "@/utils/supabase/supabase-client";
 import browserClient from "@/utils/supabase/client";
 import ValidateInput from "@/components/common/ValidateInput";
 import MyButton from "@/components/common/Button";
-import TitleInput from "@/components/common/TitleInput";
 
 const EditProfile = ({
   profileImg,
@@ -91,9 +90,9 @@ const EditProfile = ({
   };
 
   return (
-    <div className="flex flex-col p-5 items-center w-full">
+    <div className="flex w-full flex-col items-center p-5">
       <p className="title-20-s text-center">프로필 수정</p>
-      <div className="relative w-fit h-wit my-4">
+      <div className="h-wit relative my-4 w-fit">
         <Image
           src={uploadImg ? uploadImg : `${profileImg}?t=${Date.now()}`}
           alt="프로필 이미지"
@@ -101,14 +100,14 @@ const EditProfile = ({
           height={264}
           className="rounded-20"
         />
-        <div className="absolute-center w-full h-full">
-          <div className="bg-black/20 bg-blend-overlay w-full h-full rounded-20 relative">
+        <div className="absolute-center h-full w-full">
+          <div className="relative h-full w-full rounded-20 bg-black/20 bg-blend-overlay">
             <Image
               src={`icons/ImageSelect.svg`}
               alt="icon"
               width={44}
               height={44}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
             ></Image>
           </div>
         </div>
@@ -132,22 +131,16 @@ const EditProfile = ({
             isUnique === "notUnique"
               ? "이미 사용하고 있는 닉네임 입니다."
               : isUnique === "impossible"
-              ? "사용할 수 없는 닉네임 입니다."
-              : undefined
+                ? "사용할 수 없는 닉네임 입니다."
+                : undefined
           }
           success={
             isUnique === "unique" ? "사용 가능한 닉네임 입니다." : undefined
           }
         />
-        <TitleInput
-          title="이메일"
-          bg={true}
-          disabled={true}
-          value={user.email ? user.email : ""}
-        />
       </div>
 
-      <div className="flex flex-row gap-x-1 w-full mt-7">
+      <div className="mt-7 flex w-full flex-row gap-x-1">
         <MyButton style="black-line" size="lg" onClick={modalClose}>
           취소
         </MyButton>
