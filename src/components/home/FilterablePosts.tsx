@@ -23,7 +23,7 @@ export default function FilterablePosts() {
   if (!posts) return <>Posts가 없습니다</>;
 
   return (
-    <section className="mt-4 flex flex-col bg-[#F6F6F4] px-6 pb-20 pt-10">
+    <section className="mt-4 flex flex-col bg-[#F6F6F4] px-6 pb-36 pt-10">
       <h2 className="flex gap-1 text-xl font-medium">
         <Image src={`/icons/Book.svg`} width={23} height={23} alt="user" />
         최근 스터디

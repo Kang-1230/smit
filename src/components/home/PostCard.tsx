@@ -12,18 +12,20 @@ export type Props = {
 };
 
 export default function PostCard({ post }: Props) {
-  const { post_id, study_id, study, user } = post;
   const {
-    study_max_people,
-    study_category,
-    study_name,
-    study_imgurl,
-    study_description,
-  } = study;
+    post_id,
+    study_id,
+    study,
+    user,
+    post_name,
+    like_count,
+    comment_count,
+  } = post;
+  const { study_max_people, study_category, study_name, study_imgurl } = study;
 
   return (
     <Link href={`/post/${post_id}`}>
-      <section className="flex h-[18rem] w-full flex-col justify-between gap-4 rounded-20 bg-white p-5">
+      <section className="flex h-[18rem] w-full flex-col justify-between gap-4 rounded-20 bg-black bg-white p-5">
         <div className="flex items-center justify-between">
           <div className="flex flex-1 gap-2">
             <div className="relative h-9 w-9 rounded-full border">
@@ -47,7 +49,7 @@ export default function PostCard({ post }: Props) {
 
         <div className="flex flex-1 flex-col gap-2">
           <p className="line-clamp-3 w-full flex-wrap break-words font-semibold">
-            {study_description}
+            {post_name}
           </p>
           <div className="flex flex-wrap gap-1">
             {study_category.map((category, idx) => (
@@ -77,7 +79,7 @@ export default function PostCard({ post }: Props) {
                 width={15}
                 height={15}
               />
-              14
+              {like_count}
             </div>
             <div className="flex gap-[0.1rem]">
               <Image
@@ -87,7 +89,7 @@ export default function PostCard({ post }: Props) {
                 width={15}
                 height={15}
               />
-              8
+              {comment_count}
             </div>
           </div>
         </div>
