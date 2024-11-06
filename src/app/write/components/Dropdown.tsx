@@ -10,7 +10,7 @@ import Edit from "../../../../public/icons/Edit.svg";
 import Open from "../../../../public/icons/Open.svg";
 import Close from "../../../../public/icons/Close.svg";
 import Pencil from "../../../../public/icons/PencilSmall.svg";
-import RankingModalOverlay from "@/app/ranking/components/RankingModalOverlay";
+
 
 export default function Dropdown() {
   const router = useRouter();
