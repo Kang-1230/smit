@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { useStudyMemo } from "../[id]/hooks/usePersonalMemo";
 import PersonalMemoItem from "./PersonalMemoItem";
+import StudyMemo from "../../../../public/icons/StudyMemo.svg";
 
 const PersonalMemos = ({ studyId }: { studyId: string }) => {
   const { data, isLoading, isError } = useStudyMemo(studyId);
@@ -15,8 +17,11 @@ const PersonalMemos = ({ studyId }: { studyId: string }) => {
   }
 
   return (
-    <div className="mb-[60px]">
-      <h2 className="ml-6 mb-3">스터디 회고록</h2>
+    <div className="flex flex-col w-full mb-[110px]">
+      <div className="flex items-center p-1 mb-3 pl-1">
+        <Image src={StudyMemo} alt="memo" width={16} height={16} />
+        <h2 className="caption text-white ml-1">스터디 회고록</h2>
+      </div>
       {data?.map((item) => (
         <PersonalMemoItem key={item.memo_id} memoData={item} />
       ))}

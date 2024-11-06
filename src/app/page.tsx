@@ -6,15 +6,16 @@ import Dropdown from "./write/components/Dropdown";
 
 export default async function HomePage() {
   return (
-    <section className="max-w-xl mx-auto flex flex-col">
+    <section className="mx-auto flex max-w-xl flex-col">
       <MultiCarousel>
         <Banner title="스밋과 함께 공부하자!" link="/event" />
       </MultiCarousel>
 
-      <section className="my-12">
+      <section className="mt-4">
         <FeaturedPosts />
         <FilterablePosts />
       </section>
+
       <Dropdown></Dropdown>
     </section>
   );

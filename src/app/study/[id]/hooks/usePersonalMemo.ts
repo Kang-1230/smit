@@ -1,5 +1,6 @@
 import {
   getStudyMemoList,
+  getUserByCommentId,
   updateStudyMemo,
 } from "@/utils/supabase/supabase-client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -26,5 +27,13 @@ export const useUpdateStudyMemo = (
         queryKey: ["personalMemo", studyId],
       });
     },
+  });
+};
+
+// 회고록 유저 정보 가져오기
+export const useUserByMemoId = (id: string) => {
+  return useQuery({
+    queryKey: ["user", id],
+    queryFn: () => getUserByCommentId(id),
   });
 };
