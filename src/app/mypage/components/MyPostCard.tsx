@@ -29,14 +29,10 @@ const MyPostCard = ({
         <p className="body-16-m">{post.post_name}</p>
         <div className="flex flex-row gap-x-1">
           {/* 수정 페이지로 link 필요 */}
-          <MyButton style="black-fill" size="smBtn">
+          <MyButton style="black-fill" size="sm">
             수정
           </MyButton>
-          <MyButton
-            style="black-line"
-            size="smBtn"
-            onClick={deletePostMutation}
-          >
+          <MyButton style="black-line" size="sm" onClick={deletePostMutation}>
             삭제
           </MyButton>
         </div>
