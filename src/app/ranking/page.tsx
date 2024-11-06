@@ -44,7 +44,7 @@ export default function RankingPage() {
   const handleMore = useCallback(() => {
     setPage((prev) => prev + 1);
     refetch();
-  }, []);
+  }, [refetch]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -117,17 +117,17 @@ export default function RankingPage() {
 
         {/* 모달 */}
         {isModal && (
-          <RankingModalOverlay
-            onClick={() => setIsModal(false)}
-            children={<RankingModal id={id} rank={rank} />}
-          />
+          <RankingModalOverlay onClick={() => setIsModal(false)}>
+            <RankingModal id={id} rank={rank} />
+          </RankingModalOverlay>
         )}
         {isQuestionModal && (
           <RankingModalOverlay
             isXButtonVisible={false}
             onClick={() => setIsQuestionModal(false)}
-            children={<QuestionModal />}
-          />
+          >
+            <QuestionModal />
+          </RankingModalOverlay>
         )}
       </section>
     </>

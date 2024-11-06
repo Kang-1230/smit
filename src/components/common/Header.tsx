@@ -10,7 +10,13 @@ import { useEffect } from "react";
 import Image from "next/image";
 
 const MENU_ICONS = [
-  <Image src={`/icons/Search.svg`} width={24} height={24} alt="search-icon" />,
+  <Image
+    src={`/icons/Search.svg`}
+    width={24}
+    height={24}
+    alt="search-icon"
+    key="search"
+  />,
 ];
 
 export default function Header() {
