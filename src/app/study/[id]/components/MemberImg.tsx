@@ -8,7 +8,7 @@ const MemberImg = ({ user }: { user: Tables<"user"> }) => {
     .getPublicUrl(user.profile_img ?? "default").data.publicUrl;
 
   return (
-    <div className="relative h-12 w-12">
+    <div className="relative h-11 w-11">
       <Image
         src={profileImg}
         alt={`${user.name}-img`}
