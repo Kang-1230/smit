@@ -1,12 +1,12 @@
 "use client";
 
-import { Tables } from "../../../../database.types";
-import GroupRate from "./GroupRate";
-import UserRate from "./UserRate";
 import { useSession } from "@/hooks/useUserProfile";
 import { useTimerState, useTodayCalendar } from "@/hooks/useTimerQuery";
 import { getTime } from "@/utils/getTime";
 import { useEffect, useState } from "react";
+import { Tables } from "../../../../../database.types";
+import UserRate from "./UserRate";
+import GroupRate from "./GroupRate";
 
 const RateGroupBox = ({
   member,
@@ -40,9 +40,9 @@ const RateGroupBox = ({
   }, [todaySchedules, userTimer]);
 
   return (
-    <div className="w-full h-[214px] flex flex-row gap-x-3">
+    <div className="min-w-[327px] h-[214px] flex flex-row w-full">
       <UserRate current={current} userTimer={userTimer} />
-      <div className="flex flex-col w-32 gap-y-3">
+      <div className="flex flex-col min-w-[128px] gap-y-3 w-full">
         {children}
         <GroupRate
           today={today}

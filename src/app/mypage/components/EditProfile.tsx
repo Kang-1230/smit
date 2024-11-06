@@ -6,6 +6,9 @@ import { Tables } from "../../../../database.types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateUserProfile } from "@/utils/supabase/supabase-client";
 import browserClient from "@/utils/supabase/client";
+import ValidateInput from "@/components/common/ValidateInput";
+import MyButton from "@/components/common/Button";
+import TitleInput from "@/components/common/TitleInput";
 
 const EditProfile = ({
   profileImg,
@@ -49,31 +52,30 @@ const EditProfile = ({
 
   // 실제로 수정버튼 눌렀을 때 실행되는 부분 (이미지 먼저 스토리지로 보냄)
   const profileSaveHandler = async () => {
-    if (isUnique === "unique") {
-      if (fileInputRef.current?.files) {
-        if (fileInputRef.current.files.length > 0) {
-          const { error } = await browserClient.storage
-            .from("profile_img")
-            .upload(`${user?.id}`, fileInputRef.current.files[0], {
-              upsert: true,
-            });
+    if (fileInputRef.current?.files) {
+      if (fileInputRef.current.files.length > 0) {
+        const { error } = await browserClient.storage
+          .from("profile_img")
+          .upload(`${user?.id}`, fileInputRef.current.files[0], {
+            upsert: true,
+          });
 
-          if (error) {
-            console.log("이미지 업로드 중 오류 발생", error);
-            return;
-          }
+        if (error) {
+          console.log("이미지 업로드 중 오류 발생", error);
+          return;
         }
       }
       updateProfile();
       alert("프로필 수정 완료!");
-    } else if (isUnique === "change") {
-      alert("닉네임 중복검사를 진행해주세요!");
-      return;
     }
   };
 
   // 닉네임 중복검사
   const validateNickname = async () => {
+    if (!/^[가-힣a-zA-Z0-9]+$/.test(userName)) {
+      setIsUnique("impossible");
+      return;
+    }
     const { data }: { data: Tables<"user">[] | null } = await browserClient
       .from("user")
       .select("*");
@@ -83,70 +85,89 @@ const EditProfile = ({
     } else setIsUnique("unique");
   };
 
-  // 중복검사 후 띄울 안내 메세지
-  const validate =
-    isUnique === "change"
-      ? ""
-      : isUnique === "unique"
-      ? "사용 가능한 닉네임 입니다."
-      : "이미 사용하고 있는 닉네임 입니다.";
+  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserName(e.target.value);
+    setIsUnique("change");
+  };
 
   return (
-    <div className="flex flex-col">
-      <div className="flex flex-col items-center gap-6">
-        <p className="text-xl font-bold">프로필 수정</p>
-
-        <div className="w-full aspect-square relative">
-          <Image
-            // supabase 내에서 캐싱된 이미지를 주는 바람에 뒤에 date.now 붙여서 계속 새 이미지로 받아옴
-            src={uploadImg ? uploadImg : `${profileImg}?t=${Date.now()}`}
-            alt="프로필 이미지"
-            fill
-            className="rounded-xl border object-cover"
-            onClick={() => fileInputRef.current?.click()}
-            priority={false}
-          />
-        </div>
-        <input
-          ref={fileInputRef}
-          className="hidden"
-          type="file"
-          onChange={(e) => ImageUploadHandler(e)}
+    <div className="flex flex-col p-5 items-center w-full">
+      <p className="title-20-s text-center">프로필 수정</p>
+      <div className="relative w-fit h-wit my-4">
+        <Image
+          src={uploadImg ? uploadImg : `${profileImg}?t=${Date.now()}`}
+          alt="프로필 이미지"
+          width={264}
+          height={264}
+          className="rounded-20"
         />
-
-        <div>
-          <p className="text-sm font-semibold text-gray-600">닉네임</p>
-          <div className="flex justify-between items-center gap-2">
-            <input
-              className="border-b-2 flex-grow h-8 focus:outline-none w-3/5"
-              value={userName}
-              onChange={(e) => {
-                setUserName(e.target.value);
-                setIsUnique("change");
-              }}
-            />
-            <button
-              className="h-8 px-4 bg-gray-500 text-sm rounded-xl text-white"
-              onClick={validateNickname}
-            >
-              중복확인
-            </button>
+        <div className="absolute-center w-full h-full">
+          <div className="bg-black/20 bg-blend-overlay w-full h-full rounded-20 relative">
+            <Image
+              src={`icons/ImageSelect.svg`}
+              alt="icon"
+              width={44}
+              height={44}
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            ></Image>
           </div>
-
-          <p className="text-xs text-red-500 mt-1">{validate}</p>
         </div>
       </div>
 
-      <button
-        className="w-full py-2 bg-gray-500 rounded-3xl font-medium text-white mt-6"
-        onClick={() => {
-          profileSaveHandler();
-          modalClose();
-        }}
-        disabled={isUnique === "notUnique"}
-      >
-        적용하기
-      </button>
+      <input
+        ref={fileInputRef}
+        className="hidden"
+        type="file"
+        onChange={(e) => ImageUploadHandler(e)}
+      />
+      <div>
+        <ValidateInput
+          title="닉네임"
+          placeholder="닉네임을 입력하세요."
+          value={userName}
+          onChange={inputChangeHandler}
+          onClick={validateNickname}
+          bg={true}
+          error={
+            isUnique === "notUnique"
+              ? "이미 사용하고 있는 닉네임 입니다."
+              : isUnique === "impossible"
+              ? "사용할 수 없는 닉네임 입니다."
+              : undefined
+          }
+          success={
+            isUnique === "unique" ? "사용 가능한 닉네임 입니다." : undefined
+          }
+        />
+        <TitleInput
+          title="이메일"
+          bg={true}
+          disabled={true}
+          value={user.email ? user.email : ""}
+        />
+      </div>
+
+      <div className="flex flex-row gap-x-1 w-full mt-7">
+        <MyButton style="black-line" size="lg" onClick={modalClose}>
+          취소
+        </MyButton>
+        <MyButton
+          size="lg"
+          style="black-fill"
+          className="w-full"
+          onClick={() => {
+            profileSaveHandler();
+            modalClose();
+          }}
+          disabled={
+            isUnique === "notUnique" ||
+            isUnique === "change" ||
+            isUnique === "impossible"
+          }
+        >
+          적용하기
+        </MyButton>
+      </div>
     </div>
   );
 };
