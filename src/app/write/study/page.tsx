@@ -177,7 +177,7 @@ function StudyContent() {
           제목 <span className="text-primary-50">*</span>
         </p>
         <input
-          className="p-3 rounded-2xl w-full mb-4 text-secondary-300 bg-secondary-50 body-16-m placeholder-secondary-300"
+          className="p-3 rounded-2xl w-full mb-4 bg-secondary-50 body-16-m placeholder-secondary-300"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="제목을 작성해주세요"
@@ -186,7 +186,7 @@ function StudyContent() {
           한 줄 설명 <span className="text-primary-50">*</span>
         </p>
         <input
-          className="p-3 rounded-2xl w-full mb-4 text-secondary-300  bg-secondary-50 body-16-m placeholder-secondary-300"
+          className="p-3 rounded-2xl w-full mb-4  bg-secondary-50 body-16-m placeholder-secondary-300"
           value={studyDescription}
           onChange={(e) => setStudyDescription(e.target.value)}
           placeholder="그룹을 소개하는 설명을 작성해주세요."
@@ -195,19 +195,22 @@ function StudyContent() {
           오픈채팅방 링크 <span className="text-primary-50">{`(선택)`}</span>
         </p>
         <input
-          className="p-3 rounded-2xl w-full mb-8 text-secondary-300  bg-secondary-50 body-16-m placeholder-secondary-300"
+          className="p-3 rounded-2xl w-full mb-8  bg-secondary-50 body-16-m placeholder-secondary-300"
           value={studychatLink}
           onChange={(e) => setStudyChatLink(e.target.value)}
           placeholder="팀원들과 소통할 채팅방 링크를 넣어주세요."
         />
       </div>
 
-      <div className="flex items-center justify-between w-full border border-gray-300 rounded-2xl mb-5">
+      <div className="flex flex-col w-full border border-gray-300 rounded-2xl mb-5">
+        <div className="flex w-full items-center justify-between">
         <p className="p-3">인원</p>
         <div onClick={() => setIsDateOpen(true)} className="flex">
           <p className="text-secondary-300 body-16-m pr-3">{`${userCnt}명`}</p>
           <Image src={stroke} alt="selectBtn" width={0} className="mr-3" />
         </div>
+        </div>
+        {userCnt === 1 ? (<p className="caption text-secondary-400 p-3">* 1인 스터디는 랭킹에 집계되지 않아요! <br></br> 스터디 페이지에서 인원 설정을 변경할 수 있습니다.</p>) : null}
       </div>
 
       <div className="flex items-center justify-between w-full border border-gray-300 rounded-2xl mb-5">
