@@ -30,8 +30,20 @@ const menus = [
   },
 ];
 
+const HIDDEN_FOOTER_PATHS = ["/post","/write","/write/study"];
+
+
 export default function Footer() {
   const pathName = usePathname();
+
+  // 헤더를 숨겨야 하는지 확인
+  const shouldHideHeader = () => {
+    return HIDDEN_FOOTER_PATHS.includes(pathName);
+  };
+
+  if (shouldHideHeader()) {
+    return null;
+  }
 
   return (
     <footer className="fixed bottom-[12px] px-[24px] w-full">
