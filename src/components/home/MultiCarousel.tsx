@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 const responsive = {
@@ -25,7 +26,32 @@ type Props = {
 };
 export default function MultiCarousel({ children }: Props) {
   return (
-    <Carousel infinite autoPlay responsive={responsive} itemClass="m-0">
+    <Carousel
+      infinite
+      autoPlay
+      responsive={responsive}
+      itemClass="m-0"
+      customLeftArrow={
+        <button className="absolute left-3">
+          <Image
+            src="/icons/CarouselLeftArrow.svg"
+            width={32}
+            height={32}
+            alt="customLeftArrow"
+          />
+        </button>
+      }
+      customRightArrow={
+        <button className="absolute right-3">
+          <Image
+            src="/icons/CarouselRightArrow.svg"
+            width={32}
+            height={32}
+            alt="customRightArrow"
+          />
+        </button>
+      }
+    >
       {children}
     </Carousel>
   );
