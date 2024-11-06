@@ -25,7 +25,7 @@ const CalendarPage = async ({ params }: Props) => {
   const { monthWithDay, weekday } = formatDateToMixed(date);
 
   return (
-    <div className="bg-[#F6F6F4] h-full">
+    <div className="bg-[#F6F6F4] h-full w-full">
       <header className="mx-6">
         <div className="flex justify-center items-center relative pt-[10px]">
           <BackButton />
