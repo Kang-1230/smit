@@ -18,7 +18,7 @@ const MENU_ICONS = [
     key="search"
   />,
 ];
-const HIDDEN_HEADER_PATHS = ["/login", "/signup"];
+const HIDDEN_HEADER_PATHS = ["/login", "/signup", "/write","/write/study"];
 
 export default function Header() {
   const pathname = usePathname();

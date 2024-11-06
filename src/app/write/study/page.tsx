@@ -9,6 +9,9 @@ import { useRouter } from "next/navigation";
 import StudyModal from "../components/StudyModal";
 import Modal from "@/components/common/Modal";
 import ImageSelect from "../../../../public/icons/ImageSelect.svg";
+import Xmedium from "../../../../public/icons/XMedium.svg";
+import Check from "../../../../public/icons/Check.svg";
+import stroke from "../../../../public/icons/Next.svg";
 
 export default function Study() {
   return (
@@ -24,16 +27,15 @@ function StudyContent() {
 
   const [title, setTitle] = useState<string>("");
   const [userCnt, setUserCnt] = useState<number>(1);
-  const [studyCategory, setStudyCategory] = useState<string[]>([
-    "선택해주세요",
-  ]);
-  const [studyTarget, setStudyTarget] = useState<string>("선택해주세요");
+
   const [studychatLink, setStudyChatLink] = useState<string>("");
   const [studyDescription, setStudyDescription] = useState<string>("");
   const [uploadImg, setUploadImg] = useState<string>(
     browserClient.storage.from("study_img").getPublicUrl("default").data
       .publicUrl,
   );
+
+  const [arr, setArr] = useState<string[]>([""]);
 
   // 스터디 페이지 내에서 사용하는 모달창 관리
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -50,7 +52,7 @@ function StudyContent() {
     mutationFn: (url: string) =>
       insertStudy(
         title,
-        [studyTarget, ...studyCategory],
+        arr,
         userCnt,
         user?.id,
         studyDescription,
@@ -73,8 +75,7 @@ function StudyContent() {
 
   const handleModalClose = () => {
     if (title && modalMode !== "success") {
-      setModalMode("close");
-      setIsModalOpen(true);
+      setIsModalOpen(false);
       setIsCommonModalOpen(false);
     } else {
       router.replace("/");
@@ -120,9 +121,22 @@ function StudyContent() {
   return (
     <div className="flex flex-col w-11/12 mx-auto">
       <div className="flex justify-between ... w-full p-2 text-2xl items-center">
-        <p onClick={() => handleModalClose()}>✕</p>
+        <Image
+          src={Xmedium}
+          alt="selectBtn"
+          width={0}
+          onClick={() => {
+            setModalMode("close");
+            setIsModalOpen(true);
+          }}
+        />
         <p className="body-16-s text-black ">스터디 만들기</p>
-        <p onClick={() => sendData()}>✓</p>
+        <Image
+          src={Check}
+          alt="selectBtn"
+          width={0}
+          onClick={() => sendData()}
+        />
       </div>
 
       <div className="flex flex-col w-full h-1/3 mb-4 relative">
@@ -153,64 +167,68 @@ function StudyContent() {
         />
       </div>
 
-      <div className="flex flex-col w-full">
-        <p className="body-16-m text-black mb-2">
+      <div className="flex flex-col w-full mt-3">
+        <p className=" text-black mb-2">
           제목 <span className="text-primary-50">*</span>
         </p>
         <input
-          className="border p-1 rounded-md w-full mb-4"
+          className="p-3 rounded-2xl w-full mb-4 text-secondary-300 bg-secondary-50 body-16-m placeholder-secondary-300"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="제목을 작성해주세요."
+          placeholder="제목을 작성해주세요"
         />
-        <p className="body-16-m text-black mb-2">
+        <p className=" text-black mb-2">
           한 줄 설명 <span className="text-primary-50">*</span>
         </p>
         <input
-          className="border p-1 rounded-md w-full mb-4"
+          className="p-3 rounded-2xl w-full mb-4 text-secondary-300  bg-secondary-50 body-16-m placeholder-secondary-300"
           value={studyDescription}
           onChange={(e) => setStudyDescription(e.target.value)}
-          placeholder="그룹을 소개해주세요."
+          placeholder="그룹을 소개하는 설명을 작성해주세요."
         />
-        <p className="body-16-m text-black mb-2">
+        <p className=" text-black mb-2">
           오픈채팅방 링크 <span className="text-primary-50">{`(선택)`}</span>
         </p>
         <input
-          className="border p-1 rounded-md w-full mb-8"
+          className="p-3 rounded-2xl w-full mb-8 text-secondary-300  bg-secondary-50 body-16-m placeholder-secondary-300"
           value={studychatLink}
           onChange={(e) => setStudyChatLink(e.target.value)}
           placeholder="팀원들과 소통할 채팅방 링크를 넣어주세요."
         />
       </div>
 
-      <div className="flex items-center justify-between w-full border border-gray-300 rounded-lg mb-5">
-        <p className="p-3 whitespace-nowrap">인원</p>
-        <p
-          className="p-3 text-gray-300 font-bold h-full truncate"
-          onClick={() => setUserCnt(1)}
-        >
-          {`${userCnt} >`}
-        </p>
+      <div className="flex items-center justify-between w-full border border-gray-300 rounded-2xl mb-5">
+        <p className="p-3">인원</p>
+        <div onClick={() => setUserCnt(1)} className="flex">
+          <p className="text-secondary-300 body-16-m pr-3">{`${userCnt}`}</p>
+          <Image src={stroke} alt="selectBtn" width={0} className="mr-3" />
+        </div>
       </div>
 
-      <div className="flex items-center justify-between w-full border border-gray-300 rounded-lg mb-5">
+      <div className="flex items-center justify-between w-full border border-gray-300 rounded-2xl mb-5">
         <p className="p-3 whitespace-nowrap">직업 태그</p>
-        <p
-          className="p-3 text-gray-300 font-bold h-full truncate"
-          onClick={() => handleModalClick("job")}
-        >
-          {`${studyTarget} >`}
-        </p>
+        <div className="flex">
+          <p
+            className="text-secondary-300 body-16-m pr-3"
+            onClick={() => handleModalClick("job")}
+          >
+            {arr[0] === "" ? "직업을 선택해주세요" : arr[0]}
+          </p>
+          <Image src={stroke} alt="selectBtn" width={0} className="mr-3" />
+        </div>
       </div>
 
-      <div className="flex items-center justify-between w-full border border-gray-300 rounded-lg mb-5">
+      <div className="flex items-center justify-between w-full border border-gray-300 rounded-2xl mb-5">
         <p className="p-3 whitespace-nowrap">스터디 태그</p>
-        <p
-          className="p-3 text-gray-300 font-bold h-full truncate"
-          onClick={() => handleModalClick("study")}
-        >
-          {`${studyCategory} >`}
-        </p>
+        <div className="flex">
+          <p
+            className="text-secondary-300 body-16-m pr-3"
+            onClick={() => handleModalClick("study")}
+          >
+            {!arr[1] ? "스터디 태그를 선택해주세요" : arr.slice(1).join(",")}
+          </p>
+          <Image src={stroke} alt="selectBtn" width={0} className="mr-3" />
+        </div>
       </div>
 
       <StudyModal
@@ -222,18 +240,15 @@ function StudyContent() {
 
       <Modal
         isModalOpen={isCommonModalOpen}
-        onClose={() => setIsCommonModalOpen(false)}
+        onClose={() => {
+          setIsCommonModalOpen(false);
+        }}
         onConfirm={(arr: string[]) => {
-          if (commonModalMode === "job") {
-            if (arr.length > 0) {
-              setStudyTarget(arr[0]);
-            }
-          } else {
-            setStudyCategory(arr);
-          }
+          setArr(arr);
           setIsCommonModalOpen(false);
         }}
         modalMode={commonModalMode}
+        arr={arr}
       />
     </div>
   );
