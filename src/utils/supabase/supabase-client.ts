@@ -469,16 +469,22 @@ export const fetchStudyMember = async (studyId: string) => {
     .eq("study_id", studyId)
     .eq("is_approved", true);
 
-  if (error) {
+  const { data: manager, error: managerError } = await browserClient
+    .from("study")
+    .select("study_manager")
+    .eq("study_id", studyId)
+    .single();
+
+  if (error || managerError) {
     console.error(error);
     return null;
   }
 
-  if (!data) {
+  if (!data || !manager) {
     return null;
   }
 
-  return data as Pick<Tables<"study_applylist">, "user_id">[];
+  return [...data.map((d) => d.user_id), manager.study_manager];
 };
 
 // 회원 탈퇴 라우트 핸들러 사용
@@ -651,5 +657,21 @@ export const updateStudyMemo = async (
   if (error) {
     console.log(error);
     throw new Error("일정 수정에 실패했습니다.");
+  }
+};
+
+// 오늘 출석한 사람 몇명인지 가져오기
+export const fetchAttendanceRate = async (studyId: string, today: string) => {
+  const { data }: { data: Tables<"attendance_list">[] | null } =
+    await browserClient
+      .from("attendance_list")
+      .select("*")
+      .eq("study_id", studyId)
+      .eq("date", today);
+
+  if (!data) {
+    return 0;
+  } else {
+    return data.length;
   }
 };

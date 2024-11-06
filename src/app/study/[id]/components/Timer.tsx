@@ -1,6 +1,6 @@
 "use client";
 
-import { useStudyTimer } from "@/hooks/useTimer";
+import { useStudyManager } from "@/hooks/useStudyManager";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -17,13 +17,13 @@ const formatTime = (seconds: number) => {
 
 const TimerTimer = ({ studyId }: { studyId: string }) => {
   const {
-    schedules,
+    todaySchedules,
     time,
     isRunning,
     isWithinTimeRange,
     handleStart,
     handlePause,
-  } = useStudyTimer(studyId);
+  } = useStudyManager(studyId);
 
   const [rotation, setRotation] = useState(0);
 
@@ -43,7 +43,7 @@ const TimerTimer = ({ studyId }: { studyId: string }) => {
     };
   }, [isRunning]);
 
-  if (schedules.length) {
+  if (todaySchedules.length) {
     return (
       <div className="bg-secondary-900 rounded-20 w-full h-[316px] relative my-6">
         <Image

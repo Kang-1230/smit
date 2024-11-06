@@ -32,7 +32,7 @@ const SquarePostCard = ({ post }: { post: Tables<"post"> }) => {
     <Link href={`/post/${post.post_id}`}>
       <div className="w-[260px] h-[216px] bg-secondary-900 text-white rounded-3xl px-5 pt-5 pb-6 flex flex-col justify-between">
         <div>
-          <p className="body-16-s mb-3 line-clamp-2">{post.post_name}</p>
+          <p className="mb-3 body-16-s line-clamp-2">{post.post_name}</p>
           <div className="flex flex-row flex-wrap gap-1">
             {study.study_category.map((category, idx) => (
               <Badge
@@ -44,11 +44,11 @@ const SquarePostCard = ({ post }: { post: Tables<"post"> }) => {
             ))}
           </div>
         </div>
-        <div className="flex flex-row justify-between items-center">
+        <div className="flex flex-row items-center justify-between">
           <div className="flex flex-col gap-y-2 caption">
             <p>
               모집 {studyMember ? studyMember.length : 0}/
-              {study.study_max_people + 1}
+              {study.study_max_people}
             </p>
             <p className="text-secondary-400">
               관심 {post.like_count}

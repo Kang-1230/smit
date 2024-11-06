@@ -15,14 +15,14 @@ export default async function MyPage() {
         <p className="title-20-s mb-5">내가 작성한 글</p>
         <MyPostList />
       </div>
-      <hr className="mt-5 mb-7" />
+      <hr className="mt-5" />
       <div className="flex flex-col pt-7 px-6">
         <p className="title-20-s mb-5">찜 목록</p>
         <MyLikePosts />
       </div>
       <hr className="my-7" />
       <DeleteUserButton />
-      <hr className="my-7" />
+      <hr className="mt-7 pb-20" />
     </div>
   );
 }
