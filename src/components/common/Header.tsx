@@ -11,6 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 
 const MENU_ICONS = [<SearchIcon key="search" />, <AlertIcon key="alert" />];
+//여기에 헤더 숨기고싶은 경로 넣기
 const HIDDEN_HEADER_PATHS = ["/login", "/signup"];
 
 export default function Header() {

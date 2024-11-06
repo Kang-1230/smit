@@ -166,7 +166,7 @@ export default function LoginPage() {
             </button>
           </div>
 
-          <div className="mt-[32px] flex flex-col w-[327px] items-center gap-5 absolute top-[500px] left-6">
+          <div className="mt-[32px] flex flex-col w-[327px] items-center gap-5 ">
             <div className="flex items-center justify-center gap-2 relative self-stretch w-full flex-{0_0_auto]">
               <Image alt="Vector" src={SNSVector} />
               <div className="relative w-fit mt-[-1.00px] caption text-center whitespace-nowrap text-#7e7b72">
@@ -174,18 +174,30 @@ export default function LoginPage() {
               </div>
               <Image alt="Vector" src={SNSVector} />
             </div>
-
-            <button onClick={() => handleGoogleSignIn()}>
-              <Image
-                src={GoogleLogo}
-                alt="Google Login"
-                width={24}
-                height={24}
-              />
-            </button>
-            <button onClick={() => handleKaKaoSignIn()}>
-              <Image src={KakaoLogo} alt="Kakao Login" width={24} height={24} />
-            </button>
+            <div className="flex gap-[9px]">
+              <button
+                onClick={() => handleGoogleSignIn()}
+                className="w-[60px] h-[60px] bg-white rounded-full flex items-center justify-center"
+              >
+                <Image
+                  src={KakaoLogo}
+                  alt="Kakao Login"
+                  width={32}
+                  height={32}
+                />
+              </button>
+              <button
+                onClick={() => handleKaKaoSignIn()}
+                className="w-[60px] h-[60px] bg-white rounded-full flex items-center justify-center"
+              >
+                <Image
+                  src={GoogleLogo}
+                  alt="Google Login"
+                  width={32}
+                  height={32}
+                />
+              </button>
+            </div>
           </div>
         </section>
       </div>
