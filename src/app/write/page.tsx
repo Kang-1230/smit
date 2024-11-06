@@ -15,6 +15,8 @@ import Check from "../../../public/icons/Check.svg";
 import stroke from "../../../public/icons/Next.svg";
 import { fetchStudyInfo } from "@/utils/supabase/supabase-server";
 
+import SelectDate from "./components/SelectDate";
+
 type study = {
   id: string;
   name: string;
@@ -24,6 +26,8 @@ export default function Write() {
   //유저 가져오기
   const { data: user } = usePublicUser();
 
+  const router = useRouter();
+
   // 전송 시 필요한 인자값 - 데이터 관련 정리 필요
   const [title, setTitle] = useState<string>("");
   const [contents, setContents] = useState<string>("");
@@ -32,6 +36,9 @@ export default function Write() {
   // 모달 모드 상태관리 - 모달 공용 컴포넌트 사용
   const [modalMode, setModalMode] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  // Date 모달 상태관리
+  const [isDateOpen, setIsDateOpen] = useState<boolean>(false);
 
   const [study, setStudy] = useState<study>({
     id: "",
@@ -45,8 +52,6 @@ export default function Write() {
 
   // 가져온 스터디 하나의 데이터
   const [studyInfo, setStudyInfo] = useState<Tables<"study">>();
-
-  const router = useRouter();
 
   // 스터디 모집글 생성
   const { mutate: createPost } = useMutation({
@@ -86,6 +91,7 @@ export default function Write() {
     },
   });
 
+  // 선택한 스터디 객체가 바뀔 때마다 스터디 데이터 가져옴
   useEffect(() => {
     const getStudyInfo = async () => {
       const data = await fetchStudyInfo(study.id);
@@ -130,18 +136,22 @@ export default function Write() {
 
         <div className="flex items-center justify-between w-10/12 border text-secondary-700 border-gray-300 rounded-2xl mb-4">
           <p className="p-3">시작 예정일</p>
-          <input
-            className="border rounded-md p-3"
-            value={startDay}
-            type="date"
-            onChange={(e) => setStartDay(e.target.value)}
-            placeholder="0000년 00월 00일 〉"
-          />
+          <div className="flex">
+            <p
+              className="text-secondary-300 body-16-m px-3"
+              onClick={() => setIsDateOpen(true)}
+            >
+              {startDay !== "" ? startDay : "0000년 00월 00일"}
+            </p>
+            <Image src={stroke} alt="selectBtn" width={0} className="mr-3" />
+          </div>
         </div>
 
         <div className="flex flex-col items-center w-10/12 border text-secondary-700 border-gray-300 rounded-2xl mb-5">
           <div className="flex items-center justify-between w-full">
-            <p className="p-3">스터디 그룹</p>
+            <p className="p-3">
+              스터디 그룹 <span className="text-primary-50">*</span>
+            </p>
             <div className="flex">
               <p
                 className="text-secondary-300 body-16-m px-3"
@@ -166,21 +176,32 @@ export default function Write() {
                   height={100}
                   className="object-full rounded-xl border aspect-square w-1/4 h-1/4"
                 />
-                <p className="mx-2 text-secondary-800 body-16-s">{studyInfo?.study_name}</p>
+                <p className="mx-2 text-secondary-800 body-16-s">
+                  {studyInfo?.study_name}
+                </p>
               </div>
-              <div className="flex w-full justify-around mb-3">
-                <p className="bg-primary-50 text-white rounded-full ... px-2 py-1 caption overflow-hidden text-ellipsis whitespace-nowrap flex items-center">
+              <div className="flex w-full justify-start">
+                <p className="bg-tertiary-300 text-white rounded-full ... px-3 py-1 caption overflow-hidden text-ellipsis whitespace-nowrap flex items-center ml-4 mb-4">
                   {studyInfo?.study_category[0]}
                 </p>
-                <p className="bg-primary-50 text-white rounded-full ... px-2 py-1 caption overflow-hidden text-ellipsis whitespace-nowrap flex items-center">
-                  {studyInfo?.study_category[1]}
-                </p>
-                <p className="bg-primary-50 text-white rounded-full ... px-2 py-1 caption overflow-hidden text-ellipsis whitespace-nowrap flex items-center">
-                  {studyInfo?.study_category[2]}
-                </p>
-                <p className="bg-primary-50 text-white rounded-full ... px-2 py-1 caption overflow-hidden text-ellipsis whitespace-nowrap flex items-center">
-                  {studyInfo?.study_category[3]}
-                </p>
+
+                {studyInfo?.study_category[1] ? (
+                  <p className="bg-primary-50 text-white rounded-full px-3 py-1 caption overflow-hidden text-ellipsis whitespace-nowrap flex items-center ml-1 mb-4">
+                    {studyInfo?.study_category[1]}
+                  </p>
+                ) : null}
+
+                {studyInfo?.study_category[2] ? (
+                  <p className="bg-primary-50 text-white rounded-full px-3 py-1 caption overflow-hidden text-ellipsis whitespace-nowrap flex items-center ml-1 mb-4">
+                    {studyInfo?.study_category[2]}
+                  </p>
+                ) : null}
+
+                {studyInfo?.study_category[3] ? (
+                  <p className="bg-primary-50 text-white rounded-full px-3 py-1 caption overflow-hidden text-ellipsis whitespace-nowrap flex items-center ml-1 mb-4">
+                    {studyInfo?.study_category[3]}
+                  </p>
+                ) : null}
               </div>
             </div>
           ) : null}
@@ -212,6 +233,20 @@ export default function Write() {
         modalMode={modalMode}
         studyGroup={studyGroup}
       />
+
+      {isDateOpen && (
+        <SelectDate
+          onConfirm={(date: string) => {
+            setStartDay(date);
+            setIsDateOpen(false);
+          }}
+          onClose={() => {
+            setIsModalOpen(false);
+            setIsDateOpen(false);
+          }}
+          mode="date"
+        />
+      )}
     </div>
   );
 }
