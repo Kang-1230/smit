@@ -154,14 +154,14 @@ export const insertPostWrite = async (
       post_name: title,
       study_startday: startDay,
     })
-    .single();
+    .select("post_id");
 
   if (error) {
     console.log(error);
     throw new Error("게시글 삽입 실패: " + error.message);
   }
 
-  return data;
+  return data[0].post_id;
 };
 
 // 특정 사용자가 작성한 게시글 불러오기
