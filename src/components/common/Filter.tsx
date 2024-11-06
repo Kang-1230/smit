@@ -3,9 +3,10 @@ import Image from "next/image";
 type Props = {
   text: string;
   color: "white" | "black" | "gray";
+  onClick: () => void;
 };
 
-export default function Filter({ text, color }: Props) {
+export default function Filter({ text, color, onClick }: Props) {
   const styleFilter = {
     white: "text-secondary-700 bg-white",
     black: "text-white bg-secondary-900",
@@ -15,6 +16,7 @@ export default function Filter({ text, color }: Props) {
   return (
     <button
       className={`rounded-16 py-1 pl-3 pr-1 text-sm font-normal ${styleFilter[color]} flex gap-1`}
+      onClick={onClick}
     >
       {text}
       <Image
