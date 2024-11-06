@@ -43,7 +43,7 @@ const UserProfile = () => {
             </p>
             <p className="body-14-r text-secondary-300 mb-4">{user.email}</p>
           </div>
-          <MyButton style="beige" size="smBtn" onClick={modalOpen}>
+          <MyButton style="beige" size="sm" onClick={modalOpen}>
             프로필 수정
           </MyButton>
           {isModalOpen && (

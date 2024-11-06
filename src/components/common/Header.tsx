@@ -1,18 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import AlertIcon from "../ui/icons/AlertIcon";
-import SearchIcon from "../ui/icons/SearchIcon";
 import CustomButton from "../ui/CustomButton";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import supabase from "../../utils/supabase/client";
 import { useSession } from "@/hooks/useUserProfile";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
+import Image from "next/image";
 
-const MENU_ICONS = [<SearchIcon key="search" />, <AlertIcon key="alert" />];
+const MENU_ICONS = [
+  <Image
+    src={`/icons/Search.svg`}
+    width={24}
+    height={24}
+    alt="search-icon"
+    key="search"
+  />,
+];
+const HIDDEN_HEADER_PATHS = ["/login", "/signup", "/write","/write/study"];
 
 export default function Header() {
+  const pathname = usePathname();
   const router = useRouter();
   const queryClient = useQueryClient();
   const { data: user } = useSession();
@@ -45,13 +54,28 @@ export default function Header() {
     }
   };
 
+  // pathname이 study/{id} 형식인지 확인
+  const isStudyDetailPath = () => {
+    const pathSegments = pathname.split("/");
+    return pathSegments[1] === "study" && pathSegments[2]; // study 다음에 id가 있는지 체크
+  };
+
+  // 헤더를 숨겨야 하는지 확인
+  const shouldHideHeader = () => {
+    return HIDDEN_HEADER_PATHS.includes(pathname) || isStudyDetailPath();
+  };
+
+  if (shouldHideHeader()) {
+    return null;
+  }
+
   return (
-    <header className="flex justify-between items-center px-4 bg-white border-b">
+    <header className="flex justify-between items-center px-[24px] bg-white h-[44px] absolute z-30 w-full bg-opacity-20 backdrop-blur-sm">
       <Link href="/">
-        <h1 className="text-3xl font-bold cursor-pointer">Smit</h1>
+        <Image src={"/images/logo.svg"} alt="logo" width={72} height={30} />
       </Link>
       <nav>
-        <ul className="flex items-center gap-4 py-4">
+        <ul className="flex items-center gap-[10px] py-4">
           {MENU_ICONS.map((icon) => (
             <li key={icon.key} className="cursor-pointer">
               {icon}

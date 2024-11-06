@@ -71,7 +71,11 @@ const DetailComments = ({ id }: { id: string }) => {
       <div>
         {commentList && commentList.length > 0 ? (
           commentList.map((comment) => (
-            <CommentListItem key={comment.comment_id} comment={comment} />
+            <CommentListItem
+              key={comment.comment_id}
+              comment={comment}
+              commentList={commentList}
+            />
           ))
         ) : (
           <div>작성된 댓글이 없습니다.</div>

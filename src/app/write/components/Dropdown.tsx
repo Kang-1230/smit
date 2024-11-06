@@ -2,12 +2,17 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { useState } from "react";
 import browserClient from "@/utils/supabase/client";
-
 import Modal from "./StudyModal";
-import { useRouter } from "next/navigation";
 import { usePublicUser } from "@/hooks/useUserProfile";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Edit from "../../../../public/icons/Edit.svg";
+import Open from "../../../../public/icons/Open.svg";
+import Close from "../../../../public/icons/Close.svg";
+import Pencil from "../../../../public/icons/PencilSmall.svg";
 
 export default function Dropdown() {
+  const router = useRouter();
   // 드롭다운 열림, 닫힘 상태 관리
   const [isDropDownOpen, setIsDropDownOpen] = useState<boolean>(false);
   // 모달 열림, 닫힘 상태 관리
@@ -16,7 +21,6 @@ export default function Dropdown() {
   const [modalMode, setModalMode] = useState<string>("");
 
   const { data: user } = usePublicUser();
-  const router = useRouter();
 
   const getStudyList = async () => {
     if (user) {
@@ -33,10 +37,12 @@ export default function Dropdown() {
         setModalMode("nonexist");
         setIsModalOpen(true);
       } else {
-        router.replace("/write");
+        setModalMode("exist");
+        setIsModalOpen(true);
       }
     } else {
       alert("서비스를 이용하시려면 먼저 로그인 해주세요.");
+      router.replace("/login");
     }
 
     setIsDropDownOpen(false);
@@ -44,31 +50,43 @@ export default function Dropdown() {
 
   const handleModalClose = () => {
     setIsModalOpen(false);
+    setIsDropDownOpen(false);
   };
 
-  const viewStudyModal = () => {
+  const routeStudyPage = () => {
     if (user) {
-      setModalMode("exist");
-      setIsModalOpen(true);
+      router.push("/write/study");
     } else {
       alert("서비스를 이용하시려면 먼저 로그인 해주세요.");
+      router.replace("/login");
     }
     setIsDropDownOpen(false);
   };
 
   return (
     <>
-      {/* 드롭다운이 열렸을 때만 배경 표시 */}
       {isDropDownOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" />
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+          onClick={handleModalClose}
+        ></div>
       )}
       <Menu>
-        <div className="bottom-24 right-4 fixed">
+        <div
+          className="bottom-24 right-4 fixed"
+          onClick={(e) => e.stopPropagation()}
+        >
           <MenuButton
-            className="text-xl font-bold bg-black rounded-full w-12 h-12 text-white"
+            className={` ${
+              isDropDownOpen ? `bg-primary-50` : `bg-black`
+            } rounded-full w-14 h-14 text-white flex items-center justify-center`}
             onClick={() => setIsDropDownOpen(!isDropDownOpen)}
           >
-            {isDropDownOpen ? "x" : "+"}
+            {isDropDownOpen ? (
+              <Image src={Close} alt="union" width={0} />
+            ) : (
+              <Image src={Open} alt="union" width={0} />
+            )}
           </MenuButton>
           <MenuItems
             anchor="top end"
@@ -76,17 +94,24 @@ export default function Dropdown() {
           >
             <MenuItem>
               <a
-                className="block data-[focus]:bg-blue-100 mb-2 font-bold"
-                onClick={() => viewStudyModal()}
+                className="body-16-s flex justify-start items-center"
+                onClick={() => routeStudyPage()}
               >
+                <Image src={Edit} alt="union" width={0} className="mr-2" />
                 스터디 만들기
               </a>
             </MenuItem>
             <MenuItem>
               <a
-                className="block data-[focus]:bg-blue-100 font-bold"
+                className="body-16-s flex justify-start items-center mt-4"
                 onClick={() => getStudyList()}
               >
+                <Image
+                  src={Pencil}
+                  alt="PencilLined"
+                  width={0}
+                  className="mr-2"
+                />
                 모집글 쓰기
               </a>
             </MenuItem>
@@ -96,7 +121,7 @@ export default function Dropdown() {
 
       <Modal
         isModalOpen={isModalOpen}
-        onClose={handleModalClose}
+        onClose={() => handleModalClose()}
         onConfirm={() => setModalMode("exist")}
         modalMode={modalMode}
       />

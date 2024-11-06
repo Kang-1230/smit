@@ -117,6 +117,7 @@ export type Database = {
           comment_createtime: string;
           comment_id: string;
           comment_updatetime: string;
+          is_deleted: boolean;
           parent_id: string | null;
           post_id: number;
           user_id: string;
@@ -126,6 +127,7 @@ export type Database = {
           comment_createtime?: string;
           comment_id?: string;
           comment_updatetime?: string;
+          is_deleted?: boolean;
           parent_id?: string | null;
           post_id: number;
           user_id?: string;
@@ -135,6 +137,7 @@ export type Database = {
           comment_createtime?: string;
           comment_id?: string;
           comment_updatetime?: string;
+          is_deleted?: boolean;
           parent_id?: string | null;
           post_id?: number;
           user_id?: string;

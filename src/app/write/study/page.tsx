@@ -4,10 +4,14 @@ import browserClient from "@/utils/supabase/client";
 import { insertStudy } from "@/utils/supabase/supabase-client";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
 import React, { Suspense, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import StudyModal from "../components/StudyModal";
+import Modal from "@/components/common/Modal";
+import ImageSelect from "../../../../public/icons/ImageSelect.svg";
+import Xmedium from "../../../../public/icons/XMedium.svg";
+import Check from "../../../../public/icons/Check.svg";
+import stroke from "../../../../public/icons/Next.svg";
 
 export default function Study() {
   return (
@@ -18,16 +22,12 @@ export default function Study() {
 }
 
 function StudyContent() {
-  // 검색 파라미터를 항상 호출
-  const params = useSearchParams();
   const { data: user } = usePublicUser();
   const router = useRouter();
-  const isSolo: boolean = params.get("solo") === "true";
 
   const [title, setTitle] = useState<string>("");
   const [userCnt, setUserCnt] = useState<number>(1);
-  const [studyCategory, setStudyCategory] = useState<string[]>([]);
-  const [studyTarget, setStudyTarget] = useState<string>("");
+
   const [studychatLink, setStudyChatLink] = useState<string>("");
   const [studyDescription, setStudyDescription] = useState<string>("");
   const [uploadImg, setUploadImg] = useState<string>(
@@ -35,8 +35,15 @@ function StudyContent() {
       .publicUrl,
   );
 
+  const [arr, setArr] = useState<string[]>([""]);
+
+  // 스터디 페이지 내에서 사용하는 모달창 관리
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [modalMode, setModalMode] = useState<string>("");
+
+  // 공용 모달 관리 - 직업 태그, 분류 태그 관리
+  const [isCommonModalOpen, setIsCommonModalOpen] = useState<boolean>(false);
+  const [commonModalMode, setCommonModalMode] = useState<string>("");
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -45,7 +52,7 @@ function StudyContent() {
     mutationFn: (url: string) =>
       insertStudy(
         title,
-        [...studyCategory, studyTarget],
+        arr,
         userCnt,
         user?.id,
         studyDescription,
@@ -68,8 +75,8 @@ function StudyContent() {
 
   const handleModalClose = () => {
     if (title && modalMode !== "success") {
-      setModalMode("close");
-      setIsModalOpen(true);
+      setIsModalOpen(false);
+      setIsCommonModalOpen(false);
     } else {
       router.replace("/");
     }
@@ -106,130 +113,142 @@ function StudyContent() {
     }
   };
 
-  const handleCategoryClick = (category: string) => {
-    setStudyCategory((prev) => {
-      if (prev.includes(category)) {
-        return prev.filter((item) => item !== category);
-      } else {
-        return [...prev, category];
-      }
-    });
+  const handleModalClick = (mode: string) => {
+    setCommonModalMode(mode);
+    setIsCommonModalOpen(true);
   };
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className="flex justify-between ... w-full p-5 text-2xl">
-        <p onClick={() => handleModalClose()}>✕</p>
-        <p className="text-xl font-bold">스터디 만들기</p>
-        <p onClick={() => sendData()}>✓</p>
-      </div>
-
-      <div className="relative w-11/12 h-60 ">
+    <div className="flex flex-col w-11/12 mx-auto">
+      <div className="flex justify-between ... w-full p-2 text-2xl items-center">
         <Image
-          src={`${uploadImg}`}
-          fill
-          alt="유저 이미지"
-          className="object-cover rounded-lg"
-          priority={true}
+          src={Xmedium}
+          alt="selectBtn"
+          width={0}
           onClick={() => {
-            if (fileInputRef.current) fileInputRef.current.click();
+            setModalMode("close");
+            setIsModalOpen(true);
           }}
         />
+        <p className="body-16-s text-black ">스터디 만들기</p>
+        <Image
+          src={Check}
+          alt="selectBtn"
+          width={0}
+          onClick={() => sendData()}
+        />
+      </div>
 
+      <div className="flex flex-col w-full h-1/3 mb-4 relative">
+        <p className="body-16-m text-black mb-2">
+          대표 이미지 <span className="text-primary-50">{`(선택)`}</span>
+        </p>
+        <div className="relative w-full h-full">
+          <Image
+            src={uploadImg}
+            alt="userImg"
+            width={500}
+            height={300}
+            className="object-full rounded-3xl w-full h-full" // 부모에 맞게 꽉 차게 설정
+            onClick={() => fileInputRef.current?.click()}
+          />
+          <Image
+            src={ImageSelect}
+            alt="selectBtn"
+            width={35}
+            className="absolute inset-0 m-auto" // 중앙 정렬
+          />
+        </div>
         <input
           ref={fileInputRef}
           className="hidden"
           type="file"
-          onChange={(e) => ImageUploadHandler(e)}
+          onChange={ImageUploadHandler}
         />
       </div>
 
-      <h1>제목</h1>
-      <input
-        className="mb-1 border p-1 rounded-md w-full m-3"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="제목을 작성해주세요."
-      />
-      <h1>한 줄 설명</h1>
-      <input
-        className="mb-1 border p-1 rounded-md w-full m-3"
-        value={studyDescription}
-        onChange={(e) => setStudyDescription(e.target.value)}
-        placeholder="그룹을 소개해주세요."
-      />
-      <h1>오픈채팅방 링크</h1>
-      <input
-        className="mb-1 border p-1 rounded-md w-full m-3"
-        value={studychatLink}
-        onChange={(e) => setStudyChatLink(e.target.value)}
-        placeholder="팀원들과 소통할 채팅방 링크를 넣어주세요."
-      />
-      <h1>인원 {`(UI 수정예정)`}</h1>
-      <div className="flex">
-        {userCnt !== 1 && !isSolo ? (
-          <button
-            className="bg-black size-8 text-white"
-            onClick={() => setUserCnt(userCnt - 1)}
+      <div className="flex flex-col w-full mt-3">
+        <p className=" text-black mb-2">
+          제목 <span className="text-primary-50">*</span>
+        </p>
+        <input
+          className="p-3 rounded-2xl w-full mb-4 text-secondary-300 bg-secondary-50 body-16-m placeholder-secondary-300"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="제목을 작성해주세요"
+        />
+        <p className=" text-black mb-2">
+          한 줄 설명 <span className="text-primary-50">*</span>
+        </p>
+        <input
+          className="p-3 rounded-2xl w-full mb-4 text-secondary-300  bg-secondary-50 body-16-m placeholder-secondary-300"
+          value={studyDescription}
+          onChange={(e) => setStudyDescription(e.target.value)}
+          placeholder="그룹을 소개하는 설명을 작성해주세요."
+        />
+        <p className=" text-black mb-2">
+          오픈채팅방 링크 <span className="text-primary-50">{`(선택)`}</span>
+        </p>
+        <input
+          className="p-3 rounded-2xl w-full mb-8 text-secondary-300  bg-secondary-50 body-16-m placeholder-secondary-300"
+          value={studychatLink}
+          onChange={(e) => setStudyChatLink(e.target.value)}
+          placeholder="팀원들과 소통할 채팅방 링크를 넣어주세요."
+        />
+      </div>
+
+      <div className="flex items-center justify-between w-full border border-gray-300 rounded-2xl mb-5">
+        <p className="p-3">인원</p>
+        <div onClick={() => setUserCnt(1)} className="flex">
+          <p className="text-secondary-300 body-16-m pr-3">{`${userCnt}`}</p>
+          <Image src={stroke} alt="selectBtn" width={0} className="mr-3" />
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between w-full border border-gray-300 rounded-2xl mb-5">
+        <p className="p-3 whitespace-nowrap">직업 태그</p>
+        <div className="flex">
+          <p
+            className="text-secondary-300 body-16-m pr-3"
+            onClick={() => handleModalClick("job")}
           >
-            -
-          </button>
-        ) : null}
-        <h1 className="text-2xl">{userCnt}</h1>
-        {!isSolo ? (
-          <button
-            className="bg-black size-8 text-white"
-            onClick={() => setUserCnt(userCnt + 1)}
+            {arr[0] === "" ? "직업을 선택해주세요" : arr[0]}
+          </p>
+          <Image src={stroke} alt="selectBtn" width={0} className="mr-3" />
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between w-full border border-gray-300 rounded-2xl mb-5">
+        <p className="p-3 whitespace-nowrap">스터디 태그</p>
+        <div className="flex">
+          <p
+            className="text-secondary-300 body-16-m pr-3"
+            onClick={() => handleModalClick("study")}
           >
-            +
-          </button>
-        ) : null}
+            {!arr[1] ? "스터디 태그를 선택해주세요" : arr.slice(1).join(",")}
+          </p>
+          <Image src={stroke} alt="selectBtn" width={0} className="mr-3" />
+        </div>
       </div>
-      <h1>직업 태그 {`(UI 수정예정)`}</h1>
-      <div className="flex justify-between ... bg-black text-white w-full">
-        <button onClick={() => setStudyTarget("대학생")}>대학생</button>
-        <button onClick={() => setStudyTarget("고등학생")}>고등학생</button>
-        <button onClick={() => setStudyTarget("중학생")}>중학생</button>
-        <button onClick={() => setStudyTarget("초등학생")}>초등학생</button>
-      </div>
-      <h1>{studyTarget}</h1>
-      <br></br>
-      <h1>스터디 태그 {`(UI 수정예정)`}</h1>
-      <div className="flex justify-between ... bg-black text-white w-full">
-        <button onClick={() => handleCategoryClick("수시모집")}>
-          수시모집
-        </button>
-        <button onClick={() => handleCategoryClick("UX/UI")}>UX/UI</button>
-        <button onClick={() => handleCategoryClick("개발")}>개발</button>
-        <button onClick={() => handleCategoryClick("중학생 입시")}>
-          중학생 입시
-        </button>
-        <button onClick={() => handleCategoryClick("고등학생 입시")}>
-          고등학생 입시
-        </button>
-        <button onClick={() => handleCategoryClick("미대 진학")}>
-          미대 진학
-        </button>
-        <button onClick={() => handleCategoryClick("체대 진학")}>
-          체대 진학
-        </button>
-        <button onClick={() => handleCategoryClick("JLPT")}>
-          일본어 JLPT N2
-        </button>
-        <button onClick={() => handleCategoryClick("취업 커리어")}>
-          취업 커리어
-        </button>
-        <button onClick={() => handleCategoryClick("토플")}>생산</button>
-        <button onClick={() => handleCategoryClick("토익")}>토익</button>
-        <button onClick={() => handleCategoryClick("오픽")}>오픽</button>
-      </div>
-      <h1>{studyCategory}</h1>
 
       <StudyModal
         isModalOpen={isModalOpen}
         onClose={() => handleModalClose()}
         onConfirm={() => setIsModalOpen(false)}
         modalMode={modalMode}
+      />
+
+      <Modal
+        isModalOpen={isCommonModalOpen}
+        onClose={() => {
+          setIsCommonModalOpen(false);
+        }}
+        onConfirm={(arr: string[]) => {
+          setArr(arr);
+          setIsCommonModalOpen(false);
+        }}
+        modalMode={commonModalMode}
+        arr={arr}
       />
     </div>
   );

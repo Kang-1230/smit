@@ -17,7 +17,7 @@ export default function CategoryComponent({
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isJobOpen, setIsJobOpen] = useState(false);
 
-  const categories: SortCategory[] = ["최신순", "인기순"];
+  const categories: SortCategory[] = ["최신순", "인기순", "댓글순"];
   const jobs = ["개발", "고등학생", "토익"];
 
   const handleCategoryClick = (category: SortCategory) => {

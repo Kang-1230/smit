@@ -1,5 +1,5 @@
 import browserClient from "@/utils/supabase/client";
-import { JoinPerson } from "./ApplyStudyList";
+import { JoinPersonWithManager } from "./MyStudyList";
 import { getJoinedStudyPeopleList } from "@/utils/supabase/supabase-client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -12,14 +12,28 @@ const ApplyUserProfileImgList = ({ studyId }: { studyId: string }) => {
     const fetchData = async () => {
       try {
         const joinedUserId = await getJoinedStudyPeopleList(studyId);
+        if (!joinedUserId) {
+          setProfileUrls([]);
+          return;
+        }
 
-        const urls: string[] = joinedUserId.map((item: JoinPerson) => {
-          return getProfileImgUrl(item.user_id);
-        });
+        const memberUrls: string[] = joinedUserId?.map(
+          (item: JoinPersonWithManager) => {
+            return getProfileImgUrl(item.user.id);
+          },
+        );
 
-        setProfileUrls(urls);
+        if (joinedUserId[0]?.study?.study_manager) {
+          const managerUrl = getProfileImgUrl(
+            joinedUserId[0].study.study_manager,
+          );
+          memberUrls.unshift(managerUrl);
+        }
+
+        setProfileUrls(memberUrls);
       } catch (error) {
         console.error("Error fetching data :", error);
+        setProfileUrls([]);
       }
     };
     fetchData();
