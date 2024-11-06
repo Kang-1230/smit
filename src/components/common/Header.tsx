@@ -6,8 +6,9 @@ import { usePathname, useRouter } from "next/navigation";
 import supabase from "../../utils/supabase/client";
 import { useSession } from "@/hooks/useUserProfile";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import SearchModal from "../home/SearchModal";
 
 const MENU_ICONS = [
   <Image
@@ -18,13 +19,14 @@ const MENU_ICONS = [
     key="search"
   />,
 ];
-const HIDDEN_HEADER_PATHS = ["/login", "/signup", "/write","/write/study"];
+const HIDDEN_HEADER_PATHS = ["/login", "/signup", "/write", "/write/study"];
 
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const queryClient = useQueryClient();
   const { data: user } = useSession();
+  const [isSearchModal, setIsSearchModal] = useState(false);
 
   // 로그인 상태 구독!!
   useEffect(() => {
@@ -70,26 +72,36 @@ export default function Header() {
   }
 
   return (
-    <header className="flex justify-between items-center px-[24px] bg-white h-[44px] absolute z-30 w-full bg-opacity-20 backdrop-blur-sm">
-      <Link href="/">
-        <Image src={"/images/logo.svg"} alt="logo" width={72} height={30} />
-      </Link>
-      <nav>
-        <ul className="flex items-center gap-[10px] py-4">
-          {MENU_ICONS.map((icon) => (
-            <li key={icon.key} className="cursor-pointer">
-              {icon}
+    <>
+      <header className="absolute z-30 flex h-[44px] w-full items-center justify-between bg-white bg-opacity-20 px-[24px] backdrop-blur-sm">
+        <Link href="/">
+          <Image src={"/images/logo.svg"} alt="logo" width={72} height={30} />
+        </Link>
+        <nav>
+          <ul className="flex items-center gap-[10px] py-4">
+            {MENU_ICONS.map((icon) => (
+              <li
+                key={icon.key}
+                className="cursor-pointer"
+                onClick={() => setIsSearchModal(true)}
+              >
+                {icon}
+              </li>
+            ))}
+            <li>
+              {user ? (
+                <CustomButton
+                  text="로그아웃"
+                  onClick={(e) => handleLogout(e)}
+                />
+              ) : (
+                <CustomButton text="로그인" onClick={() => handleLogin()} />
+              )}
             </li>
-          ))}
-          <li>
-            {user ? (
-              <CustomButton text="로그아웃" onClick={(e) => handleLogout(e)} />
-            ) : (
-              <CustomButton text="로그인" onClick={() => handleLogin()} />
-            )}
-          </li>
-        </ul>
-      </nav>
-    </header>
+          </ul>
+        </nav>
+      </header>
+      {isSearchModal && <SearchModal onClick={() => setIsSearchModal(false)} />}
+    </>
   );
 }
