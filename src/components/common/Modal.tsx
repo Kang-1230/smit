@@ -21,6 +21,7 @@ const Modal = (props: Props) => {
   const [categoryTags, setCategoryTags] = useState<Tables<"category_tag">[]>(
     [],
   );
+
   const [arr, setArr] = useState<string[]>(props.arr);
 
   useEffect(() => {

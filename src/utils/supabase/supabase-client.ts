@@ -82,6 +82,7 @@ export const insertStudy = async (
   });
 
   if (error) {
+    console.log(error);
     throw new Error("스터디를 생성하지 못했어요.");
   }
 };
@@ -163,6 +164,37 @@ export const insertPostWrite = async (
 
   return data[0].post_id;
 };
+
+
+// 포스트 수정(Update)
+export const updatePostWrite = async (
+  userId: string,
+  studyId: string,
+  contents: string,
+  title: string,
+  startDay: string,
+  post_id: number,
+) => {
+  const user = await fetchSessionData();
+  if (!user) {
+    throw new Error("로그인 상태가 아님");
+  }
+
+  const {error} = await browserClient
+  .from("post")
+  .update({
+      user_id: userId,
+      study_id: studyId,
+      post_contents: contents,
+      post_name: title,
+      study_startday: startDay,
+  }).eq("post_id",post_id)
+
+  if(error) {
+    console.log(error);
+    throw new Error("모집글 수정 실패")
+  }
+}
 
 // 특정 사용자가 작성한 게시글 불러오기
 export const fetchPostByUser = async (userId: string | undefined) => {

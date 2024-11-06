@@ -13,6 +13,11 @@ import { usePublicUser } from "@/hooks/useUserProfile";
 import { convertUTCToKST } from "@/utils/convertDate";
 import { Tables } from "../../../../../database.types";
 import ReplyComment from "./ReplyComment";
+import CommentLined from "../../../../../public/icons/CommentLined.svg";
+import ChevronDown from "../../../../../public/icons/ChevronDown.svg";
+import ChevronUp from "../../../../../public/icons/ChevronUp.svg";
+import SendLined from "../../../../../public/icons/SendLined.svg";
+import EditButton from "./EditButton";
 
 // comment 테이블 구조에, replies(답글) 속성이 추가된 comment 타입
 interface CommentType extends Tables<"comment"> {
@@ -129,82 +134,123 @@ const CommentListItem = ({
   return (
     <div>
       {edited[comment.comment_id] ? (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (!updateCommentItem.trim()) {
-              return alert("댓글 내용을 입력해주세요!");
-            }
-            updateComment({
-              commentId: comment.comment_id,
-              content: updateCommentItem,
-              updatedAt: new Date().toISOString(),
-            });
-            toggleEditMode(comment.comment_id);
-          }}
-          className="flex my-1 border relative w-full"
-        >
+        <div className="flex items-start my-2">
           <Image
             src={UserProfileImg}
             alt="유저 이미지"
-            width={50}
-            height={50}
-            className="rounded-full border aspect-square object-cover flex-shrink-0"
+            width={40}
+            height={40}
+            className="rounded-full aspect-square object-cover shrink-0 h-[40px]"
           />
-          <div className="flex flex-col flex-1 min-w-0">
-            <span>{commentUser?.name}</span>
-            <div className="flex items-center w-full relative">
-              <input
-                value={updateCommentItem}
-                onChange={(e) => setUpdateCommentItem(e.target.value)}
-                placeholder="댓글을 입력하세요"
-                className="w-full pr-16 focus:outline-none min-w-0"
-              />
-              <button className="absolute bottom-0 right-0">완료</button>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (!updateCommentItem.trim()) {
+                return alert("댓글 내용을 입력해주세요!");
+              }
+              updateComment({
+                commentId: comment.comment_id,
+                content: updateCommentItem,
+                updatedAt: new Date().toISOString(),
+              });
+              toggleEditMode(comment.comment_id);
+            }}
+            className="flex ml-2 relative w-full border-b border-secondary-200"
+          >
+            <div className="flex flex-col flex-1">
+              <span className="text-secondary-700 text-xs font-medium leading-none">
+                {commentUser?.name}
+              </span>
+              <div className="flex justify-between items-center w-full">
+                <input
+                  value={updateCommentItem}
+                  onChange={(e) => setUpdateCommentItem(e.target.value)}
+                  placeholder="댓글을 입력하세요"
+                  className="w-full focus:outline-none body-16-m my-2 text-[#444]"
+                />
+                <button>
+                  <Image
+                    src={SendLined}
+                    alt="입력"
+                    width={24}
+                    height={24}
+                    className="flex-shrink-0"
+                  />
+                </button>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       ) : (
-        <div className="flex items-start my-1 border relative">
+        <div className="flex items-start my-2 relative">
           <Image
             src={UserProfileImg}
             alt="유저 이미지"
-            width={50}
-            height={50}
-            className="rounded-full border aspect-square object-cover"
+            width={40}
+            height={40}
+            className="rounded-full aspect-square object-cover flex-shrink-0"
           />
-          <div>
-            <div className="flex items-center">
-              <span>{commentUser?.name}</span>
-              <span className="text-neutral-400 text-xs font-normal ml-2">
+          <div className="flex-1 ml-2">
+            <div className="flex items-center mb-1">
+              <span className="text-secondary-700 text-xs font-medium leading-none">
+                {commentUser?.name}
+              </span>
+              <span className="text-[#B0B0B0] text-xs ml-1">
                 {convertUTCToKST(comment.comment_updatetime).fullDateTime}
               </span>
             </div>
-            {!comment.is_deleted && user?.id === comment.user_id && (
-              <div className="absolute top-0 right-0 flex gap-2 text-[#8A8A8A] text-sm font-medium">
-                <button onClick={() => toggleEditMode(comment.comment_id)}>
-                  수정
-                </button>
-                <button onClick={handleDeleteClick}>삭제</button>
-              </div>
-            )}
             {/* 삭제된 댓글 표시 */}
-            {comment.is_deleted ? (
-              <p className="text-gray-400">삭제된 댓글입니다.</p>
-            ) : (
-              <p>{comment.comment_contents}</p>
-            )}
-            <button onClick={handleReplyClick}>
-              {!isReply && hasReplies
-                ? `답글 ${comment.replies?.length}개 ${showReplies ? "∧" : "∨"}`
-                : "답글달기"}
+            <div className="relative">
+              {comment.is_deleted ? (
+                <p className="text-gray-400">삭제된 댓글입니다.</p>
+              ) : (
+                <p className="body-16-m my-2 text-[#444]">
+                  {comment.comment_contents}
+                </p>
+              )}
+              {!comment.is_deleted && user?.id === comment.user_id && (
+                <EditButton
+                  userId={comment.user_id}
+                  handleEdit={() => toggleEditMode(comment.comment_id)}
+                  handleDelete={handleDeleteClick}
+                />
+              )}
+            </div>
+            <button
+              onClick={handleReplyClick}
+              className="text-secondary-400 body-14-m"
+            >
+              {!isReply && hasReplies ? (
+                <div className="flex items-center">
+                  <Image
+                    src={CommentLined}
+                    alt="reply"
+                    width={24}
+                    height={24}
+                  />
+                  {comment.replies?.length}개
+                  {showReplies ? (
+                    <Image src={ChevronUp} alt="up" width={20} height={20} />
+                  ) : (
+                    <Image
+                      src={ChevronDown}
+                      alt="down"
+                      width={20}
+                      height={20}
+                    />
+                  )}
+                  <span className="ml-1">답글달기</span>
+                </div>
+              ) : (
+                "답글달기"
+              )}
             </button>
           </div>
         </div>
       )}
       {/* 부모댓글 && 답글목록 오픈 */}
       {!isReply && showReplies && (
-        <div className="ml-12">
+        <div className="mt-2 ml-10">
           {hasReplies &&
             comment.replies?.map((reply) => (
               <CommentListItem
