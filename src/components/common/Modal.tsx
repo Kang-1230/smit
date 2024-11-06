@@ -8,7 +8,7 @@ import { Tables } from "../../../database.types";
 import Image from "next/image";
 import Union from "../../../public/icons/Union.svg";
 
-type ModalProps = {
+type Props = {
   isModalOpen: boolean;
   onClose: () => void;
   onConfirm: (arr: string[]) => void;
@@ -16,7 +16,7 @@ type ModalProps = {
   arr: string[];
 };
 
-const Modal = (props: ModalProps) => {
+const Modal = (props: Props) => {
   const [jobTags, setJobTags] = useState<Tables<"job_tag">[]>([]);
   const [categoryTags, setCategoryTags] = useState<Tables<"category_tag">[]>(
     [],
@@ -36,7 +36,7 @@ const Modal = (props: ModalProps) => {
     if (props.isModalOpen) {
       fetchData();
     }
-  }, [props.isModalOpen]);
+  }, [props.isModalOpen, props.modalMode]); // 의존성 배열에 props.modalMode 추가
 
   return props.isModalOpen ? (
     <div
@@ -44,7 +44,7 @@ const Modal = (props: ModalProps) => {
       onClick={() => props.onClose}
     >
       <div
-        className="fixed inset-x-0 bottom-0 bg-white rounded-t-2xl w-full shadow-lg flex flex-col h-2/5 overflow-y-auto focus:overscroll-contain"
+        className="fixed inset-x-0 bottom-0 bg-white rounded-t-2xl w-full shadow-lg flex flex-col h-fit overflow-y-auto focus:overscroll-contain"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-col justify-center w-full p-5">

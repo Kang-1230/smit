@@ -11,6 +11,7 @@ import Open from "../../../../public/icons/Open.svg";
 import Close from "../../../../public/icons/Close.svg";
 import Pencil from "../../../../public/icons/PencilSmall.svg";
 
+
 export default function Dropdown() {
   const router = useRouter();
   // 드롭다운 열림, 닫힘 상태 관리

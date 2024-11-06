@@ -13,8 +13,11 @@ type ModalProps = {
 
 const StudyModal = (props: ModalProps) => {
   return props.isModalOpen ? (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center w-full">
-      <div className="bg-white p-6 rounded-3xl shadow-lg flex flex-col justify-center items-center w-5/6 h-fit overflow-y-auto overflow-x-hidden">
+    <div className="fixed inset-0 flex items-center justify-center w-full h-full bg-black/70 z-50">
+      <div
+        className="bg-white p-6 rounded-3xl shadow-lg flex flex-col justify-center items-center w-5/6 h-fit overflow-y-auto overflow-x-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
         {props.modalMode === "nonexist" ? (
           <>
             <Image src={Warning} alt="union" width={0} className="mb-6" />
