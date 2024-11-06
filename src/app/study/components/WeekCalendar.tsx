@@ -95,14 +95,14 @@ const StudyScheduleList = () => {
   if (isLoading) return <div>로딩중...</div>;
 
   return (
-    <div className=" w-[375px]	 bg-#c9c909 overflow-hidden">
+    <div className="bg-#c9c909 w-[375px] overflow-hidden">
       {/* 달력 헤더 */}
-      <div className="p-4 bg-gray-50">
-        <div className="flex items-center justify-between mb-4">
+      <div className="bg-gray-50 p-4">
+        <div className="mb-4 flex items-center justify-between">
           <h2 className="text-lg font-semibold">
             {format(selectedDate, "MMMM", { locale: enUS })}
           </h2>
-          <button className="p-2 hover:bg-gray-200 rounded-full">
+          <button className="rounded-full p-2 hover:bg-gray-200">
             <svg
               width="24"
               height="24"
@@ -154,13 +154,13 @@ const StudyScheduleList = () => {
                   className="cursor-pointer"
                 >
                   <div
-                    className={`flex flex-col items-center py-2 rounded-full ${
+                    className={`flex flex-col items-center rounded-full py-2 ${
                       isToday || isSelected
                         ? "text-gray-800"
                         : "hover:bg-gray-100"
                     }`}
                   >
-                    <span className="text-xs mb-1">{dayOfWeek}</span>
+                    <span className="mb-1 text-xs">{dayOfWeek}</span>
                     <span>{format(date, "d")}</span>
                   </div>
                 </div>
@@ -176,12 +176,12 @@ const StudyScheduleList = () => {
           events.map((event: EventWithStudy) => (
             <div
               key={event.calendar_id}
-              className="mb-4 p-4 bg-white rounded-lg border hover:shadow-md transition-shadow"
+              className="mb-4 rounded-lg border bg-white p-4 transition-shadow hover:shadow-md"
             >
               <div className="flex items-start justify-between">
                 <div>
-                  <div className="flex items-center text-sm text-red-500 mb-2">
-                    <Clock className="w-4 h-4 mr-1" />
+                  <div className="mb-2 flex items-center text-sm text-red-500">
+                    <Clock className="mr-1 h-4 w-4" />
                     <span>
                       {format(
                         new Date(`2000-01-01 ${event.start_time}`),
@@ -194,21 +194,21 @@ const StudyScheduleList = () => {
                       )}
                     </span>
                   </div>
-                  <div className="text-xs text-blue-600 mb-1">
+                  <div className="mb-1 text-xs text-blue-600">
                     {event.study?.study_name}
                   </div>
-                  <p className="text-sm text-gray-600 line-clamp-2">
+                  <p className="line-clamp-2 text-sm text-gray-600">
                     {event.event_description}
                   </p>
                 </div>
-                <button className="p-2 hover:bg-gray-100 rounded-full">
-                  <ChevronRight className="w-5 h-5 text-gray-400" />
+                <button className="rounded-full p-2 hover:bg-gray-100">
+                  <ChevronRight className="h-5 w-5 text-gray-400" />
                 </button>
               </div>
             </div>
           ))
         ) : (
-          <div className="text-center text-gray-500 py-8">
+          <div className="py-8 text-center text-gray-500">
             등록된 일정이 없습니다
           </div>
         )}

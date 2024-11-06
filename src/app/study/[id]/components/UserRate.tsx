@@ -23,16 +23,15 @@ const UserRate = ({
   currentSchedule: Tables<"calendar"> | null;
 }) => {
   return (
-    <div className="bg-secondary-900 text-white min-w-[187px] rounded-20 p-4 relative overflow-hidden w-full mr-3">
-      <div className="absolute w-3/4 h-full -translate-x-1/2 bg-white rounded-full top-48 blur-2xl left-1/2 bg-opacity-80"></div>
-      <p className="flex flex-row items-center caption">
+    <div className="relative mr-3 w-full min-w-[187px] overflow-hidden rounded-20 bg-secondary-900 p-4 text-white">
+      <div className="absolute left-1/2 top-48 h-full w-3/4 -translate-x-1/2 rounded-full bg-white bg-opacity-80 blur-2xl"></div>
+      <p className="caption flex flex-row items-center">
         <Image
-          src={`/icons/Book.svg`}
+          src={`/icons/timer/BookLined.svg`}
           alt="book icon"
           width={16}
           height={16}
           className="mr-1"
-          style={{ stroke: "white", fill: "white" }}
         />
         공부시간 달성률
       </p>
@@ -47,7 +46,7 @@ const UserRate = ({
           className="absolute-center rotate-[-90deg]"
         >
           <circle
-            className="transition-all duration-1000 ease-out stroke-white"
+            className="stroke-white transition-all duration-1000 ease-out"
             fill="none"
             strokeWidth="1.5"
             strokeLinecap="round"
@@ -67,7 +66,7 @@ const UserRate = ({
             ></circle>
           )}
         </svg>
-        <p className="font-pretendard text-[32px] font-medium absolute-center">
+        <p className="absolute-center font-pretendard text-[32px] font-medium">
           {currentSchedule && userTimer ? userTimer.time_rate : 0}
           <span className="caption">%</span>
         </p>
