@@ -178,8 +178,9 @@ export default function LoginPage() {
               <Image alt="Vector" src={SNSVector} />
             </div>
             <div className="flex gap-[9px]">
+              
               <button
-                onClick={() => handleGoogleSignIn()}
+                onClick={() => handleKaKaoSignIn()}
                 className="w-[60px] h-[60px] bg-white rounded-full flex items-center justify-center"
               >
                 <Image
@@ -190,7 +191,7 @@ export default function LoginPage() {
                 />
               </button>
               <button
-                onClick={() => handleKaKaoSignIn()}
+                onClick={() => handleGoogleSignIn()}
                 className="w-[60px] h-[60px] bg-white rounded-full flex items-center justify-center"
               >
                 <Image

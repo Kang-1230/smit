@@ -30,6 +30,11 @@ export default function SignupPage() {
     }
   }, [password, verifyPassword]);
 
+  const preventDuplication = () => {
+    alert("사용 가능한 닉네임입니다.")
+  }
+
+
   const handleSignUp = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -194,7 +199,7 @@ export default function SignupPage() {
                 value={nickName}
                 className = {`w-full h-[40px] white-fill rounded-20 placeholder:body-14-r pl-[16px] placeholder:text-secondary-300 body-14-r${nickName ? "text-black" : ""}`}
               />
-              <button className="black-fill text-white w-[80px] rounded-[18px] body-14-s ml-[8px]">
+              <button onClick={() => preventDuplication()}className="black-fill text-white w-[80px] rounded-[18px] body-14-s ml-[8px]">
                 중복확인
               </button>
             </div>
