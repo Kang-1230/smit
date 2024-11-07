@@ -35,13 +35,25 @@ https://parkfinder.fujiikaze.kr/<br/>
 <div align="center">
 
 | **강수진** | **정수희** | **김태현** | **설하영** | **홍승우** | **이재은** | **하예림** |
-| :------: |  :------: | :------: | :------: :------: :------: |
+| :------: |  :------: | :------: | :------: :------: :------: :------: |
 | [<img src="https://avatars.githubusercontent.com/u/175091912?v=4" height=150 width=150> <br/> @Kang-1230](https://github.com/Kang-1230) | [<img src="https://avatars.githubusercontent.com/u/175583374?v=4" height=150 width=150> <br/> @doo1b](https://github.com/doo1b) | [<img src="https://avatars.githubusercontent.com/u/163470732?v=4" height=150 width=150> <br/> @derek0k](https://github.com/derek0k) | [<img src="https://avatars.githubusercontent.com/u/76766459?v=4" height=150 width=150> <br/> @hadooni](https://github.com/hadooni) |
 [<img src="https://avatars.githubusercontent.com/u/64956234?v=4" height=150 width=150> <br/> @SeungwooHong97](https://github.com/SeungwooHong97) |
  [<img src="https://avatars.githubusercontent.com/u/76766459?v=4" height=150 width=150> <br/> @yerimHa]([https://github.com/journey-ji](https://sprinkle-sunspot-9a8.notion.site/Notion-24198d23f09c4288bdd4b0b08a28de77?pvs=24)) |
   [<img src="https://avatars.githubusercontent.com/u/76766459?v=4" height=150 width=150> <br/> @jeaunE]()
 
 </div>
+
+
+<div align="center">
+
+| **강수진** | **정수희** | **김태현** | **설하영** | **홍승우** | **이재은** | **하예림** |
+| :------: |  :------: | :------: | :------: | :------: | :------: | :------: |
+| [<img src="https://avatars.githubusercontent.com/u/175091912?v=4" height=150 width=150> <br/> @Kang-1230](https://github.com/@Kang-1230) | [<img src="https://avatars.githubusercontent.com/u/175583374?v=4" height=150 width=150> <br/> @doo1b](https://github.com/doo1b) | [<img src="https://avatars.githubusercontent.com/u/163470732?v=4" height=150 width=150> <br/> @derek0k](https://github.com/derek0k) | [<img src="https://avatars.githubusercontent.com/u/76766459?v=4" height=150 width=150> <br/> @hadooni](https://github.com/hadooni) | [<img src="https://avatars.githubusercontent.com/u/64956234?v=4" height=150 width=150> <br/> @SeungwooHong97](https://github.com/SeungwooHong97) | [<img src="https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default" height=150 width=150> <br/> @jaeunE](https://sprinkle-sunspot-9a8.notion.site/Notion-24198d23f09c4288bdd4b0b08a28de77) | [<img src="https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default" height=150 width=150> <br/> @yerimHa] |
+
+</div>
+
+<br>
+
 
 ## 1. 개발 환경
 
