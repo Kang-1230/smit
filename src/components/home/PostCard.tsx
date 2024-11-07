@@ -9,9 +9,10 @@ import Badge from "../common/Badge";
 
 export type Props = {
   post: PostWithRelations;
+  color?: "tertiary" | "primary";
 };
 
-export default function PostCard({ post }: Props) {
+export default function PostCard({ post, color = "tertiary" }: Props) {
   const {
     post_id,
     study_id,
@@ -25,7 +26,9 @@ export default function PostCard({ post }: Props) {
 
   return (
     <Link href={`/post/${post_id}`}>
-      <section className="flex h-[18rem] w-full flex-col justify-between gap-4 rounded-20 bg-black bg-white p-5">
+      <section
+        className={`flex h-[18rem] w-full flex-col justify-between gap-4 rounded-20 p-5 ${color === "tertiary" ? "bg-white" : "bg-tertiary-50"}`}
+      >
         <div className="flex items-center justify-between">
           <div className="flex flex-1 gap-2">
             <div className="relative h-9 w-9 rounded-full border">
@@ -57,7 +60,7 @@ export default function PostCard({ post }: Props) {
                 category={category}
                 key={`${study.study_id}-${category}`}
                 idx={idx}
-                color="tertiary"
+                color={color === "primary" ? "primary" : "tertiary"}
               />
             ))}
           </div>
