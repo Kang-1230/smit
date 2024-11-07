@@ -144,3 +144,39 @@ export async function fetchByStudyId(id: string): Promise<Tables<"study">> {
 
   return study[0];
 }
+
+// ---- refac
+
+export async function fetchAllStudyKeywords(
+  keyword: string,
+): Promise<PostWithRelations[]> {
+  const serverClient = createClient();
+
+  // category에 배열에 포함된것들
+  // const { data: posts } = await serverClient
+  //   .from("post")
+  //   .select(`*, study(*), user(*)`)
+  //   .contains("study.study_category", ["공부", "개발"])
+  //   .not("study", "is", null);
+
+  // const { data: posts } = await serverClient
+  //   .from("post")
+  //   .select(`*, study(*), user(*)`)
+  //   .like("post_name", `%하영%`);
+
+  const { data: posts } = await serverClient
+    .from("post")
+    .select(`*, study(*), user(*)`)
+    .like("post_name", `%${keyword}%`);
+
+  // const { data: posts } = await serverClient
+  //   .from("post")
+  //   .select(`*, study(*), user(*)`)
+  //   .or(`post_name.like.%하영%,study.study_name.like.%모집%`);
+
+  if (!posts) {
+    throw new Error("Failed to retrieve studys");
+  }
+
+  return posts;
+}
