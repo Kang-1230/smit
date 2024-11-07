@@ -8,7 +8,7 @@ https://parkfinder.fujiikaze.kr/<br/>
 ## 📖 목차
 1. [프로젝트 소개](#-프로젝트-소개)
 2. [팀소개](#-팀소개)
-3. [프로젝트 목적](#-프로젝트-목적)
+3. [개발 환경](#-개발-환경경)
 4. [주요기능](#-주요기능)
 5. [개발기간](#%EF%B8%8F-개발기간)
 6. [기술스택](#%EF%B8%8F-기술스택)
@@ -21,43 +21,33 @@ https://parkfinder.fujiikaze.kr/<br/>
 <br/><br/>
 
 ## 👨‍🏫 프로젝트 소개
-**> "나만의 스터디 그룹을 온라인에서 만들어보세요! 우리 서비스에서는 함께 공부하며 성적을 올리고, 점수를 얻어서 스터디 그룹의 랭킹을 올릴 수 있습니다. 스밋으로 함께 공부하는 재미를 새롭게 경험해보세요!”
-> 
+"나만의 스터디 그룹을 온라인에서 만들어보세요! <br>
+우리 서비스에서는 함께 공부하며 성적을 올리고, 점수를 얻어서 스터디 그룹의 랭킹을 올릴 수 있습니다. 스밋으로 함께 공부하는 재미를 새롭게 경험해보세요! <br>
+스밋(Smit)은 온라인에서 손쉽게 스터디 그룹을 만들고, 실시간으로 그룹원들의 공부현황을 확인하며, 학습 시간을 관리할 수 있는 플랫폼입니다.  <br>
+그룹의 학습 점수를 확인하고, 랭킹으로 성과를 비교하여 학습 동기를 강화할 수 있습니다. <br><br>
 
-> 스밋(Smit)은 온라인에서 손쉽게 스터디 그룹을 만들고, 실시간으로 그룹원들의 공부현황을 확인하며, 학습 시간을 관리할 수 있는 플랫폼입니다.
-> 
+기존 스터디의 문제 <br>
+1. 기존 스터디 서비스의 문제  <br>
+현재 상용화된 서비스된 스터디의 특화된 도구들을 제공하기에는 부족하다. <br>
+한 기능 차중되어 있는 느낌 (일정은, 일정만, 기록은 기록만, 모집은 모집만) <br>
 
-> 그룹의 학습 점수를 확인하고, 랭킹으로 성과를 비교하여 학습 동기를 강화할 수 있습니다.
->
 <br/>
 
 ## 👨‍👩‍👧‍👦 팀소개
 <div align="center">
 
 | **강수진** | **정수희** | **김태현** | **설하영** | **홍승우** | **이재은** | **하예림** |
-| :------: |  :------: | :------: | :------: :------: :------: :------: |
-| [<img src="https://avatars.githubusercontent.com/u/175091912?v=4" height=150 width=150> <br/> @Kang-1230](https://github.com/Kang-1230) | [<img src="https://avatars.githubusercontent.com/u/175583374?v=4" height=150 width=150> <br/> @doo1b](https://github.com/doo1b) | [<img src="https://avatars.githubusercontent.com/u/163470732?v=4" height=150 width=150> <br/> @derek0k](https://github.com/derek0k) | [<img src="https://avatars.githubusercontent.com/u/76766459?v=4" height=150 width=150> <br/> @hadooni](https://github.com/hadooni) |
-[<img src="https://avatars.githubusercontent.com/u/64956234?v=4" height=150 width=150> <br/> @SeungwooHong97](https://github.com/SeungwooHong97) |
- [<img src="https://avatars.githubusercontent.com/u/76766459?v=4" height=150 width=150> <br/> @yerimHa]([https://github.com/journey-ji](https://sprinkle-sunspot-9a8.notion.site/Notion-24198d23f09c4288bdd4b0b08a28de77?pvs=24)) |
-  [<img src="https://avatars.githubusercontent.com/u/76766459?v=4" height=150 width=150> <br/> @jeaunE]()
-
-</div>
-
-
-<div align="center">
-
-| **강수진** | **정수희** | **김태현** | **설하영** | **홍승우** | **이재은** | **하예림** |
 | :------: |  :------: | :------: | :------: | :------: | :------: | :------: |
-| [<img src="https://avatars.githubusercontent.com/u/175091912?v=4" height=150 width=150> <br/> @Kang-1230](https://github.com/@Kang-1230) | [<img src="https://avatars.githubusercontent.com/u/175583374?v=4" height=150 width=150> <br/> @doo1b](https://github.com/doo1b) | [<img src="https://avatars.githubusercontent.com/u/163470732?v=4" height=150 width=150> <br/> @derek0k](https://github.com/derek0k) | [<img src="https://avatars.githubusercontent.com/u/76766459?v=4" height=150 width=150> <br/> @hadooni](https://github.com/hadooni) | [<img src="https://avatars.githubusercontent.com/u/64956234?v=4" height=150 width=150> <br/> @SeungwooHong97](https://github.com/SeungwooHong97) | [<img src="https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default" height=150 width=150> <br/> @jaeunE](https://sprinkle-sunspot-9a8.notion.site/Notion-24198d23f09c4288bdd4b0b08a28de77) | [<img src="https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default" height=150 width=150> <br/> @yerimHa] |
+| [<img src="https://avatars.githubusercontent.com/u/175091912?v=4" height=150 width=150> <br/> @Kang-1230](https://github.com/@Kang-1230) | [<img src="https://avatars.githubusercontent.com/u/175583374?v=4" height=150 width=150> <br/> @doo1b](https://github.com/doo1b) | [<img src="https://avatars.githubusercontent.com/u/163470732?v=4" height=150 width=150> <br/> @derek0k](https://github.com/derek0k) | [<img src="https://avatars.githubusercontent.com/u/76766459?v=4" height=150 width=150> <br/> @hadooni](https://github.com/hadooni) | [<img src="https://avatars.githubusercontent.com/u/64956234?v=4" height=150 width=150> <br/> @SeungwooHong97](https://github.com/SeungwooHong97) | [<img src="https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default" height=150 width=150> <br/> @jaeunE](https://sprinkle-sunspot-9a8.notion.site/Notion-24198d23f09c4288bdd4b0b08a28de77) | [<img src="https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default" height=150 width=150> <br/> [@yerimHa]()] |
 
 </div>
 
 <br>
 
 
-## 1. 개발 환경
+## 💖 개발 환경
 
-- Front : HTML, React, styled-components, Recoil
+- Front : HTML, React, tailwind, tanstack , react-dom
 - Back-end : Supabase
 - 버전 및 이슈관리 : Github, Github Issues, Github Project
 - 협업 툴 : Zep , Notion, Figma , Slack
@@ -69,26 +59,49 @@ https://parkfinder.fujiikaze.kr/<br/>
 <br>
 
 
-## 💡 2. 채택한 개발 기술과 브랜치 전략
-**"흑백 요리사" - 최근 흥행한 넷플릭스 흑백요리사에 출연한 셰프들의 식당 정보가 취합된 웹 사이트**<br/>
-최근 흑백요리사 프로그램이 굉장히 흥행하여, 유행을 선두하고 있는 가운데 그 수많은 요리사들의 음식점을 따로 따로 검색하고, <br>
-사용자가 일일이 찾아야하는 사용자의 양상을 최근 발견 <br>
-→ 이 흑백요리사 프로그램의 요리하시는 분들의 식당정보만 취합된 사이트가 있으면 좋겠다 라는 생각에서 Start.
-<br/>
-
 ## 💜 주요기능
 
-### 주요 기능 1
-
+### 홈(모집)
+![image](https://github.com/user-attachments/assets/5dc900ee-c71b-4d80-87e0-4ebaecf7a4cb)
+![image](https://github.com/user-attachments/assets/20d960aa-b006-4523-a928-5cc9f3f46ace)
+![image](https://github.com/user-attachments/assets/e9e8b737-de35-4538-8f8b-50e9be3bd833)
+- 플로팅 버튼을 눌러 언제든지 나만의 스터디 그룹을 만들고, 모집글을 작성할 수 있습니다. <br>
+-  상단 Nav Bar의 검색 아이콘 기능을 통해 나에게 필요한 스터디를 효율적으로 찾아볼 수 있습니다. <br>
+-  관심 있는 모집 공고에 ‘좋아요’를 누르거나 의견을 댓글로 남길 수 있습니다. <br>
+- 상단 캐러셀을 통해 스터디와 관련된 다양한 이벤트를 확인할 수 있습니다. <br>
+- 인기 스터디를 통해 최근 가장 많은 관심수를 받는 스터디가 무엇인지 탐색할 수 있습니다. <br> 
+- 카테고리 칩을 통해 원하는 주제와 관련된 스터디만 필터링해 볼 수 있습니다. 칩을 클릭하면 바텀 시트가 올라옵니다. <br>
 gif 추가 부탁
 
-### 주요 기능 2
+### 모집글 작성
+![image](https://github.com/user-attachments/assets/aa91f767-f5c0-499b-9a5f-eaf99b2170c8)
+![image](https://github.com/user-attachments/assets/2e33ffdb-1107-4b4c-8c4e-d229b0b3752a)
+![image](https://github.com/user-attachments/assets/fbe45ffe-5cb0-4ac2-b6c3-2a98e6757eff)
 
-gif 추가 부탁
+- 스터디원들을 모으기 위한 모집글을 작성할 수 있습니다. <br> 
+- 카테고리 바를 클릭하면 바텀시트가 올라오며, 이때 스터디 시작 예정일과 모집글을 작성할 스터디를 선택할 수 있습니다. <br>
+- 스터디 그룹의 모집인원 및 태그가 모집글에도 동일하게 적용됩니다. <br>
+- 모집글에 작성할 내용의 byte 제한은 없습니다. <br>
+- 게시된 모집글에는 댓글, 찜, 공유, 가입 신청 기능을 사용할 수 있습니다. <br>
+- 댓글에는 답글을 달 수 있으며, 폴딩형식으로 답글을 표시하거나 감출 수 있습니다. <br>
+- 게시글을 찜하면 마이페이지에서 찜한 리스트를 모아볼 수 있습니다. <br>
+- 공유하기 버튼을 누르면 해당 게시글의 URL이 복사되었다는 토스트 모달이 뜹니다. <br>
+- 신청하기 버튼을 누르면 각오 한 마디를 적을 수 있는 텍스트 필드가 포함된 모달이 뜹니다. <br>
 
-### 주요 기능 3
+### 스터디
+![image](https://github.com/user-attachments/assets/a29fc90d-9a48-4909-b645-86ab899f4db0)
+![image](https://github.com/user-attachments/assets/bc84faab-b507-4bad-b515-b15f5064006b)
+![image](https://github.com/user-attachments/assets/5eeeee82-b0ac-43ed-8064-36f39f9b53c9)
 
-gif 추가 부탁
+
+- 참여 중인 모든 스터디 리스트를 한눈에 확인하고 관리할 수 있는 페이지입니다.
+- 상단 캘린더를 통해 스터디 일정을 직관적으로 관리할 수 있습니다. 캘린더 아이콘을 클릭하면 월간 캘린더 팝업이 나옵니다.
+- 캘린더에서 일정 또는 스터디 리스트를 클릭하여 스터디 룸에 바로 접속할 수 있습니다.
+- 가입 신청한 스터디의 리스트를 한 눈에 볼 수 있습니다.
+- 방장은 생성한 스터디 그룹의 설정을 수정하고, 구성원 관리를 할 수 있습니다.
+- 스터디원 관리 탭에서 스터디 가입을 신청한 사람들의 대기 리스트와 스터디에 속해 있는 멤버들 리스트를 볼 수 있으며, 이곳에서 멤버 강퇴와 방장 권한 넘기기가 가능합니다.
+- 스터디 편집 탭에서는 한 줄 설명, 오픈채팅방 링크, 스터디 인원수 설정 및 태그 수정이 가능하고, 해당 스터디를 삭제하는 기능이 있습니다.
+
 
 ### 주요 기능 4
 gif 추가 부탁
