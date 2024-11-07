@@ -39,7 +39,7 @@ const StudyStateBox = ({
     setEndModalOpen,
     endModalOpen,
     studyScore,
-  } = useStudyManager(studyId, member);
+  } = useStudyManager(studyId, member, study);
   return (
     <>
       <div className="flex w-full flex-col justify-center">

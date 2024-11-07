@@ -12,6 +12,7 @@ import { Tables } from "../../../../database.types";
 import UserOwnStudy from "./UserOwnStudy";
 import UserJoinedStudy from "./UserJoinedStudy";
 import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 
 export type ApplyData = {
   id: string;
@@ -90,51 +91,73 @@ const MyStudyList = ({ user }: { user: User | null }) => {
 
   return (
     <div className="flex flex-col">
-      <div className=" mx-6 my-4			">
-        <h1>신청한 스터디</h1>
-        <section className="bg-slate-100 rounded-lg p-5">
-          {applyStudyData?.map((dataItem: ApplyData) => {
-            return (
-              <div key={dataItem.id}>
-                <ul className="flex gap-8">
-                  <li>{dataItem.study.study_name}</li>
-                  <button
-                    onClick={() =>
-                      deleteMutation.mutate(dataItem.study.study_id)
-                    }
-                    className="bg-slate-400	text-white rounded-lg m-1 w-20 h-8	"
-                  >
-                    취소하기
-                  </button>
+      <div className="mx-6 my-[52px]">
+        <div className="relative inline-flex flex-[0_0_auto] items-center justify-center gap-2.5 py-0 pl-1 pr-0">
+          <h1 className="title-20-s relative mt-[-1.00px] w-fit whitespace-nowrap text-[#000000]">
+            신청한 스터디
+          </h1>
+        </div>
+
+        <section className="pt-[5px]">
+          <div className="relative flex w-full flex-[0_0_auto] flex-col items-center gap-2 self-stretch">
+            {applyStudyData?.map((dataItem: ApplyData) => {
+              return (
+                <ul
+                  key={dataItem.id}
+                  className="relative flex w-[327px] flex-[0_0_auto] items-center gap-2 rounded-[26px] bg-[#f6f6f4] py-2 pl-5 pr-2"
+                >
+                  <div className="relative flex flex-1 grow items-center gap-3">
+                    <li className="body-16-m relative mt-[-1.00px] flex-1 text-[#000000]">
+                      {dataItem.study.study_name}
+                    </li>
+                  </div>
+                  <div className="relative inline-flex h-9 flex-[0_0_auto] items-center justify-center gap-1 rounded-[18px] bg-[#333333] px-4 py-2">
+                    <button
+                      onClick={() =>
+                        deleteMutation.mutate(dataItem.study.study_id)
+                      }
+                      className="all-[unset] body-14-s body-14-s relative mt-[-0.50px] box-border w-fit whitespace-nowrap text-white"
+                    >
+                      취소하기
+                    </button>
+                  </div>
                 </ul>
-                <hr className="border-b-1 border-slate-400 w-full my-2 " />
+              );
+            })}
+            <div className="relative inline-flex flex-[0_0_auto] items-center py-2 pl-1 pr-0">
+              <div className="caption relative w-fit whitespace-nowrap text-secondary-700">
+                더보기
               </div>
-            );
-          })}
+
+              <ChevronDown className="!relative !h-5 !w-5" color="#4D4D4D" />
+            </div>
+          </div>
         </section>
       </div>
 
-      <div className=" w-full flex flex-col gap-4 p-4">
-        <div>
-          <h1>나의 스터디</h1>
+      <div className="flex w-full flex-col gap-4 px-6 pb-[136px]">
+        <div className="relative flex w-[89px] flex-[0_0_auto] items-center justify-center gap-2.5 py-0 pl-1 pr-0">
+          <h1 className="title-20-s relative ml-[-2.50px] mr-[-2.50px] mt-[-1.00px] w-fit whitespace-nowrap text-[#000000]">
+            나의 스터디
+          </h1>
         </div>
         {activeTab === "UserOwnStudy" ? (
-          <div className="flex flex-col	gap-4">
-            <div className="flex h-11 items-center justify-between px-2 py-0 relative rounded-[99px] border border-solid border-[#888888]">
+          <div className="relative inline-flex w-[327px] flex-[0_0_auto] flex-col items-start gap-3">
+            <div className="relative flex w-full flex-[0_0_auto] items-center justify-between self-stretch rounded-[30px] bg-[#f8f8f6] p-1 backdrop-blur-2xl backdrop-brightness-[100%] [-webkit-backdrop-filter:blur(40px)_brightness(100%)]">
               <div
                 onClick={() => setActiveTab("UserOwnStudy")}
-                className="inline-flex h-8 px-10 py-2.5 flex-[0_0_auto] bg-[#979797] rounded-2xl items-center justify-center gap-2.5 relative"
+                className="relative flex flex-1 grow items-center justify-center gap-2.5 rounded-[29px] bg-secondary-900 px-10 py-2.5"
               >
-                <div className="mt-[-1.00px] ml-[-5.50px] mr-[-5.50px] text-[#ffffff] relative w-fit [font-family:'Pretendard-Medium',Helvetica] font-medium text-base tracking-[-0.32px] leading-[normal] whitespace-nowrap">
+                <div className="body-16-m relative mt-[-1.00px] w-fit whitespace-nowrap text-white">
                   내가 방장
                 </div>
               </div>
 
               <div
                 onClick={() => setActiveTab("UserJoinedStudy")}
-                className="flex w-[138px] px-8 py-2.5 items-center justify-center gap-2.5 relative"
+                className="relative flex flex-1 grow items-center justify-center gap-2.5 px-8 py-2.5"
               >
-                <div className="mt-[-4.50px] mb-[-2.50px] text-[#000000] relative w-fit [font-family:'Pretendard-Medium',Helvetica] font-medium text-base tracking-[-0.32px] leading-[normal] whitespace-nowrap">
+                <div className="body-16-m relative mt-[-1.00px] w-fit whitespace-nowrap text-[#000000]">
                   가입한 스터디
                 </div>
               </div>
@@ -146,22 +169,22 @@ const MyStudyList = ({ user }: { user: User | null }) => {
             )}
           </div>
         ) : (
-          <div className="flex flex-col	gap-4">
-            <div className="flex h-11 items-center justify-between px-2 py-0 relative rounded-[99px] border border-solid border-[#888888]">
+          <div className="relative inline-flex w-[327px] flex-[0_0_auto] flex-col items-start gap-3">
+            <div className="relative flex w-full flex-[0_0_auto] items-center justify-between self-stretch rounded-[30px] bg-[#f8f8f6] p-1 backdrop-blur-2xl backdrop-brightness-[100%] [-webkit-backdrop-filter:blur(40px)_brightness(100%)]">
               <div
                 onClick={() => setActiveTab("UserOwnStudy")}
-                className="flex w-[138px] px-8 py-2.5 items-center justify-center gap-2.5 relative"
+                className="relative flex flex-1 grow items-center justify-center gap-2.5 px-8 py-2.5"
               >
-                <div className="mt-[-4.50px] mb-[-2.50px] text-[#000000] relative w-fit [font-family:'Pretendard-Medium',Helvetica] font-medium text-base tracking-[-0.32px] leading-[normal] whitespace-nowrap">
+                <div className="body-16-m relative mt-[-1.00px] w-fit whitespace-nowrap text-[#000000]">
                   내가 방장
                 </div>
               </div>
 
               <div
                 onClick={() => setActiveTab("UserJoinedStudy")}
-                className="inline-flex h-8 px-10 py-2.5 flex-[0_0_auto] bg-[#979797] rounded-2xl items-center justify-center gap-2.5 relative"
+                className="relative flex flex-1 grow items-center justify-center gap-2.5 rounded-[29px] bg-secondary-900 px-10 py-2.5"
               >
-                <div className="mt-[-1.00px] ml-[-5.50px] mr-[-5.50px] text-[#ffffff] relative w-fit [font-family:'Pretendard-Medium',Helvetica] font-medium text-base tracking-[-0.32px] leading-[normal] whitespace-nowrap">
+                <div className="body-16-m relative mt-[-1.00px] w-fit whitespace-nowrap text-white">
                   가입한 스터디
                 </div>
               </div>
