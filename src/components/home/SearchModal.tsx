@@ -27,6 +27,7 @@ const SearchModal = ({ onClick }: { onClick: () => void }) => {
     }
   };
 
+  const isText = isFocused && slug.length > 0;
   return (
     <>
       <div
@@ -34,7 +35,7 @@ const SearchModal = ({ onClick }: { onClick: () => void }) => {
         onClick={onClick}
       ></div>
       <div
-        className={`absolute top-11 z-30 mx-6 flex w-full items-center border-b ${isFocused ? "border-secondary-600" : "border-secondary-400"}`}
+        className={`absolute top-11 z-30 mx-6 flex w-full items-center border-b ${isText ? "border-secondary-600" : "border-secondary-200"}`}
         style={{ width: "calc(100% - 3rem)" }}
       >
         <Image

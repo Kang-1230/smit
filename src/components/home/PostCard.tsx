@@ -6,6 +6,7 @@ import { PostWithRelations } from "@/service/posts";
 import OccupancyCounter from "./OccupancyCounter";
 import Image from "next/image";
 import Badge from "../common/Badge";
+import { usePostLikers } from "@/hooks/useLikePost";
 
 export type Props = {
   post: PostWithRelations;
@@ -13,16 +14,10 @@ export type Props = {
 };
 
 export default function PostCard({ post, color = "tertiary" }: Props) {
-  const {
-    post_id,
-    study_id,
-    study,
-    user,
-    post_name,
-    like_count,
-    comment_count,
-  } = post;
+  const { post_id, study_id, study, user, post_name, comment_count } = post;
   const { study_max_people, study_category, study_name, study_imgurl } = study;
+
+  const { data: likers = null } = usePostLikers(post.post_id);
 
   return (
     <Link href={`/post/${post_id}`}>
@@ -82,7 +77,7 @@ export default function PostCard({ post, color = "tertiary" }: Props) {
                 width={15}
                 height={15}
               />
-              {like_count}
+              {likers ? likers.length : 0}
             </div>
             <div className="flex gap-[0.1rem]">
               <Image
