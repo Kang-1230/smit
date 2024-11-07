@@ -20,8 +20,6 @@ export default function FilterablePosts() {
     refetch();
   }, [selectedJobs, selectedCategory, refetch]);
 
-  console.log(!posts);
-
   if (!posts) return <>Posts가 없습니다</>;
 
   return (

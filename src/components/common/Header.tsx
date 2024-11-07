@@ -56,6 +56,11 @@ export default function Header() {
     }
   };
 
+  const handleSearchModal = () => {
+    if (pathname.startsWith("/search")) return;
+    setIsSearchModal(true);
+  };
+
   // pathname이 study/{id} 형식인지 확인
   const isStudyDetailPath = () => {
     const pathSegments = pathname.split("/");
@@ -83,7 +88,7 @@ export default function Header() {
               <li
                 key={icon.key}
                 className="cursor-pointer"
-                onClick={() => setIsSearchModal(true)}
+                onClick={handleSearchModal}
               >
                 {icon}
               </li>

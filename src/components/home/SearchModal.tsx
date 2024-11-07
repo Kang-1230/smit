@@ -1,17 +1,31 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 const SearchModal = ({ onClick }: { onClick: () => void }) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+  const [slug, setSlug] = useState("");
 
   useEffect(() => {
-    // Focus the input element when the modal is mounted
     if (inputRef.current) {
       inputRef.current.focus();
     }
   }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSlug(e.target.value);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && slug.trim() !== "") {
+      router.push(`/search/${encodeURIComponent(slug)}`);
+      onClick();
+    }
+  };
+
   return (
     <>
       <div
@@ -33,6 +47,9 @@ const SearchModal = ({ onClick }: { onClick: () => void }) => {
           type="text"
           placeholder="공부하고 싶은 분야를 검색해보세요"
           className="w-full bg-transparent p-2 font-pretendard text-base font-normal text-secondary-900 outline-none placeholder:text-secondary-400"
+          onChange={handleInputChange}
+          onKeyDown={handleKeyPress}
+          value={slug}
         />
         <button className="rounded-full bg-secondary-800" onClick={onClick}>
           <Image src="/icons/XSmall.svg" alt="x-icon" width={24} height={24} />
