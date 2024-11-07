@@ -2,6 +2,8 @@ import browserClient from "@/utils/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { Dispatch, SetStateAction } from "react";
 import { JoinPersonWithManager } from "../../components/MyStudyList";
+import MemberListItem from "./MemberListItem";
+import Image from "next/image";
 
 const ManagedMemberList = ({
   urlStudyId,
@@ -126,20 +128,31 @@ const ManagedMemberList = ({
   // 5. 마지막으로 렌더링
 
   return (
-    <div>
-      <h1>스터디 멤버 관리</h1>
+    <div className="mx-6 mb-52 mt-10">
+      <h1 className="title-20-s">스터디 멤버 관리</h1>
+      <div className="body-16-r my-5 flex w-full justify-between rounded-[23px] bg-[#FAF6F3] p-1 pl-4">
+        <input
+          className="bg-[#FAF6F3]"
+          placeholder="스터디 멤버를 찾아보세요"
+        />
+        <button className="right-1 top-8 rounded-full bg-black p-1">
+          <Image
+            src={"/icons/SearchLined.svg"}
+            alt="search"
+            width={24}
+            height={24}
+          />
+        </button>
+      </div>
       <section>
-        {manageList?.map((manageUser: JoinPersonWithManager) => {
-          return (
-            <div key={manageUser.id}>
-              <div>{manageUser.user.name}</div>
-              <button onClick={() => resignUser(manageUser.id)}>강퇴</button>
-              <button onClick={() => changeManager(manageUser)}>
-                방장 넘기기
-              </button>
-            </div>
-          );
-        })}
+        {manageList?.map((manageUser: JoinPersonWithManager) => (
+          <MemberListItem
+            key={manageUser.id}
+            manageUser={manageUser}
+            resignUser={resignUser}
+            changeManager={changeManager}
+          />
+        ))}
       </section>
     </div>
   );
