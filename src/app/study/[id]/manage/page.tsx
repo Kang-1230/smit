@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import WaitApplyList from "../components/WaitApplyList";
 import ManagedMemberList from "../components/ManagedMemberList";
 import { useState } from "react";
+import ManageOptions from "../components/ManageOptions";
 
 const Page = () => {
   const [updateTrigger, setUpdateTrigger] = useState(0);
@@ -13,9 +14,9 @@ const Page = () => {
     ? paramsurl.id[0]
     : paramsurl.id;
 
-  console.log("url :", urlStudyId);
   return (
     <div>
+      <ManageOptions />
       <div>
         <WaitApplyList urlStudyId={urlStudyId} />
       </div>
@@ -25,6 +26,11 @@ const Page = () => {
           key={updateTrigger}
           setUpdateTrigger={setUpdateTrigger}
         />
+      </div>
+      <div className="border-t px-6 py-[14px]">
+        <button className="title-20-s w-full rounded-[24px] bg-secondary-900 px-5 py-3 text-white">
+          적용하기
+        </button>
       </div>
     </div>
   );
