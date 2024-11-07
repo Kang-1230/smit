@@ -8,7 +8,9 @@ interface buttonProps {
     | "white-fill"
     | "beige";
   size: "lg" | "md" | "sm";
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void> | void;
+  onClick?:
+    | (() => void)
+    | ((event: React.MouseEvent<HTMLButtonElement>) => void);
   disabled?: boolean;
   className?: string;
 }
