@@ -207,10 +207,10 @@ https://smit-8y5a.vercel.app/<br/>
 
 ### ✔️ Language
 ![js](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white)
-![html](https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white)
-![css](https://img.shields.io/badge/CSS-239120?&style=for-the-badge&logo=css3&logoColor=white)
-![Next.js](https://img.shields.io/badge/Jsx-666666?style=for-the-badge)
-![TypeScript](https://img.shields.io/badge/Jsx-666666?style=for-the-badge)
+![html](https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![css](https://img.shields.io/badge/CSS-1572B6?&style=for-the-badge&logo=css3&logoColor=white)
+![nextdotjs](https://img.shields.io/badge/Next.js-000000?&style=for-the-badge&logo=Next.js&logoColor=white)
+![typescript](https://img.shields.io/badge/typescript-3178C6?&style=for-the-badge&logo=typescript&logoColor=white)
 
 ### ✔️ Version Control
 
@@ -223,18 +223,14 @@ https://smit-8y5a.vercel.app/<br/>
 ### ✔️ Framework
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![React_Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
-![Next.js](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
 
 ### ✔️ Deploy
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
-![Glitch](https://img.shields.io/badge/Glitch-2800ff?style=for-the-badge&logo=glitch&logoColor=white)
 
 ### ✔️ DBMS
 ![Supabase](https://img.shields.io/badge/Jsx-666666?style=for-the-badge)
 
 ### ✔️ State
-
-![Zustand](https://img.shields.io/badge/Zustand-666666?style=for-the-badge)
 ![TanStack Query](https://img.shields.io/badge/TanStack_Query-666666?style=for-the-badge)<br/>
 
 ### ✔️ Linters
