@@ -8,18 +8,18 @@ const Badge = ({
   color: "secondary" | "primary" | "tertiary";
 }) => {
   const studyBadge = {
-    secondary: "bg-secondary-500",
-    primary: "bg-primary-50",
+    secondary: "bg-secondary-500 text-white",
+    primary: "bg-primary-50 text-white",
     tertiary: "bg-tertiary-75",
   };
   const jobBadge = {
-    secondary: "bg-secondary-700",
-    primary: "bg-tertiary-300",
+    secondary: "bg-secondary-700 text-white",
+    primary: "bg-tertiary-300 text-white",
     tertiary: "bg-tertiary-200",
   };
   return (
     <span
-      className={`px-[10px] py-1 caption rounded-16 ${
+      className={`caption rounded-16 px-[10px] py-1 ${
         idx === 0 ? jobBadge[color] : studyBadge[color]
       }`}
     >
