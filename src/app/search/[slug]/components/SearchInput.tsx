@@ -8,6 +8,7 @@ export default function SearchInput() {
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const [slug, setSlug] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -25,9 +26,11 @@ export default function SearchInput() {
     }
   };
 
+  const isText = isFocused || slug.length > 0;
+
   return (
     <div
-      className="absolute top-16 z-30 mx-6 flex w-full items-center border-b"
+      className={`absolute top-16 z-30 mx-6 flex w-full items-center border-b ${isText ? "border-secondary-600" : "border-secondary-200"}`}
       style={{ width: "calc(100% - 3rem)" }}
     >
       <Image src="/icons/Search.svg" alt="search-icon" width={24} height={24} />
@@ -39,6 +42,8 @@ export default function SearchInput() {
         onChange={handleInputChange}
         onKeyDown={handleKeyPress}
         value={slug}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
       />
       <button
         className="rounded-full bg-secondary-800"

@@ -8,6 +8,7 @@ const SearchModal = ({ onClick }: { onClick: () => void }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const [slug, setSlug] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -29,11 +30,11 @@ const SearchModal = ({ onClick }: { onClick: () => void }) => {
   return (
     <>
       <div
-        className="fixed inset-0 z-10 flex h-full w-full bg-gradient-to-t from-[rgba(255,255,255,0.1)] to-white"
+        className="fixed inset-0 z-10 flex h-full w-full bg-gradient-to-t from-[rgba(255,255,255,0.1)] via-[rgba(255,255,255,0.85)] to-white"
         onClick={onClick}
       ></div>
       <div
-        className="absolute top-11 z-30 mx-6 flex w-full items-center border-b"
+        className={`absolute top-11 z-30 mx-6 flex w-full items-center border-b ${isFocused ? "border-secondary-600" : "border-secondary-400"}`}
         style={{ width: "calc(100% - 3rem)" }}
       >
         <Image
@@ -50,10 +51,22 @@ const SearchModal = ({ onClick }: { onClick: () => void }) => {
           onChange={handleInputChange}
           onKeyDown={handleKeyPress}
           value={slug}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
         />
-        <button className="rounded-full bg-secondary-800" onClick={onClick}>
-          <Image src="/icons/XSmall.svg" alt="x-icon" width={24} height={24} />
-        </button>
+        {slug !== "" && (
+          <button
+            className="rounded-full bg-secondary-800"
+            onClick={() => setSlug("")}
+          >
+            <Image
+              src="/icons/XSmall.svg"
+              alt="x-icon"
+              width={24}
+              height={24}
+            />
+          </button>
+        )}
       </div>
     </>
   );
