@@ -125,6 +125,7 @@ export const fetchPostInfo = async (id: string) => {
   return data[0] as Tables<"post">;
 };
 
+
 // study 정보 가져오기
 export const fetchStudyInfo = async (study_id: string) => {
   const serverClient = createClient();
@@ -137,6 +138,21 @@ export const fetchStudyInfo = async (study_id: string) => {
     return null;
   }
   return data[0] as Tables<"study">;
+};
+
+// post 정보와 study 정보 함께 가져오기
+export const fetchPostStudyInfo = async (id: number) => {
+  const serverClient = createClient();
+  const { data, error } = await serverClient
+    .from("post")
+    .select("*,study(*)")
+    .eq("post_id", id);
+  if (error || !data) {
+    console.log(error);
+    return null;
+  }
+
+  return data[0];
 };
 
 // 스터디 신청리스트 가져오기
@@ -180,22 +196,6 @@ export const addAttendanceList = async (studyId: string, today: string) => {
   return;
 };
 
-// 오늘 출석한 사람 몇명인지 가져오기
-export const fetchAttendanceRate = async (studyId: string, today: string) => {
-  const supabase = createClient();
-  const { data }: { data: Tables<"attendance_list">[] | null } = await supabase
-    .from("attendance_list")
-    .select("*")
-    .eq("study_id", studyId)
-    .eq("date", today);
-
-  if (!data) {
-    return 0;
-  } else {
-    return data.length;
-  }
-};
-
 // 특정 스터디에 소속된 유저ID 가져오기
 export const fetchStudyApplyUserId = async (study_id: string) => {
   const serverClient = createClient();
@@ -230,9 +230,7 @@ export const fetchUsersImgUrl = async (userIds: string[]) => {
 // 직업 태그 가져오기
 export const fetchJobTags = async () => {
   const serverClient = createClient();
-  const { data, error } = await serverClient
-    .from("job_tag")
-    .select("*");
+  const { data, error } = await serverClient.from("job_tag").select("*");
 
   if (error || !data) {
     console.log(error);
@@ -241,13 +239,10 @@ export const fetchJobTags = async () => {
   return data as Tables<"job_tag">[];
 };
 
-
 // 스터디 태그 가져오기
 export const fetchCategoryTags = async () => {
   const serverClient = createClient();
-  const { data, error } = await serverClient
-    .from("category_tag")
-    .select("*");
+  const { data, error } = await serverClient.from("category_tag").select("*");
 
   if (error || !data) {
     console.log(error);

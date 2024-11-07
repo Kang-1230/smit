@@ -4,6 +4,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Tables } from "../../../../database.types";
 import { deletePost } from "@/utils/supabase/supabase-client";
 import MyButton from "@/components/common/Button";
+import Link from "next/link";
+
 
 const MyPostCard = ({
   post,
@@ -30,7 +32,7 @@ const MyPostCard = ({
         <div className="flex flex-row gap-x-1">
           {/* 수정 페이지로 link 필요 */}
           <MyButton style="black-fill" size="sm">
-            수정
+            <Link href={`/write?post=${post.post_id}` } key={post.post_id}>수정</Link>
           </MyButton>
           <MyButton style="black-line" size="sm" onClick={deletePostMutation}>
             삭제

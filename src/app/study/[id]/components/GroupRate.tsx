@@ -1,41 +1,32 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import Image from "next/image";
 import { Tables } from "../../../../../database.types";
-import browserClient from "@/utils/supabase/client";
 
 const GroupRate = ({
-  studyId,
   member,
-  current,
+  achieverList,
 }: {
-  studyId: string;
-  today: string;
-  member: Pick<Tables<"study_applylist">, "user_id">[] | null;
-  current: Tables<"calendar"> | null;
+  achieverList: Tables<"timer">[] | null;
+  member: string[] | null;
 }) => {
-  const { data: achieverList } = useQuery({
-    queryKey: ["achievers", studyId, current?.calendar_id],
-    queryFn: async () => {
-      const { data } = await browserClient
-        .from("timer")
-        .select("*")
-        .eq("calendar_id", current?.calendar_id)
-        .gte("time_rate", 80);
-      return data;
-    },
-    enabled: !!current,
-  });
-
   return (
-    <div className="bg-secondary-50 h-1/2 rounded-[20px] p-4 min-w-[128px]">
-      <div className="caption text-secondary-800">시간 달성인원</div>
-      <p className="title-20-r mt-[14px] text-center">
-        {/* 매니저는 applylist에 없어서 +1 해줌 */}
+    <div className="h-1/2 min-w-[128px] rounded-[20px] bg-secondary-50 p-4">
+      <div className="caption flex flex-row items-center text-secondary-800">
+        <Image
+          src={`/icons/timer/Complete.svg`}
+          alt="book icon"
+          width={16}
+          height={16}
+          className="mr-1"
+        />
+        시간 달성인원
+      </div>
+      <p className="title-20-r mt-[14px] text-center text-black">
         <span className="title-20-b">
           {achieverList?.length ? achieverList.length : 0}
         </span>{" "}
-        / {member ? member.length + 1 : 1}
+        / {member ? member.length : 1}
       </p>
     </div>
   );

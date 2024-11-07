@@ -30,8 +30,31 @@ const menus = [
   },
 ];
 
+const STATIC_HIDDEN_PATHS = ["/post","/write","/write/study"];
+const DYNAMIC_HIDDEN_PATHS = [
+  { prefix: "/post/" },
+  { prefix: "/study/" }, 
+];
+
+
 export default function Footer() {
   const pathName = usePathname();
+
+  // 푸터를 숨겨야 하는지 확인
+  const shouldHideFooter = () => {
+    // 정적 경로 체크
+    if (STATIC_HIDDEN_PATHS.includes(pathName)) {
+      return true;
+    }
+    // 동적 경로 체크
+    return DYNAMIC_HIDDEN_PATHS.some(({ prefix }) => 
+      pathName.startsWith(prefix)
+    );
+  };
+
+  if (shouldHideFooter()) {
+    return null;
+  }
 
   return (
     <footer className="fixed bottom-[12px] px-[24px] w-full">

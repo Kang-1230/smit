@@ -42,7 +42,7 @@ const SelectDate = (props: Props) => {
   const handleScroll = (e: React.UIEvent<HTMLDivElement>, type: string) => {
     const container = e.currentTarget;
     const index = Math.round(container.scrollTop / 40);
-
+    
     switch (type) {
       case "year":
         setYear(yearOption[index]);
@@ -76,7 +76,7 @@ const SelectDate = (props: Props) => {
         handleScroll={(e) => handleScroll(e, "year")}
         selectedItem={year}
       />
-      <span className="text-xl font-bold mx-4">:</span>
+
       {/* 월 선택 */}
       <ScrollPicker
         options={monthOption}

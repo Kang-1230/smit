@@ -83,6 +83,11 @@ body {
   }
 }
 
+.rdp-nav_icon {
+  width: 10px !important;
+  height: 10px !important;
+}
+
 @layer base {
   * {
     @apply border-border;

@@ -28,7 +28,7 @@ const UserProfile = () => {
   if (user)
     return (
       <>
-        <div className="flex flex-col items-center pt-[30px] pb-8 bg-c-background">
+        <div className="flex flex-col items-center pt-[74px] pb-8 bg-c-background">
           <Image
             src={`${profileImg}?t=${Date.now()}`}
             alt="프로필 이미지"
