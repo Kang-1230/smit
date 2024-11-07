@@ -14,7 +14,7 @@ import { convertUTCToKST } from "@/utils/convertDate";
 import { Tables } from "../../../../../database.types";
 import ReplyComment from "./ReplyComment";
 import CommentLined from "../../../../../public/icons/CommentLined.svg";
-import ChevronDown from "../../../../../public/icons/ChevronDown.svg";
+import ChevronDownGray from "../../../../../public/icons/ChevronDownGray.svg";
 import ChevronUp from "../../../../../public/icons/ChevronUp.svg";
 import SendLined from "../../../../../public/icons/SendLined.svg";
 import EditButton from "./EditButton";
@@ -233,7 +233,7 @@ const CommentListItem = ({
                     <Image src={ChevronUp} alt="up" width={20} height={20} />
                   ) : (
                     <Image
-                      src={ChevronDown}
+                      src={ChevronDownGray}
                       alt="down"
                       width={20}
                       height={20}
