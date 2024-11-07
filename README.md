@@ -207,197 +207,182 @@ https://smit-8y5a.vercel.app/<br/>
 <br/>
 
 ## 📦 프로젝트 파일 구조
-src
-│  middleware.ts
-│
-├─app
-│  │  error.tsx
-│  │  layout.tsx
-│  │  not-found.tsx
-│  │  page.tsx
-│  │
-│  ├─api
-│  │  └─delete-user
-│  │          route.ts
-│  │
-│  ├─event
-│  │      page.tsx
-│  │
-│  ├─login
-│  │      page.tsx
-│  │
-│  ├─mypage
-│  │  │  page.tsx
-│  │  │
-│  │  └─components
-│  │          DeleteUserButton.tsx
-│  │          EditProfile.tsx
-│  │          MyLikePosts.tsx
-│  │          MyPostCard.tsx
-│  │          MyPostList.tsx
-│  │          UserProfile.tsx
-│  │
-│  ├─post
-│  │  └─[id]
-│  │      │  page.tsx
-│  │      │
-│  │      ├─components
-│  │      │      ApplyStudy.tsx
-│  │      │      CommentListItem.tsx
-│  │      │      ContentsEdit.tsx
-│  │      │      DetailComments.tsx
-│  │      │      DetailContents.tsx
-│  │      │      EditButton.tsx
-│  │      │      LikeCount.tsx
-│  │      │      OpenStudyProfile.tsx
-│  │      │      ReplyComment.tsx
-│  │      │      ShareStudy.tsx
-│  │      │
-│  │      └─hooks
-│  │              useComments.ts
-│  │
-│  ├─ranking
-│  │  │  page.tsx
-│  │  │
-│  │  └─components
-│  │          Avatar.tsx
-│  │          QuestionModal.tsx
-│  │          RankingCard.tsx
-│  │          RankingModal.tsx
-│  │          RankingModalOverlay.tsx
-│  │
-│  ├─signup
-│  │      page.tsx
-│  │
-│  ├─study
-│  │  │  page.tsx
-│  │  │
-│  │  ├─components
-│  │  │      ApplyUserIncludeManagerProfileImgList.tsx
-│  │  │      ApplyUserProfileImgList.tsx
-│  │  │      GroupCalendar.tsx
-│  │  │      MyStudyList.tsx
-│  │  │      PersonalMemoItem.tsx
-│  │  │      PersonalMemos.tsx
-│  │  │      SavedCalender.tsx
-│  │  │      UserJoinedStudy.tsx
-│  │  │      UserOwnStudy.tsx
-│  │  │      WeekCalendar.tsx
-│  │  │
-│  │  └─[id]
-│  │      │  page.tsx
-│  │      │
-│  │      ├─components
-│  │      │      AttendanceRate.tsx
-│  │      │      CreateEventForm.tsx
-│  │      │      EventList.tsx
-│  │      │      EventListItem.tsx
-│  │      │      GroupRate.tsx
-│  │      │      ManagedMemberList.tsx
-│  │      │      MemberImg.tsx
-│  │      │      SelectTime.tsx
-│  │      │      StudyChat.tsx
-│  │      │      StudyInfo.tsx
-│  │      │      StudyStateBox.tsx
-│  │      │      StudyTime.tsx
-│  │      │      Timer.tsx
-│  │      │      UserRate.tsx
-│  │      │      WaitApplyList.tsx
-│  │      │
-│  │      ├─hooks
-│  │      │      useCalendar.ts
-│  │      │      usePersonalMemo.ts
-│  │      │
-│  │      ├─manage
-│  │      │      page.tsx
-│  │      │
-│  │      └─[date]
-│  │              page.tsx
-│  │
-│  └─write
-│      │  page.tsx
-│      │
-│      ├─components
-│      │      Dropdown.tsx
-│      │      SelectDate.tsx
-│      │      StudyModal.tsx
-│      │      WriteModal.tsx
-│      │
-│      └─study
-│              page.tsx
-│
-├─components
-│  ├─common
-│  │      BackButton.tsx
-│  │      Badge.tsx
-│  │      Button.tsx
-│  │      Footer.tsx
-│  │      Header.tsx
-│  │      LikeButton.tsx
-│  │      MenuItem.tsx
-│  │      Modal.tsx
-│  │      ModalOverlay.tsx
-│  │      ScrollPicker.tsx
-│  │      SelectDateModal.tsx
-│  │      SquarePostCard.tsx
-│  │      TitleInput.tsx
-│  │      ValidateInput.tsx
-│  │
-│  ├─home
-│  │      Banner.tsx
-│  │      Category.tsx
-│  │      FeaturedPosts.tsx
-│  │      FilterablePosts.tsx
-│  │      MultiCarousel.tsx
-│  │      OccupancyCounter.tsx
-│  │      PostCard.tsx
-│  │
-│  ├─providers
-│  │      QueryClientProvider.tsx
-│  │
-│  └─ui
-│      │  button.tsx
-│      │  calendar.tsx
-│      │  CustomButton.tsx
-│      │
-│      └─icons
-│              AlertFillIcon.tsx
-│              AlertIcon.tsx
-│              ArrowLeft.tsx
-│
-├─hooks
-│      useApplyStudyList.ts
-│      useLikePost.ts
-│      useModalOpen.ts
-│      usePostsQuery.ts
-│      useStudy.ts
-│      useStudyManager.ts
-│      useTimerQuery.ts
-│      useUserProfile.ts
-│
-├─lib
-│      utils.ts
-│
-├─service
-│      posts.ts
-│      study.ts
-│
-├─styles
-│      globals.css
-│
-├─types
-│      PersonalMemo.ts
-│
-└─utils
-    │  calculateScore.ts
-    │  convertDate.ts
-    │  getTime.ts
-    │
-    └─supabase
-            client.ts
-            server.ts
-            supabase-client.ts
-            supabase-server.ts
+src  
+│  
+├── middleware.ts  
+│  
+├── app  
+│   ├── error.tsx  
+│   ├── layout.tsx  
+│   ├── not-found.tsx  
+│   ├── page.tsx  
+│   │  
+│   ├── api  
+│   │   └── delete-user  
+│   │       └── route.ts  
+│   │  
+│   ├── event  
+│   │   └── page.tsx  
+│   │  
+│   ├── login  
+│   │   └── page.tsx  
+│   │  
+│   ├── mypage  
+│   │   ├── page.tsx  
+│   │   └── components  
+│   │       ├── DeleteUserButton.tsx  
+│   │       ├── EditProfile.tsx  
+│   │       ├── MyLikePosts.tsx  
+│   │       ├── MyPostCard.tsx  
+│   │       ├── MyPostList.tsx  
+│   │       └── UserProfile.tsx  
+│   │  
+│   ├── post  
+│   │   └── [id]  
+│   │       ├── page.tsx  
+│   │       ├── components  
+│   │       │   ├── ApplyStudy.tsx  
+│   │       │   ├── CommentListItem.tsx  
+│   │       │   ├── ContentsEdit.tsx  
+│   │       │   ├── DetailComments.tsx  
+│   │       │   ├── DetailContents.tsx  
+│   │       │   ├── EditButton.tsx  
+│   │       │   ├── LikeCount.tsx  
+│   │       │   ├── OpenStudyProfile.tsx  
+│   │       │   ├── ReplyComment.tsx  
+│   │       │   └── ShareStudy.tsx  
+│   │       └── hooks  
+│   │           └── useComments.ts  
+│   │  
+│   ├── ranking  
+│   │   ├── page.tsx  
+│   │   └── components  
+│   │       ├── Avatar.tsx  
+│   │       ├── QuestionModal.tsx  
+│   │       ├── RankingCard.tsx  
+│   │       ├── RankingModal.tsx  
+│   │       └── RankingModalOverlay.tsx  
+│   │  
+│   ├── signup  
+│   │   └── page.tsx  
+│   │  
+│   ├── study  
+│   │   ├── page.tsx  
+│   │   ├── components  
+│   │   │   ├── ApplyUserIncludeManagerProfileImgList.tsx  
+│   │   │   ├── ApplyUserProfileImgList.tsx  
+│   │   │   ├── GroupCalendar.tsx  
+│   │   │   ├── MyStudyList.tsx  
+│   │   │   ├── PersonalMemoItem.tsx  
+│   │   │   ├── PersonalMemos.tsx  
+│   │   │   ├── SavedCalender.tsx  
+│   │   │   ├── UserJoinedStudy.tsx  
+│   │   │   ├── UserOwnStudy.tsx  
+│   │   │   └── WeekCalendar.tsx  
+│   │   └── [id]  
+│   │       ├── page.tsx  
+│   │       ├── components  
+│   │       │   ├── AttendanceRate.tsx  
+│   │       │   ├── CreateEventForm.tsx  
+│   │       │   ├── EventList.tsx  
+│   │       │   ├── EventListItem.tsx  
+│   │       │   ├── GroupRate.tsx  
+│   │       │   ├── ManagedMemberList.tsx  
+│   │       │   ├── MemberImg.tsx  
+│   │       │   ├── SelectTime.tsx  
+│   │       │   ├── StudyChat.tsx  
+│   │       │   ├── StudyInfo.tsx  
+│   │       │   ├── StudyStateBox.tsx  
+│   │       │   ├── StudyTime.tsx  
+│   │       │   ├── Timer.tsx  
+│   │       │   ├── UserRate.tsx  
+│   │       │   └── WaitApplyList.tsx  
+│   │       └── hooks  
+│   │           ├── useCalendar.ts  
+│   │           └── usePersonalMemo.ts  
+│   │       └── manage  
+│   │           └── page.tsx  
+│   │       └── [date]  
+│   │           └── page.tsx  
+│   │  
+│   └── write  
+│       ├── page.tsx  
+│       └── components  
+│           ├── Dropdown.tsx  
+│           ├── SelectDate.tsx  
+│           ├── StudyModal.tsx  
+│           └── WriteModal.tsx  
+│       └── study  
+│           └── page.tsx  
+│  
+├── components  
+│   ├── common  
+│   │   ├── BackButton.tsx  
+│   │   ├── Badge.tsx  
+│   │   ├── Button.tsx  
+│   │   ├── Footer.tsx  
+│   │   ├── Header.tsx  
+│   │   ├── LikeButton.tsx  
+│   │   ├── MenuItem.tsx  
+│   │   ├── Modal.tsx  
+│   │   ├── ModalOverlay.tsx  
+│   │   ├── ScrollPicker.tsx  
+│   │   ├── SelectDateModal.tsx  
+│   │   ├── SquarePostCard.tsx  
+│   │   ├── TitleInput.tsx  
+│   │   └── ValidateInput.tsx  
+│   ├── home  
+│   │   ├── Banner.tsx  
+│   │   ├── Category.tsx  
+│   │   ├── FeaturedPosts.tsx  
+│   │   ├── FilterablePosts.tsx  
+│   │   ├── MultiCarousel.tsx  
+│   │   ├── OccupancyCounter.tsx  
+│   │   └── PostCard.tsx  
+│   ├── providers  
+│   │   └── QueryClientProvider.tsx  
+│   └── ui  
+│       ├── button.tsx  
+│       ├── calendar.tsx  
+│       ├── CustomButton.tsx  
+│       └── icons  
+│           ├── AlertFillIcon.tsx  
+│           ├── AlertIcon.tsx  
+│           └── ArrowLeft.tsx  
+│  
+├── hooks  
+│   ├── useApplyStudyList.ts  
+│   ├── useLikePost.ts  
+│   ├── useModalOpen.ts  
+│   ├── usePostsQuery.ts  
+│   ├── useStudy.ts  
+│   ├── useStudyManager.ts  
+│   ├── useTimerQuery.ts  
+│   └── useUserProfile.ts  
+│  
+├── lib  
+│   └── utils.ts  
+│  
+├── service  
+│   ├── posts.ts  
+│   └── study.ts  
+│  
+├── styles  
+│   └── globals.css  
+│  
+├── types  
+│   └── PersonalMemo.ts  
+│  
+└── utils  
+    ├── calculateScore.ts  
+    ├── convertDate.ts  
+    ├── getTime.ts  
+    └── supabase  
+        ├── client.ts  
+        ├── server.ts  
+        ├── supabase-client.ts  
+        └── supabase-server.ts  
+
 
 
 ## 💥 Trouble Shooting
@@ -408,7 +393,7 @@ auth와 public user 테이블을 연결하기 위해 SQL 트리거를 작성하�
 ```
 이런 데이터베이스 오류가 발생.
 
-#### 해결 방법, 개선 사항
+#### 해결 방법, 개선 사항 
 -검색해보니 supabase 로그를 확인하는 법이 있어서 로그를 확인하고 에러 메시지를 확인했다. 
 
 -트리거, 평션이 이미 있는 게 문제인 것을 확인
@@ -419,36 +404,132 @@ auth와 public user 테이블을 연결하기 위해 SQL 트리거를 작성하�
 
 다시 SQL 트리거를 돌려 보니 연결이 잘 됐다.
 
+#### 🚨 문제 상황 <부모-자식 댓글 삭제 시 외래키 제약조건 문제> - 설하영
+ 
+- 부모 댓글이 삭제 상태이고 마지막 답글을 삭제할 때, 부모 댓글도 함께 삭제되어야 함 
 
-### 2. 댓글 수정 시 UI 반응성 저하
-#### 문제상황
+- 하지만 답글만 삭제되고 부모 댓글 삭제 함수가 실행되지 않는 현상 발생
+
+### 🔍 원인 분석
+
+- 콘솔 로그와 에러 메시지를 통한 디버깅 결과, 데이터베이스의 참조 무결성(Foreign Key Constraint) 문제 확인
+
+- 자식 댓글(답글)이 부모 댓글의 comment_id를 외래키로 참조하고 있는 상태
+
+- 답글이 완전히 삭제되기 전에 부모 댓글을 삭제하려고 시도하여 제약조건을 위배하였음
+
+### ✅ 해결 방법
+
+- 답글 삭제 뮤테이션의 ‘onSuccess’ 콜백으로 부모 댓글 삭제 로직을 이동
+
+- 답글이 성공적으로 삭제된 후 부모 댓글 삭제가 실행되도록 순서 변경
+
+**핵심 코드< 커스텀 스크롤 선택 컴포넌트 >**스크롤해서 옵션을 선택할 수 있는 선택 컴포넌트 입니다.props로 선택할 옵션의 배열과 스크롤 이벤트 핸들러, 현재 선택된 아이템을 보여줄 상태를 내려주어 사용할 수 있습니다.
+
+"use client";
+
+interface ScrollPickerProps {
+  options: string[]; // 선택 옵션 배열
+  handleScroll: (e: React.UIEvent<HTMLDivElement>) => void; // 스크롤 이벤트 핸들러
+  selectedItem: string; // 현재 선택된 아이템
+}
+
+const ScrollPicker = ({
+  options,
+  handleScroll,
+  selectedItem,
+}: ScrollPickerProps) => {
+  return (
+    <div className="h-[140px] relative w-16">
+      <div
+        className={`absolute pointer-events-none  ${
+          options.length > 0 && options[0].length < 5
+            ? "w-10 top-[50px] right-[14px]"
+            : "w-[50px] top-[50px] right-[8.5px]"
+        }  h-10 w-10 border-y-2`}
+      />
+      <div
+        className="h-full overflow-auto scrollbar-hide snap-y snap-mandatory overscroll-contain py-[60px]"
+        onScroll={handleScroll}
+      >
+      {/* 각 옵션 아이템 렌더링, 선택된 아이템은 진한 검정색, 나머지는 회색으로 표시 */}
+        {options.map((item) => (
+          <div
+            key={item}
+            className={`h-[40px] flex items-center justify-center snap-center
+        ${
+          selectedItem === item
+            ? "text-black font-medium mt:border-solid"
+            : "text-gray-400"
+        }`}
+          >
+            {item}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default ScrollPicker;
+
+#### 문제상황 <setInterval 을 사용한 타이머 기능 구현 중의 트러블 슈팅> - 정수희
+useEffect를 사용해 첫 페이지 렌더링시 경과 시간을 세팅하고 타이머 재생 상태를 추적하여 interval을 실행하고 1초마다 렌더하여 ui를 업데이트 하는 방식으로 접근
+
+하지만 시작을 누르면 타이머가 9시간이 늘어나는 현상 발생 UTC 시간 변환 차이인가 싶어 시간 사용 시 같은 형식을 사용하도록 변환을 진행했으나 똑같이 발생함. 경과시간 계산식을 변경하면 일시정지 했을 때 9시간이 늘어나거나 시작 눌렀을 때 -9시간이 됨
+
+시간이 오가는 모든 시점에 console 사용하여 출력했더니 하나의 useEffect 내에서 초기화와 타이머 실행이 동시에 컨트롤 되고 있어서 발생한 문제로 보임
+
+useEffect를 분리하여 첫 렌더시 초기화와 타이머 재생 상태에 따른 interval을 따로 세팅했더니 재생, 일시정지 시에 9시간씩 차이나는 건 해결됨
+
+하지만 시작을 누르고 새로고침을 했을 때 (타이머가 재생 상태인 채로 초기화 진행시) 9시간씩 늘어나는 문제 발견됨
+
+똑같이 console 찍어서 디버깅 시도했으나 문제 지점을 찾지 못했음
+
+더이상 로직에서 수정할 수가 없어서 DB 확인했더니 last_start 컬럼이 no time zone으로 설정되어 있었음 time zone 형식으로 변경하니 해결됨
+
+노타임존으로 설정되어있던 컬럼
+![image](https://github.com/user-attachments/assets/94eae5e6-5c66-4ede-86d3-0070fc8115e0)
+디버깅 시도
+![image](https://github.com/user-attachments/assets/a2a80b1c-7fb9-40f5-a6f6-96699495ec22)
+
+#### 해결 방법, 개선 사항 
 
 
-#### 해결 방법
+#### 문제상황 <SQL 코드 구현 시의 문제> - 김태현
 
 
-#### 개선 사항
+#### 해결 방법, 개선 사항 
 
-<br/><br />
+
+
+#### 문제상황 <SQL 코드 구현 시의 문제> - 김태현
+
+
+#### 해결 방법, 개선 사항 
+
+
+
 
 ## 🗨 Project Remind & 프로젝트 소감
 #### 강수진(Leader, Fe Developer)
-
+개발 기간 동안 고생했지만 , 너무 즐거웠습니다.
 
 #### 정수희(Sub-Leader, Fe Developer)
-
+개발 기간 동안 고생했지만 , 너무 즐거웠습니다.
 
 #### 김태현(Fe Developer)
-
+개발 기간 동안 고생했지만 , 너무 즐거웠습니다.
 
 #### 설하영(Fe Developer)
-
+개발 기간 동안 고생했지만 , 너무 즐거웠습니다.
 
 #### 홍승우(Fe Developer)
 기획 단계부터 시작하여 2주하고도 6일이라는 시간이 흘렀습니다. <br>
 한 단계, 한 단계 트러블 슈팅과 문제를 해결해나가며, 디자이너분들, 팀원분들과 협업하며, 진심으로 좋은 에너지를 느꼇던 시간이었던 것 같습니다. <br>
 
 #### 이재은(Designer)
-
+개발 기간 동안 고생했지만 , 너무 즐거웠습니다.
 
 #### 하예림(Designer)
+개발 기간 동안 고생했지만 , 너무 즐거웠습니다.
