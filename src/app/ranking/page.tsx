@@ -22,7 +22,6 @@ export default function RankingPage() {
   const [isModal, setIsModal] = useState(false);
   const [isQuestionModal, setIsQuestionModal] = useState(false);
   const [id, setId] = useState("");
-  const [rank, setRank] = useState(0);
 
   const {
     data: ranking,
@@ -35,10 +34,9 @@ export default function RankingPage() {
     placeholderData: (previousData) => previousData,
   });
 
-  const onModalClick = (id: string, rank: number) => {
+  const onModalClick = (id: string) => {
     setIsModal(true);
     setId(id);
-    setRank(rank);
   };
 
   const handleMore = useCallback(() => {
@@ -85,17 +83,17 @@ export default function RankingPage() {
             <Avatar
               rank={2}
               study={ranking[1]}
-              onClick={() => onModalClick(ranking[1].study_id, 2)}
+              onClick={() => onModalClick(ranking[1].study_id)}
             />
             <Avatar
               rank={1}
               study={ranking[0]}
-              onClick={() => onModalClick(ranking[0].study_id, 1)}
+              onClick={() => onModalClick(ranking[0].study_id)}
             />
             <Avatar
               rank={3}
               study={ranking[2]}
-              onClick={() => onModalClick(ranking[2].study_id, 3)}
+              onClick={() => onModalClick(ranking[2].study_id)}
             />
           </div>
         )}
@@ -109,7 +107,7 @@ export default function RankingPage() {
                 study={study}
                 rank={i + 4}
                 key={study.study_id}
-                onClick={() => onModalClick(study.study_id, i + 4)}
+                onClick={() => onModalClick(study.study_id)}
               />
             ))}
           <div className="mb-24 mt-3 text-center text-[14px] text-secondary-300">
@@ -120,7 +118,7 @@ export default function RankingPage() {
         {/* 모달 */}
         {isModal && (
           <RankingModalOverlay onClick={() => setIsModal(false)}>
-            <RankingModal id={id} rank={rank} />
+            <RankingModal id={id} />
           </RankingModalOverlay>
         )}
         {isQuestionModal && (
