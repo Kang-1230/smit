@@ -75,7 +75,7 @@ const DetailContents = async ({ id, postData }: Contents) => {
           <p className="text-secondary-400">스터디 이름</p>
           <div className="flex items-center">
             <p> {studyData.study_name}</p>
-            <OpenStudyProfile userId={postData.user_id} studyId={postData.study_id} />
+            <OpenStudyProfile userId={postData.user_id} />
           </div>
         </div>
       </section>
