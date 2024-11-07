@@ -26,7 +26,7 @@ const MemberListItem = ({
       <Image src={UserProfileImg} alt="profile" width={40} height={40} />
       <div className="flex flex-1 items-center justify-between">
         <div>{manageUser.user.name}</div>
-        <div className="flex gap-1">
+        <div className="flex items-center gap-1">
           <CustomButton
             onClick={() => resignUser(manageUser.id)}
             size="small"
@@ -34,7 +34,7 @@ const MemberListItem = ({
           />
           <button
             onClick={() => changeManager(manageUser)}
-            className="flex items-center rounded-[14px] border border-primary-100 px-[12px] py-[4px] text-[14px] font-[0] text-primary-100"
+            className="flex items-center justify-center rounded-[14px] border border-primary-100 px-[12px] py-[4px] text-[14px] leading-none text-primary-100"
           >
             방장
             <Image
