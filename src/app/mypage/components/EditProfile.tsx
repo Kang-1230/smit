@@ -144,6 +144,7 @@ const EditProfile = ({
         className="hidden"
         type="file"
         onChange={(e) => ImageUploadHandler(e)}
+        accept="image/*"
       />
       <div>
         <ValidateInput

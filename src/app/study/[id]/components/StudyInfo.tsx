@@ -53,9 +53,9 @@ const StudyInfo = ({
         <Swiper
           modules={[Navigation]}
           slidesPerView={4}
-          spaceBetween={-50} // 간격을 1로 설정 (너무 작은 값도 설정 가능)
+          spaceBetween={-80} // 간격을 1로 설정 (너무 작은 값도 설정 가능)
           navigation={true} // 네비게이션 버튼 활성화
-          className="mb-7 w-full items-center justify-center"
+          className="mb-7 flex w-full"
         >
           {memberProfile?.map((user) => (
             <SwiperSlide key={user.id}>
@@ -69,16 +69,36 @@ const StudyInfo = ({
         .swiper-button-next,
         .swiper-button-prev {
           color: #cccccc;
+          background-color: #333333;
+          width: 35.5px;
         }
 
+        .swiper-button-next:focus,
+        .swiper-button-prev:focus,
+        .swiper-button-next:active,
+        .swiper-button-prev:active {
+          opacity: 1;
+        }
+
+        .swiper-button-prev {
+          left: 0px;
+          justify-content: start;
+          padding-left: 11.5px;
+        }
+
+        .swiper-button-next {
+          right: 0px;
+          justify-content: end;
+          padding-right: 11.5px;
+        }
         .swiper-button-next::after,
         .swiper-button-prev::after {
           font-size: 16px; /* 아이콘 크기 */
         }
 
         .swiper-slide {
-          padding-left: 50px; /* 슬라이드 내부 요소들의 간격을 줄이기 위한 패딩 감소 */
-          padding-right: 50px;
+          padding-left: 49.5px; /* 슬라이드 내부 요소들의 간격을 줄이기 위한 패딩 감소 */
+          padding-right: 49.5px;
         }
 
         .swiper-slide .member-img-wrapper {
