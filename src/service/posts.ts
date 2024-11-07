@@ -149,36 +149,35 @@ export async function fetchByStudyId(id: string): Promise<Tables<"study">> {
 
 export async function fetchAllStudyKeywords(
   keyword: string,
+  category: SortCategory,
 ): Promise<PostWithRelations[]> {
   const serverClient = createClient();
+  // or 로 바꿀예정
+  const { data: studyCategoryPosts } = await serverClient
+    .from("post")
+    .select(`*, study(*), user(*)`)
+    .contains("study.study_category", [`${keyword}`])
+    .not("study", "is", null);
 
-  // category에 배열에 포함된것들
-  // const { data: posts } = await serverClient
-  //   .from("post")
-  //   .select(`*, study(*), user(*)`)
-  //   .contains("study.study_category", ["공부", "개발"])
-  //   .not("study", "is", null);
-
-  // const { data: posts } = await serverClient
-  //   .from("post")
-  //   .select(`*, study(*), user(*)`)
-  //   .like("post_name", `%하영%`);
-
-  const { data: posts } = await serverClient
+  const { data: postNamePosts } = await serverClient
     .from("post")
     .select(`*, study(*), user(*)`)
     .like("post_name", `%${keyword}%`);
 
-  // const { data: posts } = await serverClient
-  //   .from("post")
-  //   .select(`*, study(*), user(*)`)
-  //   .or(`post_name.like.%하영%,study.study_name.like.%모집%`);
-
-  if (!posts) {
+  if (!postNamePosts || !studyCategoryPosts) {
     throw new Error("Failed to retrieve studys");
   }
 
-  return posts;
+  const uniquePosts = Array.from(
+    new Map(
+      [...postNamePosts, ...studyCategoryPosts].map((post) => [
+        post.study_id,
+        post,
+      ]),
+    ).values(),
+  );
+
+  return filtredByCategory(uniquePosts, category) || [];
 }
 
 export async function fetchRankingById(study_id: string): Promise<number> {

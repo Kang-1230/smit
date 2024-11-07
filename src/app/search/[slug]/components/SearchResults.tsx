@@ -3,18 +3,29 @@
 import PostCard from "@/components/home/PostCard";
 import SearchFilter from "./SearchFilter";
 import { useQuery } from "@tanstack/react-query";
-import { fetchAllStudyKeywords } from "@/service/posts";
+import { SortCategory, fetchAllStudyKeywords } from "@/service/posts";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 type Props = {
   slug: string;
 };
 
 export default function SearchResults({ slug }: Props) {
-  const { data: posts, isLoading } = useQuery({
+  const [category, setCategory] = useState<SortCategory>("최신순");
+
+  const {
+    data: posts,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["post", slug],
-    queryFn: () => fetchAllStudyKeywords(slug),
+    queryFn: () => fetchAllStudyKeywords(slug, category),
   });
+
+  useEffect(() => {
+    refetch();
+  }, [category, setCategory, refetch]);
 
   if (isLoading) return <>Loading...</>;
 
@@ -24,7 +35,7 @@ export default function SearchResults({ slug }: Props) {
         <div className="text-xs font-normal text-secondary-500">
           검색결과 {posts?.length}개
         </div>
-        <SearchFilter />
+        <SearchFilter category={category} setCategory={setCategory} />
       </div>
       <section className="mb-24 mt-4 flex flex-col items-center justify-center gap-4">
         {!posts?.length && (
