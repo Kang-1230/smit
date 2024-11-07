@@ -2,6 +2,27 @@
 import Image from "next/image";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+const customLeftButton = (
+  <button className="absolute left-3">
+    <Image
+      src="/icons/CarouselLeftArrow.svg"
+      width={32}
+      height={32}
+      alt="customLeftArrow"
+    />
+  </button>
+);
+
+const customRightButton = (
+  <button className="absolute right-3">
+    <Image
+      src="/icons/CarouselRightArrow.svg"
+      width={32}
+      height={32}
+      alt="customRightArrow"
+    />
+  </button>
+);
 const responsive = {
   superLargeDesktop: {
     breakpoint: { max: 4000, min: 3000 },
@@ -30,27 +51,9 @@ export default function MultiCarousel({ children }: Props) {
       infinite
       autoPlay
       responsive={responsive}
-      itemClass="m-0"
-      customLeftArrow={
-        <button className="absolute left-3">
-          <Image
-            src="/icons/CarouselLeftArrow.svg"
-            width={32}
-            height={32}
-            alt="customLeftArrow"
-          />
-        </button>
-      }
-      customRightArrow={
-        <button className="absolute right-3">
-          <Image
-            src="/icons/CarouselRightArrow.svg"
-            width={32}
-            height={32}
-            alt="customRightArrow"
-          />
-        </button>
-      }
+      customLeftArrow={customLeftButton}
+      customRightArrow={customRightButton}
+      rtl={false}
     >
       {children}
     </Carousel>
