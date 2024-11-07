@@ -68,7 +68,7 @@ export default function RankingPage() {
 
         {/* 헤더 */}
         <div className="flex justify-between px-[24px] py-[64px]">
-          <h1 className="relative z-10 text-[20px] font-semibold leading-normal">
+          <h1 className="relative text-[20px] font-semibold leading-normal">
             주간 그룹 랭킹
           </h1>
           <button

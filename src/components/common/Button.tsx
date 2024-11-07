@@ -8,7 +8,7 @@ interface buttonProps {
     | "white-fill"
     | "beige";
   size: "lg" | "md" | "sm";
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => Promise<void> | void;
   disabled?: boolean;
   className?: string;
 }
@@ -29,10 +29,7 @@ const MyButton = ({
 
   return (
     <button
-      className={`min-w-fit
-      ${style}
-      ${sizeClass[size]}
-      ${className}`}
+      className={`min-w-fit font-medium ${style} ${sizeClass[size]} ${className}`}
       onClick={onClick}
       disabled={disabled}
     >
