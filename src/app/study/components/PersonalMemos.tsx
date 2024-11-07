@@ -17,7 +17,7 @@ const PersonalMemos = ({ studyId }: { studyId: string }) => {
   }
 
   return (
-    <div className="flex flex-col w-full mb-[110px]">
+    <div className="flex flex-col w-full mb-[55px]">
       <div className="flex items-center p-1 mb-3 pl-1">
         <Image src={StudyMemo} alt="memo" width={16} height={16} />
         <h2 className="caption text-white ml-1">스터디 회고록</h2>
@@ -25,6 +25,7 @@ const PersonalMemos = ({ studyId }: { studyId: string }) => {
       {data?.map((item) => (
         <PersonalMemoItem key={item.memo_id} memoData={item} />
       ))}
+      <div className="flex justify-center items-center mt-5 text-secondary-300 caption"><span>더보기</span><Image src={`/icons/ChevronDown.svg`} alt="down" width={20} height={20} /></div>
     </div>
   );
 };

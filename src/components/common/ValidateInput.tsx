@@ -24,16 +24,16 @@ const ValidateInput = ({
 }) => {
   return (
     <>
-      <div className="w-full relative">
-        <p className="body-14-m text-secondary-700 ml-3 mb-2">{title}</p>
+      <div className="relative w-full">
+        <p className="body-14-m mb-2 ml-3 text-secondary-700">{title}</p>
         <div className="flex flex-row items-center gap-x-1">
           <div className="relative">
             <input
               placeholder={placeholder}
-              className={`rounded-20 text-secondary-900 px-4 py-3 w-full placeholder:text-secondary-400 body-14-r ${
+              className={`body-14-r w-full rounded-20 px-4 py-3 text-secondary-900 placeholder:text-secondary-400 ${
                 bg && "bg-c-background"
-              } ${error && "border-alarm-red border-[1px] text-alarm-red"} ${
-                success && "border-success-blue border-[1px] text-success-blue"
+              } ${error && "border-[1px] border-alarm-red text-alarm-red"} ${
+                success && "border-[1px] border-success-blue text-success-blue"
               } focus:border-[1px] focus:border-secondary-600 focus:outline-none`}
               value={value}
               onChange={onChange}
@@ -58,7 +58,7 @@ const ValidateInput = ({
             중복확인
           </MyButton>
         </div>
-        <div className="ml-3 h-8 mt-2">
+        <div className="ml-3 mt-2 h-8">
           {error && <p className={"caption text-alarm-red"}>{error}</p>}
           {success && <p className={"caption text-success-blue"}>{success}</p>}
         </div>
