@@ -62,9 +62,8 @@ https://parkfinder.fujiikaze.kr/<br/>
 ## 💜 주요기능
 
 ### 홈(모집)
-![image](https://github.com/user-attachments/assets/5dc900ee-c71b-4d80-87e0-4ebaecf7a4cb)
-![image](https://github.com/user-attachments/assets/20d960aa-b006-4523-a928-5cc9f3f46ace)
-![image](https://github.com/user-attachments/assets/e9e8b737-de35-4538-8f8b-50e9be3bd833)
+|![image](https://github.com/user-attachments/assets/5dc900ee-c71b-4d80-87e0-4ebaecf7a4cb)|![image](https://github.com/user-attachments/assets/20d960aa-b006-4523-a928-5cc9f3f46ace)|![image](https://github.com/user-attachments/assets/e9e8b737-de35-4538-8f8b-50e9be3bd833)|
+
 - 플로팅 버튼을 눌러 언제든지 나만의 스터디 그룹을 만들고, 모집글을 작성할 수 있습니다. <br>
 -  상단 Nav Bar의 검색 아이콘 기능을 통해 나에게 필요한 스터디를 효율적으로 찾아볼 수 있습니다. <br>
 -  관심 있는 모집 공고에 ‘좋아요’를 누르거나 의견을 댓글로 남길 수 있습니다. <br>
