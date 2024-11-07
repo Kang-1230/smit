@@ -26,7 +26,7 @@ export default function Avatar({ rank, study, onClick }: Props) {
       onClick={onClick}
     >
       <div
-        className="rounded-full relative"
+        className="relative rounded-full"
         style={{
           border: `1.5px solid ${borderColorMain}`,
           width: imageSize,
@@ -34,7 +34,7 @@ export default function Avatar({ rank, study, onClick }: Props) {
         }}
       >
         <div
-          className="absolute -top-2 left-0 rounded-full w-6 h-6 text-white flex items-center justify-center text-[14px]"
+          className="absolute -top-2 left-0 flex h-6 w-6 items-center justify-center rounded-full text-[14px] text-white"
           style={{
             border: `2px solid ${smallBorderColorMain}`,
             background: `linear-gradient(to bottom right, ${smallGradientStart}, ${smallGradientEnd})`,
@@ -44,19 +44,19 @@ export default function Avatar({ rank, study, onClick }: Props) {
         </div>
         <Image
           priority
-          className="w-full h-full object-cover rounded-full"
+          className="h-full w-full rounded-full object-cover"
           src={study_imgurl || ""}
           alt={study_name}
-          width={25}
-          height={25}
+          width={100}
+          height={100}
         />
       </div>
 
-      <div className="flex flex-col items-center text-[14px] gap-[2px]">
-        <div className="text-[#B2611D] w-[60px] truncate text-center font-[500]">
+      <div className="flex flex-col items-center gap-[2px] text-[14px]">
+        <div className="w-[60px] truncate text-center font-[500] text-[#B2611D]">
           {study_name}
         </div>
-        <div className="text-white font-semibold bg-[#F28327] px-[8px] rounded-16">
+        <div className="rounded-16 bg-[#F28327] px-[8px] font-semibold text-white">
           {study_score.toLocaleString()}점
         </div>
       </div>

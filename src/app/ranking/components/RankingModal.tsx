@@ -40,8 +40,8 @@ export default function RankingModal({ id }: { id: string }) {
             className="h-full w-full rounded-8 object-cover"
             src={data?.study_imgurl || ""}
             alt={data?.study_name || "study-image"}
-            width={25}
-            height={25}
+            width={100}
+            height={100}
           />
         </div>
         <div className="flex flex-col gap-2">

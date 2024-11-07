@@ -31,8 +31,8 @@ export default function PostCard({ post, color = "tertiary" }: Props) {
                 className="h-full w-full rounded-full object-cover"
                 src={study_imgurl || ""}
                 alt={study_name}
-                width={25}
-                height={25}
+                width={80}
+                height={80}
               />
             </div>
             <div className="flex flex-col overflow-hidden font-normal text-secondary-700">

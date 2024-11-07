@@ -34,7 +34,7 @@ export default function RankingPage() {
     placeholderData: (previousData) => previousData,
   });
 
-  const onModalClick = (id: string) => {
+  const onModalClick = (id: string, rank: number) => {
     setIsModal(true);
     setId(id);
   };
@@ -66,7 +66,7 @@ export default function RankingPage() {
 
         {/* 헤더 */}
         <div className="flex justify-between px-[24px] py-[64px]">
-          <h1 className="relative text-[20px] font-semibold leading-normal">
+          <h1 className="relative z-10 text-[20px] font-semibold leading-normal">
             주간 그룹 랭킹
           </h1>
           <button
@@ -78,28 +78,28 @@ export default function RankingPage() {
         </div>
 
         {/* 아바타(1,2,3) */}
-        {ranking?.length && ranking.length >= 3 && (
+        {ranking?.length && (
           <div className="absolute top-[125px] flex w-full justify-center gap-[31px]">
             <Avatar
               rank={2}
               study={ranking[1]}
-              onClick={() => onModalClick(ranking[1].study_id)}
+              onClick={() => onModalClick(ranking[1].study_id, 2)}
             />
             <Avatar
               rank={1}
               study={ranking[0]}
-              onClick={() => onModalClick(ranking[0].study_id)}
+              onClick={() => onModalClick(ranking[0].study_id, 1)}
             />
             <Avatar
               rank={3}
               study={ranking[2]}
-              onClick={() => onModalClick(ranking[2].study_id)}
+              onClick={() => onModalClick(ranking[2].study_id, 3)}
             />
           </div>
         )}
 
         {/* 랭킹카드들 */}
-        <section className="absolute top-[333px] min-h-[30rem] w-full rounded-t-20 bg-gradient-to-b from-[#FFFCF9] via-[#FFF] to-[#FFF] px-[24px] py-[12px] backdrop-blur-[15px]">
+        <section className="absolute top-[333px] w-full rounded-t-20 bg-gradient-to-b from-[#FFFCF9] via-[#FFF] to-[#FFF] px-[24px] py-[12px] backdrop-blur-[15px]">
           {ranking
             ?.slice(3)
             .map((study, i) => (
@@ -107,7 +107,7 @@ export default function RankingPage() {
                 study={study}
                 rank={i + 4}
                 key={study.study_id}
-                onClick={() => onModalClick(study.study_id)}
+                onClick={() => onModalClick(study.study_id, i + 4)}
               />
             ))}
           <div className="mb-24 mt-3 text-center text-[14px] text-secondary-300">
