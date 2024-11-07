@@ -3,13 +3,13 @@ import React from "react";
 import { Tables } from "../../../../database.types";
 
 type Props = {
-  study: Tables<"study">;
+  rankingItem: Tables<"study">;
   rank: number;
   onClick: () => void;
 };
 
-const RankingCard = ({ study, rank, onClick }: Props) => {
-  const { study_name, study_score, study_imgurl } = study;
+const RankingCard = ({ rankingItem, rank, onClick }: Props) => {
+  const { study_name, study_score, study_imgurl } = rankingItem;
   return (
     <div
       className="flex h-[64px] items-center justify-between border-b border-[##E6E6E6] px-2 py-[12px]"

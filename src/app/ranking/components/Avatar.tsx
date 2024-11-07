@@ -1,13 +1,14 @@
 import Image from "next/image";
 import { Tables } from "../../../../database.types";
 import { getRankConfig } from "@/service/study";
+import { RankingItem } from "@/service/posts";
 
 type Props = {
   rank: number;
-  study: Tables<"study">;
+  rankingItem: RankingItem;
   onClick: () => void;
 };
-export default function Avatar({ rank, study, onClick }: Props) {
+export default function Avatar({ rank, rankingItem, onClick }: Props) {
   const {
     borderColorMain,
     imageSize,
@@ -17,7 +18,7 @@ export default function Avatar({ rank, study, onClick }: Props) {
     smallGradientEnd,
   } = getRankConfig(rank);
 
-  const { study_name, study_score, study_imgurl } = study;
+  const { study_name, study_score, study_imgurl } = rankingItem;
 
   return (
     <div
