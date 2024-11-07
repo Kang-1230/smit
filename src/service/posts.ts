@@ -180,3 +180,24 @@ export async function fetchAllStudyKeywords(
 
   return posts;
 }
+
+export async function fetchRankingById(study_id: string): Promise<number> {
+  const serverClient = createClient();
+
+  const { data: posts } = await serverClient
+    .from("study")
+    .select(`*`)
+    .order("study_score", { ascending: false });
+
+  if (!posts) {
+    throw new Error("Failed to retrieve studys");
+  }
+
+  const targetPostIndex = posts.findIndex((item) => item.study_id === study_id);
+
+  if (targetPostIndex === -1) {
+    throw new Error("Study ID not found");
+  }
+
+  return targetPostIndex + 1;
+}
