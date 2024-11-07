@@ -89,7 +89,7 @@ const DetailComments = ({ id }: { id: string }) => {
             />
           ))
         ) : (
-          <div>작성된 댓글이 없습니다.</div>
+          <div className="h-20">작성된 댓글이 없습니다.</div>
         )}
       </div>
     </div>

@@ -16,14 +16,16 @@ export default async function PostDetailPage({
   }
 
   return (
-    <div className="flex flex-col mt-10 items-center mx-6">
+    <>
+    <div className="flex flex-col mt-[59px] items-center mx-6">
       <DetailContents id={params.id} postData={postData} />
       <DetailComments id={params.id} />
-      <div className="flex w-full gap-2 items-center mt-[11px] py-3">
-        <LikeButton postId={+params.id} />
-        <ShareStudy />
-        <ApplyStudy postData={postData} />
-      </div>
     </div>
+    <div className="flex w-full gap-2 items-center mt-[11px] py-3 border-t px-6">
+    <LikeButton postId={+params.id} className="bg-secondary-50" />
+    <ShareStudy />
+    <ApplyStudy postData={postData} />
+  </div>
+  </>
   );
 }

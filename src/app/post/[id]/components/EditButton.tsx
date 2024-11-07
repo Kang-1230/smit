@@ -6,7 +6,7 @@ import Image from "next/image";
 
 interface EditButtonProps {
   userId: string;
-  handleEdit?: () => void;
+  handleEdit: () => void;
   handleDelete: () => void;
 }
 
