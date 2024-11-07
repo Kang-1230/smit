@@ -23,6 +23,7 @@ const EditProfile = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [userName, setUserName] = useState(user?.name ? user.name : "");
   const [isUnique, setIsUnique] = useState("change");
+  const [subModal, setSubModal] = useState(false);
 
   // 프로필 이미지 업로드 했을 때
   const ImageUploadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,7 +93,7 @@ const EditProfile = ({
   return (
     <div className="flex w-full flex-col items-center p-5">
       <p className="title-20-s text-center">프로필 수정</p>
-      <div className="h-wit relative my-4 w-fit">
+      <div className="relative my-4 h-fit w-fit">
         <Image
           src={uploadImg ? uploadImg : `${profileImg}?t=${Date.now()}`}
           alt="프로필 이미지"
@@ -101,7 +102,10 @@ const EditProfile = ({
           className="rounded-20"
         />
         <div className="absolute-center h-full w-full">
-          <div className="relative h-full w-full rounded-20 bg-black/20 bg-blend-overlay">
+          <div
+            className="relative h-full w-full rounded-20 bg-black/20 bg-blend-overlay"
+            onClick={() => setSubModal(!subModal)}
+          >
             <Image
               src={`icons/ImageSelect.svg`}
               alt="icon"
@@ -111,6 +115,28 @@ const EditProfile = ({
             ></Image>
           </div>
         </div>
+        {subModal && (
+          <div className="body-16-m absolute bottom-[56px] left-[123.5px] flex h-fit w-[148px] flex-col rounded-8 bg-white px-4 py-1 shadow-[0px_2px_10px_0px_rgba(0,0,0,0.25)]">
+            <div
+              className="h-[30px] w-full py-1"
+              onClick={() => {
+                fileInputRef?.current?.click();
+                setSubModal(false);
+              }}
+            >
+              사진 변경
+            </div>
+            <div
+              className="h-[30px] w-full py-1"
+              onClick={() => {
+                updateProfile();
+                setSubModal(false);
+              }}
+            >
+              기본 이미지로 변경
+            </div>
+          </div>
+        )}
       </div>
 
       <input
@@ -118,6 +144,7 @@ const EditProfile = ({
         className="hidden"
         type="file"
         onChange={(e) => ImageUploadHandler(e)}
+        accept="image/*"
       />
       <div>
         <ValidateInput
@@ -139,7 +166,6 @@ const EditProfile = ({
           }
         />
       </div>
-
       <div className="mt-7 flex w-full flex-row gap-x-1">
         <MyButton style="black-line" size="lg" onClick={modalClose}>
           취소

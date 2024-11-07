@@ -47,24 +47,26 @@ const ApplyUserProfileImgList = ({ studyId }: { studyId: string }) => {
   };
 
   return (
-    <div className="flex -space-x-4 rtl:space-x-reverse">
-      {/* //map 돌려서 프로필 이미지 여러 개 불러오기 */}
-      {profileUrls.map((url, index) => (
-        <Image
-          key={index}
-          alt="profileImg"
-          className="w-8 h-8 rounded-full dark:border-gray-800 object-cover ring-2 ring-white hover:z-10"
-          src={url}
-          width={50}
-          height={50}
-          unoptimized
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.src =
-              "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default?t=2024-10-29T12%3A08%3A32.075Z";
-          }}
-        />
-      ))}
+    <div className="absolute flex w-[287px] items-center justify-between">
+      <div className="relative inline-flex flex-[0_0_auto] items-center">
+        {/* //map 돌려서 프로필 이미지 여러 개 불러오기 */}
+        {profileUrls.map((url, index) => (
+          <Image
+            key={index}
+            alt="profileImg"
+            className="relative -ml-2.5 h-9 w-9 rounded-full object-cover"
+            src={url}
+            width={50}
+            height={50}
+            unoptimized
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src =
+                "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default?t=2024-10-29T12%3A08%3A32.075Z";
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 };

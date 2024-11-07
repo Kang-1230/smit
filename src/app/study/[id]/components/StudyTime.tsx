@@ -2,6 +2,7 @@
 
 import { getTime } from "@/utils/getTime";
 import { Tables } from "../../../../../database.types";
+import Image from "next/image";
 
 const StudyTime = ({
   todaySchedules,
@@ -11,7 +12,6 @@ const StudyTime = ({
   currentSchedule: Tables<"calendar"> | null;
 }) => {
   const now = getTime(new Date());
-  console.log(currentSchedule);
 
   if (todaySchedules) {
     const nextSchedule = !currentSchedule
@@ -29,7 +29,16 @@ const StudyTime = ({
 
     return (
       <div className="h-full w-1/2 rounded-20 bg-secondary-100 p-4">
-        <p className="caption text-secondary-700">스터디 시간</p>
+        <p className="caption flex flex-row items-center text-secondary-700">
+          <Image
+            src={`/icons/timer/ClockLined.svg`}
+            alt="book icon"
+            width={16}
+            height={16}
+            className="mr-1"
+          />
+          스터디 시간
+        </p>
         {nextSchedule ? (
           <div className="mt-14 flex flex-col gap-y-1 text-2xl font-light leading-[1.35] tracking-[-0.02em] text-black">
             <p>{nextSchedule.start_time.slice(0, 5)}</p>
@@ -37,7 +46,13 @@ const StudyTime = ({
           </div>
         ) : (
           <div className="mt-[27px] flex flex-col items-center">
-            <div className="mb-4 h-10 w-10 rounded-full bg-secondary-200"></div>
+            <Image
+              src={`/icons/timer/Clock.svg`}
+              alt="clock icon"
+              width={40}
+              height={40}
+              className="mb-4"
+            />
             <p className="body-14-r text-center text-secondary-400">
               오늘 스터디 <br /> 일정이 없습니다
             </p>

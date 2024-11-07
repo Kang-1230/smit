@@ -1,6 +1,8 @@
 // 출석률 표시
 "use client";
 
+import Image from "next/image";
+
 // 출석부 만드는 법.
 // 1. 유저가 스터디 페이지에 입장하면 오늘 날짜, 유저ID, 스터디 아이디가 출석 테이블에 저장됨
 // 근데 이건 최초 생성시 아닌가? 그럼 트리거 사용해서 apply list에서 승인되면 자동으로 출석 테이블에 유저, 스터디 넣고
@@ -22,7 +24,16 @@ const AttendanceRate = ({
       <div className="relative h-full w-full overflow-hidden rounded-20 bg-secondary-800 text-white">
         <div className="absolute -top-3 left-0 h-12 w-14 rounded-full bg-[rgba(255,153,69,0.3)] blur-xl"></div>
         <div className="h-full w-full rounded-20 bg-gradient-to-b from-[#6d6d6d80] to-[#6b696980] p-4">
-          <div className="caption text-secondary-200">출석인원</div>
+          <div className="caption flex flex-row items-center text-secondary-200">
+            <Image
+              src={`/icons/timer/UserLined.svg`}
+              alt="book icon"
+              width={16}
+              height={16}
+              className="mr-1"
+            />
+            출석인원
+          </div>
           <p className="title-20-r mt-[14px] text-center">
             <span className="title-20-b">{attendee}</span> /{" "}
             {member ? member.length : 1}
