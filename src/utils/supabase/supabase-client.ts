@@ -165,7 +165,6 @@ export const insertPostWrite = async (
   return data[0].post_id;
 };
 
-
 // 포스트 수정(Update)
 export const updatePostWrite = async (
   userId: string,
@@ -180,21 +179,25 @@ export const updatePostWrite = async (
     throw new Error("로그인 상태가 아님");
   }
 
-  const {error} = await browserClient
-  .from("post")
-  .update({
+  const { error } = await browserClient
+    .from("post")
+    .update({
       user_id: userId,
       study_id: studyId,
       post_contents: contents,
       post_name: title,
       study_startday: startDay,
-  }).eq("post_id",post_id)
+    })
+    .eq("post_id", post_id);
 
-  if(error) {
+  if (error) {
     console.log(error);
-    throw new Error("모집글 수정 실패")
+    throw new Error("모집글 수정 실패");
   }
-}
+
+  return post_id;
+
+};
 
 // 특정 사용자가 작성한 게시글 불러오기
 export const fetchPostByUser = async (userId: string | undefined) => {

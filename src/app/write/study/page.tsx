@@ -25,10 +25,8 @@ export default function Study() {
 function StudyContent() {
   const { data: user } = usePublicUser();
   const router = useRouter();
-
   const [title, setTitle] = useState<string>("");
   const [userCnt, setUserCnt] = useState<number>(1);
-
   const [studychatLink, setStudyChatLink] = useState<string>("");
   const [studyDescription, setStudyDescription] = useState<string>("");
   const [uploadImg, setUploadImg] = useState<string>(
@@ -87,20 +85,24 @@ function StudyContent() {
   };
 
   const sendData = async () => {
-    if (fileInputRef.current?.files) {
-      const { data, error } = await browserClient.storage
-        .from("study_img")
-        .upload(`${user?.id}${Date.now()}`, fileInputRef.current.files[0]);
-      if (error) {
-        console.log("이미지 업로드 중 오류 발생", error);
-        return;
+    if (arr[0] !== "") {
+      if (fileInputRef.current?.files) {
+        const { data, error } = await browserClient.storage
+          .from("study_img")
+          .upload(`${user?.id}${Date.now()}`, fileInputRef.current.files[0]);
+        if (error) {
+          console.log("이미지 업로드 중 오류 발생", error);
+          return;
+        }
+
+        const url = browserClient.storage
+          .from("study_img")
+          .getPublicUrl(`${data!.path}`).data.publicUrl;
+
+        createStudy(url); // useMutation 호출
       }
-
-      const url = browserClient.storage
-        .from("study_img")
-        .getPublicUrl(`${data!.path}`).data.publicUrl;
-
-      createStudy(url); // useMutation 호출
+    } else {
+      alert("직업 태그를 최소 한가지 선택해주세요");
     }
   };
 
