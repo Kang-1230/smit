@@ -46,7 +46,13 @@ const StudyTime = ({
           </div>
         ) : (
           <div className="mt-[27px] flex flex-col items-center">
-            <div className="mb-4 h-10 w-10 rounded-full bg-secondary-200"></div>
+            <Image
+              src={`/icons/timer/Clock.svg`}
+              alt="clock icon"
+              width={40}
+              height={40}
+              className="mb-4"
+            />
             <p className="body-14-r text-center text-secondary-400">
               오늘 스터디 <br /> 일정이 없습니다
             </p>
