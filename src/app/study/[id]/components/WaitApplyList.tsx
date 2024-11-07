@@ -5,6 +5,7 @@ import { JoinPerson } from "../../components/MyStudyList";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Tables, TablesUpdate } from "../../../../../database.types";
 import Image from "next/image";
+import CustomButton from "@/components/ui/CustomButton";
 
 const WaitApplyList = ({ urlStudyId }: { urlStudyId: string }) => {
   const queryClient = useQueryClient();
@@ -122,19 +123,20 @@ const WaitApplyList = ({ urlStudyId }: { urlStudyId: string }) => {
   
   if (user[0].name && waitingUser) {
     return (
-      <section key={user[0].name}>
-        <h1>가입 대기자</h1>
-        <div>
+      <section key={user[0].name} className="mx-6">
+        <h1 className="title-20-s mb-5">가입 대기자</h1>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
           <Image
             key={user[0].name}
             alt="profileImg"
-            className="w-8 h-8 rounded-full dark:border-gray-800 object-cover ring-2 ring-white hover:z-10"
+            className="rounded-full dark:border-gray-800 object-cover ring-2 ring-white hover:z-10"
             src={
               user[0].profile_img ||
               "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default?t=2024-10-29T12%3A08%3A32.075Z"
             }
-            width={50}
-            height={50}
+            width={40}
+            height={40}
             unoptimized
             onError={(e) => {
               const target = e.target as HTMLImageElement;
@@ -142,22 +144,18 @@ const WaitApplyList = ({ urlStudyId }: { urlStudyId: string }) => {
                 "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default?t=2024-10-29T12%3A08%3A32.075Z";
             }}
           />
-          <div>
-            <div>[{user[0].name}]님의 신청</div>
-            <div>
-              <button onClick={() => mutateUpdateApplyUser(waitingUser)}>
-                수락
-              </button>
-              <button onClick={() => MutateDeteleApplyUser(waitingUser)}>
+            <span className="body-14-m ml-[10px]">{user[0].name}</span>
+            </div>
+            <div className="flex items-center">
+              <CustomButton size="small" text="수락" onClick={() => mutateUpdateApplyUser(waitingUser)} />
+              <button className="border border-secondary-900 ml-1 rounded-[14px] font-[0] py-1 px-[12px] text-xs flex items-center" onClick={() => MutateDeteleApplyUser(waitingUser)}>
                 거절
               </button>
             </div>
-          </div>
         </div>
       </section>
     );
   }
-  return null;
 })}
       </div>
     </div>
