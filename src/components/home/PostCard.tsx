@@ -40,9 +40,9 @@ export default function PostCard({ post, color = "tertiary" }: Props) {
                 height={80}
               />
             </div>
-            <div className="flex flex-col overflow-hidden font-normal text-secondary-700">
-              <div className="text-xs">{user.name}</div>
-              <div className="w-48 truncate text-sm font-normal">
+            <div className="flex flex-col overflow-hidden text-secondary-700">
+              <div className="text-xs font-normal">{user.name}</div>
+              <div className="w-48 truncate text-sm font-medium">
                 {study_name}
               </div>
             </div>

@@ -2,7 +2,7 @@ import Banner from "@/components/home/Banner";
 import FilterablePosts from "@/components/home/FilterablePosts";
 import FeaturedPosts from "@/components/home/FeaturedPosts";
 import MultiCarousel from "@/components/home/MultiCarousel";
-import Dropdown from "./write/components/Dropdown";
+import FloatingButtons from "@/components/common/FloatingButtons";
 
 export default async function HomePage() {
   return (
@@ -16,7 +16,7 @@ export default async function HomePage() {
         <FilterablePosts />
       </section>
 
-      <Dropdown></Dropdown>
+      <FloatingButtons />
     </section>
   );
 }

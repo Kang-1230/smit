@@ -11,7 +11,6 @@ import Open from "../../../../public/icons/Open.svg";
 import Close from "../../../../public/icons/Close.svg";
 import Pencil from "../../../../public/icons/PencilSmall.svg";
 
-
 export default function Dropdown() {
   const router = useRouter();
   // 드롭다운 열림, 닫힘 상태 관리
@@ -68,19 +67,19 @@ export default function Dropdown() {
     <>
       {isDropDownOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
           onClick={handleModalClose}
         ></div>
       )}
       <Menu>
         <div
-          className="bottom-24 right-4 fixed"
+          className="fixed bottom-[5.25rem] right-6"
           onClick={(e) => e.stopPropagation()}
         >
           <MenuButton
             className={` ${
               isDropDownOpen ? `bg-primary-50` : `bg-black`
-            } rounded-full w-14 h-14 text-white flex items-center justify-center`}
+            } flex h-[3.75rem] w-[3.75rem] items-center justify-center rounded-full border border-white/70 text-white`}
             onClick={() => setIsDropDownOpen(!isDropDownOpen)}
           >
             {isDropDownOpen ? (
@@ -91,11 +90,11 @@ export default function Dropdown() {
           </MenuButton>
           <MenuItems
             anchor="top end"
-            className="bg-white rounded-3xl p-6 [--anchor-gap:20px]"
+            className="rounded-3xl bg-white p-6 [--anchor-gap:20px]"
           >
             <MenuItem>
               <a
-                className="body-16-s flex justify-start items-center"
+                className="body-16-s flex items-center justify-start"
                 onClick={() => routeStudyPage()}
               >
                 <Image src={Edit} alt="union" width={0} className="mr-2" />
@@ -104,7 +103,7 @@ export default function Dropdown() {
             </MenuItem>
             <MenuItem>
               <a
-                className="body-16-s flex justify-start items-center mt-4"
+                className="body-16-s mt-4 flex items-center justify-start"
                 onClick={() => getStudyList()}
               >
                 <Image

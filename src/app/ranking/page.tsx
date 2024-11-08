@@ -11,6 +11,7 @@ import RankingModal from "./components/RankingModal";
 import RankingModalOverlay from "./components/RankingModalOverlay";
 import QuestionModal from "./components/QuestionModal";
 import Image from "next/image";
+import FloatingButtons from "@/components/common/FloatingButtons";
 
 const RankingPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -70,6 +71,7 @@ const RankingPage = () => {
           <QuestionModal onClick={() => setIsQuestionModalOpen(false)} />
         </RankingModalOverlay>
       )}
+      <FloatingButtons />
     </section>
   );
 };
