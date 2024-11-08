@@ -30,11 +30,11 @@ const ValidateInput = ({
           <div className="relative">
             <input
               placeholder={placeholder}
-              className={`body-14-r w-full rounded-20 border-[1px] border-transparent px-4 py-3 text-secondary-900 placeholder:text-secondary-400 ${
+              className={`body-14-r w-full rounded-20 border-[1px] px-4 py-3 text-secondary-900 placeholder:text-secondary-400 ${
                 bg && "bg-c-background"
               } ${error && "border-alarm-red text-alarm-red"} ${
                 success && "border-success-blue text-success-blue"
-              } focus:border-secondary-600 focus:outline-none`}
+              } ${!error && !success && "border-transparent"} focus:border-secondary-600 focus:outline-none`}
               value={value}
               onChange={onChange}
               disabled={disabled}
@@ -58,7 +58,7 @@ const ValidateInput = ({
             중복확인
           </MyButton>
         </div>
-        <div className="ml-3 mt-2">
+        <div className="ml-3 mt-2 h-[12px]">
           {error && <p className={"caption text-alarm-red"}>{error}</p>}
           {success && <p className={"caption text-success-blue"}>{success}</p>}
         </div>
