@@ -1,6 +1,6 @@
 "use client";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import browserClient from "@/utils/supabase/client";
 import Modal from "./StudyModal";
 import { usePublicUser } from "@/hooks/useUserProfile";
@@ -10,7 +10,6 @@ import Edit from "../../../../public/icons/Edit.svg";
 import Open from "../../../../public/icons/Open.svg";
 import Close from "../../../../public/icons/Close.svg";
 import Pencil from "../../../../public/icons/PencilSmall.svg";
-
 
 export default function Dropdown() {
   const router = useRouter();
@@ -64,23 +63,38 @@ export default function Dropdown() {
     setIsDropDownOpen(false);
   };
 
+  useEffect(() => {
+    if (isDropDownOpen) {
+      // 모달이 열리면 body의 overflow를 hidden으로 설정
+      document.body.style.overflow = "hidden";
+    } else {
+      // 모달이 닫히면 원래 상태로 돌림
+      document.body.style.overflow = "auto";
+    }
+
+    // 컴포넌트 언마운트 시에도 원래 상태로 복구
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isDropDownOpen]);
+
   return (
     <>
       {isDropDownOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
           onClick={handleModalClose}
         ></div>
       )}
       <Menu>
         <div
-          className="bottom-24 right-4 fixed"
+          className="fixed bottom-24 right-4"
           onClick={(e) => e.stopPropagation()}
         >
           <MenuButton
             className={` ${
               isDropDownOpen ? `bg-primary-50` : `bg-black`
-            } rounded-full w-14 h-14 text-white flex items-center justify-center`}
+            } flex h-14 w-14 items-center justify-center rounded-full text-white`}
             onClick={() => setIsDropDownOpen(!isDropDownOpen)}
           >
             {isDropDownOpen ? (
@@ -91,11 +105,11 @@ export default function Dropdown() {
           </MenuButton>
           <MenuItems
             anchor="top end"
-            className="bg-white rounded-3xl p-6 [--anchor-gap:20px]"
+            className="rounded-3xl bg-white p-6 [--anchor-gap:20px]"
           >
             <MenuItem>
               <a
-                className="body-16-s flex justify-start items-center"
+                className="body-16-s flex items-center justify-start"
                 onClick={() => routeStudyPage()}
               >
                 <Image src={Edit} alt="union" width={0} className="mr-2" />
@@ -104,7 +118,7 @@ export default function Dropdown() {
             </MenuItem>
             <MenuItem>
               <a
-                className="body-16-s flex justify-start items-center mt-4"
+                className="body-16-s mt-4 flex items-center justify-start"
                 onClick={() => getStudyList()}
               >
                 <Image
