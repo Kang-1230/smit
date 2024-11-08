@@ -22,8 +22,13 @@ export default function PostCard({ post, color = "tertiary" }: Props) {
   return (
     <Link href={`/post/${post_id}`}>
       <section
-        className={`flex h-[18rem] w-full flex-col justify-between gap-4 rounded-20 p-5 ${color === "tertiary" ? "bg-white" : "bg-tertiary-50"}`}
+        className={`flex h-[18rem] w-full flex-col justify-between gap-4 rounded-20 p-5 ${color === "tertiary" ? "bg-white" : "bg-tertiary-50"} relative`}
       >
+        <LikeButton
+          className="absolute right-2 top-4"
+          postId={post_id}
+          isBoundary={false}
+        />
         <div className="flex items-center justify-between">
           <div className="flex flex-1 gap-2">
             <div className="relative h-9 w-9 rounded-full border">
@@ -42,7 +47,6 @@ export default function PostCard({ post, color = "tertiary" }: Props) {
               </div>
             </div>
           </div>
-          <LikeButton postId={post_id} isBoundary={false} />
         </div>
 
         <div className="flex flex-1 flex-col gap-2">
