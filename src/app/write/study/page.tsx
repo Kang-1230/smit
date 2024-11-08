@@ -62,8 +62,12 @@ function StudyContent() {
         url,
       ),
     onSuccess: () => {
-      setModalMode("success");
-      setIsModalOpen(true);
+      if (userCnt === 1) {
+        router.replace("/");
+      } else {
+        setModalMode("success");
+        setIsModalOpen(true);
+      }
     },
     onError: () => {
       alert("스터디를 생성하지 못했습니다.");
@@ -181,6 +185,7 @@ function StudyContent() {
         <input
           className="body-16-m mb-4 w-full rounded-2xl bg-secondary-50 p-3 placeholder-secondary-300"
           value={title}
+          maxLength={25}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="제목을 작성해주세요"
         />
