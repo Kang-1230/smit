@@ -186,6 +186,7 @@ ul {
 }
 
 /* 로딩바 */
+
 /* @keyframes loading {
   0%,
   85% {
@@ -193,25 +194,42 @@ ul {
   }
   90% {
     color: #1e1e1e;
+    font-weight: 500;
   }
 } */
 
 @keyframes loading {
   0%,
-  10% {
+  15% {
     color: #cccccc;
   }
-  10%,
-  15% {
+  90% {
+    color: #1e1e1e;
+    font-weight: 500;
+  }
+}
+/* 
+@keyframes loading {
+  0%,
+  5% {
+    color: #cccccc;
+  }
+  30%,
+  40% {
     color: #1e1e1e;
     font-weight: 500;
   }
   15%,
   100% {
     color: #cccccc;
-  }
-}
-
+  } 
+  50%,
+  51% {
+    color: #1e1e1e;
+    font-weight: 500;
+  } 
+} 
+*/
 .animate-loading {
   animation: loading 2.2s infinite;
 }

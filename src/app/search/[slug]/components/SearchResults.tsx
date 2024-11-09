@@ -37,7 +37,7 @@ export default function SearchResults({ slug }: Props) {
         </div>
         <SearchFilter category={category} setCategory={setCategory} />
       </div>
-      <section className="mb-24 mt-4 flex flex-col items-center justify-center gap-4">
+      <section className="mb-24 mt-4 flex flex-col justify-center gap-4">
         {!posts?.length && (
           <Image
             className="mt-20"

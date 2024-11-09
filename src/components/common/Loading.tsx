@@ -3,7 +3,7 @@ export default function Loading() {
   const textArr = text.split("");
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center gap-9">
+    <div className="flex flex-col items-center justify-center gap-9">
       {/* 시계 */}
       <div className="clock absolute top-[40%] h-[52px] w-[52px] rotate-45">
         {Array.from({ length: 12 }, (_, index) => (
@@ -24,7 +24,11 @@ export default function Loading() {
         style={{ lineHeight: "135%", fontStyle: "normal" }}
       >
         {textArr.map((item, idx) => (
-          <span className={`animate-loading delay-${idx * 100}`}>{item}</span>
+          <span
+            className={`animate-loading delay-${idx * 100} ${idx === 0 ? "text-secondary-900" : ""}`}
+          >
+            {item}
+          </span>
         ))}
       </div>
     </div>
