@@ -11,7 +11,7 @@ export default async function HomePage() {
         <Banner title="스밋과 함께 공부하자!" link="/event" />
       </MultiCarousel>
 
-      <section className="mt-4">
+      <section>
         <FeaturedPosts />
         <FilterablePosts />
       </section>
