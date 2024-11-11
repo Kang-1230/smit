@@ -35,7 +35,7 @@ export default function QuestionModal({ onClick }: Props) {
         className="mt-5 w-full rounded-24 bg-secondary-900 px-5 py-3 text-white"
         onClick={onClick}
       >
-        바로가기
+        닫기
       </button>
     </section>
   );

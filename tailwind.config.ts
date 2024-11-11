@@ -51,6 +51,7 @@ const config: Config = {
         "c-background": "#F6F6F4",
         "success-blue": "#0073cb",
         "alarm-red": "#f43434",
+        back: "#F8F8FA",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

@@ -4,6 +4,8 @@ import { createClient } from "@/utils/supabase/server";
 import { Tables } from "../../database.types";
 import browserClient from "@/utils/supabase/client";
 
+export type RankingItem = Tables<"study">;
+
 export type PostWithRelations = Tables<"post"> & {
   study: Tables<"study">;
   user: Tables<"user">;
@@ -114,9 +116,7 @@ export async function fetchStudyApplyList(
   return posts;
 }
 
-export async function fetchAllStudyByRanking(
-  page = 1,
-): Promise<Tables<"study">[]> {
+export async function fetchRankingData(page = 1): Promise<RankingItem[]> {
   const serverClient = createClient();
   const { data: studys } = await serverClient
     .from("study")

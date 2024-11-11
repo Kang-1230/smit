@@ -30,7 +30,9 @@ const menus = [
   },
 ];
 
+
 const STATIC_HIDDEN_PATHS = ["/post", "/write", "/write/study", "/login"];
+
 const DYNAMIC_HIDDEN_PATHS = [{ prefix: "/post/" }, { prefix: "/study/" }];
 
 export default function Footer() {
@@ -54,7 +56,10 @@ export default function Footer() {
 
   return (
     <footer className="fixed bottom-[12px] w-full px-[24px]">
-      <nav className="z-10 h-[60px] rounded-full bg-[#C4C4C3] bg-opacity-60 p-[4px] backdrop-blur-sm">
+
+
+      <nav className="z-10 h-[60px] rounded-full bg-[#C4C4C3] bg-opacity-60 p-[4px] backdrop-blur-2xl">
+
         <ul className="flex items-center justify-between">
           {menus.map((menu) => (
             <MenuItem

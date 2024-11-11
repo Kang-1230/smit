@@ -88,13 +88,13 @@ export default function Dropdown() {
       )}
       <Menu>
         <div
-          className="fixed bottom-24 right-4"
+          className="fixed bottom-[5.25rem] right-6"
           onClick={(e) => e.stopPropagation()}
         >
           <MenuButton
             className={` ${
               isDropDownOpen ? `bg-primary-50` : `bg-black`
-            } flex h-14 w-14 items-center justify-center rounded-full text-white`}
+            } flex h-[3.75rem] w-[3.75rem] items-center justify-center rounded-full border border-white/70 text-white`}
             onClick={() => setIsDropDownOpen(!isDropDownOpen)}
           >
             {isDropDownOpen ? (

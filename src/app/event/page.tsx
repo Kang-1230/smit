@@ -1,3 +1,9 @@
+import Loading from "@/components/common/Loading";
+
 export default function EventPage() {
-  return <div>EventPage</div>;
+  return (
+    <>
+      <Loading />
+    </>
+  );
 }
