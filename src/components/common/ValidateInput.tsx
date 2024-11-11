@@ -1,5 +1,6 @@
 import Image from "next/image";
 import MyButton from "./Button";
+import { useState } from "react";
 
 const ValidateInput = ({
   placeholder,
@@ -12,6 +13,7 @@ const ValidateInput = ({
   success,
   disabled = false,
   caption,
+  useEyes = false,
 }: {
   placeholder: string;
   value?: string;
@@ -23,7 +25,12 @@ const ValidateInput = ({
   success?: string;
   disabled?: boolean;
   caption?: string;
+  useEyes?: boolean;
 }) => {
+  const [isShow, setIsShow] = useState(!useEyes);
+  const img = isShow ? "/icons/EyeOff.svg" : "/icons/EyeOn.svg";
+
+  // 패스워드 숨기기
   return (
     <>
       <div className="relative w-full">
@@ -36,6 +43,7 @@ const ValidateInput = ({
               value={value}
               onChange={onChange}
               disabled={disabled}
+              type={isShow ? "text" : "password"}
             />
             <div className="absolute right-[16px] top-1/2 -translate-y-1/2">
               {error && (
@@ -44,6 +52,16 @@ const ValidateInput = ({
                   src={`/icons/input/Alert.svg`}
                   height={22}
                   width={22}
+                />
+              )}
+              {useEyes && (
+                <Image
+                  src={img}
+                  alt="show&hide"
+                  width={24}
+                  height={24}
+                  onClick={() => setIsShow(!isShow)}
+                  className="ml-[4px]"
                 />
               )}
             </div>
