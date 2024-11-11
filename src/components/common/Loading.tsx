@@ -26,6 +26,7 @@ export default function Loading() {
         {textArr.map((item, idx) => (
           <span
             className={`animate-loading delay-${idx * 100} ${idx === 0 ? "text-secondary-900" : ""}`}
+            key={idx}
           >
             {item}
           </span>

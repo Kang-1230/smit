@@ -10,7 +10,6 @@ import RankingCardList from "./components/RankingCardList";
 import RankingModal from "./components/RankingModal";
 import RankingModalOverlay from "./components/RankingModalOverlay";
 import QuestionModal from "./components/QuestionModal";
-import Image from "next/image";
 import FloatingButtons from "@/components/common/FloatingButtons";
 
 const RankingPage = () => {
@@ -30,7 +29,7 @@ const RankingPage = () => {
     placeholderData: (previousData) => previousData,
   });
 
-  const handleRankingClick = (rankingId: string, rank: number) => {
+  const handleRankingClick = (rankingId: string) => {
     setIsRankingModalOpen(true);
     setSelectedRankingId(rankingId);
   };

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Tables } from "../../../../database.types";
 import { getRankConfig } from "@/service/study";
 import { RankingItem } from "@/service/posts";
 
