@@ -8,8 +8,10 @@ import GoogleLogo from "../../../public/icons/Google.svg";
 import SmitLogo from "../../../public/icons/SmitLogo.svg";
 import SNSVector from "../../../public/icons/SNSSignUpVector.svg";
 import RectangleLoginBack from "../../../public/icons/RectangleLoginBack.svg";
+import Eye from "../../../public/icons/Eye.svg";
 import Image from "next/image";
 import { Checkbox } from "@headlessui/react";
+import BackButton from "@/components/common/BackButton";
 
 export default function LoginPage() {
   const [email, setEmail] = useState<string>("");
@@ -80,11 +82,17 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="bg-lightui-background relative h-full w-full">
-      <div className="absolute left-0 top-0 h-full w-full">
+    <div className="relative h-full w-[375px] bg-[#f6f6f4]">
+      <div className="absolute left-0 top-0 h-[628px] w-[375px]">
+        <div className="absolute z-10 flex">
+          <BackButton
+            color="black"
+            className="ml-[14px] flex h-[44px] w-[44px] items-center justify-center"
+          />
+        </div>
         <div className="absolute left-[163px] top-56 h-[165px] w-[165px] rounded-[82.5px] bg-primary-50" />
         <Image
-          className="absolute left-0 top-0 z-0 h-full w-[375px] object-cover backdrop-blur-xl"
+          className="absolute left-0 top-0 z-0 h-[628px] w-[375px] backdrop-blur-xl"
           alt="Rectangle"
           src={RectangleLoginBack}
           fill
@@ -108,14 +116,23 @@ export default function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               className="body-16-r mb-[12px] h-[48px] w-[327px] rounded-[24px] pl-[20px] text-secondary-400"
             />
-            <input
-              type="password"
-              placeholder="비밀번호"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="body-16-r h-[48px] w-[327px] rounded-[24px] pl-[20px] text-secondary-400"
-            />
+            <div className="relative">
+              <input
+                type="password"
+                placeholder="비밀번호"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="body-16-r h-[48px] w-[327px] rounded-[24px] pl-[20px] text-secondary-400"
+              />
+              <button
+                type="button"
+                className="z-15 absolute right-[17.35px] top-[17.35px]"
+              >
+                <Image src={Eye} alt="PasswordEye" />
+              </button>
+            </div>
           </div>
+
           <div className="relative inline-flex flex-[0_0_auto] items-center gap-1 py-0 pl-3 pr-0">
             <Checkbox
               checked={checked}
@@ -151,7 +168,7 @@ export default function LoginPage() {
             ) : (
               <>
                 <button
-                  className="black-fill lgBtn mt-[30px] h-[48px] w-[327px]"
+                  className="black-fill lgBtn mt-[30px] h-[48px] w-[327px] rounded-[24px]"
                   onClick={(e) => handleSignIn(e)}
                 >
                   로그인
@@ -159,15 +176,15 @@ export default function LoginPage() {
               </>
             )}
             <Link href={"/signup"}>
-              <button className="beige lgBtn mt-[8px] flex h-[48px] w-[327px] items-center justify-center">
+              <button className="beige lgBtn mt-[8px] flex h-[48px] w-[327px] items-center justify-center rounded-[24px]">
                 계정 만들기
               </button>
             </Link>
           </div>
-
           <div className="mt-[32px] flex w-[327px] flex-col items-center gap-5">
             <div className="flex-{0_0_auto] relative flex w-full items-center justify-center gap-2 self-stretch">
               <Image alt="Vector" src={SNSVector} />
+
               <div className="caption text-#7e7b72 relative mt-[-1.00px] w-fit whitespace-nowrap text-center">
                 SNS 계정으로 가입하기
               </div>
