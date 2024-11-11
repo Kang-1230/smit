@@ -42,7 +42,7 @@ const Modal = (props: Props) => {
   return props.isModalOpen ? (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 flex justify-center w-full z-50"
-      onClick={() => props.onClose}
+      onClick={props.onClose}
     >
       <div
         className="fixed inset-x-0 bottom-0 bg-white rounded-t-2xl w-full shadow-lg flex flex-col h-fit overflow-y-auto focus:overscroll-contain"

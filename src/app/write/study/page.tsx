@@ -153,14 +153,17 @@ function StudyContent() {
         <p className="body-16-m mb-2 text-black">
           대표 이미지 <span className="text-primary-50">{`(선택)`}</span>
         </p>
-        <div className="relative h-full w-full">
+        <div
+          className="flex h-[200px] w-[327px] items-center justify-center"
+          onClick={() => fileInputRef.current?.click()}
+        >
           <Image
             src={uploadImg}
             alt="userImg"
-            width={500}
-            height={300}
-            className="object-full h-full w-full rounded-3xl" // 부모에 맞게 꽉 차게 설정
-            onClick={() => fileInputRef.current?.click()}
+            width={327}
+            height={200}
+            className="absolute left-0 top-0 h-full w-full rounded-3xl object-cover"
+            priority={true}
           />
           <Image
             src={ImageSelect}
@@ -173,7 +176,7 @@ function StudyContent() {
           ref={fileInputRef}
           className="hidden"
           type="file"
-          accept="image/*"
+          accept=".jpg, .jpeg , .png"
           onChange={ImageUploadHandler}
         />
       </div>
@@ -273,14 +276,11 @@ function StudyContent() {
 
       {isDateOpen && (
         <SelectDate
-          onConfirm={(cnt: string) => {
+          onConfirm={(cnt: string | number) => {
             setUserCnt(Number(cnt));
             setIsDateOpen(false);
           }}
-          onClose={() => {
-            setIsModalOpen(false);
-            setIsDateOpen(false);
-          }}
+          selectedDate={userCnt}
           mode="cnt"
         />
       )}
