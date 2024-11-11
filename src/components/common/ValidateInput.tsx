@@ -32,20 +32,21 @@ const ValidateInput = ({
           <div className="relative">
             <input
               placeholder={placeholder}
-              className={`body-14-r w-full rounded-20 border-[1px] px-4 py-3 text-secondary-900 placeholder:text-secondary-400 ${classname} focus:border-secondary-600 focus:bg-white focus:outline-none ${error && "border-alarm-red text-alarm-red"} ${success && "border-success-blue text-success-blue"} ${!error && !success ? "border-transparent" : "bg-white"}`}
+              className={`border-inset body-14-r h-[40px] w-full rounded-20 border-[1px] px-4 py-3 text-secondary-900 placeholder:text-secondary-400 disabled:bg-secondary-100 disabled:text-secondary-300 ${classname} focus:border-secondary-600 focus:bg-white focus:outline-none ${error && "border-alarm-red text-alarm-red"} ${success && "border-success-blue text-success-blue"} ${!error && !success ? "border-transparent" : "bg-white"}`}
               value={value}
               onChange={onChange}
               disabled={disabled}
             />
-            {error && (
-              <Image
-                alt="error"
-                src={`/icons/input/Alert.svg`}
-                height={22}
-                width={22}
-                className="absolute right-5 top-1/2 -translate-y-1/2"
-              />
-            )}
+            <div className="absolute right-[16px] top-1/2 -translate-y-1/2">
+              {error && (
+                <Image
+                  alt="error"
+                  src={`/icons/input/Alert.svg`}
+                  height={22}
+                  width={22}
+                />
+              )}
+            </div>
           </div>
           <MyButton
             style="black-fill"

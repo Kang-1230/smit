@@ -1,31 +1,28 @@
 import Image from "next/image";
 
-const TitleInput = ({
+const RoundInput = ({
   placeholder,
-  value = "",
+  value,
   onChange,
-  title,
-  classname,
+  disabled,
   error,
-  disabled = false,
+  classname,
 }: {
   placeholder: string;
   value?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  title: string;
-  classname?: string;
-  error?: string;
   disabled?: boolean;
+  error?: string;
+  classname: string;
 }) => {
   return (
     <>
       <div className="relative w-full">
-        <p className="body-14-m mb-2 ml-3 text-secondary-700">{title}</p>
-        <div className="flex flex-row items-center gap-x-1">
+        <div className="flex flex-row items-center gap-x-[4px]">
           <div className="relative">
             <input
               placeholder={placeholder}
-              className={`border-inset body-14-r h-[40px] w-full rounded-20 border-[1px] px-4 py-3 text-secondary-900 placeholder:text-secondary-400 disabled:bg-secondary-100 disabled:text-secondary-300 ${classname} focus:border-secondary-600 focus:bg-white focus:outline-none ${error && "border-alarm-red text-alarm-red"} ${!error ? "border-transparent" : "bg-white"}`}
+              className={`border-inset body-14-r h-[48px] w-full rounded-20 border-[1px] px-4 py-3 text-secondary-900 placeholder:text-secondary-400 disabled:bg-secondary-100 disabled:text-secondary-300 ${classname} focus:border-secondary-600 focus:bg-white focus:outline-none ${error && "border-alarm-red"} ${!error ? "border-transparent" : "bg-white"}`}
               value={value}
               onChange={onChange}
               disabled={disabled}
@@ -50,4 +47,4 @@ const TitleInput = ({
   );
 };
 
-export default TitleInput;
+export default RoundInput;

@@ -23,7 +23,9 @@ const EditProfile = ({
   const [uploadImg, setUploadImg] = useState<null | string>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [userName, setUserName] = useState(user?.name ? user.name : "");
-  const [isUnique, setIsUnique] = useState("open");
+  const [nicknameStatus, setNicknameStatus] = useState<
+    "available" | "duplicate" | "invalid" | "initial" | "needsValidation"
+  >("initial");
   const [subModal, setSubModal] = useState(false);
 
   // 프로필 이미지 업로드 했을 때
@@ -95,7 +97,7 @@ const EditProfile = ({
   // 닉네임 중복검사
   const validateNickname = async () => {
     if (!/^[가-힣a-zA-Z0-9]+$/.test(userName)) {
-      setIsUnique("impossible");
+      setNicknameStatus("invalid");
       return;
     }
     const { data }: { data: Pick<Tables<"user">, "name">[] | null } =
@@ -106,15 +108,15 @@ const EditProfile = ({
         .neq("id", user.id);
 
     if (data?.length === 0) {
-      setIsUnique("unique");
+      setNicknameStatus("available");
     } else {
-      setIsUnique("notUnique");
+      setNicknameStatus("duplicate");
     }
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(e.target.value);
-    setIsUnique("change");
+    setNicknameStatus("needsValidation");
   };
 
   const img = uploadImg ? uploadImg : user.profile_img;
@@ -184,14 +186,16 @@ const EditProfile = ({
           onClick={validateNickname}
           classname="bg-c-background"
           error={
-            isUnique === "notUnique"
+            nicknameStatus === "duplicate"
               ? "이미 사용하고 있는 닉네임 입니다."
-              : isUnique === "impossible"
+              : nicknameStatus === "invalid"
                 ? "사용할 수 없는 닉네임 입니다."
                 : undefined
           }
           success={
-            isUnique === "unique" ? "사용 가능한 닉네임 입니다." : undefined
+            nicknameStatus === "available"
+              ? "사용 가능한 닉네임 입니다."
+              : undefined
           }
         />
       </div>
@@ -208,9 +212,9 @@ const EditProfile = ({
             modalClose();
           }}
           disabled={
-            isUnique === "notUnique" ||
-            isUnique === "change" ||
-            isUnique === "impossible"
+            nicknameStatus === "duplicate" ||
+            nicknameStatus === "needsValidation" ||
+            nicknameStatus === "invalid"
           }
         >
           적용하기
