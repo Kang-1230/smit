@@ -56,7 +56,7 @@ const StudyInfo = ({
           spaceBetween={-80} // 간격을 1로 설정 (너무 작은 값도 설정 가능)
           navigation={true} // 네비게이션 버튼 활성화
           className="mb-7 flex w-full"
-          centeredSlides={memberProfile ? memberProfile?.length < 4 : false}
+          centeredSlides={memberProfile ? memberProfile?.length === 1  : false}
         >
           {memberProfile?.map((user) => (
             <SwiperSlide key={user.id}>
