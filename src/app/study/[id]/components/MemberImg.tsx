@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Tables } from "../../../../../database.types";
-import browserClient from "@/utils/supabase/client";
 
 const MemberImg = ({ user }: { user: Tables<"user"> }) => {
 

@@ -4,17 +4,18 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { Tables } from "../../../../database.types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateUserProfile } from "@/utils/supabase/supabase-client";
+import {
+  updateDefualtImg,
+  updateUserProfile,
+} from "@/utils/supabase/supabase-client";
 import browserClient from "@/utils/supabase/client";
 import ValidateInput from "@/components/common/ValidateInput";
 import MyButton from "@/components/common/Button";
 
 const EditProfile = ({
-  profileImg,
   user,
   modalClose,
 }: {
-  profileImg: string;
   user: Tables<"user">;
   modalClose: () => void;
 }) => {
@@ -22,7 +23,7 @@ const EditProfile = ({
   const [uploadImg, setUploadImg] = useState<null | string>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [userName, setUserName] = useState(user?.name ? user.name : "");
-  const [isUnique, setIsUnique] = useState("change");
+  const [isUnique, setIsUnique] = useState("open");
   const [subModal, setSubModal] = useState(false);
 
   // 프로필 이미지 업로드 했을 때
@@ -41,8 +42,16 @@ const EditProfile = ({
 
   // 프로필 수정하는 부분
   const { mutate: updateProfile } = useMutation({
-    mutationFn: () =>
-      updateUserProfile(userName, uploadImg ? user.id : "default"),
+    mutationFn: async (url: string) => updateUserProfile(userName, url, user),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["user", "public"],
+      });
+    },
+  });
+
+  const { mutate: updateDefaultImg } = useMutation({
+    mutationFn: () => updateDefualtImg(user),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["user", "public"],
@@ -52,22 +61,27 @@ const EditProfile = ({
 
   // 실제로 수정버튼 눌렀을 때 실행되는 부분 (이미지 먼저 스토리지로 보냄)
   const profileSaveHandler = async () => {
-    if (fileInputRef.current?.files) {
-      if (fileInputRef.current.files.length > 0) {
-        const { error } = await browserClient.storage
-          .from("profile_img")
-          .upload(`${user?.id}`, fileInputRef.current.files[0], {
-            upsert: true,
-          });
+    if (fileInputRef.current?.files && fileInputRef.current.files.length > 0) {
+      const { error } = await browserClient.storage
+        .from("profile_img")
+        .upload(`${user?.id}`, fileInputRef.current.files[0], {
+          upsert: true,
+        });
 
-        if (error) {
-          console.log("이미지 업로드 중 오류 발생", error);
-          return;
-        }
+      if (error) {
+        console.log("이미지 업로드 중 오류 발생", error);
+        return;
       }
-      updateProfile();
-      alert("프로필 수정 완료!");
+      const url =
+        browserClient.storage.from("profile_img").getPublicUrl(user.id).data
+          .publicUrl +
+        "?t=" +
+        Date.now();
+
+      updateProfile(url);
+      return;
     }
+    updateProfile(user.profile_img);
   };
 
   // 닉네임 중복검사
@@ -76,13 +90,18 @@ const EditProfile = ({
       setIsUnique("impossible");
       return;
     }
-    const { data }: { data: Tables<"user">[] | null } = await browserClient
-      .from("user")
-      .select("*");
-    const nickName = data?.filter((u) => u.id !== user.id).map((u) => u.name);
-    if (nickName?.includes(userName)) {
+    const { data }: { data: Pick<Tables<"user">, "name">[] | null } =
+      await browserClient
+        .from("user")
+        .select("name")
+        .eq("name", userName)
+        .neq("id", user.id);
+
+    if (data?.length === 0) {
+      setIsUnique("unique");
+    } else {
       setIsUnique("notUnique");
-    } else setIsUnique("unique");
+    }
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -90,16 +109,18 @@ const EditProfile = ({
     setIsUnique("change");
   };
 
+  const img = uploadImg ? uploadImg : user.profile_img;
+
   return (
     <div className="flex w-full flex-col items-center p-5">
       <p className="title-20-s text-center">프로필 수정</p>
-      <div className="relative my-4 h-fit w-fit">
+      <div className="relative my-4 h-[264px] w-[264px]">
         <Image
-          src={uploadImg ? uploadImg : `${profileImg}?t=${Date.now()}`}
+          src={img}
           alt="프로필 이미지"
-          width={264}
-          height={264}
-          className="rounded-20"
+          fill
+          className="rounded-20 object-cover object-center"
+          loading="eager"
         />
         <div className="absolute-center h-full w-full">
           <div
@@ -129,7 +150,7 @@ const EditProfile = ({
             <div
               className="h-[30px] w-full py-1"
               onClick={() => {
-                updateProfile();
+                updateDefaultImg();
                 setSubModal(false);
               }}
             >
@@ -153,7 +174,7 @@ const EditProfile = ({
           value={userName}
           onChange={inputChangeHandler}
           onClick={validateNickname}
-          bg={true}
+          classname="bg-c-background"
           error={
             isUnique === "notUnique"
               ? "이미 사용하고 있는 닉네임 입니다."
