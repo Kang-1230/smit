@@ -23,8 +23,8 @@ export default function FilterablePosts() {
   if (!posts) return <>Posts가 없습니다</>;
 
   return (
-    <section className="mt-4 flex flex-col bg-[#F6F6F4] px-6 pb-36 pt-10">
-      <h2 className="flex gap-1 text-xl font-medium">
+    <section className="bg-back mt-4 flex flex-col px-6 pb-32 pt-10">
+      <h2 className="ml-1 flex gap-1 text-xl font-medium">
         <Image src={`/icons/Book.svg`} width={23} height={23} alt="user" />
         최근 스터디
       </h2>
@@ -36,14 +36,17 @@ export default function FilterablePosts() {
         setArr={setSelectedJobs}
       />
 
-      <ul className="flex flex-col gap-5">
+      <ul className="flex w-full flex-col items-center justify-center gap-5">
         {!posts.length && (
-          <div className="mt-6 text-center text-sm font-bold">
-            관련된 POST가 없습니다..!
-          </div>
+          <Image
+            src="/icons/SearchFailed.svg"
+            alt="seach-fail"
+            width={300}
+            height={300}
+          />
         )}
         {posts?.map((post) => (
-          <li key={post.post_id}>
+          <li key={post.post_id} className="w-full">
             <PostCard post={post} />
           </li>
         ))}
