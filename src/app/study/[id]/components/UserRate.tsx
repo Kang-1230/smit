@@ -36,6 +36,34 @@ const UserRate = ({
         공부시간 달성률
       </p>
       <div className="relative h-[182px]">
+        {/* 배경 원 */}
+        <svg
+          width="120"
+          height="120"
+          viewBox="0 0 120 120"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="absolute-center rotate-[-90deg]"
+        >
+          <circle
+            className="stroke-secondary-700"
+            fill="none"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            cx="60"
+            cy="60"
+            r="57"
+          ></circle>
+          {userTimer?.time_rate && (
+            <circle
+              cx={endPoint.x}
+              cy={endPoint.y}
+              r="3.5"
+              fill="white"
+              className="transition-all duration-1000 ease-out"
+            ></circle>
+          )}
+        </svg>
         {/* 원형 차트 */}
         <svg
           width="120"
