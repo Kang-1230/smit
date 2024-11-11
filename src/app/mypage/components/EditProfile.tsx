@@ -31,6 +31,14 @@ const EditProfile = ({
     if (e.target.files) {
       const file = e.target.files[0];
       if (file) {
+        if (
+          file &&
+          !["image/jpg", "image/png", "image/jpeg"].includes(file.type)
+        ) {
+          alert("jpg, png, jpeg 형식의 이미지만 업로드 가능합니다.");
+          e.target.value = "";
+          return;
+        }
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = () => {
@@ -165,7 +173,7 @@ const EditProfile = ({
         className="hidden"
         type="file"
         onChange={(e) => ImageUploadHandler(e)}
-        accept="image/*"
+        accept=".jpg, .jpeg , .png"
       />
       <div>
         <ValidateInput
