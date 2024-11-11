@@ -149,27 +149,24 @@ function StudyContent() {
         />
       </div>
 
-      <div className="relative mb-4 flex h-1/3 w-full flex-col">
-        <p className="body-16-m mb-2 text-black">
-          대표 이미지 <span className="text-primary-50">{`(선택)`}</span>
-        </p>
+      <div className="mb-4 flex h-1/3 flex-col">
         <div
-          className="flex h-[200px] w-[327px] items-center justify-center"
+          className="relative flex h-[200px] w-full items-center justify-center"
           onClick={() => fileInputRef.current?.click()}
         >
           <Image
             src={uploadImg}
-            alt="userImg"
+            alt="studyImg"
             width={327}
             height={200}
-            className="absolute left-0 top-0 h-full w-full rounded-3xl object-cover"
+            className="object-full h-full w-full rounded-3xl border" // 부모 크기에 맞추기
             priority={true}
           />
           <Image
             src={ImageSelect}
             alt="selectBtn"
             width={35}
-            className="absolute inset-0 m-auto" // 중앙 정렬
+            className="absolute inset-0 m-auto"
           />
         </div>
         <input
