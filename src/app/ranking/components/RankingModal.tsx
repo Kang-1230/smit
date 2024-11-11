@@ -34,18 +34,20 @@ export default function RankingModal({ id }: { id: string }) {
       </h2>
 
       <div className="flex gap-[10px]">
-        <div className="relative h-[72px] w-[72px] rounded-8">
+        <div className="relative h-[72px] w-[72px] flex-shrink-0 rounded-8">
           <Image
             priority
             className="h-full w-full rounded-8 object-cover"
             src={data?.study_imgurl || ""}
             alt={data?.study_name || "study-image"}
-            width={25}
-            height={25}
+            width={100}
+            height={100}
           />
         </div>
+
         <div className="flex flex-col gap-2">
-          <div className="flex h-11 flex-wrap gap-1">
+          {/* 갭을 넣으면 안됨 */}
+          <div className="flex flex-wrap gap-1">
             {data?.study_category.map((item, i) => (
               <CustomButton
                 text={item}
@@ -75,11 +77,11 @@ export default function RankingModal({ id }: { id: string }) {
 
       <div className="mt-2 flex h-[84px] justify-between gap-5 rounded-16 bg-[#F6F6F4] p-5 text-[#666]">
         <div className="flex flex-1 flex-col gap-1 border-r border-secondary-300">
-          <div className="flex gap-[2px] text-xs">
+          <div className="flex items-center gap-[2px] text-xs">
             <Image
               src={`/icons/ArrowChart.svg`}
-              width={12}
-              height={12}
+              width={20}
+              height={20}
               alt="user"
               className="text-secondary-500"
             />
@@ -94,11 +96,11 @@ export default function RankingModal({ id }: { id: string }) {
         </div>
 
         <div className="flex flex-1 flex-col gap-1">
-          <div className="flex gap-[2px] text-xs">
+          <div className="flex items-center gap-[2px] text-xs">
             <Image
               src={`/icons/Chart.svg`}
-              width={12}
-              height={12}
+              width={20}
+              height={20}
               alt="user"
               className="text-secondary-500"
             />

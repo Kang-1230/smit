@@ -71,7 +71,9 @@ export default function Header() {
 
   return (
     <>
-      <header className="absolute z-30 flex h-[44px] w-full items-center justify-between bg-white bg-opacity-20 px-[24px] backdrop-blur-sm">
+      <header
+        className={`fixed z-30 flex h-[44px] w-full items-center justify-between bg-${isHome ? "black" : "white"} bg-opacity-20 px-[24px] backdrop-blur-2xl`}
+      >
         <Link href="/">
           <Image
             src={`/images/logo${isHome ? "White" : ""}.svg`}

@@ -3,35 +3,35 @@ import React from "react";
 import { Tables } from "../../../../database.types";
 
 type Props = {
-  study: Tables<"study">;
+  rankingItem: Tables<"study">;
   rank: number;
   onClick: () => void;
 };
 
-const RankingCard = ({ study, rank, onClick }: Props) => {
-  const { study_name, study_score, study_imgurl } = study;
+const RankingCard = ({ rankingItem, rank, onClick }: Props) => {
+  const { study_name, study_score, study_imgurl } = rankingItem;
   return (
     <div
-      className="flex items-center justify-between px-2 py-[12px] h-[64px] border-b border-[##E6E6E6]"
+      className="flex h-[64px] items-center justify-between border-b border-[##E6E6E6] px-2 py-[12px]"
       onClick={onClick}
     >
-      <div className="rounded-full relative w-[40px] h-[40px] border">
+      <div className="relative h-[40px] w-[40px] rounded-full border">
         <Image
           priority
-          className="w-full h-full object-cover rounded-full"
+          className="h-full w-full rounded-full object-cover"
           src={study_imgurl || ""}
           alt="asdf"
-          width={25}
-          height={25}
+          width={100}
+          height={100}
         />
       </div>
-      <div className="w-[22px] text-secondary-400 text-center">{rank}</div>
-      <div className="w-[156px] text-[14px] font-[500] truncate">
+      <div className="w-[22px] text-center text-secondary-400">{rank}</div>
+      <div className="w-[156px] truncate text-[14px] font-[500]">
         {study_name}
       </div>
-      <div className="text-[16px] font-[500] w-[60px] text-right">
+      <div className="w-[60px] text-right text-[16px] font-[500]">
         {study_score.toLocaleString()}
-        <span className="text-[14px] font-normal ml-[2px]">점</span>
+        <span className="ml-[2px] text-[14px] font-normal">점</span>
       </div>
     </div>
   );

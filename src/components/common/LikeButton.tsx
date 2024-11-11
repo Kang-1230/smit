@@ -16,7 +16,7 @@ const LikeButton = ({
   postId,
   showLikesCount = false,
   isBoundary = true,
-  className = ""
+  className = "",
 }: Props) => {
   // 지금 로그인한 유저 정보
   const { data: user = null } = useSession();
@@ -40,7 +40,10 @@ const LikeButton = ({
     <>
       <button
         onClick={handleClick}
-        className={cn(`rounded-full ${isBoundary ? "bg-secondary-700" : ""} p-2` ,className)}
+        className={cn(
+          `rounded-full ${isBoundary ? "bg-secondary-700" : ""} p-2`,
+          className,
+        )}
       >
         {isLike ? (
           <Image
