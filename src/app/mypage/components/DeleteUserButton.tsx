@@ -11,6 +11,7 @@ import { useSession } from "@/hooks/useUserProfile";
 import useModalOpen from "@/hooks/useModalOpen";
 import Image from "next/image";
 import MyButton from "@/components/common/Button";
+import Link from "next/link";
 
 const DeleteUserButton = () => {
   const { isModalOpen, modalClose, modalOpen } = useModalOpen();
@@ -49,19 +50,20 @@ const DeleteUserButton = () => {
         onClick={() => {
           checkDeleteHandler();
         }}
-        className="text-left px-6 body-16-m"
+        className="body-16-m px-6 text-left"
       >
         탈퇴하기
       </button>
       {isModalOpen && (
         <ModalOverlay onClick={modalClose}>
           {isUserGroupOwner ? (
-            <div className="flex flex-col w-full items-center text-center py-8 px-5">
+            <div className="flex w-full flex-col items-center px-5 py-8 text-center">
               <Image
                 src={`/icons/illust/Group.svg`}
                 alt="groupImg"
                 width={178}
                 height={161}
+                priority={true}
               />
               <p className="title-20-s mb-2 mt-4 text-secondary-900">
                 스터디 방장인 그룹이 있어요!
@@ -71,12 +73,14 @@ const DeleteUserButton = () => {
                 <br />
                 스터디원에게 방장 권한을 넘겨주세요.
               </p>
-              <MyButton style="black-fill" size="lg" className="w-full mt-7">
-                바로가기
-              </MyButton>
+              <Link href="/study">
+                <MyButton style="black-fill" size="lg" className="mt-7 w-full">
+                  바로가기
+                </MyButton>
+              </Link>
             </div>
           ) : (
-            <div className="flex flex-col w-full text-center py-8 px-5 items-center">
+            <div className="flex w-full flex-col items-center px-5 py-8 text-center">
               <Image
                 src={`/icons/illust/WarningRed.svg`}
                 alt="warning"
@@ -91,7 +95,7 @@ const DeleteUserButton = () => {
                 <br />
                 복구가 불가능합니다.
               </p>
-              <div className="flex flex-row w-full gap-x-1 mt-7">
+              <div className="mt-7 flex w-full flex-row gap-x-1">
                 <MyButton style="black-line" size="lg" onClick={modalClose}>
                   취소
                 </MyButton>
