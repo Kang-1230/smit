@@ -10,8 +10,8 @@ const MyLikePosts = () => {
 
   return (
     <div>
-      <div className="w-full overflow-x-scroll scrollbar-hide lg:scrollbar-show">
-        <div className="flex flex-row w-fit gap-x-3 mr-8">
+      <div className="scrollbar-hide sm:scrollbar-show w-full overflow-x-scroll">
+        <div className="flex w-fit flex-row gap-x-3 px-6">
           {likePosts?.length ? (
             likePosts.map((post) => (
               <SquarePostCard key={post.post_id} post={post} />

@@ -173,8 +173,17 @@ body {
   .white-fill {
     @apply bg-white text-secondary-900 active:bg-secondary-50 disabled:text-secondary-200;
   }
+
   .beige {
     @apply bg-tertiary-100 text-black active:bg-tertiary-300 disabled:bg-tertiary-50 disabled:text-tertiary-100;
+  }
+
+  .gray {
+    @apply bg-secondary-50 text-black active:bg-secondary-200;
+  }
+
+  .darkgray {
+    @apply bg-secondary-800 text-white active:bg-secondary-600;
   }
 }
 

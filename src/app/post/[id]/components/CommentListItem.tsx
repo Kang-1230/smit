@@ -8,7 +8,6 @@ import {
   useUserByCommentId,
 } from "../hooks/useComments";
 import { useState } from "react";
-import browserClient from "@/utils/supabase/client";
 import { usePublicUser } from "@/hooks/useUserProfile";
 import { convertUTCToKST } from "@/utils/convertDate";
 import { Tables } from "../../../../../database.types";
@@ -16,8 +15,8 @@ import ReplyComment from "./ReplyComment";
 import CommentLined from "../../../../../public/icons/CommentLined.svg";
 import ChevronDownGray from "../../../../../public/icons/ChevronDownGray.svg";
 import ChevronUp from "../../../../../public/icons/ChevronUp.svg";
-import SendLined from "../../../../../public/icons/SendLined.svg";
 import EditButton from "./EditButton";
+import MyButton from "@/components/common/Button";
 
 // comment 테이블 구조에, replies(답글) 속성이 추가된 comment 타입
 interface CommentType extends Tables<"comment"> {
@@ -40,14 +39,11 @@ const CommentListItem = ({
   const [edited, setEdited] = useState<{ [key: string]: boolean }>({});
   const [updateCommentItem, setUpdateCommentItem] = useState("");
   const [showReplies, setShowReplies] = useState(false);
+  const [writeReply, setWriteReply] = useState<{ [key: string]: boolean }>({});
   const [replyToName, setReplyToName] = useState<string>(""); // 현재 @멘션할 사용자 이름
 
   const { data: user } = usePublicUser();
   const { data: commentUser } = useUserByCommentId(comment.user_id);
-
-  const UserProfileImg = browserClient.storage
-    .from("profile_img")
-    .getPublicUrl(commentUser?.profile_img ?? "default").data.publicUrl;
 
   // 댓글 삭제 / 부모댓글 상태(삭제)변경 / 수정
   const { mutate: deleteComment } = useDeleteCommentMutation(
@@ -114,88 +110,113 @@ const CommentListItem = ({
     }
   };
 
-  // 답글달기 클릭
-  const handleReplyClick = () => {
-    if (!isReply) {
-      // 부모 댓글인 경우
-      setShowReplies(!showReplies);
-      setReplyToName(commentUser?.name || "");
-    } else {
-      // 답글인 경우
-      onUpdateMention?.(commentUser?.name || "");
+  // 답글 목록 보기 핸들러
+  const handleShowReplies = () => {
+    setShowReplies(!showReplies);
+  };
+
+  // 답글달기 핸들러
+  const handleWriteReply = () => {
+    if (!user) {
+      return alert("로그인 후 이용가능한 서비스입니다.");
     }
+    // 현재 댓글의 상태 업데이트
+    setWriteReply((prev) => ({
+      ...prev,
+      [comment.comment_id]: true,
+      // 답글인 경우 부모 댓글의 상태도 업데이트
+      ...(isReply && comment.parent_id ? { [comment.parent_id]: true } : {}),
+    }));
+
+    setReplyToName(commentUser?.name || "");
+    onUpdateMention?.(commentUser?.name || "0");
   };
 
   // 답글 작성 완료
   const handleReplyComplete = () => {
     setReplyToName(commentUser?.name || ""); // @멘션 초기화
+    setWriteReply((prev) => ({
+      ...prev,
+      [comment.comment_id]: false,
+      ...(isReply && comment.parent_id ? { [comment.parent_id]: false } : {}),
+    }));
+
+    // 현재 답글이 없는 상태(첫 답글)라면 답글 목록을 보여줌
+    if (!hasReplies) {
+      setShowReplies(true);
+    }
+  };
+
+  // 댓글 수정
+  const handleUpdateComment = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!updateCommentItem.trim()) {
+      return alert("댓글 내용을 입력해주세요!");
+    }
+    updateComment({
+      commentId: comment.comment_id,
+      content: updateCommentItem,
+      updatedAt: new Date().toISOString(),
+    });
+    toggleEditMode(comment.comment_id);
   };
 
   return (
     <div>
       {edited[comment.comment_id] ? (
-        <div className="flex items-start my-2">
+        <div className="my-4 mb-[49px] flex items-start">
           <Image
-            src={UserProfileImg}
-            alt="유저 이미지"
+            src={commentUser?.profile_img as string}
+            alt="image"
             width={40}
             height={40}
-            className="rounded-full aspect-square object-cover shrink-0 h-[40px]"
+            className="aspect-square h-[40px] shrink-0 rounded-full border border-black/20 object-cover"
+            priority={true}
           />
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (!updateCommentItem.trim()) {
-                return alert("댓글 내용을 입력해주세요!");
-              }
-              updateComment({
-                commentId: comment.comment_id,
-                content: updateCommentItem,
-                updatedAt: new Date().toISOString(),
-              });
-              toggleEditMode(comment.comment_id);
-            }}
-            className="flex ml-2 relative w-full border-b border-secondary-200"
+            onSubmit={handleUpdateComment}
+            className="relative ml-2 flex w-full border-b border-secondary-200 focus-within:border-secondary-600"
           >
-            <div className="flex flex-col flex-1">
-              <span className="text-secondary-700 text-xs font-medium leading-none">
-                {commentUser?.name}
-              </span>
-              <div className="flex justify-between items-center w-full">
+            <div className="flex flex-1 flex-col">
+              <div className="flex w-full items-center justify-between">
                 <input
                   value={updateCommentItem}
                   onChange={(e) => setUpdateCommentItem(e.target.value)}
                   placeholder="댓글을 입력하세요"
-                  className="w-full focus:outline-none body-16-m my-2 text-[#444]"
+                  className="body-16-m my-2 w-full text-[#444] focus:outline-none"
                 />
-                <button>
-                  <Image
-                    src={SendLined}
-                    alt="입력"
-                    width={24}
-                    height={24}
-                    className="flex-shrink-0"
-                  />
-                </button>
+                <div className="absolute right-0 top-[46px] z-50 mb-3 flex gap-1">
+                  <MyButton
+                    onClick={() => setEdited({ [comment.comment_id]: false })}
+                    size="sm"
+                    style="gray"
+                    type="button"
+                  >
+                    취소
+                  </MyButton>
+                  <MyButton size="sm" style="darkgray">
+                    완료
+                  </MyButton>
+                </div>
               </div>
             </div>
           </form>
         </div>
       ) : (
-        <div className="flex items-start my-2 relative">
+        <div className="relative my-4 flex items-start">
           <Image
-            src={UserProfileImg}
-            alt="유저 이미지"
+            src={commentUser?.profile_img as string}
+            alt="image"
             width={40}
             height={40}
-            className="rounded-full aspect-square object-cover flex-shrink-0"
+            className="aspect-square flex-shrink-0 rounded-full border border-black/20 object-cover"
           />
-          <div className="flex-1 ml-2">
-            <div className="flex items-center mb-1">
-              <span className="text-secondary-700 text-xs font-medium leading-none">
+          <div className="ml-2 flex-1">
+            <div className="mb-1 flex items-center">
+              <span className="text-xs font-medium leading-none text-secondary-700">
                 {commentUser?.name}
               </span>
-              <span className="text-[#B0B0B0] text-xs ml-1">
+              <span className="ml-1 text-xs text-[#B0B0B0]">
                 {convertUTCToKST(comment.comment_updatetime).fullDateTime}
               </span>
             </div>
@@ -216,12 +237,12 @@ const CommentListItem = ({
                 />
               )}
             </div>
-            <button
-              onClick={handleReplyClick}
-              className="text-secondary-400 body-14-m"
-            >
-              {!isReply && hasReplies ? (
-                <div className="flex items-center">
+            {!isReply && hasReplies ? (
+              <div className="body-14-m flex items-center text-secondary-400">
+                <button
+                  onClick={handleShowReplies}
+                  className="flex items-center"
+                >
                   <Image
                     src={CommentLined}
                     alt="reply"
@@ -239,18 +260,28 @@ const CommentListItem = ({
                       height={20}
                     />
                   )}
-                  <span className="ml-1">답글달기</span>
-                </div>
-              ) : (
-                "답글달기"
-              )}
-            </button>
+                </button>
+                <span
+                  onClick={handleWriteReply}
+                  className="ml-1 cursor-pointer"
+                >
+                  답글달기
+                </span>
+              </div>
+            ) : (
+              <span
+                onClick={handleWriteReply}
+                className="body-14-m cursor-pointer text-secondary-400"
+              >
+                답글달기
+              </span>
+            )}
           </div>
         </div>
       )}
       {/* 부모댓글 && 답글목록 오픈 */}
       {!isReply && showReplies && (
-        <div className="mt-2 ml-10">
+        <div className="pl-10">
           {hasReplies &&
             comment.replies?.map((reply) => (
               <CommentListItem
@@ -261,15 +292,26 @@ const CommentListItem = ({
                 commentList={commentList}
               />
             ))}
-
-          {/* 답글 입력 폼 */}
-          <ReplyComment
-            parentId={comment.comment_id}
-            postId={comment.post_id.toString()}
-            replyToName={replyToName}
-            onSuccess={handleReplyComplete}
-          />
         </div>
+      )}
+
+      {/* 답글 입력 폼 */}
+      {writeReply[comment.comment_id] && (
+        <ReplyComment
+          parentId={isReply ? comment.parent_id! : comment.comment_id}
+          postId={comment.post_id.toString()}
+          replyToName={replyToName}
+          onSuccess={handleReplyComplete}
+          setWriteReply={(value: boolean) =>
+            setWriteReply((prev) => ({
+              ...prev,
+              [comment.comment_id]: value,
+              ...(isReply && comment.parent_id
+                ? { [comment.parent_id]: value }
+                : {}),
+            }))
+          }
+        />
       )}
     </div>
   );

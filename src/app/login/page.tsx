@@ -80,55 +80,51 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="relative w-[375px] h-[628px] bg-lightui-background">
-      <div className="absolute w-[375px] h-[628px] top-0 left-0">
-        <div className="absolute w-[165px] h-[165px] top-56 left-[163px] bg-primary-50 rounded-[82.5px]" />
+    <div className="bg-lightui-background relative h-full w-full">
+      <div className="absolute left-0 top-0 h-full w-full">
+        <div className="absolute left-[163px] top-56 h-[165px] w-[165px] rounded-[82.5px] bg-primary-50" />
         <Image
-          className="absolute w-[375px] h-[628px] top-0 left-0 z-0 backdrop-blur-xl"
+          className="absolute left-0 top-0 z-0 h-full w-[375px] object-cover backdrop-blur-xl"
           alt="Rectangle"
           src={RectangleLoginBack}
+          fill
         />
-        <div className="w-[196px] h-[93px] inline-flex flex-col itmes-start gap-2 absolute top-16 left-6">
+        <div className="itmes-start absolute left-6 top-16 inline-flex h-[93px] w-[196px] flex-col gap-2">
           <Image
-            className="!relative !w-[152px] !h-[63,42px] z-10"
+            className="!relative z-10 !h-[63,42px] !w-[152px]"
             src={SmitLogo}
             alt="SmilLogo"
           />
-          <div className="inline-flex items-center justify-center gap-2.5 pl-2 pr-0 py-0 relative flex-[0_0_auto] mb-[-0.42px]">
+          <div className="relative mb-[-0.42px] inline-flex flex-[0_0_auto] items-center justify-center gap-2.5 py-0 pl-2 pr-0">
             <h1 className="body-16-r">스밋에서 모여서 함께 공부하자</h1>
           </div>
         </div>
-        <section className="flex flex-col w-[327px] item-start gap-2 absolute top-[198px] left-6 z-10">
-          <div className="flex flex-col	item-start relative selt-stretch w-full flex-[0_0_auto]">
+        <section className="item-start absolute left-6 top-[198px] z-10 flex w-[327px] flex-col gap-2">
+          <div className="item-start selt-stretch relative flex w-full flex-[0_0_auto] flex-col">
             <input
               type="email"
               placeholder="이메일"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="body-16-r pl-[20px] w-[327px] h-[48px] mb-[12px] rounded-[24px] text-secondary-400 "
+              className="body-16-r mb-[12px] h-[48px] w-[327px] rounded-[24px] pl-[20px] text-secondary-400"
             />
             <input
               type="password"
               placeholder="비밀번호"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="body-16-r w-[327px] h-[48px] rounded-[24px] pl-[20px] text-secondary-400"
+              className="body-16-r h-[48px] w-[327px] rounded-[24px] pl-[20px] text-secondary-400"
             />
           </div>
-          <div className="inline-flex items-center gap-1 pl-3 pr-0 py-0 relative flex-[0_0_auto]">
+          <div className="relative inline-flex flex-[0_0_auto] items-center gap-1 py-0 pl-3 pr-0">
             <Checkbox
               checked={checked}
               onChange={setChecked}
-              className={`
-          w-[15px] h-[15px]
-          border-2 border-[#c2c2c2] rounded-sm
-          ${checked ? "bg-primary border-primary" : "bg-white"}
-          relative
-        `}
+              className={`h-[15px] w-[15px] rounded-sm border-2 border-[#c2c2c2] ${checked ? "border-primary bg-primary" : "bg-white"} relative`}
             >
               {checked && (
                 <svg
-                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform"
                   width="12"
                   height="12"
                   viewBox="0 0 12 12"
@@ -155,7 +151,7 @@ export default function LoginPage() {
             ) : (
               <>
                 <button
-                  className="black-fill lgBtn w-[327px] h-[48px] mt-[30px]"
+                  className="black-fill lgBtn mt-[30px] h-[48px] w-[327px]"
                   onClick={(e) => handleSignIn(e)}
                 >
                   로그인
@@ -163,25 +159,24 @@ export default function LoginPage() {
               </>
             )}
             <Link href={"/signup"}>
-              <button className="beige lgBtn w-[327px] h-[48px] mt-[8px] flex items-center justify-center">
+              <button className="beige lgBtn mt-[8px] flex h-[48px] w-[327px] items-center justify-center">
                 계정 만들기
               </button>
             </Link>
           </div>
 
-          <div className="mt-[32px] flex flex-col w-[327px] items-center gap-5 ">
-            <div className="flex items-center justify-center gap-2 relative self-stretch w-full flex-{0_0_auto]">
+          <div className="mt-[32px] flex w-[327px] flex-col items-center gap-5">
+            <div className="flex-{0_0_auto] relative flex w-full items-center justify-center gap-2 self-stretch">
               <Image alt="Vector" src={SNSVector} />
-              <div className="relative w-fit mt-[-1.00px] caption text-center whitespace-nowrap text-#7e7b72">
+              <div className="caption text-#7e7b72 relative mt-[-1.00px] w-fit whitespace-nowrap text-center">
                 SNS 계정으로 가입하기
               </div>
               <Image alt="Vector" src={SNSVector} />
             </div>
             <div className="flex gap-[9px]">
-              
               <button
                 onClick={() => handleKaKaoSignIn()}
-                className="w-[60px] h-[60px] bg-white rounded-full flex items-center justify-center"
+                className="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-white"
               >
                 <Image
                   src={KakaoLogo}
@@ -192,7 +187,7 @@ export default function LoginPage() {
               </button>
               <button
                 onClick={() => handleGoogleSignIn()}
-                className="w-[60px] h-[60px] bg-white rounded-full flex items-center justify-center"
+                className="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-white"
               >
                 <Image
                   src={GoogleLogo}

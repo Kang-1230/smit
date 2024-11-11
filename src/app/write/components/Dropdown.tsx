@@ -1,6 +1,6 @@
 "use client";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import browserClient from "@/utils/supabase/client";
 import Modal from "./StudyModal";
 import { usePublicUser } from "@/hooks/useUserProfile";
@@ -62,6 +62,21 @@ export default function Dropdown() {
     }
     setIsDropDownOpen(false);
   };
+
+  useEffect(() => {
+    if (isDropDownOpen) {
+      // 모달이 열리면 body의 overflow를 hidden으로 설정
+      document.body.style.overflow = "hidden";
+    } else {
+      // 모달이 닫히면 원래 상태로 돌림
+      document.body.style.overflow = "auto";
+    }
+
+    // 컴포넌트 언마운트 시에도 원래 상태로 복구
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isDropDownOpen]);
 
   return (
     <>

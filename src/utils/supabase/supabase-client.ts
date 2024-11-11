@@ -44,15 +44,24 @@ export const fetchPublicUser = async () => {
 };
 
 // 프로필 업데이트
-export const updateUserProfile = async (name: string, img: string) => {
-  const user = await fetchSessionData();
-  if (!user) {
-    throw new Error("로그인 상태가 아님");
-  }
-
+export const updateUserProfile = async (
+  name: string,
+  img: string,
+  user: Tables<"user">,
+) => {
   await browserClient
     .from("user")
     .update<TablesUpdate<"user">>({ name, profile_img: img })
+    .eq("id", user.id);
+};
+
+export const updateDefualtImg = async (user: Tables<"user">) => {
+  await browserClient
+    .from("user")
+    .update({
+      profile_img:
+        "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default?t=2024-11-08T07%3A23%3A01.617Z",
+    })
     .eq("id", user.id);
 };
 
@@ -196,7 +205,6 @@ export const updatePostWrite = async (
   }
 
   return post_id;
-
 };
 
 // 특정 사용자가 작성한 게시글 불러오기
