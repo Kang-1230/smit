@@ -296,15 +296,12 @@ function WriteContent() {
 
       {isDateOpen && (
         <SelectDate
-          onConfirm={(date: string) => {
-            setStartDay(date);
-            setIsDateOpen(false);
-          }}
-          onClose={() => {
-            setIsModalOpen(false);
+          onConfirm={(data: string | number) => {
+            setStartDay(data + "");
             setIsDateOpen(false);
           }}
           mode="date"
+          selectedDate={startDay}
         />
       )}
     </div>
