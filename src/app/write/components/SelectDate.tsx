@@ -6,7 +6,7 @@ import SelectDateModal from "@/components/common/SelectDateModal";
 interface Props {
   onConfirm: (date: string | number) => void;
   mode: string;
-  selectedDate : string | number | null;
+  selectedDate: string | number | null;
 }
 
 const SelectDate = (props: Props) => {
@@ -14,9 +14,24 @@ const SelectDate = (props: Props) => {
 
   const currentDate = new Date();
   const [date, setDate] = useState({
-    year: props.selectedDate && typeof props.selectedDate === "string" && props.selectedDate.match(/\d+/g) ? props.selectedDate.match(/\d+/g)![0] + "" : currentDate.getFullYear() + "",
-    month: props.selectedDate && typeof props.selectedDate === "string" && props.selectedDate.match(/\d+/g) ? props.selectedDate.match(/\d+/g)![1] + "" : currentDate.getMonth() + 1 + "", 
-    day: props.selectedDate && typeof props.selectedDate === "string" && props.selectedDate.match(/\d+/g) ? props.selectedDate.match(/\d+/g)![2] + "" :  currentDate.getDate() + "",
+    year:
+      props.selectedDate &&
+      typeof props.selectedDate === "string" &&
+      props.selectedDate.match(/\d+/g)
+        ? props.selectedDate.match(/\d+/g)![0] + ""
+        : currentDate.getFullYear() + "",
+    month:
+      props.selectedDate &&
+      typeof props.selectedDate === "string" &&
+      props.selectedDate.match(/\d+/g)
+        ? props.selectedDate.match(/\d+/g)![1] + ""
+        : currentDate.getMonth() + 1 + "",
+    day:
+      props.selectedDate &&
+      typeof props.selectedDate === "string" &&
+      props.selectedDate.match(/\d+/g)
+        ? props.selectedDate.match(/\d+/g)![2] + ""
+        : currentDate.getDate() + "",
   });
 
   // 년,월,일 옵션
@@ -81,20 +96,20 @@ const SelectDate = (props: Props) => {
         setDate((prev) => ({ ...prev, day: dayOption[index] }));
         break;
       case "tens":
-        tensOption[index] !== undefined
-          ? setHumanCtn((prev) => ({
-              ...prev,
-              tens: tensOption[index],
-            }))
-          : null;
+        if (tensOption[index] !== undefined) {
+          setHumanCtn((prev) => ({
+            ...prev,
+            tens: tensOption[index],
+          }));
+        }
         break;
       case "units":
-        unitOption[index] !== undefined
-          ? setHumanCtn((prev) => ({
-              ...prev,
-              units: unitOption[index],
-            }))
-          : null;
+        if (unitOption[index] !== undefined) {
+          setHumanCtn((prev) => ({
+            ...prev,
+            units: unitOption[index],
+          }));
+        }
         break;
     }
   };
