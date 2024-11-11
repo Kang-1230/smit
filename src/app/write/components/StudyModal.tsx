@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import Write from "../../../../public/icons/Write.svg";
 import Warning from "../../../../public/icons/Warning.svg";
 
@@ -14,10 +14,25 @@ type ModalProps = {
 const StudyModal = (props: ModalProps) => {
   // 모달이 열릴 때
 
+  useEffect(() => {
+    if (props.isModalOpen) {
+      // 모달이 열리면 body의 overflow를 hidden으로 설정
+      document.body.style.overflow = "hidden";
+    } else {
+      // 모달이 닫히면 원래 상태로 돌림
+      document.body.style.overflow = "auto";
+    }
+
+    // 컴포넌트 언마운트 시에도 원래 상태로 복구
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [props.isModalOpen]);
+
   return props.isModalOpen ? (
     <div className="z-100 fixed inset-0 flex h-full w-full items-center justify-center bg-black/70">
       <div
-        className="flex h-2/5 w-5/6 flex-col items-center justify-center overflow-y-auto overflow-x-hidden rounded-3xl bg-white px-6 py-4 shadow-lg"
+        className="flex h-fit w-5/6 flex-col items-center justify-center overflow-y-auto overflow-x-hidden rounded-3xl bg-white px-6 py-4 shadow-lg"
         onClick={(e) => e.stopPropagation()}
       >
         {props.modalMode === "nonexist" ? (

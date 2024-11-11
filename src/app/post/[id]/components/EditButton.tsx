@@ -36,7 +36,7 @@ const EditButton = ({ userId, handleDelete, handleEdit }: EditButtonProps) => {
   return data?.id === userId ? (
     <div
       ref={outSection}
-      className="flex flex-col absolute top-0 right-0 items-end"
+      className="absolute right-0 top-0 flex flex-col items-end gap-1"
     >
       <button onClick={handleSelect}>
         <Image
@@ -50,14 +50,14 @@ const EditButton = ({ userId, handleDelete, handleEdit }: EditButtonProps) => {
       <ul
         className={
           isSelect
-            ? "flex flex-col z-30 gap-2 justify-center items-center px-4 py-[6px] [box-shadow:0_2px_10px_0_rgba(0,0,0,0.20)] rounded-lg mt-1 bg-white text-[#444] body-16-m"
+            ? "body-16-m z-30 flex h-[68px] w-[73px] flex-col items-center justify-center rounded-lg bg-white py-1 text-[#444] [box-shadow:0_2px_10px_0_rgba(0,0,0,0.20)]"
             : "hidden"
         }
       >
-        <li className="cursor-pointer" onClick={handleEdit}>
+        <li className="cursor-pointer py-1" onClick={handleEdit}>
           수정
         </li>
-        <li className="cursor-pointer" onClick={handleDelete}>
+        <li className="cursor-pointer py-1" onClick={handleDelete}>
           삭제
         </li>
       </ul>
