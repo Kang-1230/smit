@@ -1,6 +1,5 @@
 "use client";
 
-// pages/RankingPage.js
 import React, { useState, useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchRankingData } from "@/service/posts";
