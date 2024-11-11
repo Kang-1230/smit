@@ -37,8 +37,7 @@ export default function Dropdown() {
         setModalMode("nonexist");
         setIsModalOpen(true);
       } else {
-        setModalMode("exist");
-        setIsModalOpen(true);
+        router.replace("/write");
       }
     } else {
       alert("서비스를 이용하시려면 먼저 로그인 해주세요.");
