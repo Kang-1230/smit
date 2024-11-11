@@ -4,7 +4,6 @@ import {
   fetchUserInfo,
 } from "@/utils/supabase/supabase-server";
 import { Tables } from "../../../../../database.types";
-import { createClient } from "@/utils/supabase/server";
 import Image from "next/image";
 import { convertUTCToKST } from "@/utils/convertDate";
 import LikeCount from "./LikeCount";
@@ -23,12 +22,6 @@ const DetailContents = async ({ id, postData }: Contents) => {
   const userData = await fetchUserInfo(postData.user_id);
   const applyNumber =
     applyData?.filter((apply) => apply.is_approved).length ?? 0;
-  const serverClient = createClient();
-
-  // 프로필 이미지
-  const profileImg = serverClient.storage
-    .from("profile_img")
-    .getPublicUrl(userData?.profile_img ?? "default").data.publicUrl;
 
   if (!studyData || !applyData || !userData) {
     return <div>정보를 불러오는 데 실패했습니다.</div>;
@@ -54,7 +47,7 @@ const DetailContents = async ({ id, postData }: Contents) => {
         </div>
         <div className="relative mb-4 flex items-center">
           <Image
-            src={`${profileImg}?t=${Date.now()}`}
+            src={userData.profile_img!}
             alt="유저 이미지"
             width={27}
             height={27}
@@ -84,7 +77,7 @@ const DetailContents = async ({ id, postData }: Contents) => {
         </div>
       </section>
       <main>
-        <p className="min-w-[327px] whitespace-pre-wrap break-words">
+        <p className="min-w-[327px] whitespace-pre-wrap break-words pb-[100px]">
           {postData.post_contents}
         </p>
       </main>
