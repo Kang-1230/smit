@@ -41,8 +41,24 @@ const StudyTime = ({
         </p>
         {nextSchedule ? (
           <div className="mt-14 flex flex-col gap-y-1 text-2xl font-light leading-[1.35] tracking-[-0.02em] text-black">
-            <p>{nextSchedule.start_time.slice(0, 5)}</p>
-            <p>{nextSchedule.end_time.slice(0, 5)}</p>
+            <p className="flex items-center gap-x-2">
+              <Image
+                src={`/icons/StartClock.svg`}
+                alt="clock icon"
+                width={27}
+                height={27}
+              />
+              {nextSchedule.start_time.slice(0, 5)}
+            </p>
+            <p className="flex items-center gap-x-2">
+              <Image
+                src={`/icons/EndClock.svg`}
+                alt="clock icon"
+                width={27}
+                height={27}
+              />
+              {nextSchedule.end_time.slice(0, 5)}
+            </p>
           </div>
         ) : (
           <div className="mt-[27px] flex flex-col items-center">
