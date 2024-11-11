@@ -7,7 +7,7 @@ const MemberImg = ({ user }: { user: Tables<"user"> }) => {
   return (
     <div className="relative h-11 w-11">
       <Image
-        src={user.profile_img ? user.profile_img : "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default"} // 기본 이미지 설정
+        src={user.profile_img} // 기본 이미지 설정
         alt={`${user.name}-img`}
         fill
         priority={true}

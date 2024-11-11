@@ -81,7 +81,7 @@ export default function Dropdown() {
     <>
       {isDropDownOpen && (
         <div
-          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60"
           onClick={handleModalClose}
         ></div>
       )}
@@ -104,7 +104,7 @@ export default function Dropdown() {
           </MenuButton>
           <MenuItems
             anchor="top end"
-            className="rounded-3xl bg-white p-6 [--anchor-gap:20px]"
+            className="rounded-3xl bg-white p-6 [--anchor-gap:8px] z-20"
           >
             <MenuItem>
               <a
