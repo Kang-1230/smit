@@ -50,6 +50,9 @@ const Modal = (props: Props) => {
       >
         <div className="flex flex-col justify-center w-full p-5">
           <h1 className="title-20-m">
+          {props.modalMode === "job" 
+              ? "직업 태그 선택"
+              : "스터디 태그 선택"}
           </h1>
           <p className="body-16-m text-secondary-400 pt-2">
             {props.modalMode === "job" 

@@ -42,7 +42,7 @@ const SelectDate = (props: Props) => {
   const handleScroll = (e: React.UIEvent<HTMLDivElement>, type: string) => {
     const container = e.currentTarget;
     const index = Math.round(container.scrollTop / 40);
-    
+
     switch (type) {
       case "year":
         setYear(yearOption[index]);
@@ -67,7 +67,7 @@ const SelectDate = (props: Props) => {
   return props.mode === "date" ? (
     <SelectDateModal
       handleClose={props.onClose}
-      handleConfirm={() => props.onConfirm(`${year}-${month}-${day}`)}
+      handleConfirm={() => props.onConfirm(`${year}년 ${month}월 ${day}일`)}
       selectedDate={`${year}년 ${month}월 ${day}일`}
     >
       {/* 년 선택 */}

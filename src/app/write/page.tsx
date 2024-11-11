@@ -188,7 +188,7 @@ function WriteContent() {
           <input
             className="body-16-m my-3 w-full rounded-2xl bg-secondary-50 p-3 placeholder-secondary-300"
             value={title}
-            maxLength={20}
+            maxLength={25}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="제목을 작성해주세요"
           />
