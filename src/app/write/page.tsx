@@ -188,7 +188,7 @@ function WriteContent() {
           <input
             className="body-16-m my-3 w-full rounded-2xl bg-secondary-50 p-3 placeholder-secondary-300"
             value={title}
-            maxLength={20}
+            maxLength={25}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="제목을 작성해주세요"
           />
@@ -296,15 +296,12 @@ function WriteContent() {
 
       {isDateOpen && (
         <SelectDate
-          onConfirm={(date: string) => {
-            setStartDay(date);
-            setIsDateOpen(false);
-          }}
-          onClose={() => {
-            setIsModalOpen(false);
+          onConfirm={(data: string | number) => {
+            setStartDay(data + "");
             setIsDateOpen(false);
           }}
           mode="date"
+          selectedDate={startDay}
         />
       )}
     </div>
