@@ -95,6 +95,7 @@ export default function LoginPage() {
           className="absolute left-0 top-0 z-0 h-[628px] w-[375px] backdrop-blur-xl"
           alt="Rectangle"
           src={RectangleLoginBack}
+          fill
         />
         <div className="itmes-start absolute left-6 top-16 inline-flex h-[93px] w-[196px] flex-col gap-2">
           <Image
@@ -131,6 +132,7 @@ export default function LoginPage() {
               </button>
             </div>
           </div>
+
           <div className="relative inline-flex flex-[0_0_auto] items-center gap-1 py-0 pl-3 pr-0">
             <Checkbox
               checked={checked}
@@ -179,10 +181,10 @@ export default function LoginPage() {
               </button>
             </Link>
           </div>
-
           <div className="mt-[32px] flex w-[327px] flex-col items-center gap-5">
             <div className="flex-{0_0_auto] relative flex w-full items-center justify-center gap-2 self-stretch">
               <Image alt="Vector" src={SNSVector} />
+
               <div className="caption text-#7e7b72 relative mt-[-1.00px] w-fit whitespace-nowrap text-center">
                 SNS 계정으로 가입하기
               </div>
