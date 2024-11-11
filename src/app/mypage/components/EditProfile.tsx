@@ -90,13 +90,18 @@ const EditProfile = ({
       setIsUnique("impossible");
       return;
     }
-    const { data }: { data: Tables<"user">[] | null } = await browserClient
-      .from("user")
-      .select("*");
-    const nickName = data?.filter((u) => u.id !== user.id).map((u) => u.name);
-    if (nickName?.includes(userName)) {
+    const { data }: { data: Pick<Tables<"user">, "name">[] | null } =
+      await browserClient
+        .from("user")
+        .select("name")
+        .eq("name", userName)
+        .neq("id", user.id);
+
+    if (data?.length === 0) {
+      setIsUnique("unique");
+    } else {
       setIsUnique("notUnique");
-    } else setIsUnique("unique");
+    }
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -169,7 +174,7 @@ const EditProfile = ({
           value={userName}
           onChange={inputChangeHandler}
           onClick={validateNickname}
-          bg={true}
+          classname="bg-c-background"
           error={
             isUnique === "notUnique"
               ? "이미 사용하고 있는 닉네임 입니다."

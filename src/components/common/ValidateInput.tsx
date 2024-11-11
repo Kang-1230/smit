@@ -7,20 +7,22 @@ const ValidateInput = ({
   onChange,
   title,
   onClick,
-  bg = false,
+  classname,
   error,
   success,
   disabled = false,
+  caption,
 }: {
   placeholder: string;
   value?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   title: string;
   onClick: () => void;
-  bg?: boolean;
+  classname?: string;
   error?: string;
   success?: string;
   disabled?: boolean;
+  caption?: string;
 }) => {
   return (
     <>
@@ -30,11 +32,7 @@ const ValidateInput = ({
           <div className="relative">
             <input
               placeholder={placeholder}
-              className={`body-14-r w-full rounded-20 border-[1px] px-4 py-3 text-secondary-900 placeholder:text-secondary-400 ${
-                bg && "bg-c-background"
-              } ${error && "border-alarm-red text-alarm-red"} ${
-                success && "border-success-blue text-success-blue"
-              } ${!error && !success && "border-transparent"} focus:border-secondary-600 focus:outline-none`}
+              className={`body-14-r w-full rounded-20 border-[1px] px-4 py-3 text-secondary-900 placeholder:text-secondary-400 ${classname} focus:border-secondary-600 focus:bg-white focus:outline-none ${error && "border-alarm-red text-alarm-red"} ${success && "border-success-blue text-success-blue"} ${!error && !success ? "border-transparent" : "bg-white"}`}
               value={value}
               onChange={onChange}
               disabled={disabled}
@@ -59,8 +57,11 @@ const ValidateInput = ({
           </MyButton>
         </div>
         <div className="ml-3 mt-2 h-[12px]">
-          {error && <p className={"caption text-alarm-red"}>{error}</p>}
-          {success && <p className={"caption text-success-blue"}>{success}</p>}
+          {error && <p className="caption text-alarm-red">{error}</p>}
+          {success && <p className="caption text-success-blue">{success}</p>}
+          {caption && !error && !success && (
+            <p className="caption text-secondary-500">{caption}</p>
+          )}
         </div>
       </div>
     </>
