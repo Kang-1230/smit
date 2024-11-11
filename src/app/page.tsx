@@ -3,8 +3,6 @@ import FilterablePosts from "@/components/home/FilterablePosts";
 import FeaturedPosts from "@/components/home/FeaturedPosts";
 import MultiCarousel from "@/components/home/MultiCarousel";
 import FloatingButtons from "@/components/common/FloatingButtons";
-import { Suspense } from "react";
-import Loading from "@/components/common/Loading";
 
 export default async function HomePage() {
   return (
