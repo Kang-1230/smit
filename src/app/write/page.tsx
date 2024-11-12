@@ -124,7 +124,7 @@ function WriteContent() {
 
   // 작성 취소 버튼 클릭 시
   const handleModalClose = () => {
-    if (title) {
+    if (title !== "" || study.id !== "" || contents !== "") {
       setModalMode("close");
       setIsModalOpen(true);
     } else {
