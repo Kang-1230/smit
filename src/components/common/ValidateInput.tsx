@@ -32,7 +32,7 @@ const ValidateInput = ({
 
   return (
     <>
-      <div className="relative w-full">
+      <div className="relative w-full text-left">
         <p className="body-14-m mb-2 ml-3 text-secondary-700">{title}</p>
         <div className="flex flex-row items-center gap-x-1">
           <div className="relative">

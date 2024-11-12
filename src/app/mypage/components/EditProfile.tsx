@@ -96,7 +96,7 @@ const EditProfile = ({
   const img = uploadImg ? uploadImg : user.profile_img;
 
   return (
-    <div className="flex w-full flex-col items-center p-5">
+    <div className="-my-[12px] flex w-full flex-col items-center">
       <p className="title-20-s text-center">프로필 수정</p>
       <div className="relative my-4 h-[264px] w-[264px]">
         <Image
