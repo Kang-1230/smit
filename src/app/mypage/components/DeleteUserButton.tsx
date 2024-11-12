@@ -57,7 +57,7 @@ const DeleteUserButton = () => {
       {isModalOpen && (
         <ModalOverlay onClick={modalClose}>
           {isUserGroupOwner ? (
-            <div className="flex w-full flex-col items-center px-5 py-8 text-center">
+            <>
               <Image
                 src={`/icons/illust/Group.svg`}
                 alt="groupImg"
@@ -73,14 +73,20 @@ const DeleteUserButton = () => {
                 <br />
                 스터디원에게 방장 권한을 넘겨주세요.
               </p>
-              <Link href="/study">
-                <MyButton style="black-fill" size="lg" className="mt-7 w-full">
-                  바로가기
-                </MyButton>
-              </Link>
-            </div>
+              <div className="w-full">
+                <Link href="/study">
+                  <MyButton
+                    style="black-fill"
+                    size="lg"
+                    className="mt-7 w-full"
+                  >
+                    바로가기
+                  </MyButton>
+                </Link>
+              </div>
+            </>
           ) : (
-            <div className="flex w-full flex-col items-center px-5 py-8 text-center">
+            <>
               <Image
                 src={`/icons/illust/WarningRed.svg`}
                 alt="warning"
@@ -108,7 +114,7 @@ const DeleteUserButton = () => {
                   탈퇴하기
                 </MyButton>
               </div>
-            </div>
+            </>
           )}
         </ModalOverlay>
       )}

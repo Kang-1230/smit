@@ -47,30 +47,28 @@ const MyPostCard = ({
       </div>
       {isModalOpen && (
         <ModalOverlay onClick={modalClose}>
-          <div className="flex w-full flex-col items-center px-[20px] py-[32px]">
-            <div className="relative mb-[16px] h-[161px] w-[178px]">
-              <Image
-                src={`/icons/Warning.svg`}
-                alt="Warning icon"
-                fill
-                className="object-cover"
-              />
-            </div>
-            <p className="title-20-s mb-[8px]">삭제하시겠습니까?</p>
-            <p className="body-14-m">삭제 후 복구가 불가능합니다.</p>
-            <div className="mt-[28px] flex w-full flex-row gap-x-1">
-              <MyButton size="lg" style="black-line" onClick={modalClose}>
-                취소
-              </MyButton>
-              <MyButton
-                size="lg"
-                style="black-fill"
-                className={"w-full"}
-                onClick={deletePostMutation}
-              >
-                삭제하기
-              </MyButton>
-            </div>
+          <div className="relative mb-[16px] h-[161px] w-[178px]">
+            <Image
+              src={`/icons/Warning.svg`}
+              alt="Warning icon"
+              fill
+              className="object-cover"
+            />
+          </div>
+          <p className="title-20-s mb-[8px]">삭제하시겠습니까?</p>
+          <p className="body-14-m">삭제 후 복구가 불가능합니다.</p>
+          <div className="mt-[28px] flex w-full flex-row gap-x-1">
+            <MyButton size="lg" style="black-line" onClick={modalClose}>
+              취소
+            </MyButton>
+            <MyButton
+              size="lg"
+              style="black-fill"
+              className={"w-full"}
+              onClick={deletePostMutation}
+            >
+              삭제하기
+            </MyButton>
           </div>
         </ModalOverlay>
       )}
