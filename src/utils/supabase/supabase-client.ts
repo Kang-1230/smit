@@ -44,15 +44,24 @@ export const fetchPublicUser = async () => {
 };
 
 // 프로필 업데이트
-export const updateUserProfile = async (name: string, img: string) => {
-  const user = await fetchSessionData();
-  if (!user) {
-    throw new Error("로그인 상태가 아님");
-  }
-
+export const updateUserProfile = async (
+  name: string,
+  img: string,
+  user: Tables<"user">,
+) => {
   await browserClient
     .from("user")
     .update<TablesUpdate<"user">>({ name, profile_img: img })
+    .eq("id", user.id);
+};
+
+export const updateDefualtImg = async (user: Tables<"user">) => {
+  await browserClient
+    .from("user")
+    .update({
+      profile_img:
+        "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default?t=2024-11-08T07%3A23%3A01.617Z",
+    })
     .eq("id", user.id);
 };
 
@@ -82,6 +91,7 @@ export const insertStudy = async (
   });
 
   if (error) {
+    console.log(error);
     throw new Error("스터디를 생성하지 못했어요.");
   }
 };
@@ -162,6 +172,39 @@ export const insertPostWrite = async (
   }
 
   return data[0].post_id;
+};
+
+// 포스트 수정(Update)
+export const updatePostWrite = async (
+  userId: string,
+  studyId: string,
+  contents: string,
+  title: string,
+  startDay: string,
+  post_id: number,
+) => {
+  const user = await fetchSessionData();
+  if (!user) {
+    throw new Error("로그인 상태가 아님");
+  }
+
+  const { error } = await browserClient
+    .from("post")
+    .update({
+      user_id: userId,
+      study_id: studyId,
+      post_contents: contents,
+      post_name: title,
+      study_startday: startDay,
+    })
+    .eq("post_id", post_id);
+
+  if (error) {
+    console.log(error);
+    throw new Error("모집글 수정 실패");
+  }
+
+  return post_id;
 };
 
 // 특정 사용자가 작성한 게시글 불러오기
@@ -469,16 +512,22 @@ export const fetchStudyMember = async (studyId: string) => {
     .eq("study_id", studyId)
     .eq("is_approved", true);
 
-  if (error) {
+  const { data: manager, error: managerError } = await browserClient
+    .from("study")
+    .select("study_manager")
+    .eq("study_id", studyId)
+    .single();
+
+  if (error || managerError) {
     console.error(error);
     return null;
   }
 
-  if (!data) {
+  if (!data || !manager) {
     return null;
   }
 
-  return data as Pick<Tables<"study_applylist">, "user_id">[];
+  return [...data.map((d) => d.user_id), manager.study_manager] as string[];
 };
 
 // 회원 탈퇴 라우트 핸들러 사용
@@ -651,5 +700,21 @@ export const updateStudyMemo = async (
   if (error) {
     console.log(error);
     throw new Error("일정 수정에 실패했습니다.");
+  }
+};
+
+// 오늘 출석한 사람 몇명인지 가져오기
+export const fetchAttendanceRate = async (studyId: string, today: string) => {
+  const { data }: { data: Tables<"attendance_list">[] | null } =
+    await browserClient
+      .from("attendance_list")
+      .select("*")
+      .eq("study_id", studyId)
+      .eq("date", today);
+
+  if (!data) {
+    return 0;
+  } else {
+    return data.length;
   }
 };

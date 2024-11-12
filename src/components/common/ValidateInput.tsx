@@ -7,34 +7,32 @@ const ValidateInput = ({
   onChange,
   title,
   onClick,
-  bg = false,
+  classname,
   error,
   success,
   disabled = false,
+  caption,
 }: {
   placeholder: string;
   value?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   title: string;
   onClick: () => void;
-  bg?: boolean;
+  classname?: string;
   error?: string;
   success?: string;
   disabled?: boolean;
+  caption?: string;
 }) => {
   return (
     <>
-      <div className="w-full relative">
-        <p className="body-14-m text-secondary-700 ml-3 mb-2">{title}</p>
+      <div className="relative w-full">
+        <p className="body-14-m mb-2 ml-3 text-secondary-700">{title}</p>
         <div className="flex flex-row items-center gap-x-1">
           <div className="relative">
             <input
               placeholder={placeholder}
-              className={`rounded-20 text-secondary-900 px-4 py-3 w-full placeholder:text-secondary-400 body-14-r ${
-                bg && "bg-c-background"
-              } ${error && "border-alarm-red border-[1px] text-alarm-red"} ${
-                success && "border-success-blue border-[1px] text-success-blue"
-              } focus:border-[1px] focus:border-secondary-600 focus:outline-none`}
+              className={`body-14-r w-full rounded-20 border-[1px] px-4 py-3 text-secondary-900 placeholder:text-secondary-400 ${classname} focus:border-secondary-600 focus:bg-white focus:outline-none ${error && "border-alarm-red text-alarm-red"} ${success && "border-success-blue text-success-blue"} ${!error && !success ? "border-transparent" : "bg-white"}`}
               value={value}
               onChange={onChange}
               disabled={disabled}
@@ -58,9 +56,12 @@ const ValidateInput = ({
             중복확인
           </MyButton>
         </div>
-        <div className="ml-3 h-8 mt-2">
-          {error && <p className={"caption text-alarm-red"}>{error}</p>}
-          {success && <p className={"caption text-success-blue"}>{success}</p>}
+        <div className="ml-3 mt-2 h-[12px]">
+          {error && <p className="caption text-alarm-red">{error}</p>}
+          {success && <p className="caption text-success-blue">{success}</p>}
+          {caption && !error && !success && (
+            <p className="caption text-secondary-500">{caption}</p>
+          )}
         </div>
       </div>
     </>

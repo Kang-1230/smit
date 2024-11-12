@@ -1,32 +1,39 @@
-import WaitApplyList from "./components/WaitApplyList";
 import GroupCalendar from "../components/GroupCalendar";
 import PersonalMemos from "../components/PersonalMemos";
-import { addAttendanceList } from "@/utils/supabase/supabase-server";
+import {
+  addAttendanceList,
+  fetchStudyInfo,
+} from "@/utils/supabase/supabase-server";
 import { fetchStudyMember } from "@/utils/supabase/supabase-client";
 
-import AttendanceRate from "./components/AttendanceRate";
 import { getToday } from "@/utils/getTime";
-import TimerTimer from "./components/Timer";
-import RateGroupBox from "./components/RateGroupBox";
+
 import StudyInfo from "./components/StudyInfo";
+import StudyStateBox from "./components/StudyStateBox";
+import BackButton from "@/components/common/BackButton";
 
 const Page = async ({ params }: { params: { id: string } }) => {
   const studyId = params.id;
   const today = getToday(new Date());
+  const study = await fetchStudyInfo(studyId);
   await addAttendanceList(studyId, today);
   const studyMember = await fetchStudyMember(studyId);
 
   return (
-    <div className="flex flex-col items-center px-6 w-full bg-secondary-800">
-      <StudyInfo studyId={studyId} />
-      <TimerTimer studyId={studyId} />
-      <RateGroupBox member={studyMember} studyId={studyId} today={today}>
-        <AttendanceRate studyId={studyId} member={studyMember} today={today} />
-      </RateGroupBox>
+    <>
+    <BackButton className="ml-6 mt-[10px]"/>
+    <div className="flex w-full flex-col items-center overflow-x-hidden bg-secondary-800 px-6 pt-[64px] text-white">
+      <StudyInfo study={study} member={studyMember} />
+      <StudyStateBox
+        studyId={studyId}
+        member={studyMember}
+        today={today}
+        study={study}
+      ></StudyStateBox>
       <GroupCalendar studyId={studyId} />
       <PersonalMemos studyId={studyId} />
-      <WaitApplyList urlStudyId={studyId} />
     </div>
+    </>
   );
 };
 export default Page;

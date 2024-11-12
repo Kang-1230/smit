@@ -83,6 +83,11 @@ body {
   }
 }
 
+.rdp-nav_icon {
+  width: 10px !important;
+  height: 10px !important;
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -94,81 +99,249 @@ body {
 
 @layer components {
   .absolute-center {
-    @apply absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2;
+    @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
   }
 
   /* 폰트 클래스 정의 */
   .title-32-b {
-    @apply font-pretendard font-bold text-[32px] leading-[1.2] tracking-[-0.02em];
+    @apply font-pretendard text-[32px] font-bold leading-[1.2] tracking-[-0.02em];
   }
   .title-28-b {
-    @apply font-pretendard font-bold text-[28px] leading-[1.2] tracking-[-0.02em];
+    @apply font-pretendard text-[28px] font-bold leading-[1.2] tracking-[-0.02em];
   }
   .title-24-b {
-    @apply font-pretendard font-bold text-[24px] leading-[1.2] tracking-[-0.02em];
+    @apply font-pretendard text-[24px] font-bold leading-[1.2] tracking-[-0.02em];
   }
   .title-20-b {
-    @apply font-pretendard font-bold text-[20px] leading-[1.2] tracking-[-0.02em];
+    @apply font-pretendard text-[20px] font-bold leading-[1.2] tracking-[-0.02em];
   }
   .title-20-s {
-    @apply font-pretendard font-semibold text-[20px] leading-[1.2] tracking-[-0.02em];
+    @apply font-pretendard text-[20px] font-semibold leading-[1.2] tracking-[-0.02em];
   }
   .title-20-m {
-    @apply font-pretendard font-medium text-[20px] leading-[1.2] tracking-[-0.02em];
+    @apply font-pretendard text-[20px] font-medium leading-[1.2] tracking-[-0.02em];
   }
   .title-20-r {
-    @apply font-pretendard font-normal text-[20px] leading-[1.2] tracking-[-0.02em];
+    @apply font-pretendard text-[20px] font-normal leading-[1.2] tracking-[-0.02em];
   }
   .title-18-b {
-    @apply font-pretendard font-bold text-[18px] leading-[1.2] tracking-[-0.02em];
+    @apply font-pretendard text-[18px] font-bold leading-[1.2] tracking-[-0.02em];
   }
   .body-long {
-    @apply font-pretendard font-medium text-[16px] leading-[1.5] tracking-[-0.02em];
+    @apply font-pretendard text-[16px] font-medium leading-[1.5] tracking-[-0.02em];
   }
   .body-16-s {
-    @apply font-pretendard font-semibold text-[16px] leading-[1.35] tracking-[-0.02em];
+    @apply font-pretendard text-[16px] font-semibold leading-[1.35] tracking-[-0.02em];
   }
   .body-16-m {
-    @apply font-pretendard font-medium text-[16px] leading-[1.35] tracking-[-0.02em];
+    @apply font-pretendard text-[16px] font-medium leading-[1.35] tracking-[-0.02em];
   }
   .body-16-r {
-    @apply font-pretendard font-normal text-[16px] leading-[1.35] tracking-[-0.02em];
+    @apply font-pretendard text-[16px] font-normal leading-[1.35] tracking-[-0.02em];
   }
   .body-14-s {
-    @apply font-pretendard font-semibold text-[14px] leading-[1.35] tracking-[-0.02em];
+    @apply font-pretendard text-[14px] font-semibold leading-[1.35] tracking-[-0.02em];
   }
   .body-14-m {
-    @apply font-pretendard font-medium text-[14px] leading-[1.35] tracking-[-0.02em];
+    @apply font-pretendard text-[14px] font-medium leading-[1.35] tracking-[-0.02em];
   }
   .body-14-r {
-    @apply font-pretendard font-normal text-[14px] leading-[1.35] tracking-[-0.02em];
+    @apply font-pretendard text-[14px] font-normal leading-[1.35] tracking-[-0.02em];
   }
   .caption {
-    @apply font-pretendard font-normal text-[12px] leading-[1] tracking-[-0.02em];
+    @apply font-pretendard text-[12px] font-normal leading-[1] tracking-[-0.02em];
   }
 
   /* 버튼 클래스 정의 */
 
   .black-fill {
-    @apply bg-secondary-900 text-white disabled:bg-secondary-50 disabled:text-secondary-200 active:bg-secondary-600;
+    @apply bg-secondary-900 text-white active:bg-secondary-600 disabled:bg-secondary-50 disabled:text-secondary-200;
   }
 
   .black-line {
-    @apply bg-white text-secondary-900  disabled:text-secondary-200 active:bg-secondary-50 border-[1px] border-secondary-900 disabled:border-secondary-200;
+    @apply border-[1px] border-secondary-900 bg-white text-secondary-900 active:bg-secondary-50 disabled:border-secondary-200 disabled:text-secondary-200;
   }
 
   .orange-fill {
-    @apply bg-primary-50 text-white disabled:bg-primary-5 disabled:text-primary-35 active:bg-primary-300;
+    @apply bg-primary-50 text-white active:bg-primary-300 disabled:bg-primary-5 disabled:text-primary-35;
   }
 
   .orange-line {
-    @apply bg-white text-primary-100  disabled:text-primary-20 active:bg-primary-50 border-[1px] border-primary-100 disabled:border-primary-20;
+    @apply border-[1px] border-primary-100 bg-white text-primary-100 active:bg-primary-50 disabled:border-primary-20 disabled:text-primary-20;
   }
 
   .white-fill {
     @apply bg-white text-secondary-900 active:bg-secondary-50 disabled:text-secondary-200;
   }
+
   .beige {
     @apply bg-tertiary-100 text-black active:bg-tertiary-300 disabled:bg-tertiary-50 disabled:text-tertiary-100;
+  }
+
+  .gray {
+    @apply bg-secondary-50 text-black active:bg-secondary-200;
+  }
+
+  .darkgray {
+    @apply bg-secondary-800 text-white active:bg-secondary-600;
+  }
+}
+
+ul::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera에서 스크롤바 숨기기 */
+}
+ul {
+  scrollbar-width: none; /* Firefox에서 스크롤바 숨기기 */
+}
+
+/* 로딩바 */
+
+/* @keyframes loading {
+  0%,
+  85% {
+    color: #cccccc;
+  }
+  90% {
+    color: #1e1e1e;
+    font-weight: 500;
+  }
+} */
+
+@keyframes loading {
+  0%,
+  15% {
+    color: #cccccc;
+  }
+  90% {
+    color: #1e1e1e;
+    font-weight: 500;
+  }
+}
+/* 
+@keyframes loading {
+  0%,
+  5% {
+    color: #cccccc;
+  }
+  30%,
+  40% {
+    color: #1e1e1e;
+    font-weight: 500;
+  }
+  15%,
+  100% {
+    color: #cccccc;
+  } 
+  50%,
+  51% {
+    color: #1e1e1e;
+    font-weight: 500;
+  } 
+} 
+*/
+.animate-loading {
+  animation: loading 2.2s infinite;
+}
+
+.animate-loading.delay-0 {
+  animation-delay: 0ms;
+}
+
+.animate-loading.delay-100 {
+  animation-delay: 200ms;
+}
+
+.animate-loading.delay-200 {
+  animation-delay: 400ms;
+}
+
+.animate-loading.delay-300 {
+  animation-delay: 600ms;
+}
+
+.animate-loading.delay-400 {
+  animation-delay: 800ms;
+}
+
+.animate-loading.delay-500 {
+  animation-delay: 1000ms;
+}
+
+.animate-loading.delay-600 {
+  animation-delay: 1200ms;
+}
+
+.animate-loading.delay-700 {
+  animation-delay: 1400ms;
+}
+
+.animate-loading.delay-800 {
+  animation-delay: 1600ms;
+}
+
+.animate-loading.delay-900 {
+  animation-delay: 1800ms;
+}
+
+/* 시계 */
+.clock span {
+  transform: rotate(calc(30deg * var(--i)));
+}
+
+.clock span::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background-color: black;
+  animation: animate 2.4s linear infinite;
+  animation-delay: calc(0.2s * var(--i));
+  transition:
+    width 0.1s ease,
+    height 0.1s ease;
+}
+
+@keyframes animate {
+  0% {
+    background-color: #ff9945;
+    width: 4.3px;
+    height: 4.3px;
+  }
+
+  10% {
+    background-color: black;
+  }
+}
+
+/* 시침 */
+.hand {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 2.4s linear infinite;
+  margin-bottom: 20px;
+}
+.hand::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  background: black;
+  width: 2px;
+  height: 26px;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

@@ -22,7 +22,14 @@ const ContentsEdit = ({
     }
   };
 
-  return <EditButton userId={userId} handleDelete={handleDelete} />;
+  
+  // 수정 버튼
+  const handleEdit = () => {
+      router.push(`/write?post=${postId}`);
+  };
+
+
+  return <EditButton userId={userId} handleDelete={handleDelete} handleEdit={handleEdit}/>;
 };
 
 export default ContentsEdit;

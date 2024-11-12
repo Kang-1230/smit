@@ -30,13 +30,37 @@ const menus = [
   },
 ];
 
+
+const STATIC_HIDDEN_PATHS = ["/post", "/write", "/write/study", "/login"];
+
+const DYNAMIC_HIDDEN_PATHS = [{ prefix: "/post/" }, { prefix: "/study/" }];
+
 export default function Footer() {
   const pathName = usePathname();
 
+  // 푸터를 숨겨야 하는지 확인
+  const shouldHideFooter = () => {
+    // 정적 경로 체크
+    if (STATIC_HIDDEN_PATHS.includes(pathName)) {
+      return true;
+    }
+    // 동적 경로 체크
+    return DYNAMIC_HIDDEN_PATHS.some(({ prefix }) =>
+      pathName.startsWith(prefix),
+    );
+  };
+
+  if (shouldHideFooter()) {
+    return null;
+  }
+
   return (
-    <footer className="fixed bottom-[12px] px-[24px] w-full">
-      <nav className="bg-[#C4C4C3] z-10 rounded-full p-[4px] bg-opacity-60 backdrop-blur-sm h-[60px]">
-        <ul className="flex justify-between items-center">
+    <footer className="fixed bottom-[12px] w-full px-[24px]">
+
+
+      <nav className="z-10 h-[60px] rounded-full bg-[#C4C4C3] bg-opacity-60 p-[4px] backdrop-blur-2xl">
+
+        <ul className="flex items-center justify-between">
           {menus.map((menu) => (
             <MenuItem
               key={menu.href}

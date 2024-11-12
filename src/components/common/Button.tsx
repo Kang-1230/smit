@@ -6,11 +6,16 @@ interface buttonProps {
     | "orange-fill"
     | "orange-line"
     | "white-fill"
-    | "beige";
+    | "beige"
+    | "gray"
+    | "darkgray";
   size: "lg" | "md" | "sm";
-  onClick?: () => void;
+  onClick?:
+    | (() => void)
+    | ((event: React.MouseEvent<HTMLButtonElement>) => void);
   disabled?: boolean;
   className?: string;
+  type?: "submit" | "button";
 }
 
 const MyButton = ({
@@ -20,6 +25,7 @@ const MyButton = ({
   onClick,
   disabled,
   className,
+  type = "button",
 }: buttonProps) => {
   const sizeClass = {
     lg: "py-3 px-5 rounded-24 body-16-s",
@@ -29,12 +35,10 @@ const MyButton = ({
 
   return (
     <button
-      className={`min-w-fit
-      ${style}
-      ${sizeClass[size]}
-      ${className}`}
+      className={`min-w-fit font-medium ${style} ${sizeClass[size]} ${className}`}
       onClick={onClick}
       disabled={disabled}
+      type={type}
     >
       {children}
     </button>

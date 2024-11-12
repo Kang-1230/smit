@@ -1,19 +1,23 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Tables } from "../../../database.types";
 import { usePublicUser } from "@/hooks/useUserProfile";
 import { useMutation } from "@tanstack/react-query";
 import {
   fetchUserStudyInfo,
   insertPostWrite,
+  updatePostWrite,
 } from "@/utils/supabase/supabase-client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import WriteModal from "./components/WriteModal";
 import Image from "next/image";
 import Xmedium from "../../../public/icons/XMedium.svg";
 import Check from "../../../public/icons/Check.svg";
 import stroke from "../../../public/icons/Next.svg";
-import { fetchStudyInfo } from "@/utils/supabase/supabase-server";
+import {
+  fetchPostStudyInfo,
+  fetchStudyInfo,
+} from "@/utils/supabase/supabase-server";
 
 import SelectDate from "./components/SelectDate";
 
@@ -23,10 +27,20 @@ type study = {
 };
 
 export default function Write() {
+  return (
+    <Suspense fallback={<div>로딩 중입니다. 잠시만 기다려주십시오..</div>}>
+      <WriteContent></WriteContent>
+    </Suspense>
+  );
+}
+
+function WriteContent() {
   //유저 가져오기
   const { data: user } = usePublicUser();
 
   const router = useRouter();
+  const params = useSearchParams();
+  const post_id = Number(params.get("post"));
 
   // 전송 시 필요한 인자값 - 데이터 관련 정리 필요
   const [title, setTitle] = useState<string>("");
@@ -55,28 +69,45 @@ export default function Write() {
 
   // 스터디 모집글 생성
   const { mutate: createPost } = useMutation({
-    mutationFn: () =>
-      insertPostWrite(user?.id ?? "", study.id, contents, title, startDay),
+    mutationFn: async () => {
+      if (post_id) {
+        const postId = updatePostWrite(
+          user?.id ?? "",
+          study.id,
+          contents,
+          title,
+          startDay,
+          post_id,
+        );
+
+        return postId;
+      } else {
+        const postId = insertPostWrite(
+          user?.id ?? "",
+          study.id,
+          contents,
+          title,
+          startDay,
+        );
+        return postId;
+      }
+    },
     onSuccess: (data) => {
-      router.replace(`/post/${data}`);
+      if (data !== null) {
+        router.replace(`/post/${data}`);
+      }
     },
 
     onError: () => {
-      alert("스터디 모집글을 생성하지 못했습니다.");
+      if (post_id) {
+        alert("스터디 모집글을 수정하지 못했습니다.");
+      } else {
+        alert("스터디 모집글을 생성하지 못했습니다.");
+      }
     },
   });
 
-  // 작성 취소 버튼 클릭 시
-  const handleModalClose = () => {
-    if (title) {
-      setModalMode("close");
-      setIsModalOpen(true);
-    } else {
-      router.replace("/");
-    }
-  };
-
-  // 스터디 생성 tanstack
+  // 스터디 그룹 가져오기 모달
   const { mutate: getStudy } = useMutation({
     mutationFn: () => fetchUserStudyInfo(user?.id),
     onSuccess: (data) => {
@@ -91,6 +122,16 @@ export default function Write() {
     },
   });
 
+  // 작성 취소 버튼 클릭 시
+  const handleModalClose = () => {
+    if (title) {
+      setModalMode("close");
+      setIsModalOpen(true);
+    } else {
+      router.replace("/");
+    }
+  };
+
   // 선택한 스터디 객체가 바뀔 때마다 스터디 데이터 가져옴
   useEffect(() => {
     const getStudyInfo = async () => {
@@ -103,17 +144,35 @@ export default function Write() {
     getStudyInfo();
   }, [study]);
 
+  // 페이지 첫 접근 시 postID 존재 시 말이 달라짐 - 한번만 실행해서 값을 가져오자
+  useEffect(() => {
+    if (post_id) {
+      const fetchPostData = async () => {
+        const data = await fetchPostStudyInfo(post_id);
+        if (data) {
+          setTitle(data.post_name || "");
+          setStartDay(data.study_startday || "");
+          setContents(data.post_contents || "");
+          setStudy({ id: data.study_id, name: data.study.study_name });
+        }
+      };
+      fetchPostData();
+    }
+  }, [post_id]);
+
   return (
-    <div className="flex flex-col w-full items-center">
-      <div className="body-16-m flex flex-col w-full items-center">
-        <div className="flex justify-between ... w-full text-2xl items-center p-5">
+    <div className="flex w-full flex-col items-center">
+      <div className="body-16-m flex w-full flex-col items-center">
+        <div className="... flex w-full items-center justify-between p-5 text-2xl">
           <Image
             src={Xmedium}
             alt="selectBtn"
             width={0}
             onClick={() => handleModalClose()}
           />
-          <p className="body-16-s text-black ">모집글 쓰기</p>
+          <p className="body-16-s text-black">
+            {post_id ? "모집글 수정" : "모집글 쓰기"}
+          </p>
           <Image
             src={Check}
             alt="selectBtn"
@@ -122,23 +181,24 @@ export default function Write() {
           />
         </div>
 
-        <div className="w-10/12 mb-4">
+        <div className="mb-4 w-10/12">
           <p className="text-black">
             제목 <span className="text-primary-50">*</span>
           </p>
           <input
-            className="p-3 rounded-2xl w-full my-3 bg-secondary-50 body-16-m placeholder-secondary-300"
+            className="body-16-m my-3 w-full rounded-2xl bg-secondary-50 p-3 placeholder-secondary-300"
             value={title}
+            maxLength={25}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="제목을 작성해주세요"
           />
         </div>
 
-        <div className="flex items-center justify-between w-10/12 border text-secondary-700 border-gray-300 rounded-2xl mb-4">
+        <div className="mb-4 flex w-10/12 items-center justify-between rounded-2xl border border-gray-300 text-secondary-700">
           <p className="p-3">시작 예정일</p>
           <div className="flex">
             <p
-              className="text-secondary-300 body-16-m px-3"
+              className="body-16-m px-3 text-secondary-300"
               onClick={() => setIsDateOpen(true)}
             >
               {startDay !== "" ? startDay : "0000년 00월 00일"}
@@ -147,14 +207,14 @@ export default function Write() {
           </div>
         </div>
 
-        <div className="flex flex-col items-center w-10/12 border text-secondary-700 border-gray-300 rounded-2xl mb-5">
-          <div className="flex items-center justify-between w-full">
+        <div className="mb-5 flex w-10/12 flex-col items-center rounded-2xl border border-gray-300 text-secondary-700">
+          <div className="flex w-full items-center justify-between">
             <p className="p-3">
               스터디 그룹 <span className="text-primary-50">*</span>
             </p>
             <div className="flex">
               <p
-                className="text-secondary-300 body-16-m px-3"
+                className="body-16-m px-3 text-secondary-300"
                 onClick={() => getStudy()}
               >
                 {study.id !== "" ? "선택됨" : " 선택해주세요"}
@@ -164,8 +224,8 @@ export default function Write() {
           </div>
 
           {study.id !== "" ? (
-            <div className="w-11/12 flex-col rounded-2xl bg-tertiary-75 justify-center h-fit m-4">
-              <div className="flex items-center m-4">
+            <div className="m-4 h-fit w-11/12 flex-col justify-center rounded-2xl bg-tertiary-75">
+              <div className="m-4 flex items-center">
                 <Image
                   src={
                     studyInfo?.study_imgurl ||
@@ -174,31 +234,31 @@ export default function Write() {
                   alt="img"
                   width={100}
                   height={100}
-                  className="object-full rounded-xl border aspect-square w-1/4 h-1/4"
+                  className="object-full aspect-square h-1/4 w-1/4 rounded-xl border"
                 />
-                <p className="mx-2 text-secondary-800 body-16-s">
+                <p className="body-16-s mx-2 text-secondary-800">
                   {studyInfo?.study_name}
                 </p>
               </div>
               <div className="flex w-full justify-start">
-                <p className="bg-tertiary-300 text-white rounded-full ... px-3 py-1 caption overflow-hidden text-ellipsis whitespace-nowrap flex items-center ml-4 mb-4">
+                <p className="... caption mb-4 ml-4 flex items-center overflow-hidden text-ellipsis whitespace-nowrap rounded-full bg-tertiary-300 px-3 py-1 text-white">
                   {studyInfo?.study_category[0]}
                 </p>
 
                 {studyInfo?.study_category[1] ? (
-                  <p className="bg-primary-50 text-white rounded-full px-3 py-1 caption overflow-hidden text-ellipsis whitespace-nowrap flex items-center ml-1 mb-4">
+                  <p className="caption mb-4 ml-1 flex items-center overflow-hidden text-ellipsis whitespace-nowrap rounded-full bg-primary-50 px-3 py-1 text-white">
                     {studyInfo?.study_category[1]}
                   </p>
                 ) : null}
 
                 {studyInfo?.study_category[2] ? (
-                  <p className="bg-primary-50 text-white rounded-full px-3 py-1 caption overflow-hidden text-ellipsis whitespace-nowrap flex items-center ml-1 mb-4">
+                  <p className="caption mb-4 ml-1 flex items-center overflow-hidden text-ellipsis whitespace-nowrap rounded-full bg-primary-50 px-3 py-1 text-white">
                     {studyInfo?.study_category[2]}
                   </p>
                 ) : null}
 
                 {studyInfo?.study_category[3] ? (
-                  <p className="bg-primary-50 text-white rounded-full px-3 py-1 caption overflow-hidden text-ellipsis whitespace-nowrap flex items-center ml-1 mb-4">
+                  <p className="caption mb-4 ml-1 flex items-center overflow-hidden text-ellipsis whitespace-nowrap rounded-full bg-primary-50 px-3 py-1 text-white">
                     {studyInfo?.study_category[3]}
                   </p>
                 ) : null}
@@ -207,14 +267,14 @@ export default function Write() {
           ) : null}
         </div>
 
-        <div className="w-10/12 h-[50vh]">
+        <div className="h-[50vh] w-10/12">
           <div className="flex justify-between">
-            <p className="text-slate-700 p-2">
+            <p className="p-2 text-slate-700">
               내용 <span className="text-primary-50">*</span>
             </p>
           </div>
           <textarea
-            className="p-4 rounded-2xl w-full bg-gray-100 placeholder-secondary-300 h-[80%]" // textarea 높이
+            className="h-[80%] w-full rounded-2xl bg-gray-100 p-4 placeholder-secondary-300" // textarea 높이
             value={contents}
             maxLength={500}
             onChange={(e) => setContents(e.target.value)}
@@ -236,15 +296,12 @@ export default function Write() {
 
       {isDateOpen && (
         <SelectDate
-          onConfirm={(date: string) => {
-            setStartDay(date);
-            setIsDateOpen(false);
-          }}
-          onClose={() => {
-            setIsModalOpen(false);
+          onConfirm={(data: string | number) => {
+            setStartDay(data + "");
             setIsDateOpen(false);
           }}
           mode="date"
+          selectedDate={startDay}
         />
       )}
     </div>
