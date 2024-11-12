@@ -30,7 +30,6 @@ const ValidateInput = ({
   const [isShow, setIsShow] = useState(!useEyes);
   const img = isShow ? "/icons/EyeOff.svg" : "/icons/EyeOn.svg";
 
-  // 패스워드 숨기기
   return (
     <>
       <div className="relative w-full">

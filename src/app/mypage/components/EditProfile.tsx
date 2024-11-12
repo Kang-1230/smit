@@ -11,6 +11,7 @@ import {
 import browserClient from "@/utils/supabase/client";
 import ValidateInput from "@/components/common/ValidateInput";
 import MyButton from "@/components/common/Button";
+import useValidateNickname from "@/hooks/useValidateNickname";
 
 const EditProfile = ({
   user,
@@ -19,13 +20,11 @@ const EditProfile = ({
   user: Tables<"user">;
   modalClose: () => void;
 }) => {
+  const { userName, nicknameStatus, validateNickname, inputChangeHandler } =
+    useValidateNickname(user);
   const queryClient = useQueryClient();
   const [uploadImg, setUploadImg] = useState<null | string>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [userName, setUserName] = useState(user?.name ? user.name : "");
-  const [nicknameStatus, setNicknameStatus] = useState<
-    "available" | "duplicate" | "invalid" | "initial" | "needsValidation"
-  >("initial");
   const [subModal, setSubModal] = useState(false);
 
   // 프로필 이미지 업로드 했을 때
@@ -92,31 +91,6 @@ const EditProfile = ({
       return;
     }
     updateProfile(user.profile_img);
-  };
-
-  // 닉네임 중복검사
-  const validateNickname = async () => {
-    if (!/^[가-힣a-zA-Z0-9]+$/.test(userName)) {
-      setNicknameStatus("invalid");
-      return;
-    }
-    const { data }: { data: Pick<Tables<"user">, "name">[] | null } =
-      await browserClient
-        .from("user")
-        .select("name")
-        .eq("name", userName)
-        .neq("id", user.id);
-
-    if (data?.length === 0) {
-      setNicknameStatus("available");
-    } else {
-      setNicknameStatus("duplicate");
-    }
-  };
-
-  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserName(e.target.value);
-    setNicknameStatus("needsValidation");
   };
 
   const img = uploadImg ? uploadImg : user.profile_img;
