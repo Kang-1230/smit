@@ -39,24 +39,24 @@ const StudyModal = (props: ModalProps) => {
           <>
             <Image src={Warning} alt="union" width={0} className="mb-6" />
             <h3 className="title-20-s mb-3 text-center">
-              모집글을 작성할<br></br> 스터디 그룹이 없어요
+              모집글을 작성할<br></br>스터디 그룹이 없어요
             </h3>
             <p className="body-14-m mb-4 text-center text-gray-700">
               지금 바로 스터디를 만드시겠습니까?
             </p>
-            <div className="flex justify-center">
+            <div className="body-16-s m-4 flex w-full justify-center">
               <button
                 onClick={props.onClose}
                 className="... ml-1 flex w-2/6 items-center justify-center rounded-full border border-black text-center text-lg text-black"
               >
                 취소
               </button>
-              <button
-                onClick={props.onConfirm}
+              <Link
+                href="/write/study"
                 className="... ... ml-1 flex size-14 w-4/6 items-center justify-center rounded-full bg-secondary-900 text-center text-lg text-white"
               >
-                바로 가기
-              </button>
+                스터디 만들기
+              </Link>
             </div>
           </>
         ) : props.modalMode === "close" ? (
