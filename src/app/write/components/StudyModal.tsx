@@ -119,7 +119,7 @@ const StudyModal = (props: ModalProps) => {
             <div className="body-16-s m-4 flex w-full justify-center">
               <button
                 onClick={props.onClose}
-                className="... ml-1 flex w-2/6 items-center justify-center rounded-full border border-black text-center text-lg text-black"
+                className="... ml-1 flex w-full items-center justify-center rounded-full border border-black text-center text-lg text-black"
               >
                 확인
               </button>

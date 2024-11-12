@@ -72,11 +72,7 @@ export default function Header() {
   return (
     <>
       <header
-<<<<<<< HEAD
-        className={`fixed z-10 flex h-[44px] w-full items-center justify-between bg-${isHome ? "black" : "white"} bg-opacity-20 px-[24px] backdrop-blur-2xl`}
-=======
         className={`fixed top-0 z-30 flex h-[44px] w-full items-center justify-between bg-${isHome ? "black" : "white"} bg-opacity-20 px-[24px] backdrop-blur-2xl`}
->>>>>>> 6af3b76c531223261f98e9c71f94ce0bff67b4f1
       >
         <Link href="/">
           <Image

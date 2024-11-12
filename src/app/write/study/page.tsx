@@ -113,7 +113,6 @@ function StudyContent() {
     if (e.target.files) {
       const file = e.target.files[0];
       const allowExtenstions = ["image/png", "image/jpeg", "image/jpg"];
-      console.log("여기오긴온거임?1111?");
       if (file && allowExtenstions.includes(file.type)) {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -121,7 +120,6 @@ function StudyContent() {
           setUploadImg(reader.result as string);
         };
       } else {
-        console.log("여기오긴온거임??");
         setModalMode("file");
         setIsModalOpen(true);
       }
