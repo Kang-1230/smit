@@ -1,5 +1,6 @@
 import Image from "next/image";
 import MyButton from "./Button";
+import { useState } from "react";
 
 const ValidateInput = ({
   placeholder,
@@ -12,6 +13,7 @@ const ValidateInput = ({
   success,
   disabled = false,
   caption,
+  useEyes = false,
 }: {
   placeholder: string;
   value?: string;
@@ -23,29 +25,45 @@ const ValidateInput = ({
   success?: string;
   disabled?: boolean;
   caption?: string;
+  useEyes?: boolean;
 }) => {
+  const [isShow, setIsShow] = useState(!useEyes);
+  const img = isShow ? "/icons/EyeOff.svg" : "/icons/EyeOn.svg";
+
   return (
     <>
-      <div className="relative w-full">
+      <div className="relative w-full text-left">
         <p className="body-14-m mb-2 ml-3 text-secondary-700">{title}</p>
         <div className="flex flex-row items-center gap-x-1">
           <div className="relative">
             <input
               placeholder={placeholder}
-              className={`body-14-r w-full rounded-20 border-[1px] px-4 py-3 text-secondary-900 placeholder:text-secondary-400 ${classname} focus:border-secondary-600 focus:bg-white focus:outline-none ${error && "border-alarm-red text-alarm-red"} ${success && "border-success-blue text-success-blue"} ${!error && !success ? "border-transparent" : "bg-white"}`}
+              className={`border-inset body-14-r h-[40px] w-full rounded-20 border-[1px] px-4 py-3 text-secondary-900 placeholder:text-secondary-400 disabled:bg-secondary-100 disabled:text-secondary-300 ${classname} focus:border-secondary-600 focus:bg-white focus:outline-none ${error && "border-alarm-red text-alarm-red"} ${success && "border-success-blue text-success-blue"} ${!error && !success ? "border-transparent" : "bg-white"}`}
               value={value}
               onChange={onChange}
               disabled={disabled}
+              type={isShow ? "text" : "password"}
             />
-            {error && (
-              <Image
-                alt="error"
-                src={`/icons/input/Alert.svg`}
-                height={22}
-                width={22}
-                className="absolute right-5 top-1/2 -translate-y-1/2"
-              />
-            )}
+            <div className="absolute right-[16px] top-1/2 -translate-y-1/2">
+              {error && (
+                <Image
+                  alt="error"
+                  src={`/icons/input/Alert.svg`}
+                  height={22}
+                  width={22}
+                />
+              )}
+              {useEyes && (
+                <Image
+                  src={img}
+                  alt="show&hide"
+                  width={24}
+                  height={24}
+                  onClick={() => setIsShow(!isShow)}
+                  className="ml-[4px]"
+                />
+              )}
+            </div>
           </div>
           <MyButton
             style="black-fill"

@@ -36,7 +36,7 @@ const StudyInfo = ({
       };
       getUserProfile();
     }
-  }, []);
+  }, [member]);
 
   if (!study) {
     return <div>로딩 중...</div>;
@@ -71,20 +71,6 @@ const StudyInfo = ({
             ))}
           </Swiper>
         )}
-        <Swiper
-          modules={[Navigation]}
-          slidesPerView={4}
-          spaceBetween={-80} // 간격을 1로 설정 (너무 작은 값도 설정 가능)
-          navigation={true} // 네비게이션 버튼 활성화
-          className="mb-7 flex w-full"
-          centeredSlides={memberProfile ? memberProfile?.length < 4 : false}
-        >
-          {memberProfile?.map((user) => (
-            <SwiperSlide key={user.id}>
-              <MemberImg user={user} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
       </div>
       {/* 네비게이션 버튼 커스터마이즈 스타일 */}
       <style jsx global>{`
