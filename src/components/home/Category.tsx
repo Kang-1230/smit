@@ -1,115 +1,85 @@
 import { SortCategory } from "@/service/posts";
 import { Dispatch, SetStateAction, useState } from "react";
+import Filter from "../common/Filter";
+import Dropdown from "../common/Dropdown";
+import Modal from "../common/Modal";
 
 type Props = {
   selectedCategory: string;
   setSelectedCategory: Dispatch<SetStateAction<SortCategory>>;
-  selectedJobs: string[];
-  setSelectedJobs: Dispatch<SetStateAction<string[]>>;
+  arr: string[];
+  setArr: Dispatch<SetStateAction<string[]>>;
 };
 
 export default function CategoryComponent({
   selectedCategory,
   setSelectedCategory,
-  selectedJobs,
-  setSelectedJobs,
+  arr,
+  setArr,
 }: Props) {
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-  const [isJobOpen, setIsJobOpen] = useState(false);
+  const [isCommonModalOpen, setIsCommonModalOpen] = useState<boolean>(false);
+  const [commonModalMode, setCommonModalMode] = useState<string>("");
+
+  const handleModalClick = (mode: string) => {
+    setCommonModalMode(mode);
+    setIsCommonModalOpen(true);
+  };
 
   const categories: SortCategory[] = ["최신순", "인기순", "댓글순"];
-  const jobs = ["개발", "고등학생", "토익"];
 
   const handleCategoryClick = (category: SortCategory) => {
     setSelectedCategory(category);
     setIsCategoryOpen(false);
   };
 
-  const handleJobClick = (job: string) => {
-    setSelectedJobs((prev) => {
-      if (prev.includes(job)) {
-        return prev.filter((j) => j !== job);
-      } else {
-        return [...prev, job];
-      }
-    });
-  };
-
   return (
-    <div className="flex gap-2 relative">
+    <div className="relative my-4 flex gap-1">
       {/* 카테고리 */}
-      <button
-        className="flex items-center gap-1 rounded-full border border-gray-200 px-4 py-2 text-sm hover:bg-gray-50"
-        onClick={() => setIsCategoryOpen(!isCategoryOpen)}
-      >
-        {selectedCategory}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-4 w-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
-      </button>
+      <div className="flex flex-col items-center gap-1">
+        <Filter
+          text={selectedCategory}
+          onClick={() => setIsCategoryOpen(!isCategoryOpen)}
+          color="white"
+        />
+        {isCategoryOpen && (
+          <Dropdown array={categories} onClick={handleCategoryClick} />
+        )}
+      </div>
 
-      {isCategoryOpen && (
-        <div className="absolute top-full left-0 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg">
-          {categories.map((category) => (
-            <button
-              key={category}
-              className="flex items-center gap-1 w-full px-4 py-2 text-sm text-left hover:bg-gray-50"
-              onClick={() => handleCategoryClick(category)}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-      )}
+      <div>
+        <Filter
+          text={arr[0] === "" ? "직업" : arr[0]}
+          onClick={() => handleModalClick("job")}
+          color={arr[0] === "" ? "white" : "black"}
+        />
+      </div>
+      <div>
+        <Filter
+          text={
+            !arr[1]
+              ? "스터디"
+              : arr.slice(1).length === 1
+                ? `${arr[1]}`
+                : `${arr[1]} 외 ${arr.slice(1).length - 1}개`
+          }
+          onClick={() => handleModalClick("study")}
+          color={!arr[1] ? "white" : "black"}
+        />
+      </div>
 
-      {/* 직업 */}
-      <button
-        className="flex items-center gap-1 rounded-full border border-gray-200 px-4 py-2 text-sm hover:bg-gray-50"
-        onClick={() => setIsJobOpen(!isJobOpen)}
-      >
-        {selectedJobs.length > 0 ? selectedJobs.join(", ") : "직업 선택"}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-4 w-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
-      </button>
-
-      {isJobOpen && (
-        <div className="absolute top-full left-0 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg">
-          {jobs.map((job) => (
-            <button
-              key={job}
-              className={`flex items-center gap-1 w-full px-4 py-2 text-sm text-left hover:bg-gray-50 ${
-                selectedJobs.includes(job) ? "bg-gray-200" : ""
-              }`}
-              onClick={() => handleJobClick(job)}
-            >
-              {job}
-            </button>
-          ))}
-        </div>
-      )}
+      <Modal
+        isModalOpen={isCommonModalOpen}
+        onClose={() => {
+          setIsCommonModalOpen(false);
+        }}
+        onConfirm={(arr: string[]) => {
+          setArr(arr);
+          setIsCommonModalOpen(false);
+        }}
+        modalMode={commonModalMode}
+        arr={arr}
+      />
     </div>
   );
 }

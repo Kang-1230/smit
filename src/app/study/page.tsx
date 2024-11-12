@@ -3,6 +3,7 @@
 import { getUser } from "@/utils/supabase/supabase-server";
 import MyStudyList from "./components/MyStudyList";
 import WeeklyCalendar from "./components/WeekCalendar";
+import FloatingButtons from "@/components/common/FloatingButtons";
 
 const page = async () => {
   const user = await getUser();
@@ -11,6 +12,7 @@ const page = async () => {
     <div>
       <WeeklyCalendar />
       <MyStudyList user={user} />
+      <FloatingButtons />
     </div>
   );
 };

@@ -1,8 +1,12 @@
 import Image from "next/image";
 
-export default function QuestionModal() {
+type Props = {
+  onClick: () => void;
+};
+
+export default function QuestionModal({ onClick }: Props) {
   return (
-    <section className="px-5 py-8 w-full flex flex-col gap-4 items-center">
+    <section className="flex w-full flex-col items-center gap-4 px-5 py-8">
       <Image
         className="my-6"
         src="/icons/RankingInfo.svg"
@@ -11,11 +15,11 @@ export default function QuestionModal() {
         height={116}
       />
 
-      <div className="flex flex-col items-center px-5 gap-2">
-        <h1 className="text-secondary-900 font-semibold text-xl">
+      <div className="flex flex-col items-center gap-2 px-5">
+        <h1 className="text-xl font-semibold text-secondary-900">
           랭킹의 기준이 뭔가요?
         </h1>
-        <ul className="text-sm text-gray-700 font-normal list-disc">
+        <ul className="list-disc text-sm font-normal text-gray-700">
           <li>
             스터디의 정해진 시간 내에서 80% 이상 참여한 인원에 따라 점수가
             집계됩니다.
@@ -27,8 +31,11 @@ export default function QuestionModal() {
         </ul>
       </div>
 
-      <button className="rounded-24 bg-secondary-900 text-white w-full px-5 py-3 mt-5">
-        바로가기
+      <button
+        className="mt-5 w-full rounded-24 bg-secondary-900 px-5 py-3 text-white"
+        onClick={onClick}
+      >
+        닫기
       </button>
     </section>
   );

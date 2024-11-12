@@ -6,24 +6,29 @@ import { PostWithRelations } from "@/service/posts";
 import OccupancyCounter from "./OccupancyCounter";
 import Image from "next/image";
 import Badge from "../common/Badge";
+import { usePostLikers } from "@/hooks/useLikePost";
 
 export type Props = {
   post: PostWithRelations;
+  color?: "tertiary" | "primary";
 };
 
-export default function PostCard({ post }: Props) {
-  const { post_id, study_id, study, user } = post;
-  const {
-    study_max_people,
-    study_category,
-    study_name,
-    study_imgurl,
-    study_description,
-  } = study;
+export default function PostCard({ post, color = "tertiary" }: Props) {
+  const { post_id, study_id, study, user, post_name, comment_count } = post;
+  const { study_max_people, study_category, study_name, study_imgurl } = study;
+
+  const { data: likers = null } = usePostLikers(post.post_id);
 
   return (
     <Link href={`/post/${post_id}`}>
-      <section className="flex h-[18rem] w-full flex-col justify-between gap-4 rounded-20 bg-white p-5">
+      <section
+        className={`flex h-[18rem] w-full flex-col justify-between gap-4 rounded-20 p-5 ${color === "tertiary" ? "bg-white" : "bg-tertiary-50"} relative`}
+      >
+        <LikeButton
+          className="absolute right-2 top-4"
+          postId={post_id}
+          isBoundary={false}
+        />
         <div className="flex items-center justify-between">
           <div className="flex flex-1 gap-2">
             <div className="relative h-9 w-9 rounded-full border">
@@ -31,23 +36,22 @@ export default function PostCard({ post }: Props) {
                 className="h-full w-full rounded-full object-cover"
                 src={study_imgurl || ""}
                 alt={study_name}
-                width={25}
-                height={25}
+                width={80}
+                height={80}
               />
             </div>
-            <div className="flex flex-col overflow-hidden font-normal text-secondary-700">
-              <div className="text-xs">{user.name}</div>
-              <div className="w-48 truncate text-sm font-normal">
+            <div className="flex flex-col overflow-hidden text-secondary-700">
+              <div className="text-xs font-normal">{user.name}</div>
+              <div className="w-48 truncate text-sm font-medium">
                 {study_name}
               </div>
             </div>
           </div>
-          <LikeButton postId={post_id} isBoundary={false} />
         </div>
 
         <div className="flex flex-1 flex-col gap-2">
           <p className="line-clamp-3 w-full flex-wrap break-words font-semibold">
-            {study_description}
+            {post_name}
           </p>
           <div className="flex flex-wrap gap-1">
             {study_category.map((category, idx) => (
@@ -55,7 +59,7 @@ export default function PostCard({ post }: Props) {
                 category={category}
                 key={`${study.study_id}-${category}`}
                 idx={idx}
-                color="tertiary"
+                color={color === "primary" ? "primary" : "tertiary"}
               />
             ))}
           </div>
@@ -77,7 +81,7 @@ export default function PostCard({ post }: Props) {
                 width={15}
                 height={15}
               />
-              14
+              {likers ? likers.length : 0}
             </div>
             <div className="flex gap-[0.1rem]">
               <Image
@@ -87,7 +91,7 @@ export default function PostCard({ post }: Props) {
                 width={15}
                 height={15}
               />
-              8
+              {comment_count}
             </div>
           </div>
         </div>

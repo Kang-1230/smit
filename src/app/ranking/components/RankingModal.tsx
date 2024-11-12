@@ -1,30 +1,23 @@
 import CustomButton from "@/components/ui/CustomButton";
-import { fetchByStudyId } from "@/service/posts";
+import { fetchByStudyId, fetchRankingById } from "@/service/posts";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 
 const fetchAllStudy = async (id: string) => {
   const data = await fetchByStudyId(id);
-  return data;
+  const rank = await fetchRankingById(id);
+  return { ...data, rank };
 };
 
-export default function RankingModal({
-  id,
-  rank,
-}: {
-  id: string;
-  rank: number;
-}) {
+export default function RankingModal({ id }: { id: string }) {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["modal", id],
     queryFn: () => fetchAllStudy(id),
   });
 
-  console.log(data);
-
   if (isLoading) {
     return (
-      <section className="w-full pt-6 px-5 pb-8 flex flex-col justify-center items-center">
+      <section className="flex w-full flex-col items-center justify-center px-5 pb-8 pt-6">
         Loading...
       </section>
     );
@@ -35,24 +28,26 @@ export default function RankingModal({
   }
 
   return (
-    <section className="pt-6 px-5 pb-8 flex flex-col gap-4 w-full">
-      <h2 className="font-semibold text-lg w-full truncate">
+    <section className="flex w-full flex-col gap-4 px-5 pb-8 pt-6">
+      <h2 className="w-full truncate text-lg font-semibold">
         {data?.study_name}
       </h2>
 
       <div className="flex gap-[10px]">
-        <div className="relative rounded-8 w-[72px] h-[72px]">
+        <div className="relative h-[72px] w-[72px] flex-shrink-0 rounded-8">
           <Image
             priority
-            className="w-full h-full object-cover rounded-8"
+            className="h-full w-full rounded-8 object-cover"
             src={data?.study_imgurl || ""}
             alt={data?.study_name || "study-image"}
-            width={25}
-            height={25}
+            width={100}
+            height={100}
           />
         </div>
+
         <div className="flex flex-col gap-2">
-          <div className="flex flex-wrap gap-1 h-11">
+          {/* 갭을 넣으면 안됨 */}
+          <div className="flex flex-wrap gap-1">
             {data?.study_category.map((item, i) => (
               <CustomButton
                 text={item}
@@ -63,7 +58,7 @@ export default function RankingModal({
             ))}
           </div>
 
-          <div className="text-secondary-500 text-xs flex gap-[2px]">
+          <div className="flex gap-[2px] text-xs text-secondary-500">
             <Image
               src={`/icons/UserGray.svg`}
               width={14}
@@ -76,43 +71,45 @@ export default function RankingModal({
         </div>
       </div>
 
-      <p className="text-secondary-500 font-normal text-xs w-full line-clamp-3 overflow-hidden min-h-12">
+      <p className="line-clamp-3 min-h-12 w-full overflow-hidden text-xs font-normal text-secondary-500">
         {data?.study_description}
       </p>
 
-      <div className="flex justify-between gap-5 mt-2 h-[84px] p-5 bg-[#F6F6F4] rounded-16 text-[#666]">
-        <div className="flex flex-col gap-1 flex-1 border-r border-secondary-300">
-          <div className="flex text-xs gap-[2px]">
+      <div className="mt-2 flex h-[84px] justify-between gap-5 rounded-16 bg-[#F6F6F4] p-5 text-[#666]">
+        <div className="flex flex-1 flex-col gap-1 border-r border-secondary-300">
+          <div className="flex items-center gap-[2px] text-xs">
             <Image
               src={`/icons/ArrowChart.svg`}
-              width={12}
-              height={12}
+              width={20}
+              height={20}
               alt="user"
               className="text-secondary-500"
             />
             그룹점수
           </div>
           <div className="flex items-center gap-1 text-sm">
-            <span className="text-lg text-[#1e1e1e] font-semibold">
+            <span className="text-lg font-semibold text-[#1e1e1e]">
               {data?.study_score.toLocaleString()}
             </span>
             점
           </div>
         </div>
 
-        <div className="flex flex-col gap-1 flex-1">
-          <div className="flex text-xs gap-[2px]">
+        <div className="flex flex-1 flex-col gap-1">
+          <div className="flex items-center gap-[2px] text-xs">
             <Image
               src={`/icons/Chart.svg`}
-              width={12}
-              height={12}
+              width={20}
+              height={20}
               alt="user"
               className="text-secondary-500"
             />
             스터디 랭킹
           </div>
           <div className="flex items-center gap-1 text-sm">
-            <span className="text-lg text-[#1e1e1e] font-semibold">{rank}</span>
+            <span className="text-lg font-semibold text-[#1e1e1e]">
+              {data?.rank}
+            </span>
             위
           </div>
         </div>
