@@ -20,19 +20,19 @@ const StudyModal = (props: ModalProps) => {
       document.body.style.overflow = "hidden";
     } else {
       // 모달이 닫히면 원래 상태로 돌림
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "unset";
     }
 
     // 컴포넌트 언마운트 시에도 원래 상태로 복구
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = "unset";
     };
   }, [props.isModalOpen]);
 
   return props.isModalOpen ? (
     <div className="z-100 fixed inset-0 flex h-full w-full items-center justify-center bg-black/70">
       <div
-        className="flex h-fit w-5/6 flex-col items-center justify-center overflow-y-auto overflow-x-hidden rounded-3xl bg-white px-6 py-4 shadow-lg"
+        className="flex h-fit w-5/6 flex-col items-center justify-center overflow-y-hidden rounded-3xl bg-white px-6 py-4 shadow-lg"
         onClick={(e) => e.stopPropagation()}
       >
         {props.modalMode === "nonexist" ? (
@@ -83,7 +83,7 @@ const StudyModal = (props: ModalProps) => {
               </Link>
             </div>
           </>
-        ) : (
+        ) : props.modalMode === "success" ? (
           <>
             <Image src={Write} alt="union" width={0} className="mb-6" />
             <h3 className="title-20-s mb-3 text-center">
@@ -105,6 +105,24 @@ const StudyModal = (props: ModalProps) => {
               >
                 바로가기
               </Link>
+            </div>
+          </>
+        ) : (
+          <>
+            <Image src={Warning} alt="union" width={0} className="mb-6" />
+            <h3 className="title-20-s mb-3 text-center">
+              이미지 파일 형식이 아닙니다.
+            </h3>
+            <p className="body-14-m mb-4 text-center text-gray-700">
+              이미지 파일을 업로드해주세요.
+            </p>
+            <div className="body-16-s m-4 flex w-full justify-center">
+              <button
+                onClick={props.onClose}
+                className="... ml-1 flex w-2/6 items-center justify-center rounded-full border border-black text-center text-lg text-black"
+              >
+                확인
+              </button>
             </div>
           </>
         )}
