@@ -48,7 +48,6 @@ export default function Dropdown() {
   };
 
   const handleModalClose = () => {
-    console.log("여기온거맞니??");
     setIsModalOpen(false);
     setIsDropDownOpen(false);
   };
@@ -80,56 +79,58 @@ export default function Dropdown() {
 
   return (
     <>
+      {isDropDownOpen && (
+        <div
+          className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60"
+          onClick={handleModalClose}
+        ></div>
+      )}
       <Menu>
-        {({ open }) => (
-          <div className="fixed bottom-[5.25rem] right-6 z-10">
-            <MenuButton
-              className={`z-40 flex h-[3.75rem] w-[3.75rem] items-center justify-center rounded-full border border-white/70 text-white ${
-                open ? "bg-primary-50" : "bg-black"
-              }`}
-            >
-              <Image src={open ? Close : Open} alt="union" width={0} />
-            </MenuButton>
-            {open && (
-              <div className="fixed inset-0 flex h-full w-full items-center justify-center bg-black/70">
-                <MenuItems
-                  static
-                  anchor="top end"
-                  className="z-10 origin-top rounded-3xl bg-white p-6 transition duration-200 ease-out [--anchor-gap:8px] data-[closed]:scale-95 data-[closed]:opacity-0"
-                >
-                  <MenuItem>
-                    <a
-                      className="body-16-s flex items-center justify-start"
-                      onClick={routeStudyPage}
-                    >
-                      <Image
-                        src={Edit}
-                        alt="union"
-                        width={0}
-                        className="mr-2"
-                      />
-                      스터디 만들기
-                    </a>
-                  </MenuItem>
-                  <MenuItem>
-                    <a
-                      className="body-16-s mt-4 flex items-center justify-start"
-                      onClick={getStudyList}
-                    >
-                      <Image
-                        src={Pencil}
-                        alt="PencilLined"
-                        width={0}
-                        className="mr-2"
-                      />
-                      모집글 쓰기
-                    </a>
-                  </MenuItem>
-                </MenuItems>
-              </div>
+        <div
+          className="fixed bottom-[5.25rem] right-6"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <MenuButton
+            className={` ${
+              isDropDownOpen ? `bg-primary-50` : `bg-black`
+            } flex h-[3.75rem] w-[3.75rem] items-center justify-center rounded-full border border-white/70 text-white`}
+            onClick={() => setIsDropDownOpen(!isDropDownOpen)}
+          >
+            {isDropDownOpen ? (
+              <Image src={Close} alt="union" width={0} />
+            ) : (
+              <Image src={Open} alt="union" width={0} />
             )}
-          </div>
-        )}
+          </MenuButton>
+          <MenuItems
+            anchor="top end"
+            className="rounded-3xl bg-white p-6 [--anchor-gap:8px] z-20"
+          >
+            <MenuItem>
+              <a
+                className="body-16-s flex items-center justify-start"
+                onClick={() => routeStudyPage()}
+              >
+                <Image src={Edit} alt="union" width={0} className="mr-2" />
+                스터디 만들기
+              </a>
+            </MenuItem>
+            <MenuItem>
+              <a
+                className="body-16-s mt-4 flex items-center justify-start"
+                onClick={() => getStudyList()}
+              >
+                <Image
+                  src={Pencil}
+                  alt="PencilLined"
+                  width={0}
+                  className="mr-2"
+                />
+                모집글 쓰기
+              </a>
+            </MenuItem>
+          </MenuItems>
+        </div>
       </Menu>
 
       <Modal

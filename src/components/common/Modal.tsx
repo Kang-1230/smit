@@ -41,19 +41,21 @@ const Modal = (props: Props) => {
 
   return props.isModalOpen ? (
     <div
-      className="fixed inset-0 z-50 flex w-full justify-center bg-black bg-opacity-50"
+      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center w-full z-50"
       onClick={props.onClose}
     >
       <div
-        className="fixed inset-x-0 bottom-0 flex h-fit w-full flex-col overflow-y-hidden rounded-t-2xl bg-white shadow-lg focus:overscroll-contain"
+        className="fixed inset-x-0 bottom-0 bg-white rounded-t-2xl w-full shadow-lg flex flex-col h-fit overflow-y-auto focus:overscroll-contain"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex w-full flex-col justify-center p-5">
+        <div className="flex flex-col justify-center w-full p-5">
           <h1 className="title-20-m">
-            {props.modalMode === "job" ? "직업 태그 선택" : "스터디 태그 선택"}
+          {props.modalMode === "job" 
+              ? "직업 태그 선택"
+              : "스터디 태그 선택"}
           </h1>
-          <p className="body-16-m pt-2 text-secondary-400">
-            {props.modalMode === "job"
+          <p className="body-16-m text-secondary-400 pt-2">
+            {props.modalMode === "job" 
               ? "최대 1개 선택해주세요"
               : "최대 3개 선택해주세요"}
           </p>
@@ -61,7 +63,7 @@ const Modal = (props: Props) => {
           <div className="mt-3 flex">
             {props.modalMode === "job" ? (
               arr[0] !== "" ? (
-                <button className="... body-14-m m-1 flex w-fit items-center overflow-hidden text-ellipsis whitespace-nowrap rounded-full bg-primary-50 px-2 pl-3 text-white">
+                <button className="bg-primary-50 text-white rounded-full ... m-1 px-2 w-fit body-14-m overflow-hidden text-ellipsis whitespace-nowrap flex items-center pl-3">
                   {arr[0]}
                   <Image
                     src={Union}
@@ -84,7 +86,7 @@ const Modal = (props: Props) => {
                 index !== 0 ? (
                   <button
                     key={item}
-                    className="... body-14-m m-1 flex w-fit items-center overflow-hidden text-ellipsis whitespace-nowrap rounded-full bg-primary-50 px-2 pl-3 text-white"
+                    className="bg-primary-50 text-white rounded-full ... m-1 px-2 w-fit body-14-m overflow-hidden text-ellipsis whitespace-nowrap flex items-center pl-3"
                   >
                     {item}
                     <Image
@@ -106,14 +108,14 @@ const Modal = (props: Props) => {
           <h1 className="body-16-m pt-7">
             {props.modalMode === "job" ? "직업" : "분야"}
           </h1>
-          <div className="flex h-fit w-full flex-wrap pt-2">
+          <div className="flex flex-wrap w-full h-fit pt-2">
             {props.modalMode === "job"
               ? jobTags.map((item) => (
                   <button
                     key={item.id}
-                    className={`body-14-m ... m-1 overflow-hidden text-ellipsis whitespace-nowrap rounded-full border px-2 ${
+                    className={`m-1 px-2 body-14-m border rounded-full ... overflow-hidden text-ellipsis whitespace-nowrap ${
                       arr[0] === item.name
-                        ? "border-primary-50 bg-primary-5 text-primary-50"
+                        ? "border-primary-50 text-primary-50 bg-primary-5"
                         : "border-secondary-200 text-secondary-400"
                     }`}
                     onClick={() => {
@@ -133,9 +135,9 @@ const Modal = (props: Props) => {
               : categoryTags.map((item) => (
                   <button
                     key={item.id}
-                    className={`body-14-m ... m-1 overflow-hidden text-ellipsis whitespace-nowrap rounded-full border px-2 ${
+                    className={`m-1 px-2 body-14-m border rounded-full ... overflow-hidden text-ellipsis whitespace-nowrap ${
                       item.name && arr?.includes(item.name)
-                        ? "border-primary-50 bg-primary-5 text-primary-50"
+                        ? "border-primary-50 text-primary-50 bg-primary-5"
                         : "border-secondary-200 text-secondary-400"
                     }`}
                     onClick={() => {
@@ -156,7 +158,7 @@ const Modal = (props: Props) => {
           </div>
 
           <button
-            className="... body-16-s mt-5 w-full rounded-full bg-secondary-900 p-3 text-white"
+            className="mt-5 p-3 w-full rounded-full ... body-16-s text-white bg-secondary-900"
             onClick={() => props.onConfirm(arr)}
           >
             적용하기

@@ -80,8 +80,9 @@ function StudyContent() {
   }
 
   const handleModalClose = () => {
-    if (title && modalMode !== "close" ) {
+    if (title && modalMode !== "success") {
       setIsModalOpen(false);
+      setIsCommonModalOpen(false);
     } else {
       router.replace("/");
     }
@@ -112,18 +113,12 @@ function StudyContent() {
   const ImageUploadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const file = e.target.files[0];
-      const allowExtenstions = ["image/png", "image/jpeg", "image/jpg"];
-      console.log("여기오긴온거임?1111?");
-      if (file && allowExtenstions.includes(file.type)) {
+      if (file) {
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = () => {
           setUploadImg(reader.result as string);
         };
-      } else {
-        console.log("여기오긴온거임??");
-        setModalMode("file");
-        setIsModalOpen(true);
       }
     }
   };
@@ -141,12 +136,8 @@ function StudyContent() {
           alt="selectBtn"
           width={0}
           onClick={() => {
-            if (title !== "" || studyDescription !== "") {
-              setModalMode("close");
-              setIsModalOpen(true);
-            } else {
-              router.replace("/");
-            }
+            setModalMode("close");
+            setIsModalOpen(true);
           }}
         />
         <p className="body-16-s text-black">스터디 만들기</p>
