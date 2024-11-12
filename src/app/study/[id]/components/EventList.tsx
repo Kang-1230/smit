@@ -51,7 +51,7 @@ const EventList = ({
 
       {/* 일반 멤버일 경우 일정이 존재하지 않을때 */}
       {data?.length === 0 && managerId !== sessionData?.id && (
-        <div className="flex h-[117px] m-6 justify-center items-center rounded-[20px] bg-white text-secondary-400 body-14-r">
+        <div className="body-14-r m-6 flex h-[117px] items-center justify-center rounded-[20px] bg-white text-secondary-400">
           정해진 일정이 없습니다.
         </div>
       )}
@@ -68,17 +68,19 @@ const EventList = ({
       )}
       {managerId === sessionData?.id && !isFormOpen ? (
         data?.length === 0 ? (
-          <div className="h-[117px] bg-white m-[25px] p-4 flex flex-col justify-center items-center gap-2 flex-shrink-0 rounded-[20px]">
+          <div
+            onClick={openForm}
+            className="m-[25px] flex h-[117px] flex-shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-[20px] bg-white p-4"
+          >
             <span className="text-secondary-400">일정을 등록해보세요</span>
-            <button onClick={openForm}>
-              <Image src={PlusSmall} alt="plus" width={24} height={24} />
-            </button>
+            <Image src={PlusSmall} alt="plus" width={24} height={24} />
           </div>
         ) : (
-          <div className="h-[60px] bg-white m-[25px] p-4 flex flex-col justify-center items-center gap-2 flex-shrink-0 rounded-[20px]">
-            <button onClick={openForm}>
-              <Image src={PlusSmall} alt="plus" width={24} height={24} />
-            </button>
+          <div
+            onClick={openForm}
+            className="m-[25px] flex h-[60px] flex-shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-[20px] bg-white p-4"
+          >
+            <Image src={PlusSmall} alt="plus" width={24} height={24} />
           </div>
         )
       ) : (
