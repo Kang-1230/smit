@@ -10,6 +10,7 @@ import { Tables } from "../../../../../database.types";
 import ArrowRight from "../../../../../public/icons/ArrowRight.svg";
 import Image from "next/image";
 import Clock from "../../../../../public/icons/Clock.svg";
+import AutoResizeTextArea from "./AutoResizeTextArea";
 
 interface CreateEventFormProps {
   studyId: string;
@@ -73,15 +74,12 @@ const CreateEventForm = ({
 
   return (
     <>
-      <div className="flex flex-col items-center m-[25px] p-5 gap-3 self-stretch rounded-2xl bg-secondary-800">
-        <input
-          type="text"
+      <div className="m-[25px] flex flex-col items-center gap-3 self-stretch rounded-2xl bg-secondary-800 p-5">
+        <AutoResizeTextArea
           value={eventDescription}
-          onChange={(e) => setEventDescription(e.target.value)}
-          placeholder="메모: 최대 500자까지 작성 가능"
-          className="flex justify-center items-center px-4 py-2 gap-2.5 self-stretch rounded-full bg-secondary-600 text-white placeholder-white"
+          onChange={setEventDescription}
         />
-        <div className="flex justify-center items-center gap-2.5 self-stretch">
+        <div className="flex items-center justify-center gap-2.5 self-stretch">
           <div className="relative z-10 w-full">
             <input
               value={eventStart}
@@ -90,7 +88,7 @@ const CreateEventForm = ({
                 setActiveInput("start");
               }}
               placeholder="12:00"
-              className="flex items-center pl-11 pr-4 py-2 gap-2 flex-1 rounded-full bg-secondary-600 text-white w-full cursor-pointer placeholder-white"
+              className="flex w-full flex-1 cursor-pointer items-center gap-2 rounded-full bg-secondary-600 py-2 pl-11 pr-4 text-white placeholder-secondary-500"
               readOnly
             />
             <Image
@@ -98,7 +96,7 @@ const CreateEventForm = ({
               width={13.583}
               height={13.583}
               alt="clock"
-              className="absolute z-20 top-[13px] left-4"
+              className="absolute left-4 top-[13px] z-20"
             />
           </div>
           <Image src={ArrowRight} alt="arrow" width={20} height={20} />
@@ -110,7 +108,7 @@ const CreateEventForm = ({
                 setActiveInput("end");
               }}
               placeholder="15:00"
-              className="flex items-center pl-11 pr-4 py-2 gap-2 flex-1 rounded-full bg-secondary-600 text-white w-full cursor-pointer placeholder-white"
+              className="flex w-full flex-1 cursor-pointer items-center gap-2 rounded-full bg-secondary-600 py-2 pl-11 pr-4 text-white placeholder-secondary-500"
               readOnly
             />
             <Image
@@ -118,15 +116,15 @@ const CreateEventForm = ({
               width={13.583}
               height={13.583}
               alt="clock"
-              className="absolute z-20 top-[13px] left-4"
+              className="absolute left-4 top-[13px] z-20"
             />
           </div>
         </div>
 
-        <div className="flex gap-2 mt-5 self-stretch">
+        <div className="mt-2 flex gap-2 self-stretch">
           <button
             onClick={deleteForm}
-            className="flex justify-center items-center px-4 py-2 flex-1 rounded-[18px] border border-secondary-900 bg-white text-secondary-900"
+            className="flex flex-1 items-center justify-center rounded-[18px] border border-secondary-900 bg-white px-4 py-2 text-secondary-900"
           >
             삭제하기
           </button>
@@ -143,10 +141,11 @@ const CreateEventForm = ({
                     setEventDescription("");
                     setEventStart("");
                     setEventEnd("");
+                    deleteForm();
                   },
                 });
               }}
-              className="flex justify-center items-center  px-4 py-2 flex-1 rounded-[18px] bg-primary-50 text-white"
+              className="flex flex-1 items-center justify-center rounded-[18px] bg-primary-50 px-4 py-2 text-white"
             >
               완료하기
             </button>
@@ -166,7 +165,7 @@ const CreateEventForm = ({
                   },
                 });
               }}
-              className="flex justify-center items-center  px-4 py-2 flex-1 rounded-[18px] bg-primary-50 text-white"
+              className="flex flex-1 items-center justify-center rounded-[18px] bg-primary-50 px-4 py-2 text-white"
             >
               완료하기
             </button>
