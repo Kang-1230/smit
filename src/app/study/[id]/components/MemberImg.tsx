@@ -2,8 +2,6 @@ import Image from "next/image";
 import { Tables } from "../../../../../database.types";
 
 const MemberImg = ({ user }: { user: Tables<"user"> }) => {
-
-
   return (
     <div className="relative h-11 w-11">
       <Image

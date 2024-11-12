@@ -36,7 +36,7 @@ const StudyInfo = ({
       };
       getUserProfile();
     }
-  }, []);
+  }, [member]);
 
   if (!study) {
     return <div>로딩 중...</div>;

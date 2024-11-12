@@ -11,6 +11,7 @@ import {
 import browserClient from "@/utils/supabase/client";
 import ValidateInput from "@/components/common/ValidateInput";
 import MyButton from "@/components/common/Button";
+import useValidateNickname from "@/hooks/useValidateNickname";
 
 const EditProfile = ({
   user,
@@ -19,11 +20,11 @@ const EditProfile = ({
   user: Tables<"user">;
   modalClose: () => void;
 }) => {
+  const { userName, nicknameStatus, validateNickname, inputChangeHandler } =
+    useValidateNickname(user);
   const queryClient = useQueryClient();
   const [uploadImg, setUploadImg] = useState<null | string>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [userName, setUserName] = useState(user?.name ? user.name : "");
-  const [isUnique, setIsUnique] = useState("open");
   const [subModal, setSubModal] = useState(false);
 
   // 프로필 이미지 업로드 했을 때
@@ -31,6 +32,14 @@ const EditProfile = ({
     if (e.target.files) {
       const file = e.target.files[0];
       if (file) {
+        if (
+          file &&
+          !["image/jpg", "image/png", "image/jpeg"].includes(file.type)
+        ) {
+          alert("jpg, png, jpeg 형식의 이미지만 업로드 가능합니다.");
+          e.target.value = "";
+          return;
+        }
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = () => {
@@ -84,35 +93,10 @@ const EditProfile = ({
     updateProfile(user.profile_img);
   };
 
-  // 닉네임 중복검사
-  const validateNickname = async () => {
-    if (!/^[가-힣a-zA-Z0-9]+$/.test(userName)) {
-      setIsUnique("impossible");
-      return;
-    }
-    const { data }: { data: Pick<Tables<"user">, "name">[] | null } =
-      await browserClient
-        .from("user")
-        .select("name")
-        .eq("name", userName)
-        .neq("id", user.id);
-
-    if (data?.length === 0) {
-      setIsUnique("unique");
-    } else {
-      setIsUnique("notUnique");
-    }
-  };
-
-  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUserName(e.target.value);
-    setIsUnique("change");
-  };
-
   const img = uploadImg ? uploadImg : user.profile_img;
 
   return (
-    <div className="flex w-full flex-col items-center p-5">
+    <div className="-my-[12px] flex w-full flex-col items-center">
       <p className="title-20-s text-center">프로필 수정</p>
       <div className="relative my-4 h-[264px] w-[264px]">
         <Image
@@ -165,7 +149,7 @@ const EditProfile = ({
         className="hidden"
         type="file"
         onChange={(e) => ImageUploadHandler(e)}
-        accept="image/*"
+        accept=".jpg, .jpeg , .png"
       />
       <div>
         <ValidateInput
@@ -176,14 +160,16 @@ const EditProfile = ({
           onClick={validateNickname}
           classname="bg-c-background"
           error={
-            isUnique === "notUnique"
+            nicknameStatus === "duplicate"
               ? "이미 사용하고 있는 닉네임 입니다."
-              : isUnique === "impossible"
+              : nicknameStatus === "invalid"
                 ? "사용할 수 없는 닉네임 입니다."
                 : undefined
           }
           success={
-            isUnique === "unique" ? "사용 가능한 닉네임 입니다." : undefined
+            nicknameStatus === "available"
+              ? "사용 가능한 닉네임 입니다."
+              : undefined
           }
         />
       </div>
@@ -200,9 +186,9 @@ const EditProfile = ({
             modalClose();
           }}
           disabled={
-            isUnique === "notUnique" ||
-            isUnique === "change" ||
-            isUnique === "impossible"
+            nicknameStatus === "duplicate" ||
+            nicknameStatus === "needsValidation" ||
+            nicknameStatus === "invalid"
           }
         >
           적용하기

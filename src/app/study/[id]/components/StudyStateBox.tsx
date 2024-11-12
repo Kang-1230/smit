@@ -73,31 +73,26 @@ const StudyStateBox = ({
         </div>
         {endModalOpen && (
           <ModalOverlay onClick={() => setEndModalOpen(false)}>
-            <div className="flex flex-col items-center px-5 py-8 text-center text-secondary-900">
-              <Image
-                src={`/icons/Firecracker.svg`}
-                alt="폭죽"
-                width={178}
-                height={161}
-                className="mb-4"
-              />
-              <p className="title-20-s mb-2">
-                스터디를 끝냈어요!
-                <br />
-                {studyScore}점 획득!
-              </p>
-              <p className="body-14-m mb-7">
-                오늘도 수고했긔. 공부 열심히 했긔. 칭찬하긔.
-              </p>
-              <MyButton
-                style="black-fill"
-                size="lg"
-                className="w-full"
-                onClick={() => setEndModalOpen(false)}
-              >
-                닫기
-              </MyButton>
+            <div className="relative mb-4 h-[161px] w-[178px]">
+              <Image src={`/icons/Firecracker.svg`} alt="폭죽" fill />
             </div>
+
+            <p className="title-20-s mb-2">
+              스터디를 끝냈어요!
+              <br />
+              {studyScore}점 획득!
+            </p>
+            <p className="body-14-m mb-7">
+              오늘도 수고했긔. 공부 열심히 했긔. 칭찬하긔.
+            </p>
+            <MyButton
+              style="black-fill"
+              size="lg"
+              className="w-full"
+              onClick={() => setEndModalOpen(false)}
+            >
+              닫기
+            </MyButton>
           </ModalOverlay>
         )}
       </div>

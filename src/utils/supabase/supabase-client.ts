@@ -36,8 +36,7 @@ export const fetchPublicUser = async () => {
     .select("*")
     .eq("id", user.id);
 
-  if (!data || error) {
-    console.log(error);
+  if (error) {
     throw new Error("사용자 정보를 불러오지 못했습니다.");
   }
   return data[0] as Tables<"user">;
