@@ -44,15 +44,24 @@ export const fetchPublicUser = async () => {
 };
 
 // 프로필 업데이트
-export const updateUserProfile = async (name: string, img: string) => {
-  const user = await fetchSessionData();
-  if (!user) {
-    throw new Error("로그인 상태가 아님");
-  }
-
+export const updateUserProfile = async (
+  name: string,
+  img: string,
+  user: Tables<"user">,
+) => {
   await browserClient
     .from("user")
     .update<TablesUpdate<"user">>({ name, profile_img: img })
+    .eq("id", user.id);
+};
+
+export const updateDefualtImg = async (user: Tables<"user">) => {
+  await browserClient
+    .from("user")
+    .update({
+      profile_img:
+        "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default?t=2024-11-08T07%3A23%3A01.617Z",
+    })
     .eq("id", user.id);
 };
 
@@ -165,7 +174,6 @@ export const insertPostWrite = async (
   return data[0].post_id;
 };
 
-
 // 포스트 수정(Update)
 export const updatePostWrite = async (
   userId: string,
@@ -180,21 +188,24 @@ export const updatePostWrite = async (
     throw new Error("로그인 상태가 아님");
   }
 
-  const {error} = await browserClient
-  .from("post")
-  .update({
+  const { error } = await browserClient
+    .from("post")
+    .update({
       user_id: userId,
       study_id: studyId,
       post_contents: contents,
       post_name: title,
       study_startday: startDay,
-  }).eq("post_id",post_id)
+    })
+    .eq("post_id", post_id);
 
-  if(error) {
+  if (error) {
     console.log(error);
-    throw new Error("모집글 수정 실패")
+    throw new Error("모집글 수정 실패");
   }
-}
+
+  return post_id;
+};
 
 // 특정 사용자가 작성한 게시글 불러오기
 export const fetchPostByUser = async (userId: string | undefined) => {

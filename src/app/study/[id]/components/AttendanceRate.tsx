@@ -35,7 +35,7 @@ const AttendanceRate = ({
             출석인원
           </div>
           <p className="title-20-r mt-[14px] text-center">
-            <span className="title-20-b">{attendee}</span> /{" "}
+            <span className="title-20-b">{attendee ? attendee : 0}</span> /{" "}
             {member ? member.length : 1}
           </p>
         </div>

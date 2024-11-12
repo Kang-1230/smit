@@ -25,7 +25,7 @@ const MyButton = ({
   onClick,
   disabled,
   className,
-  type = "submit",
+  type = "button",
 }: buttonProps) => {
   const sizeClass = {
     lg: "py-3 px-5 rounded-24 body-16-s",

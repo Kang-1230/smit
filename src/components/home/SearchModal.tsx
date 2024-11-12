@@ -28,6 +28,14 @@ const SearchModal = ({ onClick }: { onClick: () => void }) => {
   };
 
   const isText = isFocused && slug.length > 0;
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
   return (
     <>
       <div
@@ -35,7 +43,7 @@ const SearchModal = ({ onClick }: { onClick: () => void }) => {
         onClick={onClick}
       ></div>
       <div
-        className={`absolute top-11 z-30 mx-6 flex w-full items-center border-b ${isText ? "border-secondary-600" : "border-secondary-200"}`}
+        className={`fixed top-11 z-30 mx-6 flex w-full items-center border-b ${isText ? "border-secondary-600" : "border-secondary-200"}`}
         style={{ width: "calc(100% - 3rem)" }}
       >
         <Image

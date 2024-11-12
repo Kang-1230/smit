@@ -1,9 +1,11 @@
 "use client";
 import Image from "next/image";
 import Carousel from "react-multi-carousel";
+import { ArrowProps } from "react-multi-carousel/lib/types";
 import "react-multi-carousel/lib/styles.css";
-const customLeftButton = (
-  <button className="absolute left-3">
+
+const CustomLeftButton = ({ onClick }: ArrowProps) => (
+  <button className="absolute left-3" onClick={onClick}>
     <Image
       src="/icons/CarouselLeftArrow.svg"
       width={32}
@@ -13,8 +15,8 @@ const customLeftButton = (
   </button>
 );
 
-const customRightButton = (
-  <button className="absolute right-3">
+const CustomRightButton = ({ onClick }: ArrowProps) => (
+  <button className="absolute right-3" onClick={onClick}>
     <Image
       src="/icons/CarouselRightArrow.svg"
       width={32}
@@ -51,9 +53,9 @@ export default function MultiCarousel({ children }: Props) {
       infinite
       autoPlay
       responsive={responsive}
-      customLeftArrow={customLeftButton}
-      customRightArrow={customRightButton}
-      rtl={false}
+      customLeftArrow={<CustomLeftButton />}
+      customRightArrow={<CustomRightButton />}
+      renderButtonGroupOutside
     >
       {children}
     </Carousel>

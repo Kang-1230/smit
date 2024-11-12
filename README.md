@@ -805,6 +805,7 @@ useEffect를 분리하여 첫 렌더시 초기화와 타이머 재생 상태에 
 
 
 ### 핵심 기능 및 코드 - 김태현
+아래 코드는 keyword를 기준으로 두 가지 조건으로 게시물을 검색하는 코드이고, 첫 번째는 study.study_category에 keyword가 포함된 게시물을 찾고, 두 번째는 post_name에 keyword가 포함된 게시물을 찾는 방식입니다. 그리고 두 검색 결과를 합친 후, 중복된 게시물은 study_id를 기준으로 제거하고, 그 후에는 category에 맞게 정렬해서 결과를 반환하는 코드입니다.
 ```
 export async function fetchAllStudyKeywords(
   keyword: string,

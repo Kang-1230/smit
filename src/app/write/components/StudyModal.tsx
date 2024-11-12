@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import Write from "../../../../public/icons/Write.svg";
 import Warning from "../../../../public/icons/Warning.svg";
 
@@ -14,34 +14,49 @@ type ModalProps = {
 const StudyModal = (props: ModalProps) => {
   // 모달이 열릴 때
 
+  useEffect(() => {
+    if (props.isModalOpen) {
+      // 모달이 열리면 body의 overflow를 hidden으로 설정
+      document.body.style.overflow = "hidden";
+    } else {
+      // 모달이 닫히면 원래 상태로 돌림
+      document.body.style.overflow = "auto";
+    }
+
+    // 컴포넌트 언마운트 시에도 원래 상태로 복구
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [props.isModalOpen]);
+
   return props.isModalOpen ? (
     <div className="z-100 fixed inset-0 flex h-full w-full items-center justify-center bg-black/70">
       <div
-        className="flex h-2/5 w-5/6 flex-col items-center justify-center overflow-y-auto overflow-x-hidden rounded-3xl bg-white px-6 py-4 shadow-lg"
+        className="flex h-fit w-5/6 flex-col items-center justify-center overflow-y-auto overflow-x-hidden rounded-3xl bg-white px-6 py-4 shadow-lg"
         onClick={(e) => e.stopPropagation()}
       >
         {props.modalMode === "nonexist" ? (
           <>
             <Image src={Warning} alt="union" width={0} className="mb-6" />
             <h3 className="title-20-s mb-3 text-center">
-              모집글을 작성할<br></br> 스터디 그룹이 없어요
+              모집글을 작성할<br></br>스터디 그룹이 없어요
             </h3>
             <p className="body-14-m mb-4 text-center text-gray-700">
               지금 바로 스터디를 만드시겠습니까?
             </p>
-            <div className="flex justify-center">
+            <div className="body-16-s m-4 flex w-full justify-center">
               <button
                 onClick={props.onClose}
                 className="... ml-1 flex w-2/6 items-center justify-center rounded-full border border-black text-center text-lg text-black"
               >
                 취소
               </button>
-              <button
-                onClick={props.onConfirm}
+              <Link
+                href="/write/study"
                 className="... ... ml-1 flex size-14 w-4/6 items-center justify-center rounded-full bg-secondary-900 text-center text-lg text-white"
               >
-                바로 가기
-              </button>
+                스터디 만들기
+              </Link>
             </div>
           </>
         ) : props.modalMode === "close" ? (
