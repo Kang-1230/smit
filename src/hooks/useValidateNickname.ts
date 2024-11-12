@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Tables } from "../../database.types";
 import browserClient from "@/utils/supabase/client";
 
-const useValidateNickname = (user: Tables<"user">) => {
-  const [userName, setUserName] = useState(user.name);
+const useValidateNickname = (user?: Tables<"user">) => {
+  const [userName, setUserName] = useState(user ? user.name : "");
   const [nicknameStatus, setNicknameStatus] = useState<
     "available" | "duplicate" | "invalid" | "initial" | "needsValidation"
   >("initial");
@@ -13,12 +13,13 @@ const useValidateNickname = (user: Tables<"user">) => {
       setNicknameStatus("invalid");
       return;
     }
+    const query = browserClient
+      .from("user")
+      .select("name")
+      .eq("name", userName);
+
     const { data }: { data: Pick<Tables<"user">, "name">[] | null } =
-      await browserClient
-        .from("user")
-        .select("name")
-        .eq("name", userName)
-        .neq("id", user.id);
+      await (user ? query.neq("id", user.id) : query);
 
     if (data?.length === 0) {
       setNicknameStatus("available");
