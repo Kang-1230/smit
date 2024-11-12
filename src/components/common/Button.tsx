@@ -28,14 +28,14 @@ const MyButton = ({
   type = "button",
 }: buttonProps) => {
   const sizeClass = {
-    lg: "py-3 px-5 rounded-24 body-16-s",
-    md: "py-2 px-4 rounded-[18px] body-14-s",
-    sm: "py-1 px-3 rounded-[14px] body-14-s",
+    lg: "py-[12px] px-[20px] rounded-24 body-16-s",
+    md: "py-[8px] px-[16px] rounded-[18px] body-14-s",
+    sm: "py-[4px] px-[12px] rounded-[14px] body-14-s",
   };
 
   return (
     <button
-      className={`min-w-fit font-medium ${style} ${sizeClass[size]} ${className}`}
+      className={`min-w-fit ${style} ${sizeClass[size]} ${className}`}
       onClick={onClick}
       disabled={disabled}
       type={type}
