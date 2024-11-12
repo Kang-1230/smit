@@ -1,26 +1,21 @@
 import Image from "next/image";
 import ModalOverlay from "./ModalOverlay";
 import MyButton from "./Button";
+import Link from "next/link";
 
-const DeleteModal = ({
-  onClose,
-  onDelete,
-}: {
-  onClose: () => void;
-  onDelete: () => void;
-}) => {
+const LoginModal = ({ onClose }: { onClose: () => void }) => {
   return (
     <ModalOverlay onClick={onClose}>
       <div className="relative mb-[16px] h-[161px] w-[178px]">
         <Image
-          src={`/icons/Warning.svg`}
+          src={`/icons/Write.svg`}
           alt="Warning icon"
           fill
           className="object-cover"
         />
       </div>
-      <p className="title-20-s mb-[8px]">삭제하시겠습니까?</p>
-      <p className="body-14-m text-[#484741]">삭제 후 복구가 불가능합니다.</p>
+      <p className="title-20-s mb-[8px]">로그인 후 이용할 수 있어요!</p>
+      <p className="body-14-m text-[#484741]">지금 바로 로그인 하시겠습니까?</p>
       <div className="mt-[28px] flex w-full flex-row gap-x-[4px]">
         <MyButton
           size="lg"
@@ -33,17 +28,14 @@ const DeleteModal = ({
         >
           취소
         </MyButton>
-        <MyButton
-          size="lg"
-          style="black-fill"
-          className={"w-full"}
-          onClick={onDelete}
-        >
-          삭제하기
-        </MyButton>
+        <Link href={"/login"} className="w-full">
+          <MyButton size="lg" style="black-fill" className={"w-full"}>
+            로그인 하기
+          </MyButton>
+        </Link>
       </div>
     </ModalOverlay>
   );
 };
 
-export default DeleteModal;
+export default LoginModal;
