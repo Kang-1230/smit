@@ -11,6 +11,7 @@ import ArrowRight from "../../../../../public/icons/ArrowRight.svg";
 import Image from "next/image";
 import Clock from "../../../../../public/icons/Clock.svg";
 import AutoResizeTextArea from "./AutoResizeTextArea";
+import MyButton from "@/components/common/Button";
 
 interface CreateEventFormProps {
   studyId: string;
@@ -65,6 +66,12 @@ const CreateEventForm = ({
     eventStart,
     eventEnd,
   };
+
+  // 빈값 체크
+  const isInputEmpty =
+    !eventDescription.trim() || !eventStart.trim() || !eventEnd.trim()
+      ? true
+      : false;
 
   // 일정 등록
   const { mutate: addEvent } = useAddCalendarEvent();
@@ -122,20 +129,17 @@ const CreateEventForm = ({
         </div>
 
         <div className="mt-2 flex gap-2 self-stretch">
-          <button
+          <MyButton
             onClick={deleteForm}
-            className="flex flex-1 items-center justify-center rounded-[18px] border border-secondary-900 bg-white px-4 py-2 text-secondary-900"
+            style="black-line"
+            size="md"
+            className="flex-1"
           >
-            삭제하기
-          </button>
+            취소하기
+          </MyButton>
           {!initialData ? (
-            <button
+            <MyButton
               onClick={() => {
-                // 빈값 체크
-                if (!eventDescription.trim())
-                  return alert("일정 내용을 작성해주세요!");
-                if (!eventStart.trim() || !eventEnd.trim())
-                  return alert("시간을 선택해주세요!");
                 addEvent(updateEventData, {
                   onSuccess: () => {
                     setEventDescription("");
@@ -145,18 +149,16 @@ const CreateEventForm = ({
                   },
                 });
               }}
-              className="flex flex-1 items-center justify-center rounded-[18px] bg-primary-50 px-4 py-2 text-white"
+              disabled={isInputEmpty}
+              style="orange-fill"
+              size="md"
+              className="flex-1"
             >
               완료하기
-            </button>
+            </MyButton>
           ) : (
-            <button
+            <MyButton
               onClick={() => {
-                // 빈값 체크
-                if (!eventDescription.trim())
-                  return alert("일정 내용을 작성해주세요!");
-                if (!eventStart.trim() || !eventEnd.trim())
-                  return alert("시간을 선택해주세요!");
                 updateEvent(initialData.calendarId, {
                   onSuccess: () => {
                     if (setIsEdit) {
@@ -165,10 +167,13 @@ const CreateEventForm = ({
                   },
                 });
               }}
-              className="flex flex-1 items-center justify-center rounded-[18px] bg-primary-50 px-4 py-2 text-white"
+              style="orange-fill"
+              size="md"
+              disabled={isInputEmpty}
+              className="flex-1"
             >
               완료하기
-            </button>
+            </MyButton>
           )}
         </div>
       </div>
