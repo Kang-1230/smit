@@ -137,7 +137,6 @@ function WriteContent() {
   // 선택한 스터디 객체가 바뀔 때마다 스터디 데이터 가져옴
   useEffect(() => {
     const getStudyInfo = async () => {
-      // 이건 왜 서버액션일까용
       const data = await fetchStudyInfo(study.id);
       if (data) {
         setStudyInfo(data);

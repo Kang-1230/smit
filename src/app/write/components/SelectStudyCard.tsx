@@ -9,19 +9,20 @@ const SelectStudyCard = ({ studyInfo }: { studyInfo: Tables<"study"> }) => {
   return (
     <div className="mt-[8px] w-full flex-col justify-center rounded-12 bg-tertiary-75 px-[20px] py-[16px]">
       <div className="mb-[12px] flex items-center">
-        <Image
-          src={
-            studyInfo.study_imgurl ||
-            "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/study_img/default"
-          }
-          alt="img"
-          width={61}
-          height={61}
-          className="aspect-square rounded-8"
-        />
+        <div className="relative aspect-square min-h-[61px] min-w-[61px] overflow-hidden rounded-8">
+          <Image
+            src={
+              studyInfo.study_imgurl ||
+              "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/study_img/default"
+            }
+            alt="img"
+            fill
+            className="object-cover"
+          />
+        </div>
         <div className="ml-[12px] flex w-full flex-col gap-y-[8px] overflow-hidden">
           <p className="body-16-s w-full truncate text-secondary-800">
-            이러쿵저러쿵완sdfsdfsdfsdfdaklf;jsd
+            {studyInfo.study_name}
           </p>
           <div className="flex items-center">
             <Image
