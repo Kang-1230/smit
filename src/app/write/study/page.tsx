@@ -11,7 +11,6 @@ import Modal from "@/components/common/Modal";
 import ImageSelect from "../../../../public/icons/ImageSelect.svg";
 import Xmedium from "../../../../public/icons/XMedium.svg";
 import Check from "../../../../public/icons/Check.svg";
-import stroke from "../../../../public/icons/Next.svg";
 import SelectDate from "../components/SelectDate";
 import SquareInput from "../components/SquareInput";
 import RoundSelectDiv from "../components/RoundSelectDiv";
@@ -83,7 +82,10 @@ function StudyContent() {
 
   const sendData = async () => {
     if (arr[0] !== "") {
-      if (fileInputRef.current?.files) {
+      if (
+        fileInputRef.current?.files &&
+        fileInputRef.current.files.length > 0
+      ) {
         const { data, error } = await browserClient.storage
           .from("study_img")
           .upload(`${user?.id}${Date.now()}`, fileInputRef.current.files[0]);
@@ -97,9 +99,14 @@ function StudyContent() {
           .getPublicUrl(`${data!.path}`).data.publicUrl;
 
         createStudy(url); // useMutation 호출
+        return;
+      } else {
+        createStudy(
+          "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/study_img/default",
+        );
       }
     } else {
-      alert("직업 태그를 최소 한가지 선택해주세요");
+      alert("태그를 최소 한가지 선택해주세요");
     }
   };
 
