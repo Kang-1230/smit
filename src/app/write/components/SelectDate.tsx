@@ -56,16 +56,16 @@ const SelectDate = (props: Props) => {
 
   // 인원 수 관련 - 최소 한명은 선택되어야 하기에 일의 자리는 '1'
   const [humanCtn, setHumanCtn] = useState({
-    units: "0",
-    tens: "1",
+    units: "1",
+    tens: "0",
   });
 
   // 인원수 옵션
   const tensOption = ["0", "1"];
   const unitOption =
     humanCtn.tens === "1"
-      ? ["0", "1", "2", "3", "4", "5", "6"]
-      : ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+      ? ["0","1", "2", "3", "4", "5", "6"]
+      : ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
   // 윤년 계산
   const getDaysInMonth = (year: number, month: number) => {
