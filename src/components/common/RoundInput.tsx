@@ -22,9 +22,9 @@ const RoundInput = ({
   const img = isShow ? "/icons/EyeOff.svg" : "/icons/EyeOn.svg";
   return (
     <>
-      <div className="relative w-full">
-        <div className="flex flex-row items-center gap-x-[4px]">
-          <div className="relative">
+      <div className="w-full">
+        <div className="flex w-full flex-row items-center gap-x-[4px]">
+          <div className="relative w-full">
             <input
               placeholder={placeholder}
               className={`border-inset body-14-r h-[48px] w-full rounded-20 border-[1px] px-4 py-3 text-secondary-900 placeholder:text-secondary-400 disabled:bg-secondary-100 disabled:text-secondary-300 ${classname} focus:border-secondary-600 focus:bg-white focus:outline-none ${error && "border-alarm-red"} ${!error ? "border-transparent" : "bg-white"}`}
@@ -33,7 +33,7 @@ const RoundInput = ({
               disabled={disabled}
               type={isShow ? "text" : "password"}
             />
-            <div className="absolute right-[16px] top-1/2 -translate-y-1/2">
+            <div className="absolute right-[16px] top-[36px] flex -translate-y-1/2">
               {error && (
                 <Image
                   alt="error"
@@ -56,7 +56,9 @@ const RoundInput = ({
           </div>
         </div>
         <div className="ml-3 mt-2 h-[12px]">
-          {error && <p className="caption text-alarm-red">{error}</p>}
+          {error && (
+            <p className="caption text-alarm-red">비밀번호가 틀렸습니다</p>
+          )}
         </div>
       </div>
     </>
