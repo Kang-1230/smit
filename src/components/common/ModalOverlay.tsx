@@ -9,7 +9,11 @@ const ModalOverlay = ({
 }) => {
   return (
     <div
-      onClick={onClick}
+      onClick={(e) => {
+        onClick();
+        e.stopPropagation();
+        e.preventDefault();
+      }}
       className="fixed inset-0 z-50 flex h-full w-full items-center justify-center bg-black/70"
     >
       <div

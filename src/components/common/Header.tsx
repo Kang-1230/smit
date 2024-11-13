@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import supabase from "../../utils/supabase/client";
 import { useSession } from "@/hooks/useUserProfile";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import SearchModal from "../home/SearchModal";
 import MyButton from "./Button";
@@ -20,18 +20,10 @@ export default function Header() {
   const [isSearchModal, setIsSearchModal] = useState(false);
 
   // 로그인 상태 구독!!
-  useEffect(() => {
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange(() => {
-      queryClient.invalidateQueries({ queryKey: ["user", "session"] });
-      queryClient.invalidateQueries({ queryKey: ["user", "public"] });
-    });
-    // 컴포넌트 나가면 구독 해제~
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [queryClient]);
+  supabase.auth.onAuthStateChange(() => {
+    queryClient.invalidateQueries({ queryKey: ["user", "session"] });
+    queryClient.invalidateQueries({ queryKey: ["user", "public"] });
+  });
 
   const handleLogin = () => {
     router.replace("/login");

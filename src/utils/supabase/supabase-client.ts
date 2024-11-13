@@ -506,27 +506,20 @@ export const fetchStudyByPost = async (studyId: string) => {
 // 현재 스터디 참여중인 인원 가져오기
 export const fetchStudyMember = async (studyId: string) => {
   const { data, error } = await browserClient
-    .from("study_applylist")
+    .from("attendance_list")
     .select("user_id")
-    .eq("study_id", studyId)
-    .eq("is_approved", true);
+    .eq("study_id", studyId);
 
-  const { data: manager, error: managerError } = await browserClient
-    .from("study")
-    .select("study_manager")
-    .eq("study_id", studyId)
-    .single();
-
-  if (error || managerError) {
+  if (error) {
     console.error(error);
     return null;
   }
 
-  if (!data || !manager) {
+  if (!data) {
     return null;
   }
 
-  return [...data.map((d) => d.user_id), manager.study_manager] as string[];
+  return [...data.map((d) => d.user_id)] as string[];
 };
 
 // 회원 탈퇴 라우트 핸들러 사용
