@@ -4,19 +4,29 @@ import Image from "next/image";
 import { useEffect } from "react";
 
 type Props = {
-  onClick: () => void;
+  onClose: () => void;
 };
 
-export default function QuestionModal({ onClick }: Props) {
+function usePreventBodyScroll() {
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "";
     };
   }, []);
+}
+
+export default function QuestionModal({ onClose }: Props) {
+  usePreventBodyScroll();
+
+  const containerClasses = "flex w-full flex-col items-center gap-4 px-5 py-8";
+  const headingClasses = "text-xl font-semibold text-secondary-900";
+  const listClasses = "list-disc text-sm font-normal text-gray-700";
+  const buttonClasses =
+    "mt-5 w-full rounded-24 bg-secondary-900 px-5 py-3 text-white";
 
   return (
-    <section className="flex w-full flex-col items-center gap-4 px-5 py-8">
+    <section className={containerClasses}>
       <Image
         className="my-6"
         src="/icons/RankingInfo.svg"
@@ -26,10 +36,8 @@ export default function QuestionModal({ onClick }: Props) {
       />
 
       <div className="flex flex-col items-center gap-2 px-5">
-        <h1 className="text-xl font-semibold text-secondary-900">
-          랭킹의 기준이 뭔가요?
-        </h1>
-        <ul className="list-disc text-sm font-normal text-gray-700">
+        <h1 className={headingClasses}>랭킹의 기준이 뭔가요?</h1>
+        <ul className={listClasses}>
           <li>
             스터디의 정해진 시간 내에서 80% 이상 참여한 인원에 따라 점수가
             집계됩니다.
@@ -41,10 +49,7 @@ export default function QuestionModal({ onClick }: Props) {
         </ul>
       </div>
 
-      <button
-        className="mt-5 w-full rounded-24 bg-secondary-900 px-5 py-3 text-white"
-        onClick={onClick}
-      >
+      <button className={buttonClasses} onClick={onClose} aria-label="닫기">
         닫기
       </button>
     </section>
