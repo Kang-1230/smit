@@ -7,7 +7,6 @@ import Warning from "../../../../public/icons/Warning.svg";
 type ModalProps = {
   isModalOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
   modalMode: string;
 };
 
@@ -93,12 +92,12 @@ const StudyModal = (props: ModalProps) => {
               모집글을 통해 나와 함께 스터디할 <br></br>팀원들을 만날 수 있어요!
             </p>
             <div className="body-16-s m-4 flex w-full justify-center">
-              <button
-                onClick={props.onClose}
+              <Link
+                href="/"
                 className="... ml-1 flex w-2/6 items-center justify-center rounded-full border border-black text-center text-lg text-black"
               >
                 취소
-              </button>
+              </Link>
               <Link
                 href="/write"
                 className="... ... ml-1 flex size-14 w-4/6 items-center justify-center rounded-full bg-secondary-900 text-center text-lg text-white"
