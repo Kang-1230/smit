@@ -56,7 +56,7 @@ const ReplyComment = ({
     <div className="my-4 mb-[49px] flex pl-10">
       {user?.profile_img ? (
         <Image
-          src={user?.profile_img}
+          src={user.profile_img}
           alt="image"
           width={40}
           height={40}
@@ -90,7 +90,7 @@ const ReplyComment = ({
           <MyButton onClick={() => setWriteReply(false)} size="sm" style="gray">
             취소
           </MyButton>
-          <MyButton size="sm" style="darkgray">
+          <MyButton size="sm" style="darkgray" type="submit">
             완료
           </MyButton>
         </div>
