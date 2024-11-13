@@ -15,16 +15,17 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import RoundInput from "@/components/common/RoundInput";
-import browserClient from "../../utils/supabase/client";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "이메일 형식이 필요합니다." }),
-  password: z.string().min(1, { message: "비밀번호를 입력해주세요" }),
-  // .min(6, { message: "6자 이상의 비밀번호가 필요합니다" }),
-  // .regex(/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/, {
-  //   message:
-  //     "영문+숫자+특수문자(! @ # $ % & * ?) 조합 8~15자리를 입력해주세요.",
-  // }),
+  password: z
+    .string()
+    .min(1, { message: "비밀번호를 입력해주세요" })
+    .min(6, { message: "6자 이상의 비밀번호가 필요합니다" })
+    .regex(/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/, {
+      message:
+        "영문+숫자+특수문자(! @ # $ % & * ?) 조합 8~15자리를 입력해주세요.",
+    }),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -74,54 +75,22 @@ export default function LoginPage() {
   };
 
   const handleKaKaoSignIn = async () => {
-    try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: "kakao",
-        options: {
-          queryParams: {
-            access_type: "offline",
-            prompt: "consent",
-          },
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "kakao",
+      options: {
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent",
         },
-      });
+      },
+    });
 
-      console.log("카카오data", data);
+    console.log("카카오data", data);
 
-      if (data) {
-        window.location.href = "/";
-      } else if (error) {
-        console.log("카카오 로그인 실패", error);
-      }
-
-      const { data: userInfo } = await window.Kakao.API.request({
-        url: "/v2/user/me",
-      });
-
-      // Supabase user 테이블에 정보 저장
-      const { error: upsertError } = await supabase.from("user").upsert(
-        {
-          id: data.user.id, // Supabase auth의 user id 사용
-          kakao_id: userInfo.id,
-          email: userInfo.kakao_account.email,
-          user_name: userInfo.properties.nickname,
-          profile_image: userInfo.properties.profile_image,
-          provider: "kakao",
-          gender: userInfo.kakao_account.gender,
-          last_login: new Date().toISOString(),
-        },
-        {
-          onConflict: "id",
-        },
-      );
-
-      if (upsertError) throw upsertError;
-    } catch (error) {
-      console.error("카카오 로그인 에러:", error);
-      if (error instanceof Error) {
-        alert(error.message);
-      } else {
-        alert("로그인 중 오류가 발생했습니다.");
-      }
+    if (data) {
+      window.location.href = "/";
+    } else if (error) {
+      console.log("카카오 로그인 실패", error);
     }
   };
 

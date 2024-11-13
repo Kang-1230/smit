@@ -182,7 +182,7 @@ export default function SignupPage() {
               )}
             />
 
-            <div className="relative">
+            <div className="relative mb-[20px]">
               <Controller
                 name="password"
                 control={control} // useForm에서 control 가져오기
@@ -193,12 +193,12 @@ export default function SignupPage() {
                     value={field.value}
                     onChange={field.onChange}
                     error={errors.password?.message}
-                    classname="mb-[20px]"
+                    useEyes
                   />
                 )}
               />
               {!errors.password?.message && (
-                <div className="caption absolute mb-[20px] ml-[12px] mt-[-32px] text-secondary-500">
+                <div className="caption absolute ml-[12px] mt-[-12px] text-secondary-500">
                   영문,숫자,특수문자(*&^_-)포함
                 </div>
               )}
