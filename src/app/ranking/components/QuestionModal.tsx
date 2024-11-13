@@ -1,10 +1,20 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect } from "react";
 
 type Props = {
   onClick: () => void;
 };
 
 export default function QuestionModal({ onClick }: Props) {
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
   return (
     <section className="flex w-full flex-col items-center gap-4 px-5 py-8">
       <Image
