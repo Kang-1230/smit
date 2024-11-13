@@ -14,6 +14,7 @@ export type Post = {
   title: string;
   likes: number;
   comments: number;
+  createdAt: string;
   study: {
     id: string;
     name: string;
@@ -27,13 +28,13 @@ export type Post = {
   };
 };
 
-// 이름은 convertViewModel?
 export const camelizePost = (data: SupabasePost, joinCnt: number): Post => {
   return {
     id: data.post_id,
     title: data.post_name ?? "",
     likes: data.like_count,
     comments: data.comment_count,
+    createdAt: data.post_createtime,
     study: {
       id: data.study_id,
       name: data.study.study_name,
