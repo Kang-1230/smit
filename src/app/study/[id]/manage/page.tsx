@@ -6,6 +6,7 @@ import ManagedMemberList from "../components/ManagedMemberList";
 import { useState } from "react";
 import ManageOptions from "../components/ManageOptions";
 import StudyImage from "../components/StudyImage";
+import { Tables } from "../../../../../database.types";
 
 const Page = () => {
   const [updateTrigger, setUpdateTrigger] = useState(0);
@@ -15,9 +16,16 @@ const Page = () => {
     ? paramsurl.id[0]
     : paramsurl.id;
 
+  const [study, setStudy] = useState<Tables<"study">>();
+
   return (
     <div>
-      <StudyImage urlStudyId={urlStudyId}></StudyImage>
+      <StudyImage
+        urlStudyId={urlStudyId}
+        onConfirm={(data: Tables<"study">) => {
+          setStudy(data);
+        }}
+      ></StudyImage>
       <ManageOptions />
       <div>
         <WaitApplyList urlStudyId={urlStudyId} />
