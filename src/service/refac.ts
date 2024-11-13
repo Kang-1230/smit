@@ -2,7 +2,38 @@
 
 import { Post, SupabasePost, camelizePost } from "@/types/posts";
 import { SearchQueryParams } from "@/types/search";
+import { filterPostsBySearch, sortPostsByCategory } from "@/utils/sorting";
 import { createClient } from "@/utils/supabase/server";
+
+export async function getPosts({
+  search = "",
+  category = "최신순",
+}: Partial<SearchQueryParams>) {
+  let result: Post[];
+
+  const serverClient = createClient();
+  const { data } = await serverClient
+    .from("post")
+    .select(`*, study(*), user(name)`)
+    .order("post_createtime", { ascending: false });
+
+  if (!data) {
+    return { data: [] };
+  }
+
+  result = await Promise.all(
+    data!.map(async (product) => {
+      const joinCnt = await getStudyParticipantsCount(product.study.sutdy_id);
+      return camelizePost(product as SupabasePost, joinCnt);
+    }),
+  );
+
+  result = filterPostsBySearch(result, search);
+
+  result = sortPostsByCategory(result, category);
+
+  return { data: result };
+}
 
 export async function getFeaturedPosts() {
   let result: Post[];
