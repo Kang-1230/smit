@@ -7,8 +7,9 @@ const MemberImg = ({ user }: { user: Tables<"user"> }) => {
       <Image
         src={user.profile_img} // 기본 이미지 설정
         alt={`${user.name}-img`}
-        fill
         priority={true}
+        width={48}
+        height={48}
         className="rounded-full border-[1px] border-white object-cover"
       />
     </div>
