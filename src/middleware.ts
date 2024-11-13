@@ -39,9 +39,9 @@ export async function middleware(request: NextRequest) {
     (request.nextUrl.pathname.startsWith("/login") ||
       request.nextUrl.pathname.startsWith("/signup"))
   ) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/";
-    return NextResponse.redirect(url);
+    // const url = request.nextUrl.clone();
+    // url.pathname = "/";
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   // 미인증 사용자가 보호된 경로 접근 시 로그인으로 리다이렉트
@@ -51,9 +51,9 @@ export async function middleware(request: NextRequest) {
       request.nextUrl.pathname.startsWith("/ranking") ||
       request.nextUrl.pathname.startsWith("/study"))
   ) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/login";
-    return NextResponse.redirect(url);
+    // const url = request.nextUrl.clone();
+    // url.pathname = "/login";
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   return supabaseResponse;
