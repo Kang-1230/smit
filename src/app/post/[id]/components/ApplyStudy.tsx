@@ -6,15 +6,28 @@ import { useMutation } from "@tanstack/react-query";
 import { Tables } from "../../../../../database.types";
 import { useState } from "react";
 import ApplyStudyModal from "../components/ApplyStudyModal";
+import MyButton from "@/components/common/Button";
+import { useToast } from "@/hooks/useToast";
 
 const ApplyStudy = ({ postData }: { postData: Tables<"post"> }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState("");
   const { data } = useSession();
+  const { showToast, ToastComponent } = useToast();
 
   // 스터디 신청
   const { mutate: applyStudy } = useMutation({
     mutationFn: () => applyNewStudy(postData.study_id, message),
+    onSuccess: (result) => {
+      showToast(result.message);
+      if (result.success) {
+        handleCloseModal();
+        setMessage("");
+      }
+    },
+    onError: (error) => {
+      console.log("스터디 신청 실패", error);
+    },
   });
 
   const applyButton = () => {
@@ -22,7 +35,7 @@ const ApplyStudy = ({ postData }: { postData: Tables<"post"> }) => {
       setIsModalOpen(true);
       document.body.classList.add("overflow-hidden");
     } else {
-      alert("로그인 후 신청이 가능합니다!");
+      showToast("로그인 후 이용가능한 서비스입니다.");
     }
   };
 
@@ -31,20 +44,20 @@ const ApplyStudy = ({ postData }: { postData: Tables<"post"> }) => {
     document.body.classList.remove("overflow-hidden");
   };
 
+  const isManager = data?.id === postData.user_id ? true : false;
+
   return (
     <>
-      {data?.id !== postData.user_id ? (
-        <button
-          onClick={applyButton}
-          className="body-16-s h-12 flex-1 rounded-full bg-secondary-900 text-white"
-        >
-          신청하기
-        </button>
-      ) : (
-        <button className="body-16-s h-12 flex-1 cursor-default rounded-full bg-secondary-50 text-secondary-200">
-          신청하기
-        </button>
-      )}
+      <ToastComponent />
+      <MyButton
+        onClick={applyButton}
+        className="flex-1"
+        style="black-fill"
+        size="lg"
+        disabled={isManager}
+      >
+        신청하기
+      </MyButton>
 
       {isModalOpen && (
         <ApplyStudyModal

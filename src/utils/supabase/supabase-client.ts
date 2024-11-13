@@ -398,11 +398,18 @@ export const applyNewStudy = async (studyId: string, message: string) => {
     .from("study_applylist")
     .select("*")
     .eq("study_id", studyId);
-  if (res.error !== null) return;
+  if (res.error !== null) {
+    throw new Error("스터디 정보를 불러오는데 실패했습니다.");
+  }
 
   const applyData: Tables<"study_applylist">[] = res.data;
   const findInfo = applyData.filter((data) => data.user_id === user?.id);
-  if (findInfo.length > 0) return alert("이미 신청한 스터디입니다!");
+  if (findInfo.length > 0) {
+    return {
+      success: false,
+      message: "이미 신청한 스터디입니다.",
+    };
+  }
 
   const { error } = await browserClient.from("study_applylist").insert({
     user_id: user?.id,
@@ -410,11 +417,15 @@ export const applyNewStudy = async (studyId: string, message: string) => {
     is_approved: false,
     apply_message: message,
   });
-  alert("신청되었습니다!");
 
   if (error) {
     throw new Error("스터디 신청에 실패했습니다.");
   }
+
+  return {
+    success: true,
+    message: "신청되었습니다!",
+  };
 };
 
 // 가입된 데이터 가져오기
