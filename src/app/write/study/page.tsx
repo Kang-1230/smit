@@ -13,6 +13,8 @@ import Xmedium from "../../../../public/icons/XMedium.svg";
 import Check from "../../../../public/icons/Check.svg";
 import stroke from "../../../../public/icons/Next.svg";
 import SelectDate from "../components/SelectDate";
+import SquareInput from "../components/SquareInput";
+import RoundSelectDiv from "../components/RoundSelectDiv";
 
 export default function Study() {
   return (
@@ -126,8 +128,8 @@ function StudyContent() {
   };
 
   return (
-    <div className="mx-auto flex w-11/12 flex-col">
-      <div className="... flex w-full items-center justify-between p-2 text-2xl">
+    <div className="mb-[39px] flex flex-col px-[24px]">
+      <div className="mb-[24px] flex h-[44px] w-full items-center justify-between p-2 text-2xl">
         <Image
           src={Xmedium}
           alt="selectBtn"
@@ -151,6 +153,9 @@ function StudyContent() {
       </div>
 
       <div className="mb-4 flex h-1/3 flex-col">
+        <p className="body-16-m mb-[8px] ml-[4px]">
+          대표 이미지 <span className="text-primary-50">{`(선택)`}</span>
+        </p>
         <div
           className="relative flex h-[200px] w-full items-center justify-center"
           onClick={() => fileInputRef.current?.click()}
@@ -179,76 +184,58 @@ function StudyContent() {
         />
       </div>
 
-      <div className="mt-3 flex w-full flex-col">
-        <p className="mb-2 text-black">
-          제목 <span className="text-primary-50">*</span>
-        </p>
-        <input
-          className="body-16-m mb-4 w-full rounded-2xl bg-secondary-50 p-3 placeholder-secondary-300"
-          value={title}
+      <div className="flex w-full flex-col gap-y-[12px]">
+        <SquareInput
           maxLength={25}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="제목을 작성해주세요"
+          title="제목"
+          placeholder="제목을 작성해주세요."
+          value={title}
+          onChange={setTitle}
+          essential={true}
+          viewLength={true}
         />
-        <p className="mb-2 text-black">
-          한 줄 설명 <span className="text-primary-50">*</span>
-        </p>
-        <input
-          className="body-16-m mb-4 w-full rounded-2xl bg-secondary-50 p-3 placeholder-secondary-300"
-          value={studyDescription}
-          onChange={(e) => setStudyDescription(e.target.value)}
+        <SquareInput
+          maxLength={25}
+          title="한 줄 설명"
           placeholder="그룹을 소개하는 설명을 작성해주세요."
+          value={studyDescription}
+          onChange={setStudyDescription}
+          essential={true}
+          viewLength={true}
         />
-        <p className="mb-2 text-black">
-          오픈채팅방 링크 <span className="text-primary-50">{`(선택)`}</span>
-        </p>
-        <input
-          className="body-16-m mb-8 w-full rounded-2xl bg-secondary-50 p-3 placeholder-secondary-300"
-          value={studychatLink}
-          onChange={(e) => setStudyChatLink(e.target.value)}
+        <SquareInput
+          maxLength={25}
+          title="오픈채팅방 링크"
           placeholder="팀원들과 소통할 채팅방 링크를 넣어주세요."
+          value={studychatLink}
+          onChange={setStudyChatLink}
+          caption="(선택)"
         />
-      </div>
+        <div className="mt-[28px] flex flex-col gap-y-[12px]">
+          <RoundSelectDiv
+            onClick={() => setIsDateOpen(true)}
+            title="인원"
+            value={`${userCnt}명`}
+          >
+            {userCnt === 1 && (
+              <p className="caption mt-[8px] text-secondary-400">
+                * 1인 스터디는 랭킹에 집계되지 않아요! <br></br> 스터디
+                페이지에서 인원 설정을 변경할 수 있습니다.
+              </p>
+            )}
+          </RoundSelectDiv>
 
-      <div className="mb-5 flex w-full flex-col rounded-2xl border border-gray-300">
-        <div className="flex w-full items-center justify-between">
-          <p className="p-3">인원</p>
-          <div onClick={() => setIsDateOpen(true)} className="flex">
-            <p className="body-16-m pr-3 text-secondary-300">{`${userCnt}명`}</p>
-            <Image src={stroke} alt="selectBtn" width={0} className="mr-3" />
-          </div>
-        </div>
-        {userCnt === 1 ? (
-          <p className="caption p-3 text-secondary-400">
-            * 1인 스터디는 랭킹에 집계되지 않아요! <br></br> 스터디 페이지에서
-            인원 설정을 변경할 수 있습니다.
-          </p>
-        ) : null}
-      </div>
-
-      <div className="mb-5 flex w-full items-center justify-between rounded-2xl border border-gray-300">
-        <p className="whitespace-nowrap p-3">직업 태그</p>
-        <div className="flex">
-          <p
-            className="body-16-m pr-3 text-secondary-300"
+          <RoundSelectDiv
             onClick={() => handleModalClick("job")}
-          >
-            {arr[0] === "" ? "직업을 선택해주세요" : arr[0]}
-          </p>
-          <Image src={stroke} alt="selectBtn" width={0} className="mr-3" />
-        </div>
-      </div>
+            title="직업 태그"
+            value={arr[0] === "" ? "선택해주세요" : arr[0]}
+          />
 
-      <div className="mb-5 flex w-full items-center justify-between rounded-2xl border border-gray-300">
-        <p className="whitespace-nowrap p-3">스터디 태그</p>
-        <div className="flex">
-          <p
-            className="body-16-m pr-3 text-secondary-300"
+          <RoundSelectDiv
             onClick={() => handleModalClick("study")}
-          >
-            {!arr[1] ? "스터디 태그를 선택해주세요" : arr.slice(1).join(",")}
-          </p>
-          <Image src={stroke} alt="selectBtn" width={0} className="mr-3" />
+            title="스터디 태그"
+            value={!arr[1] ? "선택해주세요" : arr.slice(1).join(",")}
+          />
         </div>
       </div>
 

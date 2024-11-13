@@ -22,6 +22,7 @@ import SelectDate from "./components/SelectDate";
 import RoundSelectDiv from "./components/RoundSelectDiv";
 import AutoResizeTextArea from "../study/[id]/components/AutoResizeTextArea";
 import SelectStudyCard from "./components/SelectStudyCard";
+import SquareInput from "./components/SquareInput";
 
 type study = {
   id: string;
@@ -182,18 +183,14 @@ function WriteContent() {
         />
       </div>
       <div className="flex w-full flex-col gap-y-[32px]">
-        <div>
-          <p className="mb-[8px] pl-[4px] text-secondary-700">
-            제목 <span className="text-primary-50">*</span>
-          </p>
-          <input
-            className="body-16-m w-full rounded-12 bg-c-background p-3 placeholder-secondary-300"
-            value={title}
-            maxLength={25}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="제목을 작성해주세요"
-          />
-        </div>
+        <SquareInput
+          onChange={setTitle}
+          title="제목"
+          placeholder="제목을 작성해주세요."
+          value={title}
+          maxLength={25}
+          essential={true}
+        />
         <div className="flex w-full flex-col gap-y-[12px]">
           <RoundSelectDiv
             onClick={() => setIsDateOpen(true)}
