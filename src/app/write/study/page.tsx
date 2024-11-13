@@ -13,7 +13,6 @@ import Xmedium from "../../../../public/icons/XMedium.svg";
 import Check from "../../../../public/icons/Check.svg";
 import stroke from "../../../../public/icons/Next.svg";
 import SelectDate from "../components/SelectDate";
-import { Description } from "@headlessui/react";
 
 export default function Study() {
   return (
@@ -80,7 +79,6 @@ function StudyContent() {
     return <div>로딩 중...</div>;
   }
 
-
   const sendData = async () => {
     if (arr[0] !== "") {
       if (fileInputRef.current?.files) {
@@ -114,8 +112,10 @@ function StudyContent() {
           setUploadImg(reader.result as string);
         };
       } else if (!allowExtenstions.includes(file.type)) {
-        setModalMode("file");
-        setIsModalOpen(true);
+        // Toast로 선택한 파일이 이미지 형식이 아닙니다 - toast 로 수정 진행 예정
+        alert("선택한 파일이 이미지 형식이 아닙니다.");
+        // setModalMode("file");
+        // setIsModalOpen(true);
       }
     }
   };
