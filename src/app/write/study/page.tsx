@@ -13,6 +13,7 @@ import Xmedium from "../../../../public/icons/XMedium.svg";
 import Check from "../../../../public/icons/Check.svg";
 import stroke from "../../../../public/icons/Next.svg";
 import SelectDate from "../components/SelectDate";
+import { Description } from "@headlessui/react";
 
 export default function Study() {
   return (
@@ -79,13 +80,6 @@ function StudyContent() {
     return <div>로딩 중...</div>;
   }
 
-  const handleModalClose = () => {
-    if (title && modalMode !== "close" ) {
-      setIsModalOpen(false);
-    } else {
-      router.replace("/");
-    }
-  };
 
   const sendData = async () => {
     if (arr[0] !== "") {
@@ -119,7 +113,7 @@ function StudyContent() {
         reader.onloadend = () => {
           setUploadImg(reader.result as string);
         };
-      } else {
+      } else if (!allowExtenstions.includes(file.type)) {
         setModalMode("file");
         setIsModalOpen(true);
       }
@@ -166,7 +160,7 @@ function StudyContent() {
             alt="studyImg"
             width={327}
             height={200}
-            className="object-full h-full w-full rounded-3xl border" // 부모 크기에 맞추기
+            className="h-full w-full rounded-3xl border object-cover" // 부모 크기에 맞추기
             priority={true}
           />
           <Image
@@ -260,8 +254,7 @@ function StudyContent() {
 
       <StudyModal
         isModalOpen={isModalOpen}
-        onClose={() => handleModalClose()}
-        onConfirm={() => setIsModalOpen(false)}
+        onClose={() => setIsModalOpen(false)}
         modalMode={modalMode}
       />
 
