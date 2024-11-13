@@ -48,7 +48,7 @@ const config: Config = {
         "tertiary-100": "#E3D7CE",
         "tertiary-75": "#EDE4DE",
         "tertiary-50": "#F6F2EF",
-        "c-background": "#F6F6F4",
+        "c-background": "#F8F8FA",
         "success-blue": "#0073cb",
         "alarm-red": "#f43434",
         back: "#F8F8FA",
