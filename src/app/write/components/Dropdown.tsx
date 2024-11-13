@@ -58,7 +58,7 @@ export default function Dropdown() {
         {({ open }) => (
           <div className="fixed bottom-[5.25rem] right-6 z-20">
             <MenuButton
-              className={`flex h-[3.75rem] w-[3.75rem] items-center justify-center rounded-full border border-white/70 text-white ${
+              className={`relative z-[999] flex h-[3.75rem] w-[3.75rem] items-center justify-center rounded-full border border-white/70 text-white ${
                 open ? "bg-primary-50" : "bg-black"
               }`}
             >
