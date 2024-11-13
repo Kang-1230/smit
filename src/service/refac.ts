@@ -2,6 +2,7 @@
 
 import { Post, SupabasePost, camelizePost } from "@/types/posts";
 import { SearchQueryParams } from "@/types/search";
+import { Study, SupabaseStudy, camelizeStudy } from "@/types/studys";
 import { filterPostsBySearch, sortPostsByCategory } from "@/utils/sorting";
 import { createClient } from "@/utils/supabase/server";
 
@@ -22,9 +23,9 @@ export async function getPosts({
   }
 
   result = await Promise.all(
-    data!.map(async (product) => {
-      const joinCnt = await getStudyParticipantsCount(product.study.sutdy_id);
-      return camelizePost(product as SupabasePost, joinCnt);
+    data!.map(async (post) => {
+      const joinCnt = await getStudyParticipantsCount(post.study.sutdy_id);
+      return camelizePost(post as SupabasePost, joinCnt);
     }),
   );
 
@@ -35,6 +36,7 @@ export async function getPosts({
   return { data: result };
 }
 
+// 인기 포스트
 export async function getFeaturedPosts() {
   let result: Post[];
 
@@ -46,9 +48,9 @@ export async function getFeaturedPosts() {
     .limit(5);
 
   result = await Promise.all(
-    data!.map(async (product) => {
-      const joinCnt = await getStudyParticipantsCount(product.study.sutdy_id);
-      return camelizePost(product as SupabasePost, joinCnt);
+    data!.map(async (post) => {
+      const joinCnt = await getStudyParticipantsCount(post.study.sutdy_id);
+      return camelizePost(post as SupabasePost, joinCnt);
     }),
   );
 
@@ -73,3 +75,28 @@ export async function getStudyParticipantsCount(
 
 // postId와 그 유저가 게시물을 눌렀는지 안눌렀는지 조회
 export async function getLike() {}
+
+// - study -
+export async function getStudys(page = 1) {
+  const pageSize = 5;
+  let result: Study[];
+
+  const serverClient = createClient();
+  const { data } = await serverClient
+    .from("study")
+    .select(`*`)
+    .order("study_score", { ascending: false })
+    .range((page - 1) * pageSize, page * pageSize);
+
+  if (!data) result = [];
+
+  result = data!
+    .slice(0, pageSize)
+    .map((study, idx) =>
+      camelizeStudy(study as SupabaseStudy, (page - 1) * pageSize + idx + 1),
+    );
+
+  const hasMore = data!.length > pageSize;
+
+  return { data: result, hasMore, page };
+}
