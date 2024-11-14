@@ -55,7 +55,7 @@ export default function LoginPage() {
   }, []);
 
   const onSubmit = async (formData: LoginFormData) => {
-    const {  error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email: formData.email,
       password: formData.password,
     });
@@ -64,54 +64,53 @@ export default function LoginPage() {
       alert("이메일과 비밀번호를 확인하세요");
     } else {
       alert("로그인 되었습니다.");
-      router.push("/");
+      router.push("https://smit-8y5a.vercel.app/");
       // router.refresh();
     }
   };
 
-  const handleGoogleSignIn = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        queryParams: {
-          access_type: "offline",
-          prompt: "consent",
-        },
-      },
-    });
+  // const handleGoogleSignIn = async () => {
+  //   const { data, error } = await supabase.auth.signInWithOAuth({
+  //     provider: "google",
+  //     options: {
+  //       queryParams: {
+  //         access_type: "offline",
+  //         prompt: "consent",
+  //       },
+  //     },
+  //   });
 
-    if (data) {
-      router.push("/");
-      router.refresh();
-    } else if (error) {
-      throw error;
-    }
-  };
+  //   if (data) {
+  //     router.push("/");
+  //     router.refresh();
+  //   } else if (error) {
+  //     throw error;
+  //   }
+  // };
 
-  const handleKaKaoSignIn = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "kakao",
-      options: {
-        queryParams: {
-          access_type: "offline",
-          prompt: "consent",
-        },
-      },
-    });
+  // const handleKaKaoSignIn = async () => {
+  //   const { data, error } = await supabase.auth.signInWithOAuth({
+  //     provider: "kakao",
+  //     options: {
+  //       queryParams: {
+  //         access_type: "offline",
+  //         prompt: "consent",
+  //       },
+  //     },
+  //   });
 
-    if (error) {
-      console.log("kakaoError");
-    }
+  //   if (error) {
+  //     console.log("kakaoError");
+  //   }
 
-    if (data.url) {
-      window.location.href = data.url;
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      console.log(user);
-    }
-  };
-
+  //   if (data.url) {
+  //     window.location.href = data.url;
+  //     const {
+  //       data: { user },
+  //     } = await supabase.auth.getUser();
+  //     console.log(user);
+  //   }
+  // };
 
   const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -238,7 +237,7 @@ export default function LoginPage() {
             </div>
             <div className="flex gap-[9px]">
               <button
-                onClick={() => handleKaKaoSignIn()}
+                onClick={() => alert("준비중입니다")}
                 className="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-white"
               >
                 <Image
@@ -249,7 +248,7 @@ export default function LoginPage() {
                 />
               </button>
               <button
-                onClick={() => handleGoogleSignIn()}
+                onClick={() => alert("준비중입니다")}
                 className="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-white"
               >
                 <Image
