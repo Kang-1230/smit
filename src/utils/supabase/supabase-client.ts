@@ -111,7 +111,14 @@ export const fetchUserStudyInfo = async (user_id: string | undefined) => {
 
 // 스터디 삭제 (delete)
 export const deleteStudy = async (studyId: string) => {
-  await browserClient.from("study").delete().eq("study_id", studyId);
+  const { error } = await browserClient
+    .from("study")
+    .delete()
+    .eq("study_id", studyId);
+  if (error) {
+    console.log(error);
+    throw new Error("스터디 삭제에 실패했습니다.");
+  }
 };
 
 // 스터디 업데이트 (update)

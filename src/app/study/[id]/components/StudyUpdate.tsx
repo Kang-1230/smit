@@ -6,6 +6,11 @@ import { Tables } from "../../../../../database.types";
 import Modal from "@/components/common/Modal";
 import SelectDate from "@/app/write/components/SelectDate";
 import MyButton from "@/components/common/Button";
+import DeleteModal from "@/components/common/DeleteModal";
+import useModalOpen from "@/hooks/useModalOpen";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteStudy } from "@/utils/supabase/supabase-client";
+import { useRouter } from "next/navigation";
 
 type Props = {
   urlStudyId: string;
@@ -14,12 +19,15 @@ type Props = {
 
 const StudyUpdate = (props: Props) => {
   const [study, setStudy] = useState<Tables<"study">>();
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
   // 공용 모달 관리 - 직업 태그, 분류 태그 관리
   const [isCommonModalOpen, setIsCommonModalOpen] = useState<boolean>(false);
   const [commonModalMode, setCommonModalMode] = useState<string>("");
-
-  // Date 모달 상태관리
+  // 삭제 모달 상태 관리router
+  const { modalClose, modalOpen, isModalOpen } = useModalOpen();
+  // 인원 모달 상태 관리
   const [isDateOpen, setIsDateOpen] = useState<boolean>(false);
 
   // 선택한 배열 관리
@@ -41,6 +49,16 @@ const StudyUpdate = (props: Props) => {
     setCommonModalMode(mode);
     setIsCommonModalOpen(true);
   };
+
+  const { mutate: deleteStudyMutation } = useMutation({
+    mutationFn: () => deleteStudy(props.urlStudyId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["study", props.urlStudyId],
+      });
+      router.replace("/study");
+    },
+  });
 
   return (
     <div className="overflow-y: auto mb-10 flex flex-col gap-y-[12px] px-6">
@@ -109,7 +127,9 @@ const StudyUpdate = (props: Props) => {
 
         <div className="flex items-center justify-between pt-14">
           <div className="flex flex-col">
-            <h1 className="body-16-m">스터디 삭제</h1>
+            <h1 className="body-16-m cursor-pointer">
+              스터디 삭제
+            </h1>
             <p className="body-14-r text-secondary-300">
               삭제하면 다시 복구할 수 없습니다.
             </p>
@@ -118,11 +138,7 @@ const StudyUpdate = (props: Props) => {
             size="sm"
             style="black-fill"
             className="w-20"
-            onClick={() => {
-              console.log("적용하기 누른거맞니??");
-              // profileSaveHandler();
-              // modalClose();
-            }}
+            onClick={modalOpen}
           >
             삭제하기
           </MyButton>
@@ -158,6 +174,9 @@ const StudyUpdate = (props: Props) => {
           selectedDate={study?.study_max_people || 1}
           mode="cnt"
         />
+      )}
+      {isModalOpen && (
+        <DeleteModal onClose={modalClose} onDelete={deleteStudyMutation} />
       )}
     </div>
   );
