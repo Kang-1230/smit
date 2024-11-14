@@ -35,6 +35,10 @@ function StudyContent() {
       .publicUrl,
   );
 
+  //Ref 관련..
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const isLoadingRef = useRef(false);
+
   const [arr, setArr] = useState<string[]>([""]);
 
   // 스터디 페이지 내에서 사용하는 모달창 관리
@@ -48,11 +52,9 @@ function StudyContent() {
   // Date 모달 상태관리
   const [isDateOpen, setIsDateOpen] = useState<boolean>(false);
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
   // useMutation 훅을 항상 호출합니다.
   const { mutate: createStudy } = useMutation({
-    mutationFn: (url: string) =>
+    mutationFn: (url: string | undefined) =>
       insertStudy(
         title,
         arr,
@@ -63,6 +65,7 @@ function StudyContent() {
         url,
       ),
     onSuccess: () => {
+      isLoadingRef.current = false;
       if (userCnt === 1) {
         router.replace("/");
       } else {
@@ -72,16 +75,26 @@ function StudyContent() {
     },
     onError: () => {
       alert("스터디를 생성하지 못했습니다.");
+      isLoadingRef.current = false;
     },
   });
 
-  // user가 준비되지 않았을 때 로딩 화면을 보여줍니다.
-  if (!user) {
-    return <div>로딩 중...</div>;
-  }
+  const handleSendData = async () => {
+   
+    // 태그 처리 확인
+    if (arr[0] === "") {
+      // toast로 변경 예정
+      alert("태그를 최소 한가지 선택해주세요");
+      isLoadingRef.current = false;
+      return;
+    }
 
-  const sendData = async () => {
-    if (arr[0] !== "") {
+    if (isLoadingRef.current) {
+      return;
+    }
+    isLoadingRef.current = true;
+    try {
+      let imageUrl;
       if (
         fileInputRef.current?.files &&
         fileInputRef.current.files.length > 0
@@ -89,24 +102,22 @@ function StudyContent() {
         const { data, error } = await browserClient.storage
           .from("study_img")
           .upload(`${user?.id}${Date.now()}`, fileInputRef.current.files[0]);
+
         if (error) {
           console.log("이미지 업로드 중 오류 발생", error);
-          return;
+          isLoadingRef.current = false;
+          throw error;
         }
 
-        const url = browserClient.storage
+        imageUrl = browserClient.storage
           .from("study_img")
           .getPublicUrl(`${data!.path}`).data.publicUrl;
-
-        createStudy(url); // useMutation 호출
-        return;
-      } else {
-        createStudy(
-          "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/study_img/default",
-        );
       }
-    } else {
-      alert("태그를 최소 한가지 선택해주세요");
+      createStudy(imageUrl);
+    } catch (e) {
+      console.log(e);
+      isLoadingRef.current=false;
+      alert(e);
     }
   };
 
@@ -151,12 +162,12 @@ function StudyContent() {
           }}
         />
         <p className="body-16-s text-black">스터디 만들기</p>
-        <Image
-          src={Check}
-          alt="selectBtn"
-          width={0}
-          onClick={() => sendData()}
-        />
+        <button
+          disabled={isLoadingRef.current}
+          onClick={() => handleSendData()}
+        >
+          <Image src={Check} alt="selectBtn" width={0} />
+        </button>
       </div>
 
       <div className="mb-4 flex h-1/3 flex-col">
