@@ -39,6 +39,10 @@ const Modal = (props: Props) => {
     }
   }, [props.isModalOpen, props.modalMode]); // 의존성 배열에 props.modalMode 추가
 
+  useEffect(() => {
+    setArr(props.arr); // 부모 컴포넌트에서 전달된 arr을 상태로 설정
+  }, [props.arr]); // props.arr 값이 변경될 때마다 실행
+
   return props.isModalOpen ? (
     <div
       className="fixed inset-0 z-50 flex w-full justify-center bg-black bg-opacity-50"
