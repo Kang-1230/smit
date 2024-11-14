@@ -8,6 +8,8 @@ import { useCalendarByStudy } from "../[id]/hooks/useCalendar";
 import { DayContentProps } from "react-day-picker";
 import Image from "next/image";
 import CalendarMonth from "../../../../public/icons/CalenderMonth.svg";
+import Tooltip from "@/components/common/Tooltip";
+import useTooltip from "@/hooks/useTooltip";
 
 const GroupCalendar = ({ studyId }: { studyId: string }) => {
   const [date, setDate] = useState<Date | undefined>(undefined);
@@ -24,6 +26,8 @@ const GroupCalendar = ({ studyId }: { studyId: string }) => {
 
   const eventDates = data?.map((event) => new Date(event.event_date)) || [];
 
+  const { tooltipVisible, closeTooltip } = useTooltip("Calender");
+
   return (
     <div
       className="relative my-6 h-[362px] w-[327px] rounded-[20px] border border-[#797272]"
@@ -32,11 +36,20 @@ const GroupCalendar = ({ studyId }: { studyId: string }) => {
           "radial-gradient(64.61% 66.48% at 20.51% 9.53%, rgba(255, 153, 69, 0.11) 20%, rgba(255, 153, 69, 0.00) 100%), linear-gradient(180deg, rgba(47, 47, 47, 0.50) 0%, rgba(103, 103, 103, 0.30) 100%)",
       }}
     >
-      <div className="ml-4 mt-4 flex items-center gap-1">
+      <div className="relative ml-4 mt-4 flex items-center gap-1">
         <Image src={CalendarMonth} alt="calendar" width={16} height={16} />
         <span className="caption font-medium text-secondary-300">
           일정 잡기
         </span>
+        {tooltipVisible && (
+          <div className="absolute -left-[16px] bottom-[28px]">
+            <Tooltip
+              onClose={closeTooltip}
+              message="날짜를 클릭해서 팀 스터디 일정을 등록할 수 있어요! "
+              position="max-left"
+            />
+          </div>
+        )}
       </div>
       <div className="flex h-[calc(100%-48px)]">
         <Calendar

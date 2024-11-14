@@ -20,8 +20,13 @@ const EditProfile = ({
   user: Tables<"user">;
   modalClose: () => void;
 }) => {
-  const { userName, nicknameStatus, validateNickname, inputChangeHandler } =
-    useValidateNickname(user);
+  const {
+    userName,
+    nicknameStatus,
+    validateNickname,
+    inputChangeHandler,
+    switchErrorMessage,
+  } = useValidateNickname(user);
   const queryClient = useQueryClient();
   const [uploadImg, setUploadImg] = useState<null | string>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -158,13 +163,7 @@ const EditProfile = ({
           onChange={inputChangeHandler}
           onClick={validateNickname}
           classname="bg-c-background"
-          error={
-            nicknameStatus === "duplicate"
-              ? "이미 사용하고 있는 닉네임 입니다."
-              : nicknameStatus === "invalid"
-                ? "사용할 수 없는 닉네임 입니다."
-                : undefined
-          }
+          error={switchErrorMessage()}
           success={
             nicknameStatus === "available"
               ? "사용 가능한 닉네임 입니다."
