@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import RoundInput from "@/components/common/RoundInput";
+import { useRouter } from "next/navigation";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "이메일 형식이 필요합니다." }),
@@ -33,6 +34,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [checked, setChecked] = useState(false);
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -52,7 +54,7 @@ export default function LoginPage() {
     } else {
       console.log("로그인 완료", data);
       alert("로그인 되었습니다.");
-      window.location.href = "/";
+      router.push("/");
     }
   };
 
@@ -68,7 +70,7 @@ export default function LoginPage() {
     });
 
     if (data) {
-      window.location.href = "/";
+      router.push("/");
     } else if (error) {
       console.log("구글 로그인 실패", error);
     }
@@ -88,7 +90,8 @@ export default function LoginPage() {
     console.log("카카오data", data);
 
     if (data) {
-      window.location.href = "/";
+      console.log("카카오data", data);
+      router.push("/");
     } else if (error) {
       console.log("카카오 로그인 실패", error);
     }
