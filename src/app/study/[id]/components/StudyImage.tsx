@@ -2,17 +2,20 @@
 import browserClient from "@/utils/supabase/client";
 import { fetchStudyInfo } from "@/utils/supabase/supabase-server";
 import ImageSelect from "../../../../../public/icons/ImageSelect.svg";
+import Pencil from "../../../../../public/icons/PencilFill.svg";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { Tables } from "../../../../../database.types";
 
 type Props = {
   urlStudyId: string;
+  onConfirm: (data: Tables<"study">) => void;
 };
 
 const StudyImage = ({ urlStudyId }: Props) => {
   const [study, setStudy] = useState<Tables<"study">>();
   const [isSubModalOpen, setIsSubModalOpen] = useState<boolean>(false);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
 
   // 최초 스터디 정보 get
   useEffect(() => {
@@ -62,6 +65,32 @@ const StudyImage = ({ urlStudyId }: Props) => {
     .from("study_img")
     .getPublicUrl("default").data.publicUrl;
 
+
+  // 입력 변경 핸들러
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setStudy((prevStudy) => {
+      if (!prevStudy) {
+        return undefined; // 초기 상태가 undefined일 경우 처리
+      }
+      return {
+        ...prevStudy, // 기존 데이터 유지
+        study_name: e.target.value, // 이미지 URL 변경
+      };
+    });
+  };
+
+  // 입력 완료 핸들러
+  const handleBlur = () => {
+    setIsEdit(false); // 입력 상자에서 포커스가 사라지면 편집 모드 종료
+  };
+
+  // 엔터 키로 입력 완료
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      setIsEdit(false); // 엔터를 누르면 편집 모드 종료
+    }
+  };
+
   return (
     <div className="relative flex h-[263px] w-full items-center justify-center">
       <Image
@@ -78,18 +107,46 @@ const StudyImage = ({ urlStudyId }: Props) => {
           setIsSubModalOpen(!isSubModalOpen);
         }}
       />
-      <div>
-        <Image
-          src={ImageSelect}
-          alt="selectBtn"
-          width={44}
-          height={44}
-          className="absolute bottom-[24px] right-[24px]"
-          onClick={() => {
-            setIsSubModalOpen(!isSubModalOpen);
-          }}
-        />
+      <div className="absolute bottom-[24px] left-[24px]">
+        <p className="caption mb-2 text-white">
+          {study?.study_createtime.substring(0, 10).replaceAll("-", ".")}
+        </p>
+
+        {isEdit ? (
+          <input
+            type="text"
+            value={study?.study_name}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            onKeyDown={(e) => handleKeyDown(e)}
+            maxLength={20}
+            className="title-20-s max-w-[240px] truncate border-b border-gray-300 bg-transparent text-white focus:outline-none"
+            autoFocus // 클릭하면 바로 포커스
+          />
+        ) : (
+          <p className="title-20-s text-overflow ... flex max-w-[283px] items-center truncate text-white">
+            {study?.study_name}
+            <Image
+              src={Pencil}
+              alt="PencilLined"
+              width={24}
+              height={24}
+              className="mr-2 cursor-pointer"
+              onClick={() => setIsEdit(true)}
+            />
+          </p>
+        )}
       </div>
+      <Image
+        src={ImageSelect}
+        alt="selectBtn"
+        width={44}
+        height={44}
+        className="absolute bottom-[24px] right-[24px]"
+        onClick={() => {
+          setIsSubModalOpen(!isSubModalOpen);
+        }}
+      />
       <input
         ref={fileInputRef}
         className="hidden"

@@ -72,7 +72,7 @@ export const insertStudy = async (
   userId: string | undefined,
   studyDescription: string,
   studyLink: string,
-  imgUrl: string,
+  imgUrl: string | undefined,
 ) => {
   const user = await fetchSessionData();
   if (!user) {

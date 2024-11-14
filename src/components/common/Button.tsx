@@ -8,7 +8,8 @@ interface buttonProps {
     | "white-fill"
     | "beige"
     | "gray"
-    | "darkgray";
+    | "darkgray"
+    | "gray-2";
   size: "lg" | "md" | "sm";
   onClick?:
     | (() => void)
