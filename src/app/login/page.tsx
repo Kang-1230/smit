@@ -1,7 +1,7 @@
 "use client";
 
 import supabase from "../../utils/supabase/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import KakaoLogo from "../../../public/icons/Kakao.svg";
 import GoogleLogo from "../../../public/icons/Google.svg";
@@ -14,15 +14,15 @@ import BackButton from "@/components/common/BackButton";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import RoundInput from "@/components/common/RoundInput";
 import { useRouter } from "next/navigation";
+import RoundLoginInput from "@/components/common/RoundLoginInput";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "이메일 형식이 필요합니다." }),
   password: z
     .string()
     .min(1, { message: "비밀번호를 입력해주세요" })
-    .min(6, { message: "6자 이상의 비밀번호가 필요합니다" })
+    .min(6, { message: "8자 이상의 비밀번호가 필요합니다" })
     .regex(/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/, {
       message:
         "영문+숫자+특수문자(! @ # $ % & * ?) 조합 8~15자리를 입력해주세요.",
@@ -43,6 +43,17 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
   });
 
+  useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      return user;
+    };
+
+    getUser();
+  }, []);
+
   const onSubmit = async (formData: LoginFormData) => {
     const { data, error } = await supabase.auth.signInWithPassword({
       email: formData.email,
@@ -55,6 +66,7 @@ export default function LoginPage() {
       console.log("로그인 완료", data);
       alert("로그인 되었습니다.");
       router.push("/");
+      // router.refresh();
     }
   };
 
@@ -71,31 +83,56 @@ export default function LoginPage() {
 
     if (data) {
       router.push("/");
+      router.refresh();
     } else if (error) {
       console.log("구글 로그인 실패", error);
     }
   };
 
-  const handleKaKaoSignIn = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "kakao",
-      options: {
-        queryParams: {
-          access_type: "offline",
-          prompt: "consent",
-        },
-      },
-    });
+  // const handleKaKaoSignIn = async () => {
+  //   const { data, error } = await supabase.auth.signInWithOAuth({
+  //     provider: "kakao",
+  //     options: {
+  //       queryParams: {
+  //         access_type: "offline",
+  //         prompt: "consent",
+  //       },
+  //     },
+  //   });
 
-    console.log("카카오data", data);
+  //   if (data.url) {
+  //     window.location.href = data.url;
 
-    if (data) {
-      console.log("카카오data", data);
-      router.push("/");
-    } else if (error) {
-      console.log("카카오 로그인 실패", error);
-    }
-  };
+  //       const { data: { user } } = await supabase.auth.getUser()
+  //       return user
+  //     }
+
+  //     getUser()
+
+  //     const { error: insertError } = await supabase
+  //         .from("user")
+  //         .insert({
+  //           id: data.user.id,
+  //           user_name: data.name,
+  //           name: data.nickname,
+  //           birth_date: data.birthDate,
+  //           email: data.email,
+  //           study_time: 0,
+  //         })
+  //         .select();
+
+  //       if (insertError) {
+  //         // 실패 시 auth 데이터 정리 시도
+  //         await supabase.auth.signOut();
+  //         console.error("Full Insert Error:", insertError);
+  //         throw new Error(
+  //           `사용자 정보 저장에 실패했습니다: ${insertError.message}`,
+  //         );
+  //       }
+  //   } else if (error) {
+  //     console.log("카카오 로그인 실패", error);
+  //   }
+  // };
 
   const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -153,11 +190,12 @@ export default function LoginPage() {
               </div>
             )}
             <div className="relative">
-              <RoundInput
+              <RoundLoginInput
                 placeholder="비밀번호"
                 useEyes
                 classname="!w-full !mt-[12px] rounded-[24px]"
-                {...register("password")}
+                // value = {{...register("password")}}
+                register={register}
                 error={errors.password?.message}
               />
             </div>
@@ -221,7 +259,7 @@ export default function LoginPage() {
               <Image alt="Vector" src={SNSVector} />
             </div>
             <div className="flex gap-[9px]">
-              <button
+              {/* <button
                 onClick={() => handleKaKaoSignIn()}
                 className="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-white"
               >
@@ -231,7 +269,7 @@ export default function LoginPage() {
                   width={32}
                   height={32}
                 />
-              </button>
+              </button> */}
               <button
                 onClick={() => handleGoogleSignIn()}
                 className="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-white"
