@@ -17,7 +17,7 @@ const SquareInput = ({
   placeholder: string;
   title: string;
   essential?: boolean;
-  maxLength: number;
+  maxLength?: number;
   caption?: string;
   viewLength?: boolean;
   error?: string;
