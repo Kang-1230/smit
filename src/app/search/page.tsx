@@ -2,6 +2,7 @@ import { SearchQueryParams } from "@/types/search";
 import SearchForm from "./components/SearchForm";
 import SearchResult from "./components/SearchResult";
 import { getPosts } from "@/service/refac";
+import FloatingButtons from "@/components/common/FloatingButtons";
 
 type SearchProps = {
   // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -18,6 +19,7 @@ export default async function SearchPage({ searchParams }: SearchProps) {
       <section className="relative px-6">
         <SearchResult posts={data} />
       </section>
+      <FloatingButtons />
     </>
   );
 }

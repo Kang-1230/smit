@@ -17,7 +17,7 @@ export default function OtherRankers({
   handleModalClick,
 }: Props) {
   return (
-    <section className="absolute top-[333px] w-full rounded-t-20 bg-gradient-to-b from-[#FFFCF9] via-[#FFF] to-[#FFF] px-[24px] py-[12px] backdrop-blur-[15px]">
+    <section className="absolute top-[333px] h-full w-full rounded-t-20 bg-gradient-to-b from-[#FFFCF9] via-[#FFF] to-[#FFF] px-[24px] py-[12px] backdrop-blur-[15px]">
       {rankers.map((ranker, index) => (
         <RankingCard
           study={ranker}
@@ -25,7 +25,7 @@ export default function OtherRankers({
           handleModalClick={handleModalClick}
         />
       ))}
-      <div className="mb-24 mt-3 min-h-64 text-center text-[14px] text-secondary-300">
+      <div className="mb-24 mt-3 text-center text-[14px] text-secondary-300">
         <button
           onClick={loadMoreData}
           disabled={!hasNextPage || isFetchingNextPage}
