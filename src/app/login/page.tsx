@@ -8,25 +8,47 @@ import GoogleLogo from "../../../public/icons/Google.svg";
 import SmitLogo from "../../../public/icons/SmitLogo.svg";
 import SNSVector from "../../../public/icons/SNSSignUpVector.svg";
 import RectangleLoginBack from "../../../public/icons/RectangleLoginBack.svg";
-import Eye from "../../../public/icons/Eye.svg";
 import Image from "next/image";
 import { Checkbox } from "@headlessui/react";
 import BackButton from "@/components/common/BackButton";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import RoundInput from "@/components/common/RoundInput";
+
+const loginSchema = z.object({
+  email: z.string().email({ message: "이메일 형식이 필요합니다." }),
+  password: z
+    .string()
+    .min(1, { message: "비밀번호를 입력해주세요" })
+    .min(6, { message: "6자 이상의 비밀번호가 필요합니다" })
+    .regex(/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/, {
+      message:
+        "영문+숫자+특수문자(! @ # $ % & * ?) 조합 8~15자리를 입력해주세요.",
+    }),
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [checked, setChecked] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+  });
 
-  const handleSignIn = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const onSubmit = async (formData: LoginFormData) => {
     const { data, error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
+      email: formData.email,
+      password: formData.password,
     });
     if (error) {
       console.error("SignIn Error :", error);
+      alert("이메일과 비밀번호를 확인하세요");
     } else {
       console.log("로그인 완료", data);
       alert("로그인 되었습니다.");
@@ -46,7 +68,7 @@ export default function LoginPage() {
     });
 
     if (data) {
-      alert("구글 로그인 성공");
+      window.location.href = "/";
     } else if (error) {
       console.log("구글 로그인 실패", error);
     }
@@ -63,8 +85,10 @@ export default function LoginPage() {
       },
     });
 
+    console.log("카카오data", data);
+
     if (data) {
-      alert("카카오 로그인 성공");
+      window.location.href = "/";
     } else if (error) {
       console.log("카카오 로그인 실패", error);
     }
@@ -107,29 +131,32 @@ export default function LoginPage() {
             <h1 className="body-16-r">스밋에서 모여서 함께 공부하자</h1>
           </div>
         </div>
-        <section className="item-start absolute left-6 top-[198px] z-10 flex w-[327px] flex-col gap-2">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="item-start absolute left-6 top-[198px] z-10 flex w-[327px] flex-col gap-2"
+        >
           <div className="item-start selt-stretch relative flex w-full flex-[0_0_auto] flex-col">
             <input
-              type="email"
               placeholder="이메일"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="body-16-r mb-[12px] h-[48px] w-[327px] rounded-[24px] pl-[20px] text-secondary-400"
+              className="border-inset body-14-r !mt-[12px] h-[48px] !w-full rounded-[24px] border-[1px] px-4 py-3 text-secondary-900 placeholder:text-secondary-400 focus:border-secondary-600 focus:bg-white focus:outline-none disabled:bg-secondary-100 disabled:text-secondary-300"
+              {...register("email")}
             />
+
+            {errors.email?.message && (
+              <div className="ml-3 mt-[8px] h-[12px]">
+                <p className="caption text-alarm-red">
+                  {errors.email?.message.toString()}
+                </p>
+              </div>
+            )}
             <div className="relative">
-              <input
-                type="password"
+              <RoundInput
                 placeholder="비밀번호"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="body-16-r h-[48px] w-[327px] rounded-[24px] pl-[20px] text-secondary-400"
+                useEyes
+                classname="!w-full !mt-[12px] rounded-[24px]"
+                {...register("password")}
+                error={errors.password?.message}
               />
-              <button
-                type="button"
-                className="z-15 absolute right-[17.35px] top-[17.35px]"
-              >
-                <Image src={Eye} alt="PasswordEye" />
-              </button>
             </div>
           </div>
 
@@ -169,7 +196,7 @@ export default function LoginPage() {
               <>
                 <button
                   className="black-fill lgBtn mt-[30px] h-[48px] w-[327px] rounded-[24px]"
-                  onClick={(e) => handleSignIn(e)}
+                  type="submit"
                 >
                   로그인
                 </button>
@@ -215,7 +242,7 @@ export default function LoginPage() {
               </button>
             </div>
           </div>
-        </section>
+        </form>
       </div>
     </div>
   );
