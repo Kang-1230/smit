@@ -17,7 +17,7 @@ const SquareInput = ({
   placeholder: string;
   title: string;
   essential?: boolean;
-  maxLength: number;
+  maxLength?: number;
   caption?: string;
   viewLength?: boolean;
   error?: string;
@@ -33,7 +33,7 @@ const SquareInput = ({
       <input
         className={`body-16-m w-full rounded-12 bg-c-background p-3 text-secondary-900 placeholder-secondary-300 ring-[1px] ring-inset ring-transparent focus:bg-white focus:outline-none focus:ring-secondary-500 ${error && "ring-alarm-red"}`}
         value={value}
-        maxLength={25}
+        maxLength={maxLength}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         onFocus={() => setIsFocused(true)}

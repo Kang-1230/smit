@@ -225,7 +225,6 @@ function StudyContent() {
           viewLength={true}
         />
         <SquareInput
-          maxLength={25}
           title="오픈채팅방 링크"
           placeholder="팀원들과 소통할 채팅방 링크를 넣어주세요."
           value={studychatLink}
