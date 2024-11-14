@@ -182,6 +182,10 @@ body {
     @apply bg-secondary-50 text-black active:bg-secondary-200;
   }
 
+  .gray-2 {
+    @apply bg-secondary-100 text-black active:bg-secondary-200;
+  }
+
   .darkgray {
     @apply bg-secondary-800 text-white active:bg-secondary-600;
   }

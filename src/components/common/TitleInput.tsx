@@ -25,9 +25,9 @@ const TitleInput = ({
   return (
     <>
       <div className="relative w-full">
-        <p className="body-14-m mb-2 ml-3 text-secondary-700">{title}</p>
-        <div className="flex flex-row items-center gap-x-1">
-          <div className="relative">
+        <p className="body-14-m mb-2 ml-3 w-full text-secondary-700">{title}</p>
+        <div className="flex w-full flex-row items-center gap-x-1">
+          <div className="relative w-full">
             <input
               placeholder={placeholder}
               className={`border-inset body-14-r h-[40px] w-full rounded-20 border-[1px] px-4 py-3 text-secondary-900 placeholder:text-secondary-400 disabled:bg-secondary-100 disabled:text-secondary-300 ${classname} focus:border-secondary-600 focus:bg-white focus:outline-none ${error && "border-alarm-red text-alarm-red"} ${!error ? "border-transparent" : "bg-white"}`}

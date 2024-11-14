@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Tables } from "../../../database.types";
 import { usePublicUser } from "@/hooks/useUserProfile";
 import { useMutation } from "@tanstack/react-query";
@@ -22,6 +22,7 @@ import SelectDate from "./components/SelectDate";
 import RoundSelectDiv from "./components/RoundSelectDiv";
 import AutoResizeTextArea from "../study/[id]/components/AutoResizeTextArea";
 import SelectStudyCard from "./components/SelectStudyCard";
+import SquareInput from "./components/SquareInput";
 
 type study = {
   id: string;
@@ -37,6 +38,9 @@ export default function Write() {
 }
 
 function WriteContent() {
+  // Ref 관련..
+  const isLoadingRef = useRef(false);
+
   //유저 가져오기
   const { data: user } = usePublicUser();
 
@@ -69,9 +73,26 @@ function WriteContent() {
   // 가져온 스터디 하나의 데이터
   const [studyInfo, setStudyInfo] = useState<Tables<"study">>();
 
+  const handleSendData = async () => {
+    // 태그 처리 확인
+    if (title === "" || contents === "") {
+      // toast로 변경 예정
+      alert("제목과 내용을 입력해주세요.");
+      isLoadingRef.current = false;
+      return;
+    }
+
+    if (isLoadingRef.current) {
+      console.log("넌 지금 여러번 눌렀기 떄문에 안된다.");
+      return;
+    }
+    isLoadingRef.current = true;
+    createPost();
+  };
+
   // 스터디 모집글 생성
   const { mutate: createPost } = useMutation({
-    mutationFn: async () => {
+    mutationFn: () => {
       if (post_id) {
         const postId = updatePostWrite(
           user?.id ?? "",
@@ -97,14 +118,17 @@ function WriteContent() {
     onSuccess: (data) => {
       if (data !== null) {
         router.replace(`/post/${data}`);
+        isLoadingRef.current = false;
       }
     },
 
     onError: () => {
       if (post_id) {
         alert("스터디 모집글을 수정하지 못했습니다.");
+        isLoadingRef.current = false;
       } else {
         alert("스터디 모집글을 생성하지 못했습니다.");
+        isLoadingRef.current = false;
       }
     },
   });
@@ -174,26 +198,22 @@ function WriteContent() {
         <p className="body-16-s text-black">
           {post_id ? "모집글 수정" : "모집글 쓰기"}
         </p>
-        <Image
-          src={Check}
-          alt="selectBtn"
-          width={0}
-          onClick={() => createPost()}
-        />
+        <button
+          disabled={isLoadingRef.current}
+          onClick={() => handleSendData()}
+        >
+          <Image src={Check} alt="selectBtn" width={0} />
+        </button>
       </div>
       <div className="flex w-full flex-col gap-y-[32px]">
-        <div>
-          <p className="mb-[8px] pl-[4px] text-secondary-700">
-            제목 <span className="text-primary-50">*</span>
-          </p>
-          <input
-            className="body-16-m w-full rounded-12 bg-c-background p-3 placeholder-secondary-300"
-            value={title}
-            maxLength={25}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="제목을 작성해주세요"
-          />
-        </div>
+        <SquareInput
+          onChange={setTitle}
+          title="제목"
+          placeholder="제목을 작성해주세요."
+          value={title}
+          maxLength={25}
+          essential={true}
+        />
         <div className="flex w-full flex-col gap-y-[12px]">
           <RoundSelectDiv
             onClick={() => setIsDateOpen(true)}
