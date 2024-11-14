@@ -24,7 +24,7 @@ const SquarePostCard = ({ post }: { post: Tables<"post"> }) => {
   const { data: likers = null } = usePostLikers(post.post_id);
 
   if (studyLoading || !study || memberLoading || !studyMember) {
-    return <div>loading...</div>;
+    return <div></div>;
   }
 
   if (studyError || memberError) {
