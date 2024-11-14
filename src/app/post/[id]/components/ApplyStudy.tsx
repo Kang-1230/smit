@@ -40,7 +40,6 @@ const ApplyStudy = ({ postData, isFull }: ApplyStudyProps) => {
       }
     },
     onError: (error) => {
-      console.log("스터디 신청 실패", error);
     },
   });
 

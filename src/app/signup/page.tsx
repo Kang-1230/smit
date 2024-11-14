@@ -91,7 +91,6 @@ export default function SignupPage() {
         password: formData.password,
       });
 
-      console.log("authdata:", authData);
 
       if (authError) throw authError;
       if (!authData.user) throw new Error("User data is missing");

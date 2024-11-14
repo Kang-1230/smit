@@ -78,7 +78,6 @@ const EditProfile = ({
         });
 
       if (error) {
-        console.log("이미지 업로드 중 오류 발생", error);
         return;
       }
       const url =

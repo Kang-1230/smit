@@ -17,7 +17,6 @@ export async function DELETE() {
   }
 
   try {
-    console.log("Attempting to delete user:", user.id);
     const { error: deleteError } = await supabase
       .from("user")
       .delete()

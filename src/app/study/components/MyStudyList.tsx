@@ -59,8 +59,6 @@ const MyStudyList = ({ user }: { user: User | null }) => {
 
   const deleteMutation = useDeleteApplyStudy();
 
-  console.log("유저 정보", user);
-
   //내가 방장인 스터디
 
   const myStudy = async (user: User | null) => {
@@ -87,7 +85,6 @@ const MyStudyList = ({ user }: { user: User | null }) => {
   if (isLoading) return <div>로딩중</div>;
   if (error) return <div>에러 발생</div>;
 
-  console.log("내가 방장인 스터디", myStudyData);
 
   return (
     <div className="flex flex-col">

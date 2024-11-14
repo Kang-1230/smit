@@ -95,10 +95,8 @@ const WriteModal = (props: ModalProps) => {
                     onClick={(e) => e.stopPropagation()}
                     onChange={() => {
                       if (selectStudy?.studyId === item.study_id) {
-                        console.log("Unchecking:", item.study_id);
                         setSelectStudy(null);
                       } else {
-                        console.log("Selecting:", item.study_id);
                         setSelectStudy({
                           studyId: item.study_id,
                           studyName: item.study_name,
