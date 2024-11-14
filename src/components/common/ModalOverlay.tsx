@@ -9,11 +9,15 @@ const ModalOverlay = ({
 }) => {
   return (
     <div
-      onClick={onClick}
-      className="fixed inset-0 flex items-center justify-center w-full h-full bg-black/70 z-50"
+      onClick={(e) => {
+        onClick();
+        e.stopPropagation();
+        e.preventDefault();
+      }}
+      className="fixed inset-0 z-50 flex h-full w-full items-center justify-center bg-black/70"
     >
       <div
-        className="w-[327px] h-auto bg-white rounded-20  flex items-center justify-center"
+        className="flex h-auto w-[327px] flex-col items-center justify-center rounded-20 bg-white px-[20px] py-[32px] text-center text-secondary-900"
         onClick={(e) => e.stopPropagation()}
       >
         {children}

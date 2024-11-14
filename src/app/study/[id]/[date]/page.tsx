@@ -25,25 +25,27 @@ const CalendarPage = async ({ params }: Props) => {
   const { monthWithDay, weekday } = formatDateToMixed(date);
 
   return (
-    <div className="bg-[#F6F6F4] h-full w-full">
-      <header className="mx-6">
-        <div className="flex justify-center items-center relative pt-[10px]">
-          <BackButton color="#666666" />
-          <span className="body-16-s text-secondary-600">일정잡기</span>
-        </div>
-        <div className="flex items-center mt-[30px]">
-          <h1 className="title-24-b">{monthWithDay}</h1>
-          <div className="border-l h-[22px] w-[1px] border-secondary-300 mx-2" />
-          <span className="text-[15px]">{weekday}</span>
+    <div className="h-full w-full bg-[#F8F8FA]">
+      <header className="fixed left-0 right-0 top-0 z-50 bg-[#F8F8FA]">
+        <div className="relative mx-6 flex h-11 items-center justify-center">
+          <BackButton color="#666666" studyId={id} today={date} />
+          <span className="body-16-m text-secondary-600">일정잡기</span>
         </div>
       </header>
-      <main>
-        <EventList
-          studyId={id}
-          eventDate={date}
-          managerId={studyData?.study_manager}
-        />
-      </main>
+      <div className="relative pt-[34px]">
+        <section className="mx-6 mt-[30px] flex items-center">
+          <h1 className="title-24-b">{monthWithDay}</h1>
+          <div className="mx-2 h-[22px] w-[1px] border-l border-secondary-300" />
+          <span className="text-[15px]">{weekday}</span>
+        </section>
+        <main>
+          <EventList
+            studyId={id}
+            eventDate={date}
+            managerId={studyData?.study_manager}
+          />
+        </main>
+      </div>
     </div>
   );
 };

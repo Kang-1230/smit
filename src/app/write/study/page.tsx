@@ -79,15 +79,6 @@ function StudyContent() {
     return <div>로딩 중...</div>;
   }
 
-  const handleModalClose = () => {
-    if (title && modalMode !== "success") {
-      setIsModalOpen(false);
-      setIsCommonModalOpen(false);
-    } else {
-      router.replace("/");
-    }
-  };
-
   const sendData = async () => {
     if (arr[0] !== "") {
       if (fileInputRef.current?.files) {
@@ -113,12 +104,18 @@ function StudyContent() {
   const ImageUploadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const file = e.target.files[0];
-      if (file) {
+      const allowExtenstions = ["image/png", "image/jpeg", "image/jpg"];
+      if (file && allowExtenstions.includes(file.type)) {
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = () => {
           setUploadImg(reader.result as string);
         };
+      } else if (!allowExtenstions.includes(file.type)) {
+        // Toast로 선택한 파일이 이미지 형식이 아닙니다 - toast 로 수정 진행 예정
+        alert("선택한 파일이 이미지 형식이 아닙니다.");
+        // setModalMode("file");
+        // setIsModalOpen(true);
       }
     }
   };
@@ -136,8 +133,12 @@ function StudyContent() {
           alt="selectBtn"
           width={0}
           onClick={() => {
-            setModalMode("close");
-            setIsModalOpen(true);
+            if (title !== "" || studyDescription !== "") {
+              setModalMode("close");
+              setIsModalOpen(true);
+            } else {
+              router.replace("/");
+            }
           }}
         />
         <p className="body-16-s text-black">스터디 만들기</p>
@@ -149,27 +150,24 @@ function StudyContent() {
         />
       </div>
 
-      <div className="relative mb-4 flex h-1/3 w-full flex-col">
-        <p className="body-16-m mb-2 text-black">
-          대표 이미지 <span className="text-primary-50">{`(선택)`}</span>
-        </p>
+      <div className="mb-4 flex h-1/3 flex-col">
         <div
-          className="flex h-[200px] w-[327px] items-center justify-center"
+          className="relative flex h-[200px] w-full items-center justify-center"
           onClick={() => fileInputRef.current?.click()}
         >
           <Image
             src={uploadImg}
-            alt="userImg"
+            alt="studyImg"
             width={327}
             height={200}
-            className="absolute left-0 top-0 h-full w-full rounded-3xl object-cover"
+            className="h-full w-full rounded-3xl border object-cover" // 부모 크기에 맞추기
             priority={true}
           />
           <Image
             src={ImageSelect}
             alt="selectBtn"
             width={35}
-            className="absolute inset-0 m-auto" // 중앙 정렬
+            className="absolute inset-0 m-auto"
           />
         </div>
         <input
@@ -256,8 +254,7 @@ function StudyContent() {
 
       <StudyModal
         isModalOpen={isModalOpen}
-        onClose={() => handleModalClose()}
-        onConfirm={() => setIsModalOpen(false)}
+        onClose={() => setIsModalOpen(false)}
         modalMode={modalMode}
       />
 

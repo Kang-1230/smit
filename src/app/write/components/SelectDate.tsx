@@ -56,13 +56,16 @@ const SelectDate = (props: Props) => {
 
   // 인원 수 관련 - 최소 한명은 선택되어야 하기에 일의 자리는 '1'
   const [humanCtn, setHumanCtn] = useState({
-    units: "0",
-    tens: "1",
+    units: "1",
+    tens: "0",
   });
 
   // 인원수 옵션
   const tensOption = ["0", "1"];
-  const unitOption = ["0", "1", "2", "3", "4", "5", "6"];
+  const unitOption =
+    humanCtn.tens === "1"
+      ? ["0","1", "2", "3", "4", "5", "6"]
+      : ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
   // 윤년 계산
   const getDaysInMonth = (year: number, month: number) => {
@@ -71,7 +74,6 @@ const SelectDate = (props: Props) => {
 
   useEffect(() => {
     if (date.year && date.month) {
-      console.log(date.year + "dsdasdas" + date.month);
       const daysInMonth = getDaysInMonth(Number(date.year), Number(date.month));
       const updatedDayOption = [...Array(daysInMonth)].map((_, i) =>
         (i + 1).toString().padStart(1, "0"),
@@ -87,13 +89,20 @@ const SelectDate = (props: Props) => {
 
     switch (type) {
       case "year":
-        setDate((prev) => ({ ...prev, year: yearOption[index] }));
+        if (yearOption[index] !== undefined) {
+          setDate((prev) => ({ ...prev, year: yearOption[index] }));
+        }
+
         break;
       case "month":
-        setDate((prev) => ({ ...prev, month: monthOption[index] }));
+        if (monthOption[index] !== undefined) {
+          setDate((prev) => ({ ...prev, month: monthOption[index] }));
+        }
         break;
       case "day":
-        setDate((prev) => ({ ...prev, day: dayOption[index] }));
+        if (dayOption[index] !== undefined) {
+          setDate((prev) => ({ ...prev, day: dayOption[index] }));
+        }
         break;
       case "tens":
         if (tensOption[index] !== undefined) {

@@ -13,13 +13,15 @@ import WriteModal from "./components/WriteModal";
 import Image from "next/image";
 import Xmedium from "../../../public/icons/XMedium.svg";
 import Check from "../../../public/icons/Check.svg";
-import stroke from "../../../public/icons/Next.svg";
 import {
   fetchPostStudyInfo,
   fetchStudyInfo,
 } from "@/utils/supabase/supabase-server";
 
 import SelectDate from "./components/SelectDate";
+import RoundSelectDiv from "./components/RoundSelectDiv";
+import AutoResizeTextArea from "../study/[id]/components/AutoResizeTextArea";
+import SelectStudyCard from "./components/SelectStudyCard";
 
 type study = {
   id: string;
@@ -111,7 +113,7 @@ function WriteContent() {
   const { mutate: getStudy } = useMutation({
     mutationFn: () => fetchUserStudyInfo(user?.id),
     onSuccess: (data) => {
-      setStudyGroup(data);
+      setStudyGroup(data?.filter((study) => study.study_max_people > 1));
       if (data && data.length > 0) {
         setModalMode("group");
         setIsModalOpen(true);
@@ -124,7 +126,7 @@ function WriteContent() {
 
   // 작성 취소 버튼 클릭 시
   const handleModalClose = () => {
-    if (title) {
+    if (title !== "" || study.id !== "" || contents !== "") {
       setModalMode("close");
       setIsModalOpen(true);
     } else {
@@ -161,124 +163,62 @@ function WriteContent() {
   }, [post_id]);
 
   return (
-    <div className="flex w-full flex-col items-center">
-      <div className="body-16-m flex w-full flex-col items-center">
-        <div className="... flex w-full items-center justify-between p-5 text-2xl">
-          <Image
-            src={Xmedium}
-            alt="selectBtn"
-            width={0}
-            onClick={() => handleModalClose()}
-          />
-          <p className="body-16-s text-black">
-            {post_id ? "모집글 수정" : "모집글 쓰기"}
-          </p>
-          <Image
-            src={Check}
-            alt="selectBtn"
-            width={0}
-            onClick={() => createPost()}
-          />
-        </div>
-
-        <div className="mb-4 w-10/12">
-          <p className="text-black">
+    <div className="mb-[29px] flex w-full flex-col items-center px-[24px]">
+      <div className="mb-[24px] flex h-[44px] w-full items-center justify-between">
+        <Image
+          src={Xmedium}
+          alt="selectBtn"
+          width={0}
+          onClick={() => handleModalClose()}
+        />
+        <p className="body-16-s text-black">
+          {post_id ? "모집글 수정" : "모집글 쓰기"}
+        </p>
+        <Image
+          src={Check}
+          alt="selectBtn"
+          width={0}
+          onClick={() => createPost()}
+        />
+      </div>
+      <div className="flex w-full flex-col gap-y-[32px]">
+        <div>
+          <p className="mb-[8px] pl-[4px] text-secondary-700">
             제목 <span className="text-primary-50">*</span>
           </p>
           <input
-            className="body-16-m my-3 w-full rounded-2xl bg-secondary-50 p-3 placeholder-secondary-300"
+            className="body-16-m w-full rounded-12 bg-c-background p-3 placeholder-secondary-300"
             value={title}
             maxLength={25}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="제목을 작성해주세요"
           />
         </div>
-
-        <div className="mb-4 flex w-10/12 items-center justify-between rounded-2xl border border-gray-300 text-secondary-700">
-          <p className="p-3">시작 예정일</p>
-          <div className="flex">
-            <p
-              className="body-16-m px-3 text-secondary-300"
-              onClick={() => setIsDateOpen(true)}
-            >
-              {startDay !== "" ? startDay : "0000년 00월 00일"}
-            </p>
-            <Image src={stroke} alt="selectBtn" width={0} className="mr-3" />
-          </div>
+        <div className="flex w-full flex-col gap-y-[12px]">
+          <RoundSelectDiv
+            onClick={() => setIsDateOpen(true)}
+            title="시작 예정일"
+            value={startDay !== "" ? startDay : "0000년 00월 00일"}
+          />
+          <RoundSelectDiv
+            onClick={getStudy}
+            title="스터디 그룹"
+            value={study.id !== "" ? "선택됨" : " 선택해주세요"}
+          >
+            {study && studyInfo && <SelectStudyCard studyInfo={studyInfo} />}
+          </RoundSelectDiv>
         </div>
 
-        <div className="mb-5 flex w-10/12 flex-col items-center rounded-2xl border border-gray-300 text-secondary-700">
-          <div className="flex w-full items-center justify-between">
-            <p className="p-3">
-              스터디 그룹 <span className="text-primary-50">*</span>
-            </p>
-            <div className="flex">
-              <p
-                className="body-16-m px-3 text-secondary-300"
-                onClick={() => getStudy()}
-              >
-                {study.id !== "" ? "선택됨" : " 선택해주세요"}
-              </p>
-              <Image src={stroke} alt="selectBtn" width={0} className="mr-3" />
-            </div>
-          </div>
-
-          {study.id !== "" ? (
-            <div className="m-4 h-fit w-11/12 flex-col justify-center rounded-2xl bg-tertiary-75">
-              <div className="m-4 flex items-center">
-                <Image
-                  src={
-                    studyInfo?.study_imgurl ||
-                    "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/study_img/default"
-                  }
-                  alt="img"
-                  width={100}
-                  height={100}
-                  className="object-full aspect-square h-1/4 w-1/4 rounded-xl border"
-                />
-                <p className="body-16-s mx-2 text-secondary-800">
-                  {studyInfo?.study_name}
-                </p>
-              </div>
-              <div className="flex w-full justify-start">
-                <p className="... caption mb-4 ml-4 flex items-center overflow-hidden text-ellipsis whitespace-nowrap rounded-full bg-tertiary-300 px-3 py-1 text-white">
-                  {studyInfo?.study_category[0]}
-                </p>
-
-                {studyInfo?.study_category[1] ? (
-                  <p className="caption mb-4 ml-1 flex items-center overflow-hidden text-ellipsis whitespace-nowrap rounded-full bg-primary-50 px-3 py-1 text-white">
-                    {studyInfo?.study_category[1]}
-                  </p>
-                ) : null}
-
-                {studyInfo?.study_category[2] ? (
-                  <p className="caption mb-4 ml-1 flex items-center overflow-hidden text-ellipsis whitespace-nowrap rounded-full bg-primary-50 px-3 py-1 text-white">
-                    {studyInfo?.study_category[2]}
-                  </p>
-                ) : null}
-
-                {studyInfo?.study_category[3] ? (
-                  <p className="caption mb-4 ml-1 flex items-center overflow-hidden text-ellipsis whitespace-nowrap rounded-full bg-primary-50 px-3 py-1 text-white">
-                    {studyInfo?.study_category[3]}
-                  </p>
-                ) : null}
-              </div>
-            </div>
-          ) : null}
-        </div>
-
-        <div className="h-[50vh] w-10/12">
-          <div className="flex justify-between">
-            <p className="p-2 text-slate-700">
-              내용 <span className="text-primary-50">*</span>
-            </p>
-          </div>
-          <textarea
-            className="h-[80%] w-full rounded-2xl bg-gray-100 p-4 placeholder-secondary-300" // textarea 높이
-            value={contents}
-            maxLength={500}
-            onChange={(e) => setContents(e.target.value)}
+        <div className="w-full">
+          <p className="mb-[8px] pl-[4px] text-slate-700">
+            내용 <span className="text-primary-50">*</span>
+          </p>
+          <AutoResizeTextArea
+            onChange={setContents}
             placeholder="내용을 작성해주세요."
+            value={contents}
+            maxLength={1000}
+            classname="bg-c-background rounded-12 w-full px-[12px] pt-[12px] pb-[160px] placeholder:text-secondary-300 focus:bg-white focus:border focus:border-secondary-400 focus:outline-none border-inset border border-transparent overflow-hidden"
           />
         </div>
       </div>
