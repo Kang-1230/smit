@@ -57,7 +57,7 @@ const RoundInput = ({
         </div>
         <div className="ml-3 mt-2 h-[12px]">
           {error && (
-            <p className="caption text-alarm-red">비밀번호가 틀렸습니다</p>
+            <p className="caption text-alarm-red">{error}</p>
           )}
         </div>
       </div>
