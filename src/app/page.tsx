@@ -2,6 +2,7 @@ import Banner from "@/components/home/Banner";
 import FilterablePosts from "@/components/home/FilterablePosts";
 import MultiCarousel from "@/components/home/MultiCarousel";
 import FloatingButtons from "@/components/common/FloatingButtons";
+
 import TopPostList from "@/components/home/TopPostList";
 
 const bannerData = [
@@ -19,6 +20,7 @@ const bannerData = [
 ];
 
 export default function HomePage() {
+
   return (
     <section className="mx-auto flex flex-col">
       <MultiCarousel>
