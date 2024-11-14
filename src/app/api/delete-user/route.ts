@@ -18,6 +18,19 @@ export async function DELETE() {
 
   try {
     console.log("Attempting to delete user:", user.id);
+    const { error: deleteError } = await supabase
+      .from("user")
+      .delete()
+      .eq("id", user.id);
+
+    if (deleteError) {
+      console.error("Public User delete error:", deleteError);
+      return NextResponse.json(
+        { message: deleteError.message },
+        { status: 500 },
+      );
+    }
+
     const { error } = await supabase.auth.admin.deleteUser(user.id);
 
     if (error) {

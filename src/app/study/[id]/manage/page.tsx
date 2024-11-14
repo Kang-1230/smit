@@ -5,6 +5,7 @@ import WaitApplyList from "../components/WaitApplyList";
 import ManagedMemberList from "../components/ManagedMemberList";
 import { useState } from "react";
 import ManageOptions from "../components/ManageOptions";
+import StudyImage from "../components/StudyImage";
 
 const Page = () => {
   const [updateTrigger, setUpdateTrigger] = useState(0);
@@ -16,6 +17,7 @@ const Page = () => {
 
   return (
     <div>
+      <StudyImage urlStudyId={urlStudyId}></StudyImage>
       <ManageOptions />
       <div>
         <WaitApplyList urlStudyId={urlStudyId} />

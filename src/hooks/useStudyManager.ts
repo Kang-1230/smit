@@ -58,6 +58,7 @@ export const useStudyManager = (
     return schedule.start_time <= now && now < schedule.end_time;
   };
 
+  // 경과시간 계산 함수
   const calculateElapsedTime = (
     lastStartTime: string | null,
     accumulatedTime: number,
@@ -77,7 +78,7 @@ export const useStudyManager = (
     timerState?.time_rate ? timerState.time_rate : 0,
   );
 
-  // 뮤테이션들
+  // 타이머 상태 갱신하는 뮤테이션
   const timerMutation = useMutation({
     mutationFn: async ({
       action,
@@ -114,6 +115,7 @@ export const useStudyManager = (
     },
   });
 
+  // 개인의 순공시간 더하는 뮤테이션
   const userTimeMutation = useMutation({
     mutationFn: async (elapsedTime: number) => {
       if (!user) return;
@@ -148,6 +150,7 @@ export const useStudyManager = (
     },
   });
 
+  // 재생
   const handleStart = () => {
     if (!timerState) return;
     timerMutation.mutate({
@@ -156,6 +159,7 @@ export const useStudyManager = (
     });
   };
 
+  // 일시정지
   const handlePause = () => {
     if (!timerState || !currentSchedule) return;
 
@@ -178,6 +182,7 @@ export const useStudyManager = (
     userTimeMutation.mutate(elapsedSinceStart);
   };
 
+  // 일정 종료
   const handleScheduleEnd = async (schedule: Tables<"calendar">) => {
     try {
       const { data: achievers = null, error } = await refetchAchievers();
@@ -186,7 +191,7 @@ export const useStudyManager = (
         return;
       }
 
-      // 2. 새로운 달성자 목록으로 점수 계산
+      // 달성자 리스트 최신으로 갱신하고 점수 계산
       if (member) {
         const score = calculateScore(member.length, achievers, {
           start_time: schedule.start_time,
@@ -194,7 +199,7 @@ export const useStudyManager = (
         });
         setStudyScore(score);
 
-        // 3. 계산된 점수로 DB 업데이트
+        // 달성 점수로 랭킹 점수 업데이트
         if (score > 0 && study) {
           await browserClient
             .from("study")
@@ -230,6 +235,7 @@ export const useStudyManager = (
       }
     };
 
+    // 1분마다 초기화 진행해서 현재 일정 찾기
     initializeTimer();
     const interval = setInterval(initializeTimer, 60000);
     return () => clearInterval(interval);

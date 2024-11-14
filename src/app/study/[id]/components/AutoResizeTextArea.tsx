@@ -1,11 +1,20 @@
 import { useEffect, useRef } from "react";
 
 interface AutoResizeTextAreaProps {
-  value: string;
+  value?: string;
   onChange: (value: string) => void;
+  maxLength?: number;
+  classname?: string;
+  placeholder?: string;
 }
 
-const AutoResizeTextArea = ({ value, onChange }: AutoResizeTextAreaProps) => {
+const AutoResizeTextArea = ({
+  value,
+  onChange,
+  maxLength = 150,
+  classname = "rounded-[28px] bg-secondary-600 px-4 py-2 text-white placeholder-white",
+  placeholder = "메모: 최대 150자까지 작성 가능",
+}: AutoResizeTextAreaProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -21,9 +30,9 @@ const AutoResizeTextArea = ({ value, onChange }: AutoResizeTextAreaProps) => {
       value={value}
       onChange={(e) => onChange(e.target.value)}
       rows={1}
-      placeholder="메모: 최대 150자까지 작성 가능"
-      maxLength={150}
-      className="flex resize-none items-center justify-center gap-2.5 self-stretch rounded-[28px] bg-secondary-600 px-4 py-2 text-white placeholder-white"
+      placeholder={placeholder}
+      maxLength={maxLength}
+      className={`flex resize-none items-center justify-center gap-2.5 self-stretch ${classname}`}
     />
   );
 };

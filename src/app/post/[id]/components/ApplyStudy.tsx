@@ -6,6 +6,8 @@ import { useMutation } from "@tanstack/react-query";
 import { Tables } from "../../../../../database.types";
 import { useState } from "react";
 import ApplyStudyModal from "../components/ApplyStudyModal";
+import useModalOpen from "@/hooks/useModalOpen";
+import LoginModal from "@/components/common/LoginModal";
 import MyButton from "@/components/common/Button";
 import { useToast } from "@/hooks/useToast";
 
@@ -13,6 +15,12 @@ const ApplyStudy = ({ postData }: { postData: Tables<"post"> }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState("");
   const { data } = useSession();
+  // 로그인 안하고 신청 누를경우 모달
+  const {
+    modalClose: loginModalClose,
+    modalOpen: loginModalOpen,
+    isModalOpen: isLoginModalOpen,
+  } = useModalOpen();
   const { showToast, ToastComponent } = useToast();
 
   // 스터디 신청
@@ -34,8 +42,10 @@ const ApplyStudy = ({ postData }: { postData: Tables<"post"> }) => {
     if (data) {
       setIsModalOpen(true);
       document.body.classList.add("overflow-hidden");
+      return;
     } else {
-      showToast("로그인 후 이용가능한 서비스입니다.");
+      loginModalOpen();
+      return;
     }
   };
 
@@ -74,6 +84,7 @@ const ApplyStudy = ({ postData }: { postData: Tables<"post"> }) => {
           }}
         />
       )}
+      {isLoginModalOpen && <LoginModal onClose={loginModalClose} />}
     </>
   );
 };

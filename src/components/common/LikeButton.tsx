@@ -1,9 +1,11 @@
 "use client";
 
 import { usePostLikers, useToggleLikeButton } from "@/hooks/useLikePost";
+import useModalOpen from "@/hooks/useModalOpen";
 import { useSession } from "@/hooks/useUserProfile";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import LoginModal from "./LoginModal";
 
 type Props = {
   postId: number;
@@ -18,6 +20,7 @@ const LikeButton = ({
   isBoundary = true,
   className = "",
 }: Props) => {
+  const { modalClose, modalOpen, isModalOpen } = useModalOpen();
   // 지금 로그인한 유저 정보
   const { data: user = null } = useSession();
   // 현재 포스트에 좋아요를 누른 유저
@@ -32,6 +35,11 @@ const LikeButton = ({
     // 카드 눌렀을 때 모집글 페이지로 가면 이동 안되게 할라구
     e.preventDefault();
     e.stopPropagation();
+
+    if (!user) {
+      modalOpen();
+      return;
+    }
     // 뮤테이션 실행
     likeButtonHandler();
   };
@@ -62,6 +70,7 @@ const LikeButton = ({
         )}
       </button>
       {showLikesCount && <span>{likes?.length}</span>}
+      {isModalOpen && <LoginModal onClose={modalClose}></LoginModal>}
     </>
   );
 };

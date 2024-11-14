@@ -6,6 +6,8 @@ import { usePublicUser } from "@/hooks/useUserProfile";
 import Image from "next/image";
 import CommentListItem from "./CommentListItem";
 import SendLined from "../../../../../public/icons/SendLined.svg";
+import useModalOpen from "@/hooks/useModalOpen";
+import LoginModal from "@/components/common/LoginModal";
 
 const DetailComments = ({ id }: { id: string }) => {
   const [commentItem, setCommentItem] = useState("");
@@ -17,11 +19,15 @@ const DetailComments = ({ id }: { id: string }) => {
   // 댓글 추가(+답글)
   const { mutate: addComment } = useAddCommentMutation();
 
+  // 로그인 안 한 사용자 댓글 작성시 띄울 모달
+  const { modalClose, modalOpen, isModalOpen } = useModalOpen();
+
   const handleAddComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // 로그인 안한 사용자 댓글 입력 불가
     if (!user) {
-      alert("로그인 후 이용가능한 서비스입니다.");
+      modalOpen();
+      return;
     }
     // 빈값 체크
     if (!commentItem.trim()) {
@@ -97,6 +103,7 @@ const DetailComments = ({ id }: { id: string }) => {
           <div>작성된 댓글이 없습니다.</div>
         )}
       </div>
+      {isModalOpen && <LoginModal onClose={modalClose} />}
     </div>
   );
 };

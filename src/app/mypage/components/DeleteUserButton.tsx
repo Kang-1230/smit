@@ -6,7 +6,6 @@ import ModalOverlay from "../../../components/common/ModalOverlay";
 import { useState } from "react";
 import { deleteUser } from "@/utils/supabase/supabase-client";
 import { useRouter } from "next/navigation";
-import { useQueryClient } from "@tanstack/react-query";
 import { useSession } from "@/hooks/useUserProfile";
 import useModalOpen from "@/hooks/useModalOpen";
 import Image from "next/image";
@@ -17,7 +16,6 @@ const DeleteUserButton = () => {
   const { isModalOpen, modalClose, modalOpen } = useModalOpen();
   const [isUserGroupOwner, setIsUserGroupOwner] = useState(false);
   const router = useRouter();
-  const queryClient = useQueryClient();
   const { data: user = null } = useSession();
 
   const checkDeleteHandler = async () => {
@@ -29,7 +27,7 @@ const DeleteUserButton = () => {
 
     if (studyByUser?.length) {
       modalOpen();
-      setIsUserGroupOwner(true);
+      setIsUserGroupOwner(false);
       return;
     } else {
       modalOpen();
@@ -40,8 +38,11 @@ const DeleteUserButton = () => {
   const deleteUserHandler = async () => {
     modalClose();
     await deleteUser();
-    await queryClient.invalidateQueries({ queryKey: ["user", "session"] });
     router.push("/");
+    router.refresh();
+    // 라우터가 캐싱처리돼서 발생했던 문제 미친것
+    // 이거 하나 넣고 해결됨 대박
+    // MVP 재상튜터님
   };
 
   return (
