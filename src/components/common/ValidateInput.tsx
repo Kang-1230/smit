@@ -38,7 +38,7 @@ const ValidateInput = ({
           <div className="relative w-full">
             <input
               placeholder={placeholder}
-              className={`border-inset body-14-r h-[40px] w-full rounded-20 border-[1px] px-4 py-3 text-secondary-900 placeholder:text-secondary-400 disabled:bg-secondary-100 disabled:text-secondary-300 ${classname} focus:border-secondary-600 focus:bg-white focus:outline-none ${error && "border-alarm-red text-alarm-red"} ${success && "border-success-blue text-success-blue"} ${!error && !success ? "border-transparent" : "bg-white"}`}
+              className={`border-inset body-14-r h-[40px] w-full rounded-20 border-[1px] px-4 py-3 text-secondary-900 placeholder:text-secondary-400 disabled:bg-secondary-100 disabled:text-secondary-300 ${classname} focus:border-secondary-600 focus:bg-white focus:outline-none ${error && "border-alarm-red text-alarm-red placeholder:text-alarm-red"} ${success && "border-success-blue text-success-blue"} ${!error && !success ? "border-transparent" : "bg-white"}`}
               value={value}
               onChange={onChange}
               disabled={disabled}
