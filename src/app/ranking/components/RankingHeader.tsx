@@ -1,12 +1,7 @@
-// components/Header.tsx
-import React from "react";
 import Image from "next/image";
+import RankingGuideButton from "./_/RankingGuideButton";
 
-interface HeaderProps {
-  onQuestionClick: () => void;
-}
-
-const Header: React.FC<HeaderProps> = ({ onQuestionClick }) => {
+export default function RankingHeader() {
   return (
     <>
       <Image
@@ -20,15 +15,8 @@ const Header: React.FC<HeaderProps> = ({ onQuestionClick }) => {
         <h1 className="relative text-[20px] font-semibold leading-normal">
           주간 그룹 랭킹
         </h1>
-        <button
-          className="relative flex items-center justify-center"
-          onClick={onQuestionClick}
-        >
-          <Image src="/icons/Info.svg" alt="info" width={24} height={24} />
-        </button>
+        <RankingGuideButton />
       </div>
     </>
   );
-};
-
-export default Header;
+}

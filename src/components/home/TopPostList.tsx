@@ -1,11 +1,9 @@
-import { fetchFeaturedPosts } from "@/service/posts";
+import { getFeaturedPosts } from "@/service/refac";
 import Image from "next/image";
-import SquarePostCard from "../common/SquarePostCard";
+import TopStudyCard from "./TopPostCard";
 
-export default async function FeaturedPosts() {
-  const posts = await fetchFeaturedPosts();
-
-  if (!posts || posts.length === 0) return <>Posts가 없습니다</>;
+export default async function TopPostList() {
+  const posts = await getFeaturedPosts();
 
   return (
     <section className="my-[3.25rem]">
@@ -17,9 +15,9 @@ export default async function FeaturedPosts() {
         최근 가장 많은 관심을 받았어요.
       </p>
       <ul className="mt-4 flex gap-4 overflow-x-auto pl-6 pr-6">
-        {posts.map((post) => (
-          <li key={post.post_createtime}>
-            <SquarePostCard post={post} />
+        {posts.data.map((post) => (
+          <li key={post.createdAt}>
+            <TopStudyCard post={post} />
           </li>
         ))}
       </ul>

@@ -55,7 +55,7 @@ export default function LoginPage() {
   }, []);
 
   const onSubmit = async (formData: LoginFormData) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email: formData.email,
       password: formData.password,
     });
@@ -63,7 +63,6 @@ export default function LoginPage() {
       console.error("SignIn Error :", error);
       alert("이메일과 비밀번호를 확인하세요");
     } else {
-      console.log("로그인 완료", data);
       alert("로그인 되었습니다.");
       router.push("/");
       // router.refresh();
@@ -85,7 +84,7 @@ export default function LoginPage() {
       router.push("/");
       router.refresh();
     } else if (error) {
-      console.log("구글 로그인 실패", error);
+      throw error;
     }
   };
 
@@ -119,7 +118,6 @@ export default function LoginPage() {
     if (logoutError) {
       console.error("SignUp Error :", logoutError);
     } else {
-      console.log("로그아웃 완료");
       setIsLoggedIn(false);
     }
   };

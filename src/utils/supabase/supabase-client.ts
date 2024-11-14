@@ -120,16 +120,16 @@ export const updateStudy = async (
   title: string,
   studyCategory: string[],
   studyMaxPeople: number,
-  userId: string,
   studyDescription: string,
   studyLink: string,
+  studyImg : string | null
 ) => {
   const user = await fetchSessionData();
   if (!user) {
     throw new Error("로그인 상태가 아님");
   }
 
-  await browserClient
+  const { error } = await browserClient
     .from("study")
     .update({
       study_name: title,
@@ -137,8 +137,14 @@ export const updateStudy = async (
       study_max_people: studyMaxPeople,
       study_description: studyDescription,
       study_chaturl: studyLink,
+      study_imgurl: studyImg
     })
     .eq("study_id", studyId);
+
+    if (error) {
+      console.log(error);
+      throw new Error("스터디 수정에 실패했습니다.");
+    }
 };
 
 // 포스트 생성 (insert)
