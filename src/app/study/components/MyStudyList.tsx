@@ -13,6 +13,8 @@ import UserOwnStudy from "./UserOwnStudy";
 import UserJoinedStudy from "./UserJoinedStudy";
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import Tooltip from "@/components/common/Tooltip";
+import useTooltip from "@/hooks/useTooltip";
 
 export type ApplyData = {
   id: string;
@@ -50,6 +52,7 @@ export type JoinPersonWithManager = {
 };
 
 const MyStudyList = ({ user }: { user: User | null }) => {
+  const { tooltipVisible, closeTooltip } = useTooltip("MyStudy");
   const { data: applyStudyData } = useGetApplyStudyList(user);
   const { data: joinedStudyData } = useGetJoinedStudyList(user);
 
@@ -135,63 +138,74 @@ const MyStudyList = ({ user }: { user: User | null }) => {
         </section>
       </div>
 
-      <div className="flex w-full flex-col gap-4 px-6 pb-[136px]">
+      <div className="relative flex w-full flex-col gap-4 px-6 pb-[136px]">
         <div className="relative flex w-[89px] flex-[0_0_auto] items-center justify-center gap-2.5 py-0 pl-1 pr-0">
           <h1 className="title-20-s relative ml-[-2.50px] mr-[-2.50px] mt-[-1.00px] w-fit whitespace-nowrap text-[#000000]">
             나의 스터디
           </h1>
+          {tooltipVisible && (
+            <div className="absolute -bottom-[5px] left-0">
+              <Tooltip
+                message="방장일때만 스터디 룸의 캘린더에 팀의 스터디 일정을 등록할 수 있어요."
+                position="left"
+                onClose={closeTooltip}
+              />
+            </div>
+          )}
         </div>
-        {activeTab === "UserOwnStudy" ? (
-          <div className="relative inline-flex w-[327px] flex-[0_0_auto] flex-col items-start gap-3">
-            <div className="relative flex w-full flex-[0_0_auto] items-center justify-between self-stretch rounded-[30px] bg-[#f8f8f6] p-1 backdrop-blur-2xl backdrop-brightness-[100%] [-webkit-backdrop-filter:blur(40px)_brightness(100%)]">
-              <div
-                onClick={() => setActiveTab("UserOwnStudy")}
-                className="relative flex flex-1 grow items-center justify-center gap-2.5 rounded-[29px] bg-secondary-900 px-10 py-2.5"
-              >
-                <div className="body-16-m relative mt-[-1.00px] w-fit whitespace-nowrap text-white">
-                  내가 방장
+        <div className="relative inline-flex w-[327px] flex-[0_0_auto] flex-col items-start gap-y-[12px]">
+          {activeTab === "UserOwnStudy" ? (
+            <>
+              <div className="relative flex w-full flex-[0_0_auto] items-center justify-between self-stretch rounded-[30px] bg-[#f8f8f6] p-1 backdrop-blur-2xl backdrop-brightness-[100%] [-webkit-backdrop-filter:blur(40px)_brightness(100%)]">
+                <div
+                  onClick={() => setActiveTab("UserOwnStudy")}
+                  className="relative flex flex-1 grow items-center justify-center gap-2.5 rounded-[29px] bg-secondary-900 px-10 py-2.5"
+                >
+                  <div className="body-16-m relative mt-[-1.00px] w-fit whitespace-nowrap text-white">
+                    내가 방장
+                  </div>
                 </div>
-              </div>
 
-              <div
-                onClick={() => setActiveTab("UserJoinedStudy")}
-                className="relative flex flex-1 grow items-center justify-center gap-2.5 px-8 py-2.5"
-              >
-                <div className="body-16-m relative mt-[-1.00px] w-fit whitespace-nowrap text-[#000000]">
-                  가입한 스터디
+                <div
+                  onClick={() => setActiveTab("UserJoinedStudy")}
+                  className="relative flex flex-1 grow items-center justify-center gap-2.5 px-8 py-2.5"
+                >
+                  <div className="body-16-m relative mt-[-1.00px] w-fit whitespace-nowrap text-[#000000]">
+                    가입한 스터디
+                  </div>
                 </div>
               </div>
-            </div>
-            {myStudyData ? (
-              <UserOwnStudy myStudyData={myStudyData} />
-            ) : (
-              <div>방장인 스터디가 없습니다.</div>
-            )}
-          </div>
-        ) : (
-          <div className="relative inline-flex w-[327px] flex-[0_0_auto] flex-col items-start gap-3">
-            <div className="relative flex w-full flex-[0_0_auto] items-center justify-between self-stretch rounded-[30px] bg-[#f8f8f6] p-1 backdrop-blur-2xl backdrop-brightness-[100%] [-webkit-backdrop-filter:blur(40px)_brightness(100%)]">
-              <div
-                onClick={() => setActiveTab("UserOwnStudy")}
-                className="relative flex flex-1 grow items-center justify-center gap-2.5 px-8 py-2.5"
-              >
-                <div className="body-16-m relative mt-[-1.00px] w-fit whitespace-nowrap text-[#000000]">
-                  내가 방장
+              {myStudyData ? (
+                <UserOwnStudy myStudyData={myStudyData} />
+              ) : (
+                <div>방장인 스터디가 없습니다.</div>
+              )}
+            </>
+          ) : (
+            <>
+              <div className="relative flex w-full flex-[0_0_auto] items-center justify-between self-stretch rounded-[30px] bg-[#f8f8f6] p-1 backdrop-blur-2xl backdrop-brightness-[100%] [-webkit-backdrop-filter:blur(40px)_brightness(100%)]">
+                <div
+                  onClick={() => setActiveTab("UserOwnStudy")}
+                  className="relative flex flex-1 grow items-center justify-center gap-2.5 px-8 py-2.5"
+                >
+                  <div className="body-16-m relative mt-[-1.00px] w-fit whitespace-nowrap text-[#000000]">
+                    내가 방장
+                  </div>
                 </div>
-              </div>
 
-              <div
-                onClick={() => setActiveTab("UserJoinedStudy")}
-                className="relative flex flex-1 grow items-center justify-center gap-2.5 rounded-[29px] bg-secondary-900 px-10 py-2.5"
-              >
-                <div className="body-16-m relative mt-[-1.00px] w-fit whitespace-nowrap text-white">
-                  가입한 스터디
+                <div
+                  onClick={() => setActiveTab("UserJoinedStudy")}
+                  className="relative flex flex-1 grow items-center justify-center gap-2.5 rounded-[29px] bg-secondary-900 px-10 py-2.5"
+                >
+                  <div className="body-16-m relative mt-[-1.00px] w-fit whitespace-nowrap text-white">
+                    가입한 스터디
+                  </div>
                 </div>
               </div>
-            </div>
-            <UserJoinedStudy joinedStudyData={joinedStudyData} />
-          </div>
-        )}
+              <UserJoinedStudy joinedStudyData={joinedStudyData} />
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
