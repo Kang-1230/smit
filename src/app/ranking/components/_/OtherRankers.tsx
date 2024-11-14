@@ -25,7 +25,7 @@ export default function OtherRankers({
           handleModalClick={handleModalClick}
         />
       ))}
-      <div className="mb-24 mt-3 text-center text-[14px] text-secondary-300">
+      <div className="mb-24 mt-3 min-h-64 text-center text-[14px] text-secondary-300">
         <button
           onClick={loadMoreData}
           disabled={!hasNextPage || isFetchingNextPage}
