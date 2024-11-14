@@ -30,13 +30,7 @@ const menus = [
   },
 ];
 
-const STATIC_HIDDEN_PATHS = [
-  "/post",
-  "/write",
-  "/write/study",
-  "/login",
-  "/signup",
-];
+const STATIC_HIDDEN_PATHS = ["/post", "/write", "/write/study", "/login"];
 
 const DYNAMIC_HIDDEN_PATHS = [{ prefix: "/post/" }, { prefix: "/study/" }];
 

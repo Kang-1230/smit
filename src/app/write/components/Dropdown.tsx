@@ -7,9 +7,11 @@ import { usePublicUser } from "@/hooks/useUserProfile";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Edit from "../../../../public/icons/Edit.svg";
-import Open from "../../../../public/icons/Open.svg";
-import Close from "../../../../public/icons/Close.svg";
+import Open from "../../../../public/icons/PlusMideum.svg";
+import Close from "../../../../public/icons/XMedium.svg";
 import Pencil from "../../../../public/icons/PencilSmall.svg";
+import Tooltip from "@/components/common/Tooltip";
+import useTooltip from "@/hooks/useTooltip";
 
 export default function Dropdown() {
   const router = useRouter();
@@ -19,6 +21,8 @@ export default function Dropdown() {
   const [modalMode, setModalMode] = useState<string>("");
 
   const { data: user } = usePublicUser();
+
+  const { tooltipVisible, closeTooltip } = useTooltip("Write");
 
   const getStudyList = async () => {
     if (user) {
@@ -56,14 +60,29 @@ export default function Dropdown() {
     <>
       <Menu>
         {({ open }) => (
-          <div className="fixed bottom-[5.25rem] right-6 z-20">
+          <div className="fixed bottom-[84px] right-[24px] z-20">
             <MenuButton
-              className={`relative z-[999] flex h-[3.75rem] w-[3.75rem] items-center justify-center rounded-full border border-white/70 text-white ${
-                open ? "bg-primary-50" : "bg-black"
+              className={`relative z-[999] items-center justify-center rounded-full border border-white/50 p-[10px] text-white ${
+                open ? "border-none bg-primary-50" : "bg-black"
               }`}
             >
-              <Image src={open ? Close : Open} alt="union" width={0} />
+              <Image
+                src={open ? Close : Open}
+                alt="union"
+                width={40}
+                height={40}
+              />
             </MenuButton>
+            {tooltipVisible && (
+              <div className="fixed bottom-[162px] right-[19px]">
+                <Tooltip
+                  message={`+ 버튼을 눌러서<br/>스터디/모집글을 작성해보세요`}
+                  position="right"
+                  onClose={closeTooltip}
+                />
+              </div>
+            )}
+
             {open && (
               <div
                 className="fixed inset-0 flex h-full w-full items-center justify-center bg-black/70"
