@@ -1,8 +1,7 @@
-import CustomButton from "@/components/ui/CustomButton";
 import Image from "next/image";
 import { JoinPersonWithManager } from "../../components/MyStudyList";
-import browserClient from "@/utils/supabase/client";
 import { useUserByCommentId } from "@/app/post/[id]/hooks/useComments";
+import MyButton from "@/components/common/Button";
 
 interface MemberListItemProps {
   manageUser: JoinPersonWithManager;
@@ -17,24 +16,32 @@ const MemberListItem = ({
 }: MemberListItemProps) => {
   const { data } = useUserByCommentId(manageUser.user_id);
 
-  const UserProfileImg = browserClient.storage
-    .from("profile_img")
-    .getPublicUrl(data?.profile_img ?? "default").data.publicUrl;
-
   return (
     <section key={manageUser.id} className="mb-3 flex gap-[10px]">
-      <Image src={UserProfileImg} alt="profile" width={40} height={40} />
+      {data?.profile_img && (
+        <Image
+          src={data.profile_img}
+          alt="profile"
+          width={40}
+          height={40}
+          className="aspect-square shrink-0 rounded-full border border-black/20 object-cover"
+        />
+      )}
       <div className="flex flex-1 items-center justify-between">
-        <div>{manageUser.user.name}</div>
+        <div className="body-14-m">{manageUser.user.name}</div>
         <div className="flex items-center gap-1">
-          <CustomButton
+          <MyButton
             onClick={() => resignUser(manageUser.id)}
-            size="small"
-            text="강퇴"
-          />
-          <button
+            size="sm"
+            style="beige"
+          >
+            강퇴
+          </MyButton>
+          <MyButton
             onClick={() => changeManager(manageUser)}
-            className="flex items-center justify-center rounded-[14px] border border-primary-100 px-[12px] py-[4px] text-[14px] leading-none text-primary-100"
+            size="sm"
+            style="orange-line"
+            className="flex"
           >
             방장
             <Image
@@ -44,7 +51,7 @@ const MemberListItem = ({
               height={16}
               className="ml-[2px]"
             />
-          </button>
+          </MyButton>
         </div>
       </div>
     </section>
