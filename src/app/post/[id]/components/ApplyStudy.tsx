@@ -8,11 +8,20 @@ import { useState } from "react";
 import ApplyStudyModal from "../components/ApplyStudyModal";
 import useModalOpen from "@/hooks/useModalOpen";
 import LoginModal from "@/components/common/LoginModal";
+import MyButton from "@/components/common/Button";
+import { useToast } from "@/hooks/useToast";
 
-const ApplyStudy = ({ postData }: { postData: Tables<"post"> }) => {
+interface ApplyStudyProps {
+  postData: Tables<"post">;
+  isFull: boolean;
+}
+
+const ApplyStudy = ({ postData, isFull }: ApplyStudyProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState("");
   const { data } = useSession();
+  const { showToast, ToastComponent } = useToast();
+
   // 로그인 안하고 신청 누를경우 모달
   const {
     modalClose: loginModalClose,
@@ -23,6 +32,16 @@ const ApplyStudy = ({ postData }: { postData: Tables<"post"> }) => {
   // 스터디 신청
   const { mutate: applyStudy } = useMutation({
     mutationFn: () => applyNewStudy(postData.study_id, message),
+    onSuccess: (result) => {
+      showToast(result.message);
+      if (result.success) {
+        handleCloseModal();
+        setMessage("");
+      }
+    },
+    onError: (error) => {
+      console.log("스터디 신청 실패", error);
+    },
   });
 
   const applyButton = () => {
@@ -41,20 +60,20 @@ const ApplyStudy = ({ postData }: { postData: Tables<"post"> }) => {
     document.body.classList.remove("overflow-hidden");
   };
 
+  const isManager = data?.id === postData.user_id ? true : false;
+
   return (
     <>
-      {data?.id !== postData.user_id ? (
-        <button
-          onClick={applyButton}
-          className="body-16-s h-12 flex-1 rounded-full bg-secondary-900 text-white"
-        >
-          신청하기
-        </button>
-      ) : (
-        <button className="body-16-s h-12 flex-1 cursor-default rounded-full bg-secondary-50 text-secondary-200">
-          신청하기
-        </button>
-      )}
+      <ToastComponent />
+      <MyButton
+        onClick={applyButton}
+        className="flex-1"
+        style="black-fill"
+        size="lg"
+        disabled={isFull ? isFull : isManager}
+      >
+        {isFull ? "모집마감" : "신청하기"}
+      </MyButton>
 
       {isModalOpen && (
         <ApplyStudyModal

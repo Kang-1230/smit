@@ -46,6 +46,7 @@ const EventList = ({
           managerId={managerId}
           sessionId={sessionData?.id}
           calendarData={data}
+          closeForm={closeForm}
         />
       ))}
 
@@ -61,7 +62,7 @@ const EventList = ({
         <CreateEventForm
           studyId={studyId}
           eventDate={eventDate}
-          deleteForm={closeForm}
+          closeForm={closeForm}
           calendarData={data}
           mode="create"
         />

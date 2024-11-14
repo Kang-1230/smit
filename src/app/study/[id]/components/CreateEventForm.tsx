@@ -16,7 +16,7 @@ import MyButton from "@/components/common/Button";
 interface CreateEventFormProps {
   studyId: string;
   eventDate: string;
-  deleteForm: () => void;
+  closeForm: () => void;
   setIsEdit?: React.Dispatch<React.SetStateAction<boolean>>;
   initialData?: {
     calendarId: string;
@@ -32,7 +32,7 @@ interface CreateEventFormProps {
 const CreateEventForm = ({
   studyId,
   eventDate,
-  deleteForm,
+  closeForm,
   setIsEdit,
   initialData,
   calendarData,
@@ -130,7 +130,7 @@ const CreateEventForm = ({
 
         <div className="mt-2 flex gap-2 self-stretch">
           <MyButton
-            onClick={deleteForm}
+            onClick={closeForm}
             style="black-line"
             size="md"
             className="flex-1"
@@ -145,7 +145,7 @@ const CreateEventForm = ({
                     setEventDescription("");
                     setEventStart("");
                     setEventEnd("");
-                    deleteForm();
+                    closeForm();
                   },
                 });
               }}

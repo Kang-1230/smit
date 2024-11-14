@@ -3,9 +3,12 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Share from "../../../../../public/icons/Share.svg";
+import MyButton from "@/components/common/Button";
+import { useToast } from "@/hooks/useToast";
 
 const ShareStudy = () => {
   const [url, setUrl] = useState<string>("");
+  const { showToast, ToastComponent } = useToast();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -16,20 +19,25 @@ const ShareStudy = () => {
   const handleCopyClipBoard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      alert("클립보드에 링크가 복사되었어요.");
+      showToast("URL이 클립보드에 복사되었습니다.");
     } catch (err) {
       console.log(err);
     }
   };
 
   return (
-    <button
-      onClick={() => handleCopyClipBoard(url)}
-      className="flex flex-1 gap-1 justify-center items-center h-12 bg-tertiary-100 rounded-full"
-    >
-      <Image src={Share} alt="share" width={24} height={24} />
-      <span className="body-16-s">공유하기</span>
-    </button>
+    <>
+      <ToastComponent />
+      <MyButton
+        onClick={() => handleCopyClipBoard(url)}
+        className="flex h-12 flex-1 items-center justify-center gap-1 rounded-full bg-tertiary-100"
+        style="beige"
+        size="lg"
+      >
+        <Image src={Share} alt="share" width={24} height={24} />
+        <span>공유하기</span>
+      </MyButton>
+    </>
   );
 };
 
