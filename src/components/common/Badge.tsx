@@ -1,0 +1,31 @@
+const Badge = ({
+  category,
+  idx,
+  color,
+}: {
+  category: string;
+  idx: number;
+  color: "secondary" | "primary" | "tertiary";
+}) => {
+  const studyBadge = {
+    secondary: "bg-secondary-500 text-white",
+    primary: "bg-primary-50 text-white",
+    tertiary: "bg-tertiary-75",
+  };
+  const jobBadge = {
+    secondary: "bg-secondary-700 text-white",
+    primary: "bg-tertiary-300 text-white",
+    tertiary: "bg-tertiary-200",
+  };
+  return (
+    <span
+      className={`caption rounded-16 px-[10px] py-1 ${
+        idx === 0 ? jobBadge[color] : studyBadge[color]
+      }`}
+    >
+      {category}
+    </span>
+  );
+};
+
+export default Badge;

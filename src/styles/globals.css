@@ -2,19 +2,350 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   height: 100vh;
   overflow-y: auto;
+}
+
+@layer components {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and 엣지 */
+    scrollbar-width: none; /* 파이어폭스 */
+  }
+
+  .scrollbar-show::-webkit-scrollbar {
+    display: block;
+  }
+
+  .scrollbar-show {
+    -ms-overflow-style: auto; /* IE and 엣지 */
+    scrollbar-width: thin; /* 파이어폭스 */
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+.rdp-nav_icon {
+  width: 10px !important;
+  height: 10px !important;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .absolute-center {
+    @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
+  }
+
+  /* 폰트 클래스 정의 */
+  .title-32-b {
+    @apply font-pretendard text-[32px] font-bold leading-[1.2] tracking-[-0.02em];
+  }
+  .title-28-b {
+    @apply font-pretendard text-[28px] font-bold leading-[1.2] tracking-[-0.02em];
+  }
+  .title-24-b {
+    @apply font-pretendard text-[24px] font-bold leading-[1.2] tracking-[-0.02em];
+  }
+  .title-20-b {
+    @apply font-pretendard text-[20px] font-bold leading-[1.2] tracking-[-0.02em];
+  }
+  .title-20-s {
+    @apply font-pretendard text-[20px] font-semibold leading-[1.2] tracking-[-0.02em];
+  }
+  .title-20-m {
+    @apply font-pretendard text-[20px] font-medium leading-[1.2] tracking-[-0.02em];
+  }
+  .title-20-r {
+    @apply font-pretendard text-[20px] font-normal leading-[1.2] tracking-[-0.02em];
+  }
+  .title-18-b {
+    @apply font-pretendard text-[18px] font-bold leading-[1.2] tracking-[-0.02em];
+  }
+  .body-long {
+    @apply font-pretendard text-[16px] font-medium leading-[1.5] tracking-[-0.02em];
+  }
+  .body-16-s {
+    @apply font-pretendard text-[16px] font-semibold leading-[1.35] tracking-[-0.02em];
+  }
+  .body-16-m {
+    @apply font-pretendard text-[16px] font-medium leading-[1.35] tracking-[-0.02em];
+  }
+  .body-16-r {
+    @apply font-pretendard text-[16px] font-normal leading-[1.35] tracking-[-0.02em];
+  }
+  .body-14-s {
+    @apply font-pretendard text-[14px] font-semibold leading-[1.35] tracking-[-0.02em];
+  }
+  .body-14-m {
+    @apply font-pretendard text-[14px] font-medium leading-[1.35] tracking-[-0.02em];
+  }
+  .body-14-r {
+    @apply font-pretendard text-[14px] font-normal leading-[1.35] tracking-[-0.02em];
+  }
+  .caption {
+    @apply font-pretendard text-[12px] font-normal leading-[1] tracking-[-0.02em];
+  }
+
+  /* 버튼 클래스 정의 */
+
+  .black-fill {
+    @apply bg-secondary-900 text-white active:bg-secondary-600 disabled:bg-secondary-50 disabled:text-secondary-200;
+  }
+
+  .black-line {
+    @apply border-[1px] border-secondary-900 bg-white text-secondary-900 active:bg-secondary-50 disabled:border-secondary-200 disabled:text-secondary-200;
+  }
+
+  .orange-fill {
+    @apply bg-primary-50 text-white active:bg-primary-300 disabled:bg-primary-5 disabled:text-primary-35;
+  }
+
+  .orange-line {
+    @apply border-[1px] border-primary-100 bg-white text-primary-100 active:bg-primary-50 disabled:border-primary-20 disabled:text-primary-20;
+  }
+
+  .white-fill {
+    @apply bg-white text-secondary-900 active:bg-secondary-50 disabled:text-secondary-200;
+  }
+
+  .beige {
+    @apply bg-tertiary-100 text-black active:bg-tertiary-300 disabled:bg-tertiary-50 disabled:text-tertiary-100;
+  }
+
+  .gray {
+    @apply bg-secondary-50 text-black active:bg-secondary-200;
+  }
+
+  .gray-2 {
+    @apply bg-secondary-100 text-black active:bg-secondary-200;
+  }
+
+  .darkgray {
+    @apply bg-secondary-800 text-white active:bg-secondary-600;
+  }
+}
+
+ul::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera에서 스크롤바 숨기기 */
+}
+ul {
+  scrollbar-width: none; /* Firefox에서 스크롤바 숨기기 */
+}
+
+/* 로딩바 */
+
+/* @keyframes loading {
+  0%,
+  85% {
+    color: #cccccc;
+  }
+  90% {
+    color: #1e1e1e;
+    font-weight: 500;
+  }
+} */
+
+@keyframes loading {
+  0%,
+  15% {
+    color: #cccccc;
+  }
+  90% {
+    color: #1e1e1e;
+    font-weight: 500;
+  }
+}
+/* 
+@keyframes loading {
+  0%,
+  5% {
+    color: #cccccc;
+  }
+  30%,
+  40% {
+    color: #1e1e1e;
+    font-weight: 500;
+  }
+  15%,
+  100% {
+    color: #cccccc;
+  } 
+  50%,
+  51% {
+    color: #1e1e1e;
+    font-weight: 500;
+  } 
+} 
+*/
+.animate-loading {
+  animation: loading 2.2s infinite;
+}
+
+.animate-loading.delay-0 {
+  animation-delay: 0ms;
+}
+
+.animate-loading.delay-100 {
+  animation-delay: 200ms;
+}
+
+.animate-loading.delay-200 {
+  animation-delay: 400ms;
+}
+
+.animate-loading.delay-300 {
+  animation-delay: 600ms;
+}
+
+.animate-loading.delay-400 {
+  animation-delay: 800ms;
+}
+
+.animate-loading.delay-500 {
+  animation-delay: 1000ms;
+}
+
+.animate-loading.delay-600 {
+  animation-delay: 1200ms;
+}
+
+.animate-loading.delay-700 {
+  animation-delay: 1400ms;
+}
+
+.animate-loading.delay-800 {
+  animation-delay: 1600ms;
+}
+
+.animate-loading.delay-900 {
+  animation-delay: 1800ms;
+}
+
+/* 시계 */
+.clock span {
+  transform: rotate(calc(30deg * var(--i)));
+}
+
+.clock span::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background-color: black;
+  animation: animate 2.4s linear infinite;
+  animation-delay: calc(0.2s * var(--i));
+  transition:
+    width 0.1s ease,
+    height 0.1s ease;
+}
+
+@keyframes animate {
+  0% {
+    background-color: #ff9945;
+    width: 4.3px;
+    height: 4.3px;
+  }
+
+  10% {
+    background-color: black;
+  }
+}
+
+/* 시침 */
+.hand {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 2.4s linear infinite;
+  margin-bottom: 20px;
+}
+.hand::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  background: black;
+  width: 2px;
+  height: 26px;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
