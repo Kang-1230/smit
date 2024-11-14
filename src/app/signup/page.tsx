@@ -103,14 +103,12 @@ export default function SignupPage() {
         // user 테이블에 정보 저장
         const { error: insertError } = await supabase
           .from("user")
-          .insert({
-            id: authData.user.id,
+          .update({
             user_name: formData.name,
             name: userName,
             birth_date: formData.birthDate,
-            email: formData.email,
-            study_time: 0,
           })
+          .eq("id", authData.user.id)
           .select();
 
         if (insertError) {
