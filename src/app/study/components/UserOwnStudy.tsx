@@ -6,15 +6,19 @@ import ArrowChart from "../../../../public/icons/ArrowChart.svg";
 import GroupDesign from "../../../../public/icons/GroupDesign.svg";
 
 import Image from "next/image";
+import Badge from "@/components/common/Badge";
+import Tooltip from "@/components/common/Tooltip";
+import useTooltip from "@/hooks/useTooltip";
 
 const UserOwnStudy = ({
   myStudyData,
 }: {
   myStudyData: Tables<"study">[] | undefined;
 }) => {
+  const { tooltipVisible, closeTooltip } = useTooltip("EditStudy");
   return (
     <section className="scroll-py-2 flex-col gap-5">
-      {myStudyData?.map((dataItem: Tables<"study">) => {
+      {myStudyData?.map((dataItem: Tables<"study">, i) => {
         return (
           <div key={dataItem.study_id} className="relative">
             <Link
@@ -27,6 +31,17 @@ const UserOwnStudy = ({
                 <div className="relative h-[3.33px] w-[3.33px] rounded-[1.67px] bg-[#888888]" />
                 <div className="relative h-[3.33px] w-[3.33px] rounded-[1.67px] bg-[#888888]" />
               </div>
+              {i === 0 && tooltipVisible && (
+                <div className="absolute -right-[20px] bottom-[56px]">
+                  <Tooltip
+                    message="더보기를 눌러서, 신청 현황과
+                        스터디원을 관리할 수 있고,
+                        스터디를 편집할 수 있어요!"
+                    position="right"
+                    onClose={closeTooltip}
+                  />
+                </div>
+              )}
             </Link>
             <Link href={`/study/${dataItem.study_id}`} key={dataItem.study_id}>
               <div className="relative mb-[20px] flex w-full flex-[0_0_auto] flex-col items-start gap-5 self-stretch">
@@ -105,24 +120,14 @@ const UserOwnStudy = ({
                     {dataItem.study_name}
                   </div>
                   <div className="relative flex h-11 w-full flex-wrap items-center gap-[4px_4px] self-stretch">
-                    {Array.isArray(dataItem.study_category) ? (
-                      dataItem.study_category.map((category, index) => (
-                        <div
-                          key={`${dataItem.study_id}-category-${index}`}
-                          className="relative inline-flex flex-[0_0_auto] items-center justify-center gap-1.5 rounded-[15px] bg-primary-50 px-2.5 py-1"
-                        >
-                          <div className="caption relative mt-[-1.00px] w-fit whitespace-nowrap text-white">
-                            {category}
-                          </div>
-                        </div>
-                      ))
-                    ) : (
-                      <div className="relative inline-flex flex-[0_0_auto] items-center justify-center gap-1.5 rounded-[15px] bg-primary-50 px-2.5 py-1">
-                        <div className="caption relative mt-[-1.00px] w-fit whitespace-nowrap text-white">
-                          {dataItem.study_category}
-                        </div>
-                      </div>
-                    )}
+                    {dataItem.study_category.map((c, i) => (
+                      <Badge
+                        category={c}
+                        idx={i}
+                        color="primary"
+                        key={`${dataItem.study_id}-${c}`}
+                      />
+                    ))}
                   </div>
                 </div>
               </div>

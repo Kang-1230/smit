@@ -9,6 +9,11 @@ const useValidateNickname = (user?: Tables<"user">) => {
   >("initial");
 
   const validateNickname = async () => {
+    if (userName.length > 15) {
+      setNicknameStatus("invalid");
+      return;
+    }
+
     if (!/^[가-힣a-zA-Z0-9]+$/.test(userName)) {
       setNicknameStatus("invalid");
       return;
@@ -27,11 +32,32 @@ const useValidateNickname = (user?: Tables<"user">) => {
       setNicknameStatus("duplicate");
     }
   };
+
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(e.target.value);
     setNicknameStatus("needsValidation");
   };
-  return { userName, validateNickname, inputChangeHandler, nicknameStatus };
+
+  const switchErrorMessage = () => {
+    switch (nicknameStatus) {
+      case "duplicate":
+        return "이미 사용하고 있는 닉네임 입니다.";
+
+      case "invalid":
+        return "사용할 수 없는 닉네임 입니다.";
+
+      default:
+        return undefined;
+    }
+  };
+
+  return {
+    userName,
+    validateNickname,
+    inputChangeHandler,
+    nicknameStatus,
+    switchErrorMessage,
+  };
 };
 
 export default useValidateNickname;
