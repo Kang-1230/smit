@@ -24,6 +24,7 @@ export default function HomePage() {
       <MultiCarousel>
         {bannerData.map((item, index) => (
           <Banner
+            key={item.title}
             title={item.title}
             url={item.url}
             num={index + 1}
