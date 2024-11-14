@@ -74,7 +74,7 @@ function StudyContent() {
       }
     },
     onError: () => {
-      alert("스터디를 생성하지 못했습니다.");
+      alert("스터디를 생성하지 못했습니다");
       isLoadingRef.current = false;
     },
   });
@@ -99,6 +99,7 @@ function StudyContent() {
         fileInputRef.current?.files &&
         fileInputRef.current.files.length > 0
       ) {
+        console.log(fileInputRef.current.files[0]);
         const { data, error } = await browserClient.storage
           .from("study_img")
           .upload(`${user?.id}${Date.now()}`, fileInputRef.current.files[0]);

@@ -30,9 +30,6 @@ const StudyUpdate = (props: Props) => {
   // 인원 모달 상태 관리
   const [isDateOpen, setIsDateOpen] = useState<boolean>(false);
 
-  // 선택한 배열 관리
-  const [arr, setArr] = useState<string[]>([""]);
-
   // 최초 스터디 정보 get
   useEffect(() => {
     const fetchData = async () => {
@@ -44,6 +41,13 @@ const StudyUpdate = (props: Props) => {
 
     fetchData();
   }, [props.urlStudyId]);
+
+  // 스터디의 값이 셋팅 될 때마다 onConfirm
+  useEffect(() => {
+    if (study) {
+      props.onConfirm(study); // study 값이 변경될 때마다 부모로 전달
+    }
+  }, [study]); // study 값이 변경될 때마다 실행
 
   const handleModalClick = (mode: string) => {
     setCommonModalMode(mode);
@@ -116,20 +120,22 @@ const StudyUpdate = (props: Props) => {
         <RoundSelectDiv
           onClick={() => handleModalClick("job")}
           title="직업 태그"
-          value={arr[0] === "" ? "선택해주세요" : arr[0]}
+          value={study?.study_category[0] || "선택해주세요"}
         />
 
         <RoundSelectDiv
           onClick={() => handleModalClick("study")}
           title="스터디 태그"
-          value={!arr[1] ? "선택해주세요" : arr.slice(1).join(",")}
+          value={
+            !study?.study_category[1]
+              ? "선택해주세요"
+              : study.study_category.slice(1).join(",")
+          }
         />
 
         <div className="flex items-center justify-between pt-14">
           <div className="flex flex-col">
-            <h1 className="body-16-m cursor-pointer">
-              스터디 삭제
-            </h1>
+            <h1 className="body-16-m cursor-pointer">스터디 삭제</h1>
             <p className="body-14-r text-secondary-300">
               삭제하면 다시 복구할 수 없습니다.
             </p>
@@ -151,11 +157,19 @@ const StudyUpdate = (props: Props) => {
           setIsCommonModalOpen(false);
         }}
         onConfirm={(arr: string[]) => {
-          setArr(arr);
+          setStudy((prevStudy) => {
+            if (!prevStudy) {
+              return undefined; // 초기 상태가 undefined일 경우 처리
+            }
+            return {
+              ...prevStudy, // 기존 데이터 유지
+              study_category: arr, // 이미지 URL 변경
+            };
+          });
           setIsCommonModalOpen(false);
         }}
         modalMode={commonModalMode}
-        arr={arr}
+        arr={study?.study_category || [""]}
       />
 
       {isDateOpen && (
@@ -170,6 +184,7 @@ const StudyUpdate = (props: Props) => {
                 study_max_people: Number(cnt), // 이미지 URL 변경
               };
             });
+            setIsDateOpen(false);
           }}
           selectedDate={study?.study_max_people || 1}
           mode="cnt"

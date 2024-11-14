@@ -10,9 +10,10 @@ import { Tables } from "../../../../../database.types";
 type Props = {
   urlStudyId: string;
   onConfirm: (data: Tables<"study">) => void;
+  onFile: (file: File) => void;
 };
 
-const StudyImage = ({ urlStudyId }: Props) => {
+const StudyImage = ({ urlStudyId, onConfirm, onFile }: Props) => {
   const [study, setStudy] = useState<Tables<"study">>();
   const [isSubModalOpen, setIsSubModalOpen] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -28,6 +29,14 @@ const StudyImage = ({ urlStudyId }: Props) => {
 
     fetchData();
   }, [urlStudyId]);
+
+  // 값 변경 될 떄마다
+  useEffect(() => {
+    if (study) {
+      console.log(study.study_name);
+      onConfirm(study); // study 값이 변경될 때마다 부모로 전달
+    }
+  }, [study]); // study 값이 변경될 때마다 실행
 
   // 이미지 업로드 Handler
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -51,6 +60,7 @@ const StudyImage = ({ urlStudyId }: Props) => {
             };
           });
         };
+        onFile(file);
       } else if (!allowExtenstions.includes(file.type)) {
         // Toast로 선택한 파일이 이미지 형식이 아닙니다 - toast 로 수정 진행 예정
         alert("선택한 파일이 이미지 형식이 아닙니다");
@@ -64,7 +74,6 @@ const StudyImage = ({ urlStudyId }: Props) => {
   const defaultImgUrl = browserClient.storage
     .from("study_img")
     .getPublicUrl("default").data.publicUrl;
-
 
   // 입력 변경 핸들러
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
