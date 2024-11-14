@@ -185,7 +185,7 @@ export default function SignupPage() {
                     value={field.value}
                     onChange={field.onChange}
                     error={errors.password?.message}
-                    useEyes
+                    useEyes={true}
                   />
                 )}
               />
@@ -205,6 +205,7 @@ export default function SignupPage() {
                     title="비밀번호 확인"
                     value={field.value}
                     onChange={field.onChange}
+                    useEyes={true}
                   />
                 )}
               />

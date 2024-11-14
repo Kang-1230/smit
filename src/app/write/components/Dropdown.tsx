@@ -73,7 +73,7 @@ export default function Dropdown() {
                 height={40}
               />
             </MenuButton>
-            {tooltipVisible && (
+            {tooltipVisible && user && (
               <div className="fixed bottom-[162px] right-[19px]">
                 <Tooltip
                   message={`+ 버튼을 눌러서<br/>스터디/모집글을 작성해보세요`}
