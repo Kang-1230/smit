@@ -1,5 +1,5 @@
 import Image from "next/image";
-import RankingGuideButton from "./RankingGuideButton";
+import RankingGuideButton from "./_/RankingGuideButton";
 
 export default function RankingHeader() {
   return (

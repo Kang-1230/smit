@@ -3,7 +3,7 @@
 import { Post, SupabasePost, camelizePost } from "@/types/posts";
 import { SearchQueryParams } from "@/types/search";
 import { Study, SupabaseStudy, camelizeStudy } from "@/types/studys";
-import { filterPostsBySearch, sortPostsByCategory } from "@/utils/sorting";
+import { filterPostsBySearch, sortPostsByCategory } from "@/utils/post";
 import { createClient } from "@/utils/supabase/server";
 
 export async function getPosts({
@@ -78,7 +78,7 @@ export async function getLike() {}
 
 // - study -
 export async function getStudys(page = 1) {
-  const pageSize = 5;
+  const pageSize = 12;
   let result: Study[];
 
   const serverClient = createClient();
@@ -99,4 +99,23 @@ export async function getStudys(page = 1) {
   const hasMore = data!.length > pageSize;
 
   return { data: result, hasMore, page };
+}
+
+export async function getStudyById(id: string) {
+  let result: Study | null;
+
+  const serverClient = createClient();
+  const { data, error } = await serverClient
+    .from("study")
+    .select()
+    .order("study_score", { ascending: false });
+
+  if (error || !data) {
+    return { data: null };
+  }
+
+  const index = data.findIndex((study) => study.study_id === id);
+  result = camelizeStudy(data[index] as SupabaseStudy, index + 1);
+
+  return { data: result };
 }

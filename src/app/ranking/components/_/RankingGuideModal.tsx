@@ -1,24 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect } from "react";
 
 type Props = {
   onClose: () => void;
 };
 
-function usePreventBodyScroll() {
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, []);
-}
-
 export default function QuestionModal({ onClose }: Props) {
-  usePreventBodyScroll();
-
   const containerClasses = "flex w-full flex-col items-center gap-4 px-5 py-8";
   const headingClasses = "text-xl font-semibold text-secondary-900";
   const listClasses = "list-disc text-sm font-normal text-gray-700";

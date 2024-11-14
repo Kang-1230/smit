@@ -3,8 +3,8 @@ import { useSession } from "@/hooks/useUserProfile";
 import { useState } from "react";
 import ChevronRight from "../../../../../public/icons/ChevronRight.svg";
 import Image from "next/image";
-import RankingModal from "@/app/ranking/components/RankingModal";
-import RankingModalOverlay from "@/app/ranking/components/RankingModalOverlay";
+import RankingModal from "@/app/ranking/components/_/RankingModal";
+import RankingModalOverlay from "@/app/ranking/components/_/RankingModalOverlay";
 
 const OpenStudyProfile = ({
   userId,
