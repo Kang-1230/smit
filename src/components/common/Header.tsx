@@ -34,8 +34,6 @@ export default function Header() {
     const { error: logoutError } = await supabase.auth.signOut();
     if (logoutError) {
       console.error("SignUp Error :", logoutError);
-    } else {
-      console.log("로그아웃 완료");
     }
   };
 
