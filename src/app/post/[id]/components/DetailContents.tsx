@@ -1,5 +1,4 @@
 import {
-  fetchStudyApplyList,
   fetchStudyInfo,
   fetchUserInfo,
 } from "@/utils/supabase/supabase-server";
@@ -10,20 +9,19 @@ import LikeCount from "./LikeCount";
 import OpenStudyProfile from "./OpenStudyProfile";
 import ContentsEdit from "./ContentsEdit";
 import CustomButton from "@/components/ui/CustomButton";
+import { getApplylist } from "@/actions/detail";
 
-type Contents = {
+type DetailContentsProps = {
   id: string;
   postData: Tables<"post">;
 };
 
-const DetailContents = async ({ id, postData }: Contents) => {
+const DetailContents = async ({ id, postData }: DetailContentsProps) => {
   const studyData = await fetchStudyInfo(postData.study_id);
-  const applyData = await fetchStudyApplyList(postData.study_id);
   const userData = await fetchUserInfo(postData.user_id);
-  const applyNumber =
-    applyData?.filter((apply) => apply.is_approved).length ?? 0;
+  const applyNumber = await getApplylist(postData.study_id);
 
-  if (!studyData || !applyData || !userData) {
+  if (!studyData || !userData) {
     return <div>정보를 불러오는 데 실패했습니다.</div>;
   }
 

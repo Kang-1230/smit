@@ -29,13 +29,15 @@ const PersonalMemoItem = ({ memoData }: { memoData: MemoWithUser }) => {
     <div className="relative mb-2 flex shrink-0 flex-col self-stretch rounded-[20px] bg-[#1E1E1E] px-5 py-4">
       <div className="flex h-[40px] shrink-0 justify-between">
         <div className="flex items-center gap-2.5">
-          <Image
-            src={user?.profile_img as string}
-            alt="프로필"
-            width={40}
-            height={40}
-            className="aspect-square rounded-[20px] border border-white/50 object-cover"
-          />
+          {user?.profile_img && (
+            <Image
+              src={user.profile_img}
+              alt="프로필"
+              width={40}
+              height={40}
+              className="aspect-square rounded-[20px] border border-white/50 object-cover"
+            />
+          )}
           <span className="body-14-m text-white">{memoData.user?.name}</span>
         </div>
         {isOpenMemo ? (
