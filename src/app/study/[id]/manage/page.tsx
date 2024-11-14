@@ -13,6 +13,7 @@ import Link from "next/link";
 import browserClient from "@/utils/supabase/client";
 import { useMutation } from "@tanstack/react-query";
 import { updateStudy } from "@/utils/supabase/supabase-client";
+import { useRouter } from "next/router";
 
 const Page = () => {
   const [updateTrigger, setUpdateTrigger] = useState(0);
@@ -35,6 +36,7 @@ const Page = () => {
     study_period: null, // 기본값은 null
     study_score: 0, // 기본값은 0
   });
+  const router = useRouter();
 
   const isLoadingRef = useRef(false);
   const [file, setFile] = useState<File>();
@@ -63,7 +65,6 @@ const Page = () => {
           .upload(`${Date.now()}`, file);
 
         if (error) {
-          console.log("이미지 업로드 중 오류 발생", error);
           isLoadingRef.current = false;
           throw error;
         }
@@ -71,17 +72,13 @@ const Page = () => {
         const imageUrl = browserClient.storage
           .from("study_img")
           .getPublicUrl(`${data!.path}`).data.publicUrl;
-
-        console.log("여기온거지??1111");
         updateStudyMutation(imageUrl);
       } else {
-        console.log("여기온거지??222");
         updateStudyMutation(null);
       }
 
       return;
     } catch (e) {
-      console.log(e);
       isLoadingRef.current = false;
       alert(e);
     }
@@ -90,7 +87,6 @@ const Page = () => {
     alert("스터디 수정이 완료되었어요");
   };
 
-  // 프로필 수정하는 부분
   const { mutate: updateStudyMutation } = useMutation({
     mutationFn: (url: string | null) =>
       updateStudy(
@@ -103,12 +99,8 @@ const Page = () => {
         url === null ? study.study_imgurl : url,
       ),
     onSuccess: () => {
-      console.log(study);
       isLoadingRef.current = false;
-      console.log("수정완료");
-      // if (userCnt === 1) {
-      //   router.replace("/");
-      // }
+      router.replace("/study");
     },
     onError: () => {
       alert("스터디를 수정하지 못했습니다");

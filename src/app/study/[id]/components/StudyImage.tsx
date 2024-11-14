@@ -33,7 +33,6 @@ const StudyImage = ({ urlStudyId, onConfirm, onFile }: Props) => {
   // 값 변경 될 떄마다
   useEffect(() => {
     if (study) {
-      console.log(study.study_name);
       onConfirm(study); // study 값이 변경될 때마다 부모로 전달
     }
   }, [study]); // study 값이 변경될 때마다 실행
