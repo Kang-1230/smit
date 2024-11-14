@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import WaitApplyList from "../components/WaitApplyList";
 import ManagedMemberList from "../components/ManagedMemberList";
-import { useReducer, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import ManageOptions from "../components/ManageOptions";
 import StudyImage from "../components/StudyImage";
 import { Tables } from "../../../../../database.types";
@@ -13,7 +13,7 @@ import Link from "next/link";
 import browserClient from "@/utils/supabase/client";
 import { useMutation } from "@tanstack/react-query";
 import { updateStudy } from "@/utils/supabase/supabase-client";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [updateTrigger, setUpdateTrigger] = useState(0);

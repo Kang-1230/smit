@@ -36,7 +36,7 @@ function StudyContent() {
       .publicUrl,
   );
 
-  const { showToast, ToastComponent } = useToast();
+  const { ToastComponent } = useToast();
 
   //Ref 관련..
   const fileInputRef = useRef<HTMLInputElement>(null);

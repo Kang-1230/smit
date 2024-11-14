@@ -95,8 +95,6 @@ export const insertStudy = async (
   }
 };
 
-
-
 // 특정 유저의 스터디 정보 가져오기
 export const fetchUserStudyInfo = async (user_id: string | undefined) => {
   const { data, error } = await browserClient
@@ -113,14 +111,7 @@ export const fetchUserStudyInfo = async (user_id: string | undefined) => {
 
 // 스터디 삭제 (delete)
 export const deleteStudy = async (studyId: string) => {
-  const { error } = await browserClient
-    .from("study")
-    .delete()
-    .eq("study_id", studyId);
-  if (error) {
-    console.log(error);
-    throw new Error("스터디 삭제에 실패했습니다.");
-  }
+  await browserClient.from("study").delete().eq("study_id", studyId);
 };
 
 // 스터디 업데이트 (update)
@@ -413,11 +404,18 @@ export const applyNewStudy = async (studyId: string, message: string) => {
     .from("study_applylist")
     .select("*")
     .eq("study_id", studyId);
-  if (res.error !== null) return;
+  if (res.error !== null) {
+    throw new Error("스터디 정보를 불러오는데 실패했습니다.");
+  }
 
   const applyData: Tables<"study_applylist">[] = res.data;
   const findInfo = applyData.filter((data) => data.user_id === user?.id);
-  if (findInfo.length > 0) return alert("이미 신청한 스터디입니다!");
+  if (findInfo.length > 0) {
+    return {
+      success: false,
+      message: "이미 신청한 스터디입니다.",
+    };
+  }
 
   const { error } = await browserClient.from("study_applylist").insert({
     user_id: user?.id,
@@ -425,11 +423,15 @@ export const applyNewStudy = async (studyId: string, message: string) => {
     is_approved: false,
     apply_message: message,
   });
-  alert("신청되었습니다!");
 
   if (error) {
     throw new Error("스터디 신청에 실패했습니다.");
   }
+
+  return {
+    success: true,
+    message: "신청되었습니다!",
+  };
 };
 
 // 가입된 데이터 가져오기
@@ -479,7 +481,6 @@ export const deleteMyPost = async (post_id: string) => {
     .from("post")
     .delete()
     .eq("post_id", post_id);
-  alert("삭제되었습니다!");
   if (error) {
     throw new Error("모집글 삭제에 실패했습니다.");
   }
