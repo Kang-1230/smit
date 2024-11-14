@@ -32,6 +32,7 @@ export async function middleware(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+  console.log("미들웨어", user);
 
   // 인증된 사용자가 로그인/회원가입 페이지 접근 시 메인으로 리다이렉트
   if (
@@ -67,5 +68,6 @@ export const config = {
     "/mypage/:path*",
     "/ranking/:path*",
     "/study/:path*",
+    "/",
   ],
 };
