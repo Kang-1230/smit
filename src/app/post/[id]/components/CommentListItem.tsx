@@ -17,6 +17,8 @@ import ChevronDownGray from "../../../../../public/icons/ChevronDownGray.svg";
 import ChevronUp from "../../../../../public/icons/ChevronUp.svg";
 import EditButton from "./EditButton";
 import MyButton from "@/components/common/Button";
+import useModalOpen from "@/hooks/useModalOpen";
+import DeleteModal from "@/components/common/DeleteModal";
 
 // comment 테이블 구조에, replies(답글) 속성이 추가된 comment 타입
 interface CommentType extends Tables<"comment"> {
@@ -41,6 +43,7 @@ const CommentListItem = ({
   const [showReplies, setShowReplies] = useState(false);
   const [writeReply, setWriteReply] = useState<{ [key: string]: boolean }>({});
   const [replyToName, setReplyToName] = useState<string>(""); // 현재 @멘션할 사용자 이름
+  const { isModalOpen, modalOpen, modalClose } = useModalOpen();
 
   const { data: user } = usePublicUser();
   const { data: commentUser } = useUserByCommentId(comment.user_id);
@@ -60,8 +63,6 @@ const CommentListItem = ({
   };
 
   const handleDeleteClick = () => {
-    const isConfirmed = window.confirm("댓글을 삭제하시겠습니까?");
-    if (!isConfirmed) return;
     // 부모댓글
     if (!isReply) {
       if (!hasReplies) {
@@ -71,6 +72,7 @@ const CommentListItem = ({
       } else {
         // 답글O -> is_deleted: true 로 상태변경
         updateParentState(comment.comment_id);
+        modalClose();
         return;
       }
     }
@@ -165,14 +167,16 @@ const CommentListItem = ({
     <div>
       {edited[comment.comment_id] ? (
         <div className="my-4 mb-[49px] flex items-start">
-          <Image
-            src={commentUser?.profile_img as string}
-            alt="image"
-            width={40}
-            height={40}
-            className="aspect-square h-[40px] shrink-0 rounded-full border border-black/20 object-cover"
-            priority={true}
-          />
+          {commentUser?.profile_img && (
+            <Image
+              src={commentUser.profile_img}
+              alt="image"
+              width={40}
+              height={40}
+              className="aspect-square h-[40px] shrink-0 rounded-full border border-black/20 object-cover"
+              priority={true}
+            />
+          )}
           <form
             onSubmit={handleUpdateComment}
             className="relative ml-2 flex w-full border-b border-secondary-200 focus-within:border-secondary-600"
@@ -190,11 +194,10 @@ const CommentListItem = ({
                     onClick={() => setEdited({ [comment.comment_id]: false })}
                     size="sm"
                     style="gray"
-                    type="button"
                   >
                     취소
                   </MyButton>
-                  <MyButton size="sm" style="darkgray">
+                  <MyButton size="sm" style="darkgray" type="submit">
                     완료
                   </MyButton>
                 </div>
@@ -204,13 +207,15 @@ const CommentListItem = ({
         </div>
       ) : (
         <div className="relative my-4 flex items-start">
-          <Image
-            src={commentUser?.profile_img as string}
-            alt="image"
-            width={40}
-            height={40}
-            className="aspect-square flex-shrink-0 rounded-full border border-black/20 object-cover"
-          />
+          {commentUser?.profile_img && (
+            <Image
+              src={commentUser.profile_img}
+              alt="image"
+              width={40}
+              height={40}
+              className="aspect-square flex-shrink-0 rounded-full border border-black/20 object-cover"
+            />
+          )}
           <div className="ml-2 flex-1">
             <div className="mb-1 flex items-center">
               <span className="text-xs font-medium leading-none text-secondary-700">
@@ -233,7 +238,13 @@ const CommentListItem = ({
                 <EditButton
                   userId={comment.user_id}
                   handleEdit={() => toggleEditMode(comment.comment_id)}
-                  handleDelete={handleDeleteClick}
+                  handleDelete={modalOpen}
+                />
+              )}
+              {isModalOpen && (
+                <DeleteModal
+                  onClose={modalClose}
+                  onDelete={handleDeleteClick}
                 />
               )}
             </div>
