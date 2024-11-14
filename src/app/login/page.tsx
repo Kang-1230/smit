@@ -64,7 +64,7 @@ export default function LoginPage() {
       alert("이메일과 비밀번호를 확인하세요");
     } else {
       alert("로그인 되었습니다.");
-      router.push("/");
+      router.push("https://smit-8y5a.vercel.app/");
       // router.refresh();
     }
   };
@@ -81,7 +81,7 @@ export default function LoginPage() {
     });
 
     if (data) {
-      router.push("/");
+      router.push("https://smit-8y5a.vercel.app/");
       router.refresh();
     } else if (error) {
       throw error;
@@ -237,7 +237,7 @@ export default function LoginPage() {
             </div>
             <div className="flex gap-[9px]">
               <button
-                onClick={() => handleKaKaoSignIn()}
+                onClick={() => alert("준비중입니다")}
                 className="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-white"
               >
                 <Image
@@ -248,7 +248,7 @@ export default function LoginPage() {
                 />
               </button>
               <button
-                onClick={() => handleGoogleSignIn()}
+                onClick={() => alert("준비중입니다")}
                 className="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-white"
               >
                 <Image
