@@ -69,48 +69,48 @@ export default function LoginPage() {
     }
   };
 
-  const handleGoogleSignIn = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        queryParams: {
-          access_type: "offline",
-          prompt: "consent",
-        },
-      },
-    });
+  // const handleGoogleSignIn = async () => {
+  //   const { data, error } = await supabase.auth.signInWithOAuth({
+  //     provider: "google",
+  //     options: {
+  //       queryParams: {
+  //         access_type: "offline",
+  //         prompt: "consent",
+  //       },
+  //     },
+  //   });
 
-    if (data) {
-      router.push("https://smit-8y5a.vercel.app/");
-      router.refresh();
-    } else if (error) {
-      throw error;
-    }
-  };
+  //   if (data) {
+  //     router.push("/");
+  //     router.refresh();
+  //   } else if (error) {
+  //     throw error;
+  //   }
+  // };
 
-  const handleKaKaoSignIn = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "kakao",
-      options: {
-        queryParams: {
-          access_type: "offline",
-          prompt: "consent",
-        },
-      },
-    });
+  // const handleKaKaoSignIn = async () => {
+  //   const { data, error } = await supabase.auth.signInWithOAuth({
+  //     provider: "kakao",
+  //     options: {
+  //       queryParams: {
+  //         access_type: "offline",
+  //         prompt: "consent",
+  //       },
+  //     },
+  //   });
 
-    if (error) {
-      console.log("kakaoError");
-    }
+  //   if (error) {
+  //     console.log("kakaoError");
+  //   }
 
-    if (data.url) {
-      window.location.href = data.url;
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      console.log(user);
-    }
-  };
+  //   if (data.url) {
+  //     window.location.href = data.url;
+  //     const {
+  //       data: { user },
+  //     } = await supabase.auth.getUser();
+  //     console.log(user);
+  //   }
+  // };
 
   const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

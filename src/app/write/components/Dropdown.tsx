@@ -12,6 +12,8 @@ import Close from "../../../../public/icons/XMedium.svg";
 import Pencil from "../../../../public/icons/PencilSmall.svg";
 import Tooltip from "@/components/common/Tooltip";
 import useTooltip from "@/hooks/useTooltip";
+import LoginModal from "@/components/common/LoginModal";
+import useModalOpen from "@/hooks/useModalOpen";
 
 export default function Dropdown() {
   const router = useRouter();
@@ -23,6 +25,12 @@ export default function Dropdown() {
   const { data: user } = usePublicUser();
 
   const { tooltipVisible, closeTooltip } = useTooltip("Write");
+
+  const {
+    modalClose,
+    modalOpen,
+    isModalOpen: isLoginModalOpen,
+  } = useModalOpen();
 
   const getStudyList = async () => {
     if (user) {
@@ -39,11 +47,10 @@ export default function Dropdown() {
         setModalMode("nonexist");
         setIsModalOpen(true);
       } else {
-        router.replace("/write");
+        router.push("/write");
       }
     } else {
-      alert("서비스를 이용하시려면 먼저 로그인 해주세요.");
-      router.replace("/login");
+      modalOpen();
     }
   };
 
@@ -51,8 +58,7 @@ export default function Dropdown() {
     if (user) {
       router.push("/write/study");
     } else {
-      alert("서비스를 이용하시려면 먼저 로그인 해주세요.");
-      router.replace("/login");
+      modalOpen();
     }
   };
 
@@ -91,7 +97,7 @@ export default function Dropdown() {
                 <MenuItems
                   static
                   anchor="top end"
-                  className="z-20 origin-top rounded-3xl bg-white p-6 transition duration-200 ease-out [--anchor-gap:8px] data-[closed]:scale-95 data-[closed]:opacity-0"
+                  className="z-20 origin-top rounded-3xl bg-white p-6 transition duration-200 ease-out [--anchor-gap:8px] data-[closed]:scale-95 data-[closed]:opacity-0 animate-slide-up"
                 >
                   <MenuItem>
                     <a
@@ -135,6 +141,7 @@ export default function Dropdown() {
         }}
         modalMode={modalMode}
       />
+      {isLoginModalOpen && <LoginModal onClose={modalClose} />}
     </>
   );
 }

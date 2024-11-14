@@ -49,6 +49,7 @@ export async function middleware(request: NextRequest) {
     !user &&
     (request.nextUrl.pathname.startsWith("/mypage") ||
       request.nextUrl.pathname.startsWith("/ranking") ||
+      request.nextUrl.pathname.startsWith("/write") ||
       request.nextUrl.pathname.startsWith("/study"))
   ) {
     // const url = request.nextUrl.clone();
