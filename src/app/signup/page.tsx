@@ -12,6 +12,7 @@ import * as z from "zod";
 import ValidateInput from "@/components/common/ValidateInput";
 import useValidateNickname from "@/hooks/useValidateNickname";
 import MyButton from "@/components/common/Button";
+import { useRouter } from "next/navigation";
 
 const signupSchema = z
   .object({
@@ -45,7 +46,7 @@ export default function SignupPage() {
     nicknameStatus,
     switchErrorMessage,
   } = useValidateNickname();
-
+  const router = useRouter();
   const {
     handleSubmit,
     control,
@@ -86,6 +87,8 @@ export default function SignupPage() {
       return;
     }
 
+    //------------------아래 회원가입 함수
+
     try {
       // auth 회원가입
       const { data: authData, error: authError } = await supabase.auth.signUp({
@@ -111,15 +114,18 @@ export default function SignupPage() {
           .select();
 
         if (insertError) {
+          // 실패 시 auth 데이터 정리 시도
           await supabase.auth.signOut();
           throw new Error(
             `사용자 정보 저장에 실패했습니다: ${insertError.message}`,
           );
         }
 
+        // 성공
         alert("회원가입이 완료되었습니다!");
         await supabase.auth.signOut();
-        window.location.href = "/login";
+        router.push("/login");
+        router.refresh();
       } catch (error) {
         await supabase.auth.signOut();
         throw error;
