@@ -475,7 +475,6 @@ export const deleteMyPost = async (post_id: string) => {
     .from("post")
     .delete()
     .eq("post_id", post_id);
-  alert("삭제되었습니다!");
   if (error) {
     throw new Error("모집글 삭제에 실패했습니다.");
   }

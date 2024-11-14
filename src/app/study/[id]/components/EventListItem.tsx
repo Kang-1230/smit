@@ -6,19 +6,25 @@ import CreateEventForm from "./CreateEventForm";
 import Image from "next/image";
 import PencilLined from "../../../../../public/icons/PencilLined.svg";
 import XSmall from "../../../../../public/icons/XSmall.svg";
+import useModalOpen from "@/hooks/useModalOpen";
+import DeleteModal from "@/components/common/DeleteModal";
+
+interface EventListItemProps {
+  event: Tables<"calendar">;
+  managerId: string | undefined;
+  sessionId: string | undefined;
+  calendarData: Tables<"calendar">[];
+  closeForm: () => void;
+}
 
 const EventListItem = ({
   event,
   managerId,
   sessionId,
   calendarData,
-}: {
-  event: Tables<"calendar">;
-  managerId: string | undefined;
-  sessionId: string | undefined;
-  calendarData: Tables<"calendar">[];
-}) => {
+}: EventListItemProps) => {
   const [isEdit, setIsEdit] = useState(false);
+  const { isModalOpen, modalOpen, modalClose } = useModalOpen();
 
   // 일정 삭제
   const { mutate: deleteEvent } = useDeleteCalendarEvent(
@@ -28,10 +34,7 @@ const EventListItem = ({
 
   // 삭제 버튼
   const handleDelete = () => {
-    const isConfirmed = window.confirm("해당 일정을 삭제하시겠습니까?");
-    if (isConfirmed) {
-      deleteEvent(event.calendar_id);
-    }
+    deleteEvent(event.calendar_id);
   };
 
   // 전체일정에서 수정중인 일정 제외한 리스트
@@ -42,9 +45,9 @@ const EventListItem = ({
   return (
     <>
       {!isEdit ? (
-        <div className="h-[141px] m-[25px] p-5 self-stretch rounded-[20px] bg-secondary-800 relative">
+        <div className="relative m-[25px] h-[141px] self-stretch rounded-[20px] bg-secondary-800 p-5">
           <div className="flex items-center gap-1">
-            <p className="text-white title-20-m">{`${event.start_time.slice(
+            <p className="title-20-m text-white">{`${event.start_time.slice(
               0,
               -3,
             )} - ${event.end_time.slice(0, -3)}`}</p>{" "}
@@ -59,13 +62,13 @@ const EventListItem = ({
               />
             )}
           </div>
-          <p className="text-secondary-300 body-14-r mt-5">
+          <p className="body-14-r mt-5 text-secondary-300">
             {event.event_description}
           </p>
-          <div className="flex flex-col items-end absolute top-3 right-3 gap-2">
+          <div className="absolute right-3 top-3 flex flex-col items-end gap-2">
             {managerId === sessionId && (
               <div
-                onClick={handleDelete}
+                onClick={modalOpen}
                 className="shrink-0 rounded-[18px] bg-white/20"
               >
                 <Image
@@ -83,7 +86,7 @@ const EventListItem = ({
         <CreateEventForm
           studyId={event.study_id}
           eventDate={event.event_date}
-          deleteForm={handleDelete}
+          closeForm={() => setIsEdit(false)}
           setIsEdit={setIsEdit}
           initialData={{
             calendarId: event.calendar_id,
@@ -95,6 +98,9 @@ const EventListItem = ({
           withoutEditData={existTimeWithoutEdit}
           mode="edit"
         />
+      )}
+      {isModalOpen && (
+        <DeleteModal onClose={modalClose} onDelete={handleDelete} />
       )}
     </>
   );

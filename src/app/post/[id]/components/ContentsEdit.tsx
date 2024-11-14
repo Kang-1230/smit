@@ -2,6 +2,9 @@
 import { useDeleteMyPost } from "../hooks/useComments";
 import { useRouter } from "next/navigation";
 import EditButton from "./EditButton";
+import DeleteModal from "@/components/common/DeleteModal";
+import useModalOpen from "@/hooks/useModalOpen";
+import { useToast } from "@/hooks/useToast";
 
 const ContentsEdit = ({
   postId,
@@ -12,24 +15,39 @@ const ContentsEdit = ({
 }) => {
   const router = useRouter();
   const { mutate } = useDeleteMyPost();
+  const { isModalOpen, modalOpen, modalClose } = useModalOpen();
+  const { showToast, ToastComponent } = useToast();
 
   // 삭제 버튼
   const handleDelete = () => {
-    const isConfirmed = window.confirm("해당 모집글을 삭제하시겠습니까?");
-    if (isConfirmed) {
-      mutate(postId);
+    mutate(postId, {
+      onSuccess: () => {
+        showToast("삭제되었습니다!");
+      },
+    });
+    setTimeout(() => {
       router.replace("/");
-    }
+    }, 1000);
   };
 
-  
   // 수정 버튼
   const handleEdit = () => {
-      router.push(`/write?post=${postId}`);
+    router.push(`/write?post=${postId}`);
   };
 
-
-  return <EditButton userId={userId} handleDelete={handleDelete} handleEdit={handleEdit}/>;
+  return (
+    <>
+      <EditButton
+        userId={userId}
+        handleDelete={modalOpen}
+        handleEdit={handleEdit}
+      />
+      {isModalOpen && (
+        <DeleteModal onClose={modalClose} onDelete={handleDelete} />
+      )}
+      <ToastComponent position="tc" />
+    </>
+  );
 };
 
 export default ContentsEdit;

@@ -17,6 +17,8 @@ import ChevronDownGray from "../../../../../public/icons/ChevronDownGray.svg";
 import ChevronUp from "../../../../../public/icons/ChevronUp.svg";
 import EditButton from "./EditButton";
 import MyButton from "@/components/common/Button";
+import useModalOpen from "@/hooks/useModalOpen";
+import DeleteModal from "@/components/common/DeleteModal";
 
 // comment 테이블 구조에, replies(답글) 속성이 추가된 comment 타입
 interface CommentType extends Tables<"comment"> {
@@ -41,6 +43,7 @@ const CommentListItem = ({
   const [showReplies, setShowReplies] = useState(false);
   const [writeReply, setWriteReply] = useState<{ [key: string]: boolean }>({});
   const [replyToName, setReplyToName] = useState<string>(""); // 현재 @멘션할 사용자 이름
+  const { isModalOpen, modalOpen, modalClose } = useModalOpen();
 
   const { data: user } = usePublicUser();
   const { data: commentUser } = useUserByCommentId(comment.user_id);
@@ -60,8 +63,6 @@ const CommentListItem = ({
   };
 
   const handleDeleteClick = () => {
-    const isConfirmed = window.confirm("댓글을 삭제하시겠습니까?");
-    if (!isConfirmed) return;
     // 부모댓글
     if (!isReply) {
       if (!hasReplies) {
@@ -71,6 +72,7 @@ const CommentListItem = ({
       } else {
         // 답글O -> is_deleted: true 로 상태변경
         updateParentState(comment.comment_id);
+        modalClose();
         return;
       }
     }
@@ -236,7 +238,13 @@ const CommentListItem = ({
                 <EditButton
                   userId={comment.user_id}
                   handleEdit={() => toggleEditMode(comment.comment_id)}
-                  handleDelete={handleDeleteClick}
+                  handleDelete={modalOpen}
+                />
+              )}
+              {isModalOpen && (
+                <DeleteModal
+                  onClose={modalClose}
+                  onDelete={handleDeleteClick}
                 />
               )}
             </div>
