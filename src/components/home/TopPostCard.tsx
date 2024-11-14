@@ -27,7 +27,7 @@ export default function TopPostCard({ post }: Props) {
         <div className="flex flex-row items-center justify-between">
           <div className="caption flex flex-col gap-y-2">
             <p>
-              모집 {post.study.currentParticipants}/
+              모집 {post.study.currentParticipants + 1}/
               {post.study.totalParticipants}
             </p>
             <p className="text-secondary-400">
