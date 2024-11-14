@@ -10,15 +10,17 @@ const TitleInput = ({
   error,
   disabled = false,
   useEyes = false,
+  caption,
 }: {
   placeholder: string;
   value?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   title: string;
   classname?: string;
-  error?: string;
+  error?: string | boolean;
   disabled?: boolean;
   useEyes?: boolean;
+  caption?: string;
 }) => {
   const [isShow, setIsShow] = useState(!useEyes);
   const img = isShow ? "/icons/EyeOff.svg" : "/icons/EyeOn.svg";
@@ -30,13 +32,13 @@ const TitleInput = ({
           <div className="relative w-full">
             <input
               placeholder={placeholder}
-              className={`border-inset body-14-r h-[40px] w-full rounded-20 border-[1px] px-4 py-3 text-secondary-900 placeholder:text-secondary-400 disabled:bg-secondary-100 disabled:text-secondary-300 ${classname} focus:border-secondary-600 focus:bg-white focus:outline-none ${error && "border-alarm-red text-alarm-red"} ${!error ? "border-transparent" : "bg-white"}`}
+              className={`border-inset body-14-r h-[40px] w-full rounded-20 border-[1px] px-4 py-3 placeholder:text-secondary-400 disabled:bg-secondary-100 disabled:text-secondary-300 ${classname} focus:border-secondary-600 focus:bg-white focus:outline-none ${error && "border-alarm-red text-alarm-red placeholder:text-alarm-red"} ${!error ? "border-transparent text-secondary-900" : "bg-white"}`}
               value={value}
               onChange={onChange}
               disabled={disabled}
               type={isShow ? "text" : "password"}
             />
-            <div className="absolute right-[16px] top-1/2 -translate-y-1/2">
+            <div className="absolute right-[16px] top-1/2 flex -translate-y-1/2 items-center">
               {error && (
                 <Image
                   alt="error"
@@ -60,6 +62,9 @@ const TitleInput = ({
         </div>
         <div className="ml-3 mt-2 h-[12px]">
           {error && <p className="caption text-alarm-red">{error}</p>}
+          {caption && !error && (
+            <p className="caption text-secondary-500">{caption}</p>
+          )}
         </div>
       </div>
     </>
