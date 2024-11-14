@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Dispatch, SetStateAction } from "react";
 import { JoinPersonWithManager } from "../../components/MyStudyList";
 import MemberListItem from "./MemberListItem";
-import Image from "next/image";
 
 const ManagedMemberList = ({
   urlStudyId,
