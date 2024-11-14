@@ -7,6 +7,8 @@ import { useState } from "react";
 import ManageOptions from "../components/ManageOptions";
 import StudyImage from "../components/StudyImage";
 import { Tables } from "../../../../../database.types";
+import MyButton from "@/components/common/Button";
+import StudyUpdate from "../components/StudyUpdate";
 
 const Page = () => {
   const [updateTrigger, setUpdateTrigger] = useState(0);
@@ -17,6 +19,11 @@ const Page = () => {
     : paramsurl.id;
 
   const [study, setStudy] = useState<Tables<"study">>();
+  const [isStudyMenu, setIsStudyMenu] = useState<boolean>(false);
+
+  const updateStudy = () => {
+    console.log(study);
+  };
 
   return (
     <div>
@@ -26,22 +33,79 @@ const Page = () => {
           setStudy(data);
         }}
       ></StudyImage>
-      <ManageOptions />
-      <div>
-        <WaitApplyList urlStudyId={urlStudyId} />
-      </div>
-      <div>
-        <ManagedMemberList
-          urlStudyId={urlStudyId}
-          key={updateTrigger}
-          setUpdateTrigger={setUpdateTrigger}
-        />
-      </div>
-      <div className="border-t px-6 py-[14px]">
-        <button className="title-20-s w-full rounded-[24px] bg-secondary-900 px-5 py-3 text-white">
-          적용하기
-        </button>
-      </div>
+      <ManageOptions
+        onConfirm={(data: boolean) => {
+          setIsStudyMenu(data);
+        }}
+      />
+
+      {!isStudyMenu ? (
+        <div>
+          <WaitApplyList urlStudyId={urlStudyId} />
+          <ManagedMemberList
+            urlStudyId={urlStudyId}
+            key={updateTrigger}
+            setUpdateTrigger={setUpdateTrigger}
+          />
+          <div className="absolute bottom-[14px] w-full">
+            <div className="mx-6 flex flex-row gap-x-1">
+              <MyButton
+                style="gray-2"
+                size="lg"
+                onClick={() => {
+                  console.log("나가기 누른거맞니??");
+                }}
+              >
+                나가기
+              </MyButton>
+              <MyButton
+                size="lg"
+                style="black-fill"
+                className="w-full"
+                onClick={() => {
+                  console.log("적용하기 누른거맞니??");
+                  // profileSaveHandler();
+                  // modalClose();
+                }}
+              >
+                적용하기
+              </MyButton>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="mb-4 flex w-full flex-col">
+          <StudyUpdate
+            urlStudyId={urlStudyId}
+            onConfirm={(data: Tables<"study">) => {
+              setStudy(data);
+            }}
+          ></StudyUpdate>
+          <div className="mx-6 flex flex-row gap-x-1">
+            <MyButton
+              style="gray-2"
+              size="lg"
+              onClick={() => {
+                console.log("나가기 누른거맞니??");
+              }}
+            >
+              나가기
+            </MyButton>
+            <MyButton
+              size="lg"
+              style="black-fill"
+              className="w-full"
+              onClick={() => {
+                console.log("적용하기 누른거맞니??");
+                updateStudy();
+                // modalClose();
+              }}
+            >
+              적용하기
+            </MyButton>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

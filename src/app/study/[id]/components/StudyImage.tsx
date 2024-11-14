@@ -65,21 +65,6 @@ const StudyImage = ({ urlStudyId }: Props) => {
     .from("study_img")
     .getPublicUrl("default").data.publicUrl;
 
-  // 제목 변경 함수
-  const handleTitleChange = () => {
-    const newTitle = prompt("새 제목을 입력하세요", study?.study_name); // 제목을 입력받기 위한 팝업
-    if (newTitle) {
-      setStudy((prevStudy) => {
-        if (!prevStudy) {
-          return undefined; // 초기 상태가 undefined일 경우 처리
-        }
-        return {
-          ...prevStudy, // 기존 데이터 유지
-          study_name: newTitle, // 이미지 URL 변경
-        };
-      });
-    }
-  };
 
   // 입력 변경 핸들러
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -135,11 +120,11 @@ const StudyImage = ({ urlStudyId }: Props) => {
             onBlur={handleBlur}
             onKeyDown={(e) => handleKeyDown(e)}
             maxLength={20}
-            className="title-20-s border-b border-gray-300 bg-transparent text-white focus:outline-none max-w-[240px] truncate"
+            className="title-20-s max-w-[240px] truncate border-b border-gray-300 bg-transparent text-white focus:outline-none"
             autoFocus // 클릭하면 바로 포커스
           />
         ) : (
-          <p className="title-20-s text-overflow ... flex items-center max-w-[283px] truncate text-white">
+          <p className="title-20-s text-overflow ... flex max-w-[283px] items-center truncate text-white">
             {study?.study_name}
             <Image
               src={Pencil}
