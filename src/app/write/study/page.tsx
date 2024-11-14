@@ -14,6 +14,7 @@ import Check from "../../../../public/icons/Check.svg";
 import SelectDate from "../components/SelectDate";
 import SquareInput from "../components/SquareInput";
 import RoundSelectDiv from "../components/RoundSelectDiv";
+import { useToast } from "@/hooks/useToast";
 
 export default function Study() {
   return (
@@ -34,6 +35,8 @@ function StudyContent() {
     browserClient.storage.from("study_img").getPublicUrl("default").data
       .publicUrl,
   );
+
+  const { ToastComponent } = useToast();
 
   //Ref 관련..
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -80,7 +83,6 @@ function StudyContent() {
   });
 
   const handleSendData = async () => {
-   
     // 태그 처리 확인
     if (arr[0] === "") {
       // toast로 변경 예정
@@ -117,7 +119,7 @@ function StudyContent() {
       createStudy(imageUrl);
     } catch (e) {
       console.log(e);
-      isLoadingRef.current=false;
+      isLoadingRef.current = false;
       alert(e);
     }
   };
@@ -287,6 +289,8 @@ function StudyContent() {
           mode="cnt"
         />
       )}
+
+      <ToastComponent style="gray" position="ct" />
     </div>
   );
 }

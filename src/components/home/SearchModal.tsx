@@ -22,7 +22,7 @@ const SearchModal = ({ onClick }: { onClick: () => void }) => {
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && slug.trim() !== "") {
-      router.push(`/search/${encodeURIComponent(slug)}`);
+      router.push(`/search?search=${encodeURIComponent(slug)}`);
       onClick();
     }
   };

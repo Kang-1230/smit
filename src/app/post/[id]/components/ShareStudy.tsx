@@ -21,7 +21,7 @@ const ShareStudy = () => {
       await navigator.clipboard.writeText(text);
       showToast("URL이 클립보드에 복사되었습니다.");
     } catch (err) {
-      console.log(err);
+      throw err;
     }
   };
 

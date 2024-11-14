@@ -1,13 +1,13 @@
 import Image from "next/image";
-import { getRankConfig } from "@/service/study";
-import { RankingItem } from "@/service/posts";
+import { Study } from "@/types/studys";
+import { getRankConfig } from "@/utils/rank";
 
 type Props = {
   rank: number;
-  rankingItem: RankingItem;
-  onClick: () => void;
+  study: Study;
+  handleModalClick: (id: string) => void;
 };
-export default function Avatar({ rank, rankingItem, onClick }: Props) {
+export default function RankerAvatar({ rank, study, handleModalClick }: Props) {
   const {
     borderColorMain,
     imageSize,
@@ -17,13 +17,11 @@ export default function Avatar({ rank, rankingItem, onClick }: Props) {
     smallGradientEnd,
   } = getRankConfig(rank);
 
-  const { study_name, study_score, study_imgurl } = rankingItem;
-
   return (
     <div
       className="flex flex-col items-center gap-[32px]"
-      style={{ marginTop: marginTop }}
-      onClick={onClick}
+      style={{ marginTop }}
+      onClick={() => handleModalClick(study.id)}
     >
       <div
         className="relative rounded-full"
@@ -45,8 +43,8 @@ export default function Avatar({ rank, rankingItem, onClick }: Props) {
         <Image
           priority
           className="h-full w-full rounded-full object-cover"
-          src={study_imgurl || ""}
-          alt={study_name}
+          src={study.image || ""}
+          alt={study.name}
           width={100}
           height={100}
         />
@@ -54,10 +52,10 @@ export default function Avatar({ rank, rankingItem, onClick }: Props) {
 
       <div className="flex flex-col items-center gap-[2px] text-[14px]">
         <div className="w-[60px] truncate text-center font-[500] text-[#B2611D]">
-          {study_name}
+          {study.name}
         </div>
         <div className="rounded-16 bg-[#F28327] px-[8px] font-semibold text-white">
-          {study_score.toLocaleString()}점
+          {study.score.toLocaleString()}점
         </div>
       </div>
     </div>

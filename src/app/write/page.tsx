@@ -83,7 +83,6 @@ function WriteContent() {
     }
 
     if (isLoadingRef.current) {
-      console.log("넌 지금 여러번 눌렀기 떄문에 안된다.");
       return;
     }
     isLoadingRef.current = true;

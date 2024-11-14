@@ -95,8 +95,6 @@ export const insertStudy = async (
   }
 };
 
-
-
 // 특정 유저의 스터디 정보 가져오기
 export const fetchUserStudyInfo = async (user_id: string | undefined) => {
   const { data, error } = await browserClient
@@ -113,14 +111,7 @@ export const fetchUserStudyInfo = async (user_id: string | undefined) => {
 
 // 스터디 삭제 (delete)
 export const deleteStudy = async (studyId: string) => {
-  const { error } = await browserClient
-    .from("study")
-    .delete()
-    .eq("study_id", studyId);
-  if (error) {
-    console.log(error);
-    throw new Error("스터디 삭제에 실패했습니다.");
-  }
+  await browserClient.from("study").delete().eq("study_id", studyId);
 };
 
 // 스터디 업데이트 (update)

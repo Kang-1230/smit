@@ -57,9 +57,6 @@ const StudyScheduleList = () => {
         .select("study_id")
         .eq("study_manager", user.id);
 
-      console.log("멤버인 스터디:", userStudies);
-      console.log("방장인 스터디:", managedStudies);
-
       // 두 목록 합치기
       const allStudyIds = [
         ...(userStudies?.map((study: { study_id: string }) => study.study_id) ||
@@ -87,7 +84,6 @@ const StudyScheduleList = () => {
         .order("start_time", { ascending: true });
 
       if (error) throw error;
-      console.log("모든 일정:", schedules);
       return schedules as EventWithStudy[];
     },
   });

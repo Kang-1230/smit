@@ -9,7 +9,6 @@ import CustomButton from "@/components/ui/CustomButton";
 
 const WaitApplyList = ({ urlStudyId }: { urlStudyId: string }) => {
   const queryClient = useQueryClient();
-  console.log("1", urlStudyId);
   //가입 대기자 불러오기
   const getJoinedStudyPeopleList = async (study_id: string) => {
     const { data, error } = await browserClient
@@ -20,7 +19,7 @@ const WaitApplyList = ({ urlStudyId }: { urlStudyId: string }) => {
     if (!data || error || data.length ===0) {
       throw new Error("가입 대기중인 사람들을 불러오지 못했습니다.");
     } else if (data) {
-      console.log("가입 대기중 사람들 목록", data);
+
     }
     return data as JoinPerson[];
   };
@@ -43,7 +42,6 @@ const WaitApplyList = ({ urlStudyId }: { urlStudyId: string }) => {
       .eq("id", user_id);
 
     if (!data || error) {
-      console.log(error);
       throw new Error("사용자 정보를 불러오지 못했습니다.");
     }
     return data as Tables<"user">[];
@@ -60,7 +58,6 @@ const WaitApplyList = ({ urlStudyId }: { urlStudyId: string }) => {
       const userPromises = waitingList.map((item) =>
         getUserByApplyList(item.user_id),
       );
-      console.log("userPromises", userPromises);
       return Promise.all(userPromises);
     },
     enabled: !!waitingList,
