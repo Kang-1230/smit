@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import WaitApplyList from "../components/WaitApplyList";
 import ManagedMemberList from "../components/ManagedMemberList";
 import { useRef, useState } from "react";
@@ -13,7 +13,6 @@ import Link from "next/link";
 import browserClient from "@/utils/supabase/client";
 import { useMutation } from "@tanstack/react-query";
 import { updateStudy } from "@/utils/supabase/supabase-client";
-import { useRouter } from "next/navigation";
 
 const Page = () => {
   const [updateTrigger, setUpdateTrigger] = useState(0);
@@ -129,33 +128,31 @@ const Page = () => {
       />
 
       {!isStudyMenu ? (
-        <div>
+        <div className="pb-[40px]">
           <WaitApplyList urlStudyId={urlStudyId} />
           <ManagedMemberList
             urlStudyId={urlStudyId}
             key={updateTrigger}
             setUpdateTrigger={setUpdateTrigger}
           />
-          <div className="absolute bottom-[14px] w-full">
-            <div className="mx-6 flex flex-row gap-x-1">
-              <MyButton style="gray-2" size="lg">
-                <Link href={"/study"}>나가기</Link>
-              </MyButton>
-              <MyButton
-                size="lg"
-                style="black-fill"
-                className="w-full"
-                onClick={() => {
-                  handlerUpdateStudy();
-                }}
-              >
-                적용하기
-              </MyButton>
-            </div>
+          <div className="fixed bottom-0 flex w-full items-center gap-2 border-t bg-white px-6 py-3">
+            <MyButton style="gray-2" size="lg">
+              <Link href={"/study"}>나가기</Link>
+            </MyButton>
+            <MyButton
+              size="lg"
+              style="black-fill"
+              className="w-full"
+              onClick={() => {
+                handlerUpdateStudy();
+              }}
+            >
+              적용하기
+            </MyButton>
           </div>
         </div>
       ) : (
-        <div className="mb-4 flex w-full flex-col">
+        <div className="mb-4 flex w-full flex-col pb-[40px]">
           <StudyUpdate
             urlStudyId={urlStudyId}
             onConfirm={(data: Tables<"study">) => {
@@ -165,7 +162,7 @@ const Page = () => {
               }));
             }}
           ></StudyUpdate>
-          <div className="mx-6 flex flex-row gap-x-1">
+          <div className="fixed bottom-0 flex w-full items-center gap-2 border-t bg-white px-6 py-3">
             <MyButton style="gray-2" size="lg">
               <Link href={"/study"}>나가기</Link>
             </MyButton>
