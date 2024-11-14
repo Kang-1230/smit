@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Dispatch, SetStateAction } from "react";
 import { JoinPersonWithManager } from "../../components/MyStudyList";
 import MemberListItem from "./MemberListItem";
-import Image from "next/image";
 
 const ManagedMemberList = ({
   urlStudyId,
@@ -129,8 +128,8 @@ const ManagedMemberList = ({
 
   return (
     <div className="mx-6 mb-52 mt-10">
-      <h1 className="title-20-s">스터디 멤버 관리</h1>
-      <div className="body-16-r my-5 flex w-full justify-between rounded-[23px] bg-[#FAF6F3] p-1 pl-4">
+      <h1 className="title-20-s mb-5">스터디 멤버 관리</h1>
+      {/* <div className="body-16-r my-5 flex w-full justify-between rounded-[23px] bg-[#FAF6F3] p-1 pl-4">
         <input
           className="bg-[#FAF6F3]"
           placeholder="스터디 멤버를 찾아보세요"
@@ -143,7 +142,7 @@ const ManagedMemberList = ({
             height={24}
           />
         </button>
-      </div>
+      </div> */}
       <section>
         {manageList?.map((manageUser: JoinPersonWithManager) => (
           <MemberListItem

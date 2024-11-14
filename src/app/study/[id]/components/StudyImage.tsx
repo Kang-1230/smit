@@ -1,18 +1,18 @@
 "use client";
 import browserClient from "@/utils/supabase/client";
 import { fetchStudyInfo } from "@/utils/supabase/supabase-server";
-import ImageSelect from "../../../../../public/icons/ImageSelect.svg";
-import Pencil from "../../../../../public/icons/PencilFill.svg";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { Tables } from "../../../../../database.types";
+import { convertUTCToKST } from "@/utils/convertDate";
 
 type Props = {
   urlStudyId: string;
   onConfirm: (data: Tables<"study">) => void;
+  onFile: (file: File) => void;
 };
 
-const StudyImage = ({ urlStudyId }: Props) => {
+const StudyImage = ({ urlStudyId, onConfirm, onFile }: Props) => {
   const [study, setStudy] = useState<Tables<"study">>();
   const [isSubModalOpen, setIsSubModalOpen] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -28,6 +28,13 @@ const StudyImage = ({ urlStudyId }: Props) => {
 
     fetchData();
   }, [urlStudyId]);
+
+  // 값 변경 될 떄마다
+  useEffect(() => {
+    if (study) {
+      onConfirm(study); // study 값이 변경될 때마다 부모로 전달
+    }
+  }, [study]); // study 값이 변경될 때마다 실행
 
   // 이미지 업로드 Handler
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -51,6 +58,7 @@ const StudyImage = ({ urlStudyId }: Props) => {
             };
           });
         };
+        onFile(file);
       } else if (!allowExtenstions.includes(file.type)) {
         // Toast로 선택한 파일이 이미지 형식이 아닙니다 - toast 로 수정 진행 예정
         alert("선택한 파일이 이미지 형식이 아닙니다");
@@ -65,9 +73,8 @@ const StudyImage = ({ urlStudyId }: Props) => {
     .from("study_img")
     .getPublicUrl("default").data.publicUrl;
 
-
   // 입력 변경 핸들러
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setStudy((prevStudy) => {
       if (!prevStudy) {
         return undefined; // 초기 상태가 undefined일 경우 처리
@@ -85,17 +92,20 @@ const StudyImage = ({ urlStudyId }: Props) => {
   };
 
   // 엔터 키로 입력 완료
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter") {
       setIsEdit(false); // 엔터를 누르면 편집 모드 종료
     }
   };
 
+  if (!study) return;
+
   return (
     <div className="relative flex h-[263px] w-full items-center justify-center">
+      <div className="absolute inset-0 bg-gradient-to-b from-black/0 from-30% to-black/40" />
       <Image
         src={
-          study?.study_imgurl ||
+          study.study_imgurl ||
           "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/study_img/default"
         }
         alt="studyImg"
@@ -107,46 +117,48 @@ const StudyImage = ({ urlStudyId }: Props) => {
           setIsSubModalOpen(!isSubModalOpen);
         }}
       />
-      <div className="absolute bottom-[24px] left-[24px]">
-        <p className="caption mb-2 text-white">
-          {study?.study_createtime.substring(0, 10).replaceAll("-", ".")}
+      <div className="absolute bottom-[26px] left-6 z-20 flex w-[237px] flex-col gap-2 text-white">
+        <p className="caption font-medium">
+          {convertUTCToKST(study.study_createtime).dateOnly}
         </p>
-
-        {isEdit ? (
-          <input
-            type="text"
-            value={study?.study_name}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            onKeyDown={(e) => handleKeyDown(e)}
-            maxLength={20}
-            className="title-20-s max-w-[240px] truncate border-b border-gray-300 bg-transparent text-white focus:outline-none"
-            autoFocus // 클릭하면 바로 포커스
-          />
-        ) : (
-          <p className="title-20-s text-overflow ... flex max-w-[283px] items-center truncate text-white">
-            {study?.study_name}
-            <Image
-              src={Pencil}
-              alt="PencilLined"
-              width={24}
-              height={24}
-              className="mr-2 cursor-pointer"
-              onClick={() => setIsEdit(true)}
+        <div className="title-20-s">
+          {isEdit ? (
+            <textarea
+              value={study.study_name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              onKeyDown={(e) => handleKeyDown(e)}
+              maxLength={25}
+              spellCheck={false}
+              className="resize-none border-b border-white bg-transparent outline-none"
+              autoFocus
             />
-          </p>
-        )}
+          ) : (
+            <p className="flex items-end">
+              {study.study_name}
+              <Image
+                src={"/icons/EditFill.svg"}
+                alt="edit"
+                width={24}
+                height={24}
+                className="ml-1 cursor-pointer"
+                onClick={() => setIsEdit(true)}
+              />
+            </p>
+          )}
+        </div>
       </div>
-      <Image
-        src={ImageSelect}
-        alt="selectBtn"
-        width={44}
-        height={44}
-        className="absolute bottom-[24px] right-[24px]"
-        onClick={() => {
-          setIsSubModalOpen(!isSubModalOpen);
-        }}
-      />
+      <div className="absolute bottom-[26px] right-[24px] z-20 flex items-center rounded-[22px] bg-white/50 p-[14px] backdrop-blur-[15px]">
+        <Image
+          src={"/icons/ImageSelectWhite.svg"}
+          alt="selectBtn"
+          width={16}
+          height={16}
+          onClick={() => {
+            setIsSubModalOpen(!isSubModalOpen);
+          }}
+        />
+      </div>
       <input
         ref={fileInputRef}
         className="hidden"
@@ -154,9 +166,9 @@ const StudyImage = ({ urlStudyId }: Props) => {
         accept=".jpg, .jpeg , .png"
         onChange={ImageUploadHandler}
       />
-
+      {/* <StudyManageTitle studyData={study} /> */}
       {isSubModalOpen && (
-        <div className="body-16-m absolute right-[49px] top-[137px] flex h-fit w-[148px] flex-col rounded-8 bg-white px-4 py-1 shadow-[0px_2px_10px_0px_rgba(0,0,0,0.25)]">
+        <div className="body-16-m absolute right-[49px] top-[137px] z-30 flex h-fit w-[148px] flex-col rounded-8 bg-white px-4 py-1 shadow-[0px_2px_10px_0px_rgba(0,0,0,0.25)]">
           <div
             className="h-[30px] w-full py-1"
             onClick={() => {
