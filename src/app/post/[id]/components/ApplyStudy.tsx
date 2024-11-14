@@ -11,17 +11,23 @@ import LoginModal from "@/components/common/LoginModal";
 import MyButton from "@/components/common/Button";
 import { useToast } from "@/hooks/useToast";
 
-const ApplyStudy = ({ postData }: { postData: Tables<"post"> }) => {
+interface ApplyStudyProps {
+  postData: Tables<"post">;
+  isFull: boolean;
+}
+
+const ApplyStudy = ({ postData, isFull }: ApplyStudyProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState("");
   const { data } = useSession();
+  const { showToast, ToastComponent } = useToast();
+
   // 로그인 안하고 신청 누를경우 모달
   const {
     modalClose: loginModalClose,
     modalOpen: loginModalOpen,
     isModalOpen: isLoginModalOpen,
   } = useModalOpen();
-  const { showToast, ToastComponent } = useToast();
 
   // 스터디 신청
   const { mutate: applyStudy } = useMutation({
@@ -64,9 +70,9 @@ const ApplyStudy = ({ postData }: { postData: Tables<"post"> }) => {
         className="flex-1"
         style="black-fill"
         size="lg"
-        disabled={isManager}
+        disabled={isFull ? isFull : isManager}
       >
-        신청하기
+        {isFull ? "모집마감" : "신청하기"}
       </MyButton>
 
       {isModalOpen && (

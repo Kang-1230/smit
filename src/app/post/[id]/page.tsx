@@ -4,6 +4,7 @@ import ApplyStudy from "./components/ApplyStudy";
 import ShareStudy from "./components/ShareStudy";
 import LikeButton from "@/components/common/LikeButton";
 import { fetchPostInfo } from "@/utils/supabase/supabase-server";
+import { checkStudyFull } from "@/actions/detail";
 
 export default async function PostDetailPage({
   params,
@@ -15,6 +16,7 @@ export default async function PostDetailPage({
   if (!postData) {
     return <div>정보를 불러오는 데 실패했습니다.</div>;
   }
+  const isFull = await checkStudyFull(postData.study_id);
 
   return (
     <div className="flex h-screen flex-col overflow-y-auto">
@@ -26,7 +28,7 @@ export default async function PostDetailPage({
       <footer className="fixed bottom-0 flex w-full items-center gap-2 border-t bg-white px-6 py-3">
         <LikeButton postId={+params.id} className="bg-secondary-50" />
         <ShareStudy />
-        <ApplyStudy postData={postData} />
+        <ApplyStudy postData={postData} isFull={isFull} />
       </footer>
     </div>
   );
