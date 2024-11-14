@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-
 type RankConfig = {
   borderColorMain: string;
   imageSize: string;

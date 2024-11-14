@@ -21,7 +21,7 @@ export default function SearchForm() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const { register, handleSubmit, formState, setValue } = useForm({
+  const { register, handleSubmit, setValue } = useForm({
     mode: "onChange",
     defaultValues: {
       search,

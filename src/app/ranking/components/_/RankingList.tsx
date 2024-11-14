@@ -17,7 +17,7 @@ export default function RankingList() {
     useInfiniteQuery({
       queryKey: ["ranking"],
       queryFn: ({ pageParam }) => getStudys(pageParam),
-      getNextPageParam: (lastPage, _) => {
+      getNextPageParam: (lastPage) => {
         if (!lastPage.hasMore) return undefined;
         return lastPage.page + 1;
       },

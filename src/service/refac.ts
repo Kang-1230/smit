@@ -38,8 +38,6 @@ export async function getPosts({
 
 // 인기 포스트
 export async function getFeaturedPosts() {
-  let result: Post[];
-
   const serverClient = createClient();
   const { data } = await serverClient
     .from("post")
@@ -47,7 +45,7 @@ export async function getFeaturedPosts() {
     .order("like_count", { ascending: false })
     .limit(5);
 
-  result = await Promise.all(
+  const result: Post[] = await Promise.all(
     data!.map(async (post) => {
       const joinCnt = await getStudyParticipantsCount(post.study.sutdy_id);
       return camelizePost(post as SupabasePost, joinCnt);
@@ -102,8 +100,6 @@ export async function getStudys(page = 1) {
 }
 
 export async function getStudyById(id: string) {
-  let result: Study | null;
-
   const serverClient = createClient();
   const { data, error } = await serverClient
     .from("study")
@@ -115,7 +111,7 @@ export async function getStudyById(id: string) {
   }
 
   const index = data.findIndex((study) => study.study_id === id);
-  result = camelizeStudy(data[index] as SupabaseStudy, index + 1);
+  const result: Study = camelizeStudy(data[index] as SupabaseStudy, index + 1);
 
   return { data: result };
 }
