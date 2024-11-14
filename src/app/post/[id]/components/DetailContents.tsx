@@ -6,10 +6,9 @@ import { Tables } from "../../../../../database.types";
 import Image from "next/image";
 import { convertUTCToKST } from "@/utils/convertDate";
 import LikeCount from "./LikeCount";
-import OpenStudyProfile from "./OpenStudyProfile";
 import ContentsEdit from "./ContentsEdit";
 import CustomButton from "@/components/ui/CustomButton";
-import { getApplylist } from "@/actions/detail";
+import StudyPostInfo from "./StudyPostInfo";
 
 type DetailContentsProps = {
   id: string;
@@ -19,15 +18,10 @@ type DetailContentsProps = {
 const DetailContents = async ({ id, postData }: DetailContentsProps) => {
   const studyData = await fetchStudyInfo(postData.study_id);
   const userData = await fetchUserInfo(postData.user_id);
-  const applyNumber = await getApplylist(postData.study_id);
 
   if (!studyData || !userData) {
     return <div>정보를 불러오는 데 실패했습니다.</div>;
   }
-
-  const changeDateForm = (dateString: string) => {
-    return dateString.replaceAll("-", ".");
-  };
 
   return (
     <div className="w-full">
@@ -57,22 +51,7 @@ const DetailContents = async ({ id, postData }: DetailContentsProps) => {
           </span>
           <ContentsEdit postId={id} userId={postData.user_id} />
         </div>
-        <div className="body-14-r mb-[27px] grid min-w-[327px] grid-cols-[82px_1fr] gap-y-3 rounded-lg bg-c-background p-5">
-          <p className="text-secondary-400">모집 인원</p>
-          <p>
-            {applyNumber} / {studyData.study_max_people - 1}
-          </p>
-          <p className="text-secondary-400">시작 예정일</p>
-          <p> {changeDateForm(postData.study_startday!)}</p>
-          <p className="text-secondary-400">스터디 이름</p>
-          <div className="flex items-center">
-            <p> {studyData.study_name}</p>
-            <OpenStudyProfile
-              userId={postData.user_id}
-              studyId={postData.study_id}
-            />
-          </div>
-        </div>
+        <StudyPostInfo postData={postData} studyData={studyData} />
       </section>
       <main>
         <p className="min-w-[327px] whitespace-pre-wrap break-words pb-[100px]">
