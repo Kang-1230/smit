@@ -158,6 +158,8 @@
 
 <details><summary style="font-weight: bold; font-size: 20px">🏠 스터디 그룹 모집 및 검색
 </summary>
+    
+![image](https://github.com/user-attachments/assets/a9568b6d-fcfc-4d46-a403-82e5322cad57)
 • 플로팅 버튼을 눌러 언제든지 나만의 스터디 그룹을 만들고, 모집글을 작성할 수 있습니다. <br>
 • 상단 Nav Bar의 검색 아이콘 기능을 통해 나에게 필요한 스터디를 효율적으로 찾아볼 수 있습니다. <br>
 • 관심 있는 모집 공고에 ‘좋아요’를 누르거나 의견을 댓글로 남길 수 있습니다. <br>
@@ -168,6 +170,8 @@
 <br>
 <details><summary style="font-weight: bold; font-size: 20px">📝 스터디 생성 및 모집글 작성
 </summary>
+    
+![image](https://github.com/user-attachments/assets/bb2edcb4-9592-414b-a98a-7d27091a01d9)
 • 스터디원들을 모으기 위한 모집글을 작성할 수 있습니다. <br>
 • 카테고리 바를 클릭하면 바텀시트가 올라오며, 이때 스터디 시작 예정일과 모집글을 작성할 스터디를 선택할 수 있습니다. <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ⸰ 스터디 그룹의 모집인원 및 태그가 모집글에도 동일하게 적용됩니다. <br>
@@ -181,6 +185,8 @@
 <br>
 <details><summary style="font-weight: bold; font-size: 20px">📚 스터디 관리
 </summary>
+
+![image](https://github.com/user-attachments/assets/5bfdea46-6263-4d05-bcfc-30bde6554b3d)
 • 참여 중인 모든 스터디 리스트를 한눈에 확인하고 관리할 수 있습니다. <br>
 • 상단 캘린더를 통해 스터디 일정을 직관적으로 관리할 수 있습니다. <br>
 • 캘린더에서 일정 또는 스터디 리스트를 클릭하여 스터디 룸에 바로 접속할 수 있습니다. <br>
@@ -192,6 +198,8 @@
 <br>
 <details><summary style="font-weight: bold; font-size: 20px">🧑🏻‍💻 스터디 룸
 </summary>
+
+![image](https://github.com/user-attachments/assets/97102c71-b81a-4866-96ad-fde55aa027c3)
 • 팀원들과 함께 스터디를 진행하는 메인 페이지입니다. <br>
 • 사전 등록된 스터디 일정과 시간을 한눈에 확인할 수 있습니다. <br>
 • 스톱워치 기능을 통해 순공 시간을 측정하고, 공부 시간 달성률을 확인할 수 있습니다 <br>
@@ -203,6 +211,8 @@
 <br>
 <details><summary style="font-weight: bold; font-size: 20px">🏅 스터디 랭킹
 </summary>
+
+![image](https://github.com/user-attachments/assets/fd4224c0-f0ce-487f-b48f-eb588321bc6f)
 • 주간 스터디 랭킹을 보여줍니다. <br>
 • 스터디 랭킹을 클릭하면 스터디 그룹 프로필을 볼 수 있습니다. <br>
 • i 아이콘을 클릭하면 랭킹의 기준에 대한 정보 표시 모달이 뜹니다. <br>
@@ -210,11 +220,23 @@
 • 스터디의 정해진 시간 내에서 80% 이상 참여한 인원을 집계합니다. <br>
 • 누적시간(1시간 단위), 인원 %에 따라 점수 부여가 다릅니다. <br>
 • 1인 그룹은 랭킹에 참여 할 수 없습니다. <br>
+    
+| 참여 인원(%) / 공부시간 | 1시간 | 2시간 | 3시간 | 4시간 | 5시간 | 6시간 | 7시간 | 8시간 | 9시간 | 10시간 | 11시간 | 12시간 | 12시간~ |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 100% | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | 1000 | 1100 | 1200 | 1300 |
+| 90% | 90 | 180 | 270 | 360 | 450 | 540 | 630 | 720 | 810 | 900 | 990 | 1080 | 1170 |
+| 80% | 80 | 160 | 240 | 320 | 400 | 480 | 560 | 720 | 720 | 800 | 880 | 960 | 1040 |
+| 70% | 70 | 140 | 210 | 280 | 350 | 420 | 490 | 560 | 630 | 700 | 770 | 840 | 910 |
+| 60% | 60 | 120 | 180 | 240 | 300 | 360 | 420 | 480 | 540 | 600 | 660 | 720 | 780 |
+| 50% | 50 | 100 | 150 | 200 | 250 | 300 | 350 | 400 | 450 | 500 | 550 | 600 | 650 |
+
 </details>
 </details>
 <br>
 <details><summary style="font-weight: bold; font-size: 20px">📲 로그인 / 회원가입 / 온보딩
 </summary>
+
+![image](https://github.com/user-attachments/assets/db38c3a9-ca2c-425a-90d4-a8a585d62aa5)
 • 스밋의 로그인 화면입니다. <br>
 • 이메일과 비밀번호를 입력할 수 있으며, 자동 로그인 체크가 가능합니다. <br>
 • 카카오톡, 구글 계정을 통한 소셜 로그인이 가능합니다. <br>
@@ -224,6 +246,8 @@
 <br>
 <details><summary style="font-weight: bold; font-size: 20px">🪪 마이페이지
 </summary>
+
+![image](https://github.com/user-attachments/assets/811ff871-69b8-4bf4-8889-4d1e05ad8d70)
 • 사용자는 자신의 프로필 이미지와 닉네임을 수정할 수 있습니다. <br>
 • 작성한 스터디 모집글을 확인하고 필요에 따라 수정하거나 삭제할 수 있습니다. <br>
 • ‘좋아요’한 게시물들을 캐러셀 형태로 편리하게 탐색할 수 있습니다. <br>
@@ -582,7 +606,8 @@ src
 
 **✅ 해결 ②**
 
-- 데이터베이스의 last_start 컬럼을 'time zone' 형식으로 변경하여 시간대 처리 문제를 해결하였습니다.
+- 데이터베이스의 last_start 컬럼을 'time zone' 형식으로 변경하여 시간대 처리 문제를 해결하였습니다. <br>
+![image](https://github.com/user-attachments/assets/16d56af5-bf0c-4ac1-a236-6370489070f0)
 
 </details>
 <br>
