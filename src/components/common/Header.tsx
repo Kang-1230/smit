@@ -32,9 +32,14 @@ export default function Header() {
   const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const { error: logoutError } = await supabase.auth.signOut();
+
     if (logoutError) {
       console.error("SignUp Error :", logoutError);
+      return;
     }
+
+    router.push("/");
+    router.refresh();
   };
 
   const handleSearchModal = () => {
