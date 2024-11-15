@@ -26,7 +26,7 @@ export default function Header() {
   });
 
   const handleLogin = () => {
-    router.replace("/login");
+    router.push("/login");
   };
 
   const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
