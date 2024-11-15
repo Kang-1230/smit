@@ -8,7 +8,7 @@ type Props = {
 
 export default function SearchResult({ posts }: Props) {
   return (
-    <div>
+    <div className="mb-[7.4rem]">
       <div className="flex items-center justify-between">
         <div className="text-xs font-normal text-secondary-500">
           검색결과 {posts.length}개
