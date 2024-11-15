@@ -49,13 +49,9 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    return NextResponse.redirect(
-      new URL("https://smit-8y5a.vercel.app/", request.url),
-    );
+    return NextResponse.redirect(new URL("/", request.url));
   } catch (error) {
     console.error("Callback error:", error);
-    return NextResponse.redirect(
-      new URL("https://smit-8y5a.vercel.app/", request.url),
-    );
+    return NextResponse.redirect(new URL("/", request.url));
   }
 }
