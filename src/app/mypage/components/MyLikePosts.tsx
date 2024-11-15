@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import SquarePostCard from "../../../components/common/SquarePostCard";
 import { useLikedPostByUser } from "../../../hooks/useLikePost";
 import { useSession } from "@/hooks/useUserProfile";
@@ -11,13 +12,21 @@ const MyLikePosts = () => {
   return (
     <div>
       <div className="scrollbar-hide sm:scrollbar-show w-full overflow-x-scroll">
-        <div className="flex w-fit flex-row gap-x-3 px-6">
+        <div className="flex w-full flex-row gap-x-3 px-6">
           {likePosts?.length ? (
             likePosts.map((post) => (
               <SquarePostCard key={post.post_id} post={post} />
             ))
           ) : (
-            <div>찜한 글이 없습니다.</div>
+            <div className="relative mx-auto mb-[12px] mt-[10px] h-[172px] w-[167px]">
+              <Image
+                src={`/images/NothingLikes.png`}
+                alt="nothing likes"
+                fill
+                quality={100}
+                loading="eager"
+              />
+            </div>
           )}
         </div>
       </div>
