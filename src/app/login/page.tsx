@@ -238,6 +238,7 @@ export default function LoginPage() {
             </div>
             <div className="flex gap-[9px]">
               <button
+                type="button"
                 onClick={() => handleKaKaoSignIn()}
                 className="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-white"
               >
@@ -249,6 +250,7 @@ export default function LoginPage() {
                 />
               </button>
               <button
+                type="button"
                 onClick={() => handleGoogleSignIn()}
                 className="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-white"
               >
