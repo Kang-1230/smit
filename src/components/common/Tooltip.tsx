@@ -24,7 +24,7 @@ function Tooltip({
           e.stopPropagation();
         }}
       >
-        <Image src={`/icons/Xsmall.svg`} fill alt="close" />
+        <Image src={`/icons/XSmall.svg`} fill alt="close" />
       </button>
       <div className={`absolute -bottom-[10px] h-[11px] w-[9px] ${posi}`}>
         <Image src={`/icons/TootipArrow.svg`} alt="tooltip arrow" fill />

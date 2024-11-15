@@ -49,7 +49,7 @@ const Modal = (props: Props) => {
       onClick={props.onClose}
     >
       <div
-        className="fixed inset-x-0 bottom-0 flex h-fit w-full flex-col overflow-y-hidden rounded-t-2xl bg-white shadow-lg focus:overscroll-contain"
+        className="fixed inset-x-0 bottom-0 flex h-fit w-full animate-slide-up flex-col overflow-y-hidden rounded-t-2xl bg-white shadow-lg focus:overscroll-contain"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex w-full flex-col justify-center p-5">

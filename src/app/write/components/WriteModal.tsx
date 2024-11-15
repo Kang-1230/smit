@@ -69,7 +69,7 @@ const WriteModal = (props: ModalProps) => {
         onClick={props.onClose}
       >
         <div
-          className="fixed inset-x-0 bottom-0 flex h-2/5 w-full flex-col overflow-y-auto rounded-t-2xl bg-white p-5 shadow-lg focus:overscroll-contain"
+          className="fixed inset-x-0 bottom-0 flex h-2/5 w-full flex-col overflow-y-auto rounded-t-2xl bg-white p-5 shadow-lg focus:overscroll-contain animate-slide-up"
           onClick={(e) => e.stopPropagation()}
         >
           <h1 className="title-20-m">스터디 그룹 선택</h1>

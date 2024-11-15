@@ -55,7 +55,7 @@ export default function LoginPage() {
   }, []);
 
   const onSubmit = async (formData: LoginFormData) => {
-    const {  error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email: formData.email,
       password: formData.password,
     });
@@ -81,8 +81,9 @@ export default function LoginPage() {
     });
 
     if (data) {
-      router.push("/");
-      router.refresh();
+      if (data.url) {
+        window.location.href = data.url;
+      }
     } else if (error) {
       throw error;
     }
@@ -111,7 +112,6 @@ export default function LoginPage() {
       console.log(user);
     }
   };
-
 
   const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
