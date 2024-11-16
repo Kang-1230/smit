@@ -148,7 +148,7 @@ const StudyImage = ({ urlStudyId, onConfirm, onFile }: Props) => {
           )}
         </div>
       </div>
-      <div className="absolute bottom-[26px] right-[24px] z-20 flex items-center rounded-[22px] bg-white/50 p-[14px] backdrop-blur-[15px]">
+      <div className="absolute bottom-[26px] right-[24px] z-20 flex items-center rounded-[22px] bg-white/40 p-[14px] backdrop-blur-[20px]">
         <Image
           src={"/icons/ImageSelectWhite.svg"}
           alt="selectBtn"
