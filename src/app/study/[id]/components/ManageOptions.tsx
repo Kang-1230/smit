@@ -22,12 +22,18 @@ const ManageOptions = (props: Props) => {
         className={`flex flex-1 items-center justify-center p-2 ${!isSelected ? SelectStyle : ""}`}
       >
         스터디원 관리
+        {!isSelected ? (
+          <span className="mb-6 h-1 w-1 rounded-full bg-primary-50"></span>
+        ) : null}
       </button>
       <button
         onClick={() => handleSelect(true)}
         className={`flex flex-1 items-center justify-center p-2 ${isSelected ? SelectStyle : ""}`}
       >
         스터디 편집
+        {isSelected ? (
+          <span className="mb-6 h-1 w-1 rounded-full bg-primary-50"></span>
+        ) : null}
       </button>
     </div>
   );
