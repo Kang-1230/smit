@@ -19,9 +19,10 @@ const StudyChat = ({ study }: { study: Tables<"study"> | null }) => {
         바로가기
       </p>
       <div className="absolute bottom-[13px] right-[13px] flex h-[40px] w-[122px] justify-end rounded-full bg-gradient-to-r from-transparent from-30% to-white/60">
-        <div
+        <button
           className="relative h-10 w-10 rounded-full bg-primary-50"
           onClick={openChatHandler}
+          disabled={!study?.study_chaturl}
         >
           <Image
             src={`/icons/timer/ArrowLined.svg`}
@@ -30,7 +31,7 @@ const StudyChat = ({ study }: { study: Tables<"study"> | null }) => {
             height={20}
             className="absolute-center"
           />
-        </div>
+        </button>
       </div>
     </div>
   );

@@ -55,7 +55,7 @@ export default function LoginPage() {
   }, []);
 
   const onSubmit = async (formData: LoginFormData) => {
-    const {  error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email: formData.email,
       password: formData.password,
     });
@@ -81,8 +81,9 @@ export default function LoginPage() {
     });
 
     if (data) {
-      router.push("/");
-      router.refresh();
+      if (data.url) {
+        window.location.href = data.url;
+      }
     } else if (error) {
       throw error;
     }
@@ -111,7 +112,6 @@ export default function LoginPage() {
       console.log(user);
     }
   };
-
 
   const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -238,6 +238,7 @@ export default function LoginPage() {
             </div>
             <div className="flex gap-[9px]">
               <button
+                type="button"
                 onClick={() => handleKaKaoSignIn()}
                 className="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-white"
               >
@@ -249,6 +250,7 @@ export default function LoginPage() {
                 />
               </button>
               <button
+                type="button"
                 onClick={() => handleGoogleSignIn()}
                 className="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-white"
               >
