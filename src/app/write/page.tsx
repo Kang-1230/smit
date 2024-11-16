@@ -187,7 +187,7 @@ function WriteContent() {
 
   return (
     <div className="mb-[29px] flex w-full flex-col items-center px-[24px]">
-      <div className="mb-[24px] flex h-[44px] w-full items-center justify-between">
+      <div className="fixed left-0 top-0 z-50 mb-[24px] flex h-[44px] w-full items-center justify-between bg-white p-2 text-2xl">
         <Image
           src={Xmedium}
           alt="selectBtn"
@@ -204,7 +204,7 @@ function WriteContent() {
           <Image src={Check} alt="selectBtn" width={0} />
         </button>
       </div>
-      <div className="flex w-full flex-col gap-y-[32px]">
+      <div className="flex w-full flex-col gap-y-[32px] mb-4 mt-4">
         <SquareInput
           onChange={setTitle}
           title="제목"

@@ -150,7 +150,7 @@ function StudyContent() {
 
   return (
     <div className="mb-[39px] flex flex-col px-[24px]">
-      <div className="mb-[24px] flex h-[44px] w-full items-center justify-between p-2 text-2xl">
+      <div className="mb-[24px] flex h-[44px] w-full items-center justify-between text-2xl fixed top-0 left-0 z-50 bg-white px-6">
         <Image
           src={Xmedium}
           alt="selectBtn"
@@ -216,7 +216,7 @@ function StudyContent() {
           viewLength={true}
         />
         <SquareInput
-          maxLength={25}
+          maxLength={80}
           title="한 줄 설명"
           placeholder="그룹을 소개하는 설명을 작성해주세요."
           value={studyDescription}
