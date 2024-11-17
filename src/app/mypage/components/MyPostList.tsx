@@ -26,14 +26,14 @@ const MyPostList = () => {
     <>
       {posts.length > 0 ? (
         <>
-          <div className="flex flex-col gap-y-3">
+          <div className="flex flex-col gap-y-3 xl:h-[232px] xl:flex-row xl:gap-x-[34px]">
             {posts.slice(0, showPost ? posts.length : 3).map((post) => (
               <MyPostCard key={post.post_id} post={post} userId={user.id} />
             ))}
           </div>
 
           {posts.length > 3 && (
-            <div className="mt-8 flex flex-row justify-center">
+            <div className="mt-8 flex flex-row justify-center xl:hidden">
               <button
                 className="caption text-secondary-700"
                 onClick={() => setShowPost(true)}

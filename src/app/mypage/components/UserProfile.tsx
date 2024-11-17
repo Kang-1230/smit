@@ -25,7 +25,7 @@ const UserProfile = () => {
     return (
       <>
         <p className="title-24-b mt-[178px] hidden xl:block">마이페이지</p>
-        <div className="flex flex-col items-center bg-c-background pb-8 pt-[74px] xl:mb-[138px] xl:mt-[32px] xl:flex-row xl:rounded-[32px] xl:py-[28px] xl:pl-[52px]">
+        <div className="flex flex-col items-center bg-c-background pb-8 pt-[74px] xl:relative xl:mb-[138px] xl:mt-[32px] xl:flex-row xl:rounded-[32px] xl:py-[28px] xl:pl-[52px]">
           <div className="relative aspect-square h-[116px] w-[116px] overflow-hidden rounded-full border object-cover xl:h-[160px] xl:w-[160px]">
             <Image
               src={user.profile_img}
@@ -53,12 +53,20 @@ const UserProfile = () => {
               프로필 수정
             </MyButton>
           </div>
-          {isModalOpen && (
-            <ModalOverlay onClick={modalClose}>
-              <EditProfile user={user} modalClose={modalClose} />
-            </ModalOverlay>
-          )}
+          <Image
+            src={`/images/MyPage.png`}
+            alt="study"
+            width={489}
+            height={269}
+            className="absolute right-0 top-[36px] hidden xl:block"
+            priority={true}
+          />
         </div>
+        {isModalOpen && (
+          <ModalOverlay onClick={modalClose}>
+            <EditProfile user={user} modalClose={modalClose} />
+          </ModalOverlay>
+        )}
       </>
     );
 };
