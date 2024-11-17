@@ -72,6 +72,7 @@ const PersonalMemoItem = ({ memoData }: { memoData: MemoWithUser }) => {
                   scrollbarWidth: "thin",
                   scrollbarColor: "#808080 transparent",
                 }}
+                wrap="soft"
               />
               <button
                 onClick={handleUpdate}
@@ -92,6 +93,7 @@ const PersonalMemoItem = ({ memoData }: { memoData: MemoWithUser }) => {
                 style={{
                   scrollbarWidth: "thin",
                   scrollbarColor: "#808080 transparent",
+                  wordBreak: "break-all",
                 }}
               >
                 {memoData.memo_content}
