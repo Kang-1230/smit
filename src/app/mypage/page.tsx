@@ -18,7 +18,7 @@ export default async function MyPage() {
     <div className="flex flex-col">
       <UserProfile />
       <div className="flex flex-col px-6 pt-7">
-        <p className="title-20-s mb-5">내가 작성한 글</p>
+        <p className="title-20-s mb-[20px]">내가 작성한 글</p>
         <MyPostList />
       </div>
       <hr className="mt-5" />

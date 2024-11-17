@@ -49,7 +49,7 @@ const LikeButton = ({
       <button
         onClick={handleClick}
         className={cn(
-          `rounded-full ${isBoundary ? "bg-secondary-700" : ""} p-2`,
+          `rounded-full ${isBoundary ? "bg-secondary-700" : ""} p-[8px]`,
           className,
         )}
       >
@@ -57,15 +57,15 @@ const LikeButton = ({
           <Image
             src={`/icons/HeartFill.svg`}
             alt="fill-heart"
-            width={30}
-            height={30}
+            width={24}
+            height={24}
           />
         ) : (
           <Image
             src={`/icons/Heart.svg`}
             alt="fill-heart"
-            width={30}
-            height={30}
+            width={24}
+            height={24}
           />
         )}
       </button>

@@ -12,10 +12,11 @@ const MyPostList = () => {
     data: posts,
     isLoading: postsLoading,
     isError: postsError,
+    isPending: postsPending,
   } = usePostByUser(user?.id);
 
-  if (postsLoading || !posts || !user) {
-    return <div>로딩중</div>;
+  if (postsLoading || !posts || !user || postsPending) {
+    return <div className="flex flex-col gap-y-3"></div>;
   }
 
   if (postsError) {
@@ -32,7 +33,7 @@ const MyPostList = () => {
           </div>
 
           {posts.length > 3 && (
-            <div className="flex flex-row justify-center mt-8">
+            <div className="mt-8 flex flex-row justify-center">
               <button
                 className="caption text-secondary-700"
                 onClick={() => setShowPost(true)}
@@ -49,7 +50,15 @@ const MyPostList = () => {
           )}
         </>
       ) : (
-        <div>작성한 모집글이 없습니다.</div>
+        <div className="relative mx-auto mb-[18px] min-h-[178px] min-w-[167px]">
+          <Image
+            src={`/images/NothingPosts.png`}
+            alt="nothing posts"
+            fill
+            quality={100}
+            loading="eager"
+          />
+        </div>
       )}
     </>
   );
