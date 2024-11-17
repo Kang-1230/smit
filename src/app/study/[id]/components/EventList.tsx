@@ -5,7 +5,6 @@ import { useCalendarByDate } from "../hooks/useCalendar";
 import CreateEventForm from "./CreateEventForm";
 import EventListItem from "./EventListItem";
 import { useSession } from "@/hooks/useUserProfile";
-import PlusSmall from "../../../../../public/icons/PlusSmall.svg";
 import Image from "next/image";
 
 const EventList = ({
@@ -74,14 +73,24 @@ const EventList = ({
             className="m-[25px] flex h-[117px] flex-shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-[20px] bg-white p-4"
           >
             <span className="text-secondary-400">일정을 등록해보세요</span>
-            <Image src={PlusSmall} alt="plus" width={24} height={24} />
+            <Image
+              src={"/icons/PlusSmall.svg"}
+              alt="plus"
+              width={24}
+              height={24}
+            />
           </div>
         ) : (
           <div
             onClick={openForm}
             className="m-[25px] flex h-[60px] flex-shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-[20px] bg-white p-4"
           >
-            <Image src={PlusSmall} alt="plus" width={24} height={24} />
+            <Image
+              src={"/icons/PlusMedium.svg"}
+              alt="plus"
+              width={24}
+              height={24}
+            />
           </div>
         )
       ) : (
