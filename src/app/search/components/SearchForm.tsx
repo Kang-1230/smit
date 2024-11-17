@@ -46,7 +46,7 @@ export default function SearchForm() {
   };
 
   return (
-    <div className="fixed top-11 z-30 w-full bg-white bg-opacity-80 backdrop-blur-sm">
+    <div className="fixed top-11 z-30 w-full bg-white backdrop-blur-md">
       <form
         onSubmit={(e) => handleSubmit(onSubmit)(e)}
         className={`mx-auto flex w-full items-center border-b ${isText ? "border-secondary-600" : "border-secondary-200"} relative`}
