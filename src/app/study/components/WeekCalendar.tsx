@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { eachMonthOfInterval, format } from "date-fns";
-import { enUS, ko } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 import { useQuery } from "@tanstack/react-query";
 import browserClient from "@/utils/supabase/client";
 import { Tables } from "../../../../database.types";
@@ -15,7 +15,6 @@ import ArrowTopRightBlack from "../../../../public/icons/ArrowTopRightBlack.svg"
 import Image from "next/image";
 import ModalOverlay from "@/components/common/ModalOverlay";
 import WeekCalendarModal from "./WeekCalendarModal";
-import Dropdown from "@/components/common/Dropdown";
 import Link from "next/link";
 
 export interface EventWithStudy extends Tables<"calendar"> {

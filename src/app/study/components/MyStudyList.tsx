@@ -15,6 +15,8 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import Tooltip from "@/components/common/Tooltip";
 import useTooltip from "@/hooks/useTooltip";
+import Image from "next/image";
+import NoApplyStudy from "../../../../public/icons/illust/NoApplyStudy.svg";
 
 export type ApplyData = {
   id: string;
@@ -56,6 +58,8 @@ const MyStudyList = ({ user }: { user: User | null }) => {
   const { data: applyStudyData } = useGetApplyStudyList(user);
   const { data: joinedStudyData } = useGetJoinedStudyList(user);
 
+  console.log("데이터 확인", applyStudyData);
+
   const [activeTab, setActiveTab] = useState<
     "UserOwnStudy" | "UserJoinedStudy"
   >("UserJoinedStudy");
@@ -88,50 +92,60 @@ const MyStudyList = ({ user }: { user: User | null }) => {
   if (isLoading) return <div>로딩중</div>;
   if (error) return <div>에러 발생</div>;
 
-
   return (
-    <div className="flex flex-col">
-      <div className="mx-6 my-[52px]">
-        <div className="relative inline-flex flex-[0_0_auto] items-center justify-center gap-2.5 py-0 pl-1 pr-0">
-          <h1 className="title-20-s relative mt-[-1.00px] w-fit whitespace-nowrap text-[#000000]">
+    <>
+      <div className="mx-6 my-[52px] flex flex-col gap-[12px]">
+        <div className="flex items-start justify-center">
+          <h1 className="title-20-s w-full whitespace-nowrap pl-[4px] text-[#000000]">
             신청한 스터디
           </h1>
         </div>
 
-        <section className="pt-[5px]">
-          <div className="relative flex w-full flex-[0_0_auto] flex-col items-center gap-2 self-stretch">
-            {applyStudyData?.map((dataItem: ApplyData) => {
-              return (
-                <ul
-                  key={dataItem.id}
-                  className="relative flex w-[327px] flex-[0_0_auto] items-center gap-2 rounded-[26px] bg-[#f6f6f4] py-2 pl-5 pr-2"
-                >
-                  <div className="relative flex flex-1 grow items-center gap-3">
-                    <li className="body-16-m relative mt-[-1.00px] flex-1 text-[#000000]">
-                      {dataItem.study.study_name}
-                    </li>
+        <section>
+          {applyStudyData?.length !== 0 ? (
+            <div className="relative flex w-full flex-col items-center gap-2 self-stretch">
+              {applyStudyData?.map((dataItem: ApplyData) => {
+                return (
+                  <ul
+                    key={dataItem.id}
+                    className="relative flex w-[327px] flex-[0_0_auto] items-center gap-2 rounded-[26px] bg-[#f8f8fA] py-2 pl-5 pr-2"
+                  >
+                    <div className="relative flex flex-1 grow items-center gap-3">
+                      <li className="body-16-m relative mt-[-1.00px] flex-1 text-[#000000]">
+                        {dataItem.study.study_name}
+                      </li>
+                    </div>
+                    <div className="relative inline-flex h-9 flex-[0_0_auto] items-center justify-center gap-1 rounded-[18px] bg-[#333333] px-4 py-2">
+                      <button
+                        onClick={() =>
+                          deleteMutation.mutate(dataItem.study.study_id)
+                        }
+                        className="all-[unset] body-14-s body-14-s relative mt-[-0.50px] box-border w-fit whitespace-nowrap text-white"
+                      >
+                        취소하기
+                      </button>
+                    </div>
+                  </ul>
+                );
+              })}
+              {applyStudyData?.length !== 0 ? (
+                <div className="relative inline-flex flex-[0_0_auto] items-center py-2 pl-1 pr-0">
+                  <div className="caption relative w-fit whitespace-nowrap text-secondary-700">
+                    더보기
                   </div>
-                  <div className="relative inline-flex h-9 flex-[0_0_auto] items-center justify-center gap-1 rounded-[18px] bg-[#333333] px-4 py-2">
-                    <button
-                      onClick={() =>
-                        deleteMutation.mutate(dataItem.study.study_id)
-                      }
-                      className="all-[unset] body-14-s body-14-s relative mt-[-0.50px] box-border w-fit whitespace-nowrap text-white"
-                    >
-                      취소하기
-                    </button>
-                  </div>
-                </ul>
-              );
-            })}
-            <div className="relative inline-flex flex-[0_0_auto] items-center py-2 pl-1 pr-0">
-              <div className="caption relative w-fit whitespace-nowrap text-secondary-700">
-                더보기
-              </div>
 
-              <ChevronDown className="!relative !h-5 !w-5" color="#4D4D4D" />
+                  <ChevronDown
+                    className="!relative !h-5 !w-5"
+                    color="#4D4D4D"
+                  />
+                </div>
+              ) : (
+                ""
+              )}
             </div>
-          </div>
+          ) : (
+            <Image src={NoApplyStudy} alt="NoApplyStudy" />
+          )}
         </section>
       </div>
 
@@ -204,7 +218,7 @@ const MyStudyList = ({ user }: { user: User | null }) => {
           )}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
