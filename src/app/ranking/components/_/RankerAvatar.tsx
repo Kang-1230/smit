@@ -24,25 +24,31 @@ export default function RankerAvatar({ rank, study, handleModalClick }: Props) {
       onClick={() => handleModalClick(study.id)}
     >
       <div
-        className="relative rounded-full"
+        className={`relative rounded-full`}
         style={{
-          border: `1.5px solid ${borderColorMain}`,
+          backgroundImage: `linear-gradient(to bottom right, white, ${borderColorMain})`,
           width: imageSize,
           height: imageSize,
         }}
       >
         <div
-          className="absolute -top-2 left-0 flex h-6 w-6 items-center justify-center rounded-full text-[14px] text-white"
+          className="absolute -top-2 left-[0.15rem] h-[1.7rem] w-[1.7rem] items-center justify-center rounded-full p-[0.1rem] text-sm"
           style={{
-            border: `2px solid ${smallBorderColorMain}`,
-            background: `linear-gradient(to bottom right, ${smallGradientStart}, ${smallGradientEnd})`,
+            backgroundImage: `linear-gradient(to top left, ${smallGradientStart}, ${smallGradientEnd})`,
           }}
         >
-          {rank}
+          <div
+            className="flex h-full w-full items-center justify-center rounded-full text-white"
+            style={{
+              background: `linear-gradient(to bottom right, ${smallGradientStart}, ${smallGradientEnd})`,
+            }}
+          >
+            {rank}
+          </div>
         </div>
         <Image
           priority
-          className="h-full w-full rounded-full object-cover"
+          className="h-full w-full rounded-full object-cover p-[0.14rem]"
           src={study.image || ""}
           alt={study.name}
           width={100}
