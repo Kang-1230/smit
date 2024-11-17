@@ -12,8 +12,8 @@ export default function RankingInfo({
   unit: string;
 }) {
   return (
-    <div className="flex flex-1 flex-col gap-1">
-      <div className="flex items-center gap-[2px] text-xs">
+    <div className="flex w-[3.25rem] flex-1 flex-col gap-1">
+      <div className="flex items-center gap-1 text-xs">
         <Image
           src={icon}
           width={20}
@@ -21,7 +21,7 @@ export default function RankingInfo({
           alt="icon"
           className="text-secondary-500"
         />
-        {title}
+        <span>{title}</span>
       </div>
       <div className="flex items-center gap-1 text-sm">
         <span className="text-lg font-semibold text-[#1e1e1e]">
