@@ -21,10 +21,10 @@ export default function SearchForm() {
   const pathname = usePathname();
   const router = useRouter();
 
-  const { register, handleSubmit, setValue } = useForm({
+  const { register, handleSubmit, setFocus, resetField } = useForm({
     mode: "onChange",
     defaultValues: {
-      search,
+      search: "",
     },
     resolver: zodResolver(searchSchema),
   });
@@ -41,31 +41,39 @@ export default function SearchForm() {
   const isText = isFocused || search;
 
   const handleClearSearch = () => {
-    setValue("search", "");
+    resetField("search");
+    setFocus("search");
   };
 
   return (
-    <form
-      onSubmit={(e) => handleSubmit(onSubmit)(e)}
-      className={`absolute top-16 z-30 mx-6 flex w-full items-center border-b ${isText ? "border-secondary-600" : "border-secondary-200"}`}
-      style={{ width: "calc(100% - 3rem)" }}
-    >
-      <Image src="/icons/Search.svg" alt="search-icon" width={24} height={24} />
-      <input
-        type="search"
-        {...register("search")}
-        placeholder="공부하고 싶은 분야를 검색해보세요"
-        className="w-full bg-transparent p-2 font-pretendard text-base font-normal text-secondary-900 outline-none placeholder:text-secondary-400"
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-      />
-      <button
-        className="absolute right-0 rounded-full bg-secondary-800"
-        type="button"
-        onClick={handleClearSearch}
+    <div className="fixed top-11 z-30 w-full bg-white bg-opacity-80 backdrop-blur-sm">
+      <form
+        onSubmit={(e) => handleSubmit(onSubmit)(e)}
+        className={`mx-auto flex w-full items-center border-b ${isText ? "border-secondary-600" : "border-secondary-200"} relative`}
+        style={{ width: "calc(100% - 3rem)" }}
       >
-        <Image src="/icons/XSmall.svg" alt="x-icon" width={24} height={24} />
-      </button>
-    </form>
+        <Image
+          src="/icons/Search.svg"
+          alt="search-icon"
+          width={24}
+          height={24}
+        />
+        <input
+          type="search"
+          {...register("search")}
+          placeholder="공부하고 싶은 분야를 검색해보세요"
+          className="w-full bg-transparent p-2 font-pretendard text-base font-normal text-secondary-900 outline-none placeholder:text-secondary-400"
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+        />
+        <button
+          className="absolute right-0 rounded-full bg-secondary-800"
+          type="button"
+          onClick={handleClearSearch}
+        >
+          <Image src="/icons/XSmall.svg" alt="x-icon" width={24} height={24} />
+        </button>
+      </form>
+    </div>
   );
 }

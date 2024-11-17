@@ -36,13 +36,13 @@ export default function Banner({ title, url, isEventPage, num = 1 }: Props) {
             <h1 className="text-2xl font-semibold">{splitTitle(title)}</h1>
           </div>
 
-          <button className="flex items-center gap-11 rounded-24 bg-white bg-opacity-35 py-1 pl-5 pr-1 text-base font-light text-white backdrop-blur-sm">
-            바로가기
+          <button className="flex items-center gap-3 rounded-[26px] bg-white bg-opacity-35 py-1 pl-5 pr-1 text-base font-light text-white backdrop-blur-md">
+            <div className="w-[4.75rem] text-left">바로가기</div>
             <div className="flex h-11 w-11 items-center justify-center rounded-full bg-secondary-900">
               <Image
                 src={`/icons/ArrowTopRight.svg`}
-                width={20}
-                height={20}
+                width={24}
+                height={24}
                 alt="user"
                 className="text-secondary-500"
               />

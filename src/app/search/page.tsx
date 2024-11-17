@@ -1,8 +1,9 @@
-import { SearchQueryParams } from "@/types/search";
 import SearchForm from "./components/SearchForm";
-import SearchResult from "./components/SearchResult";
-import { getPosts } from "@/service/refac";
 import FloatingButtons from "@/components/common/FloatingButtons";
+import SearchResultList from "./components/SearchResultList";
+import { SearchQueryParams } from "@/types/search";
+import { Suspense } from "react";
+import Loading from "@/components/common/Loading";
 
 type SearchProps = {
   // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -11,14 +12,13 @@ type SearchProps = {
 };
 
 export default async function SearchPage({ searchParams }: SearchProps) {
-  const { data } = await getPosts(searchParams);
   return (
     <>
-      <SearchForm />
-      <hr className="h-28" />
-      <section className="relative px-6">
-        <SearchResult posts={data} />
-      </section>
+      <Suspense fallback={<Loading />}>
+        <SearchForm />
+        <hr className="h-28" />
+        <SearchResultList searchParams={searchParams} />
+      </Suspense>
       <FloatingButtons />
     </>
   );

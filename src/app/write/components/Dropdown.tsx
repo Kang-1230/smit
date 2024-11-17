@@ -69,8 +69,8 @@ export default function Dropdown() {
               <Image
                 src={open ? Close : Open}
                 alt="union"
-                width={40}
-                height={40}
+                width={38}
+                height={38}
               />
             </MenuButton>
             {tooltipVisible && user && (
