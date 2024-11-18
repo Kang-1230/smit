@@ -91,10 +91,10 @@ export default function Header() {
               <li className="cursor-pointer">
                 <button
                   onClick={handleSearchModal}
-                  className="flex items-center justify-center rounded-full md:h-12 md:w-12 md:bg-white"
+                  className={`flex items-center justify-center rounded-full md:h-12 md:w-12 ${isHome ? "md:bg-white" : "md:bg-black"} `}
                 >
                   <Image
-                    src={`/icons/Search${isHome && isMobile ? "White" : ""}.svg`}
+                    src={`/icons/Search${(isHome && isMobile) || (!isHome && !isMobile) ? "White" : ""}.svg`}
                     width={24}
                     height={24}
                     alt="search-icon"
@@ -109,7 +109,7 @@ export default function Header() {
                     onClick={handleLogout}
                     style={`${isHome ? "white-fill" : "black-fill"}`}
                     size={isMobile ? "sm" : "lg"}
-                    className={!isMobile ? "bg-tertiary-75" : ""}
+                    className={!isMobile ? "bg-tertiary-75 text-black" : ""}
                   >
                     로그아웃
                   </MyButton>
@@ -118,7 +118,7 @@ export default function Header() {
                     onClick={handleLogin}
                     style={`${isHome ? "white-fill" : "black-fill"}`}
                     size={isMobile ? "sm" : "lg"}
-                    className={!isMobile ? "bg-tertiary-75" : ""}
+                    className={!isMobile ? "bg-tertiary-75 text-black" : ""}
                   >
                     로그인
                   </MyButton>
