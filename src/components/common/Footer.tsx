@@ -14,7 +14,7 @@ const menus = [
     href: "/study",
     icon: "Study",
     clickedIcon: "StudyFill",
-    text: "스터디",
+    text: "내 스터디",
   },
   {
     href: "/ranking",
@@ -60,9 +60,9 @@ export default function Footer() {
   }
 
   return (
-    <footer className="fixed bottom-[12px] w-full px-[24px]">
-      <nav className="z-10 h-[60px] rounded-full bg-[#C4C4C3] bg-opacity-60 p-[4px] backdrop-blur-2xl">
-        <ul className="flex items-center justify-between">
+    <div className="fixed bottom-[12px] z-40 max-h-16 w-full px-[24px] text-tertiary-700 md:left-[9.5rem] md:top-4 md:w-[28rem] lg:left-[14%] lg:w-[30.3rem] xl:left-[20%] 2xl:left-[25%]">
+      <nav className="h-[3.75rem] rounded-[30px] bg-[#C4C4C3] bg-opacity-60 p-[3px] backdrop-blur-2xl md:h-[48px] md:bg-[rgba(242,242,242,0.60)] md:p-1 md:backdrop-blur-sm">
+        <ul className="flex h-full items-center justify-between">
           {menus.map((menu) => (
             <MenuItem
               key={menu.href}
@@ -72,6 +72,6 @@ export default function Footer() {
           ))}
         </ul>
       </nav>
-    </footer>
+    </div>
   );
 }

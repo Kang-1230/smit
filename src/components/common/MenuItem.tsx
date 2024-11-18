@@ -16,21 +16,21 @@ export const MenuItem = ({
   text,
   isActive,
 }: Props) => (
-  <li>
+  <li className="h-full">
     <Link href={href}>
       <div
-        className={`rounded-full w-[52px] h-[52px] flex flex-col items-center justify-center gap-[1px] ${
+        className={`flex h-full w-[3.375rem] flex-col items-center justify-center gap-[1px] rounded-full p-[0.625rem] px-[0.875rem] md:w-auto md:flex-row md:gap-2 ${
           isActive ? "bg-white" : ""
         }`}
       >
         <Image
           src={`/icons/${isActive ? clickedIcon : icon}.svg`}
-          width={19}
-          height={19}
+          width={17}
+          height={17}
           alt={text}
         />
         <span
-          className={`text-[11px] font-[500] text-${
+          className={`whitespace-nowrap text-[11px] font-medium md:pr-[0.125rem] md:text-base text-${
             isActive ? "black" : "[#523D2E]"
           }`}
         >

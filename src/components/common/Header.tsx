@@ -18,15 +18,18 @@ export default function Header() {
   const queryClient = useQueryClient();
   const { data: user } = useSession();
   const [isSearchModal, setIsSearchModal] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
+    if (typeof window !== "undefined") {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+      handleResize();
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
   }, []);
 
   // 로그인 상태 구독!!
@@ -72,7 +75,7 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 z-20 h-[2.75rem] w-full md:h-[4.8rem] bg-${isHome ? "black" : "white"} px-[24px] ${pathname === "/search" ? "" : "bg-opacity-20 backdrop-blur-2xl"}`}
+        className={`fixed top-0 z-40 h-[2.75rem] w-full md:h-[4.8rem] bg-${isHome ? "black" : "white"} px-[24px] ${pathname === "/search" ? "" : "bg-opacity-20 backdrop-blur-2xl"}`}
       >
         <div className="mx-auto flex h-full max-w-[83rem] items-center justify-between">
           <Link href="/">
@@ -88,10 +91,10 @@ export default function Header() {
               <li className="cursor-pointer">
                 <button
                   onClick={handleSearchModal}
-                  className="flex items-center justify-center rounded-full md:h-12 md:w-12 md:bg-black"
+                  className="flex items-center justify-center rounded-full md:h-12 md:w-12 md:bg-white"
                 >
                   <Image
-                    src={`/icons/Search${isHome ? "White" : ""}.svg`}
+                    src={`/icons/Search${isHome && isMobile ? "White" : ""}.svg`}
                     width={24}
                     height={24}
                     alt="search-icon"
@@ -106,6 +109,7 @@ export default function Header() {
                     onClick={handleLogout}
                     style={`${isHome ? "white-fill" : "black-fill"}`}
                     size={isMobile ? "sm" : "lg"}
+                    className={!isMobile ? "bg-tertiary-75" : ""}
                   >
                     로그아웃
                   </MyButton>
@@ -114,6 +118,7 @@ export default function Header() {
                     onClick={handleLogin}
                     style={`${isHome ? "white-fill" : "black-fill"}`}
                     size={isMobile ? "sm" : "lg"}
+                    className={!isMobile ? "bg-tertiary-75" : ""}
                   >
                     로그인
                   </MyButton>
@@ -123,7 +128,12 @@ export default function Header() {
           </nav>
         </div>
       </header>
-      {isSearchModal && <SearchModal onClick={() => setIsSearchModal(false)} />}
+      {isSearchModal && (
+        <SearchModal
+          onClick={() => setIsSearchModal(false)}
+          isMobile={isMobile}
+        />
+      )}
     </>
   );
 }
