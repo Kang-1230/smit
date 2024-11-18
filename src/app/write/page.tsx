@@ -116,8 +116,11 @@ function WriteContent() {
     },
     onSuccess: (data) => {
       if (data !== null) {
-        router.replace(`/post/${data}`);
         isLoadingRef.current = false;
+        router.replace(`/post/${data}`);
+        setTimeout(() => {
+          router.refresh();
+        }, 0);
       }
     },
 
