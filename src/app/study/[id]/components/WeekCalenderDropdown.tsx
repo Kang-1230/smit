@@ -7,8 +7,6 @@ import {
 import Image from "next/image";
 import { Dispatch, SetStateAction, useState } from "react";
 import DownArrow from "../../../../../public/icons/DownArrowInMyStudy.svg";
-import { format } from "date-fns";
-import { enUS } from "date-fns/locale";
 
 const month = [
   { id: 1, name: "1월", enMonth: "January" },
