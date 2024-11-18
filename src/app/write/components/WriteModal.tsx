@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Tables } from "../../../../database.types";
 import Image from "next/image";
