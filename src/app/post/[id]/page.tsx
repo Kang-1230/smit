@@ -1,4 +1,4 @@
-import DetailContents from "./components/DetailContents";
+import DetailContent from "./components/DetailContent";
 import DetailComments from "./components/DetailComments";
 import ApplyStudy from "./components/ApplyStudy";
 import ShareStudy from "./components/ShareStudy";
@@ -21,12 +21,16 @@ export default async function PostDetailPage({
   return (
     <div className="flex h-screen flex-col overflow-y-auto">
       <main className="mx-6 flex flex-col items-center pb-[72px] pt-[59px]">
-        <DetailContents id={params.id} postData={postData} />
+        <DetailContent id={params.id} postData={postData} />
         <DetailComments id={params.id} />
       </main>
 
       <footer className="fixed bottom-0 flex w-full items-center gap-2 border-t bg-white px-6 py-3">
-        <LikeButton postId={+params.id} className="bg-secondary-50" />
+        <LikeButton
+          postId={+params.id}
+          className="bg-secondary-50"
+          color="#999999"
+        />
         <ShareStudy />
         <ApplyStudy postData={postData} isFull={isFull} />
       </footer>

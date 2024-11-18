@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const SelectStyle =
-  "text-primary-900 bg-[#F8F8F6] border-b border-black relative h-12";
+  "text-primary-900 bg-[#F8F8FA] border-b border-black relative h-12";
 
 type Props = {
   onConfirm: (data: boolean) => void;

@@ -102,7 +102,7 @@ const StudyImage = ({ urlStudyId, onConfirm, onFile }: Props) => {
 
   return (
     <div className="relative flex h-[263px] w-full items-center justify-center">
-      <div className="absolute inset-0 bg-gradient-to-b from-black/0 from-30% to-black/40" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
       <Image
         src={
           study.study_imgurl ||
@@ -134,13 +134,13 @@ const StudyImage = ({ urlStudyId, onConfirm, onFile }: Props) => {
               autoFocus
             />
           ) : (
-            <p className="flex items-end">
+            <p className="flex items-center">
               {study.study_name}
               <Image
                 src={"/icons/EditFill.svg"}
                 alt="edit"
-                width={24}
-                height={24}
+                width={16.3}
+                height={16.3}
                 className="ml-1 cursor-pointer"
                 onClick={() => setIsEdit(true)}
               />
@@ -148,7 +148,7 @@ const StudyImage = ({ urlStudyId, onConfirm, onFile }: Props) => {
           )}
         </div>
       </div>
-      <div className="absolute bottom-[26px] right-[24px] z-20 flex items-center rounded-[22px] bg-white/50 p-[14px] backdrop-blur-[15px]">
+      <div className="absolute bottom-[26px] right-[24px] z-20 flex items-center rounded-[22px] bg-white/40 p-[14px] backdrop-blur-[10px]">
         <Image
           src={"/icons/ImageSelectWhite.svg"}
           alt="selectBtn"

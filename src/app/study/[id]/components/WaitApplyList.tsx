@@ -16,12 +16,10 @@ const WaitApplyList = ({ urlStudyId }: { urlStudyId: string }) => {
       .select("*")
       .eq("study_id", study_id)
       .eq("is_approved", false);
-    if (!data || error || data.length === 0) {
+    if (error) {
       throw new Error("가입 대기중인 사람들을 불러오지 못했습니다.");
-    } else if (data) {
-
     }
-    return data as JoinPerson[];
+    return (data || []) as JoinPerson[];
   };
 
   const {
@@ -103,65 +101,71 @@ const WaitApplyList = ({ urlStudyId }: { urlStudyId: string }) => {
     },
   });
 
-  if (isWaitingLiseLoading || isLoadingApplyUser) return <div>로딩중</div>;
   if (isWaitingListError || isLoadingApplyError) return <div></div>;
 
   return (
     <div>
-      <div>
-        <h1 className="title-20-s mx-6 mb-5">가입 대기자</h1>
-        {ApplyUsers?.map((user) => {
-          // 먼저 waitingUser 찾기
+      <h1 className="title-20-s mx-6 mb-5">가입 대기자</h1>
+      {isWaitingLiseLoading || isLoadingApplyUser ? (
+        <div className="mx-6">로딩중</div>
+      ) : ApplyUsers && ApplyUsers.length > 0 ? (
+        ApplyUsers.map((user) => {
           const waitingUser = waitingList?.find(
             (item: JoinPerson) => item.user_id === user[0].id,
           );
 
-          if (user[0].name && waitingUser) {
-            return (
-              <section key={user[0].name} className="mx-6">
-                <div className="flex items-center justify-between">
-                  <div className="mb-5 flex items-center">
-                    <Image
-                      key={user[0].name}
-                      alt="profileImg"
-                      className="aspect-square shrink-0 rounded-full border border-black/20 object-cover"
-                      src={
-                        user[0].profile_img ||
-                        "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default?t=2024-10-29T12%3A08%3A32.075Z"
-                      }
-                      width={40}
-                      height={40}
-                      unoptimized
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src =
-                          "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default?t=2024-10-29T12%3A08%3A32.075Z";
-                      }}
-                    />
-                    <span className="body-14-m ml-[10px]">{user[0].name}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <MyButton
-                      size="sm"
-                      style="beige"
-                      onClick={() => MutateDeteleApplyUser(waitingUser)}
-                    >
-                      거절
-                    </MyButton>
-                    <MyButton
-                      size="sm"
-                      style="black-line"
-                      onClick={() => mutateUpdateApplyUser(waitingUser)}
-                    >
-                      수락
-                    </MyButton>
-                  </div>
+          return (
+            <section key={user[0].name} className="mx-6">
+              <div className="flex items-center justify-between">
+                <div className="mb-5 flex items-center">
+                  <Image
+                    key={user[0].name}
+                    alt="profileImg"
+                    className="aspect-square shrink-0 rounded-full border border-black/20 object-cover"
+                    src={
+                      user[0].profile_img ||
+                      "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default?t=2024-10-29T12%3A08%3A32.075Z"
+                    }
+                    width={40}
+                    height={40}
+                    unoptimized
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src =
+                        "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default?t=2024-10-29T12%3A08%3A32.075Z";
+                    }}
+                  />
+                  <span className="body-14-m ml-[10px]">{user[0].name}</span>
                 </div>
-              </section>
-            );
-          }
-        })}
-      </div>
+                <div className="flex items-center gap-1">
+                  <MyButton
+                    size="sm"
+                    style="beige"
+                    onClick={() => {
+                      if (waitingUser) {
+                        MutateDeteleApplyUser(waitingUser);
+                      }
+                    }}
+                  >
+                    거절
+                  </MyButton>
+                  <MyButton
+                    size="sm"
+                    style="black-line"
+                    onClick={() => mutateUpdateApplyUser(waitingUser)}
+                  >
+                    수락
+                  </MyButton>
+                </div>
+              </div>
+            </section>
+          );
+        })
+      ) : (
+        <div className="body-14-m mx-6 text-secondary-600">
+          가입 대기자가 없습니다.
+        </div>
+      )}
     </div>
   );
 };

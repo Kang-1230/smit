@@ -6,12 +6,14 @@ import { useSession } from "@/hooks/useUserProfile";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import LoginModal from "./LoginModal";
+import Heart from "../ui/icons/Heart";
 
 type Props = {
   postId: number;
   showLikesCount?: boolean;
   isBoundary?: boolean;
   className?: string;
+  color?: string;
 };
 
 const LikeButton = ({
@@ -19,6 +21,7 @@ const LikeButton = ({
   showLikesCount = false,
   isBoundary = true,
   className = "",
+  color = "#FF9945",
 }: Props) => {
   const { modalClose, modalOpen, isModalOpen } = useModalOpen();
   // 지금 로그인한 유저 정보
@@ -61,12 +64,7 @@ const LikeButton = ({
             height={24}
           />
         ) : (
-          <Image
-            src={`/icons/Heart.svg`}
-            alt="fill-heart"
-            width={24}
-            height={24}
-          />
+          <Heart color={color} />
         )}
       </button>
       {showLikesCount && <span>{likes?.length}</span>}
