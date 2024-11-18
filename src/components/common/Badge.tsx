@@ -21,7 +21,7 @@ const Badge = ({
   };
   return (
     <span
-      className={`caption rounded-16 px-[10px] py-1 ${
+      className={`caption xl:body-14-m rounded-16 px-[10px] py-[4px] ${
         idx === 0 ? jobBadge[color] : studyBadge[color]
       }`}
     >

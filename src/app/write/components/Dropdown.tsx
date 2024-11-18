@@ -97,7 +97,7 @@ export default function Dropdown() {
                 <MenuItems
                   static
                   anchor="top end"
-                  className="z-20 origin-top rounded-3xl bg-white p-6 transition duration-200 ease-out [--anchor-gap:8px] data-[closed]:scale-95 data-[closed]:opacity-0 animate-slide-up"
+                  className="z-20 origin-top animate-slide-up rounded-3xl bg-white p-6 transition duration-200 ease-out [--anchor-gap:8px] data-[closed]:scale-95 data-[closed]:opacity-0"
                 >
                   <MenuItem>
                     <a
