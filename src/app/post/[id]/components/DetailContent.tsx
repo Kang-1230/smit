@@ -6,22 +6,24 @@ import { Tables } from "../../../../../database.types";
 import Image from "next/image";
 import { convertUTCToKST } from "@/utils/convertDate";
 import LikeCount from "./LikeCount";
-import ContentsEdit from "./ContentsEdit";
+import EditDetailContent from "./EditDetailContent";
 import CustomButton from "@/components/ui/CustomButton";
 import StudyPostInfo from "./StudyPostInfo";
 
-type DetailContentsProps = {
+type DetailContentProps = {
   id: string;
   postData: Tables<"post">;
 };
 
-const DetailContents = async ({ id, postData }: DetailContentsProps) => {
+const DetailContent = async ({ id, postData }: DetailContentProps) => {
   const studyData = await fetchStudyInfo(postData.study_id);
   const userData = await fetchUserInfo(postData.user_id);
 
   if (!studyData || !userData) {
     return <div>정보를 불러오는 데 실패했습니다.</div>;
   }
+
+  const limitedContent = postData.post_contents.slice(0, 80);
 
   return (
     <div className="w-full">
@@ -49,13 +51,13 @@ const DetailContents = async ({ id, postData }: DetailContentsProps) => {
           <span className="body-14-r ml-[11px] leading-relaxed tracking-[-0.28px] text-secondary-500">
             {convertUTCToKST(postData?.post_createtime).dateOnly}
           </span>
-          <ContentsEdit postId={id} userId={postData.user_id} />
+          <EditDetailContent postId={id} userId={postData.user_id} />
         </div>
         <StudyPostInfo postData={postData} studyData={studyData} />
       </section>
       <main>
         <p className="min-w-[327px] whitespace-pre-wrap break-words pb-[100px]">
-          {postData.post_contents}
+          {limitedContent}
         </p>
       </main>
       <LikeCount postId={id} />
@@ -63,4 +65,4 @@ const DetailContents = async ({ id, postData }: DetailContentsProps) => {
   );
 };
 
-export default DetailContents;
+export default DetailContent;

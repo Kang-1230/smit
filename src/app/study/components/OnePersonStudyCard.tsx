@@ -3,6 +3,7 @@ import React from "react";
 import Tooltip from "@/components/common/Tooltip";
 import useTooltip from "@/hooks/useTooltip";
 import { Tables } from "../../../../database.types";
+import ExclamationMarkInStudy from "../../../../public/icons/ExclamationMarkInStudy.svg";
 import Image from "next/image";
 import ApplyUserIncludeManagerProfileImgList from "./ApplyUserIncludeManagerProfileImgList";
 import Badge from "@/components/common/Badge";
@@ -22,10 +23,10 @@ const StudyCard = ({ dataItem, i }: StudyCardProps) => {
         href={`/study/${dataItem.study_id}/manage`}
         className="absolute left-64 top-5 z-10 flex h-9 w-9 items-center justify-center gap-1 rounded-[20px] bg-[#ffffff99]"
       >
-        <div className="relative inline-flex flex-[0_0_auto] items-center gap-1">
-          <div className="relative h-[3.33px] w-[3.33px] rounded-[1.67px] bg-[#888888]" />
-          <div className="relative h-[3.33px] w-[3.33px] rounded-[1.67px] bg-[#888888]" />
-          <div className="relative h-[3.33px] w-[3.33px] rounded-[1.67px] bg-[#888888]" />
+        <div className="inline-flex flex-[0_0_auto] items-center gap-1">
+          <div className="h-[3.33px] w-[3.33px] rounded-[1.67px] bg-[#888888]" />
+          <div className="h-[3.33px] w-[3.33px] rounded-[1.67px] bg-[#888888]" />
+          <div className="h-[3.33px] w-[3.33px] rounded-[1.67px] bg-[#888888]" />
         </div>
         {i === 0 && tooltipVisible && (
           <div className="absolute -right-[20px] bottom-[56px]">
@@ -40,28 +41,28 @@ const StudyCard = ({ dataItem, i }: StudyCardProps) => {
         )}
       </Link>
       <Link href={`/study/${dataItem.study_id}`} key={dataItem.study_id}>
-        <div className="relative mb-[20px] flex w-full flex-[0_0_auto] flex-col items-start gap-5 self-stretch">
-          <div className="relative h-[266px] w-[327px] overflow-hidden rounded-3xl bg-[#403E3D]">
+        <div className="mb-[20px] flex w-full flex-col items-start gap-[12px] self-stretch">
+          <div className="relative h-[266px] w-[327px] overflow-hidden rounded-[24px] bg-[#403E3D]">
             <Image
               key={`design-${dataItem.study_id}`}
               alt="GroupDesignBlack"
               src={GroupDesignBlack}
-              className="absolute left-[108px] top-[146px] h-auto w-auto"
+              className="relative left-[108px] top-[161px]"
             />
           </div>
-          <div className="absolute left-5 top-[19px] h-[38px] w-[126px]">
-            <div className="absolute top-px ml-[10px] h-9 w-8">
+          <div className="absolute top-[19px] h-[38px] w-[126px]">
+            <div className="ml-[21px] h-[36px] w-[36px]">
               <ApplyUserIncludeManagerProfileImgList
                 studyId={dataItem.study_id}
                 key={`profile-${dataItem.study_id}`}
               />
             </div>
 
-            <div className="absolute left-5 top-[70px] flex w-[287px] flex-col items-start gap-2">
-              <div className="title-18-b relative mt-[-1.00px] self-stretch text-[#000000]">
+            <div className="absolute left-[20px] top-[51px] flex w-[287px] flex-col items-start gap-[8px]">
+              <div className="title-18-semibold text-[#ffffff]">
                 {dataItem.study_name}
               </div>
-              <div className="relative flex h-11 w-full flex-wrap items-center gap-[4px_4px] self-stretch">
+              <div className="flex w-full flex-wrap items-center gap-[4px] self-stretch">
                 {dataItem.study_category.map((c, i) => (
                   <Badge
                     category={c}
@@ -70,6 +71,15 @@ const StudyCard = ({ dataItem, i }: StudyCardProps) => {
                     key={`${dataItem.study_id}-${c}`}
                   />
                 ))}
+              </div>
+              <div className="flex w-full">
+                <Image
+                  src={ExclamationMarkInStudy}
+                  alt="ExclamationMarkInStudy"
+                />
+                <div className="caption justify-center text-secondary-300">
+                  앗! 1인 스터디는 점수 집계가 되지 않아요
+                </div>
               </div>
             </div>
           </div>

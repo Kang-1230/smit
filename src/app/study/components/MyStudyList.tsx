@@ -188,9 +188,9 @@ const MyStudyList = ({ user }: { user: User | null }) => {
 
                 <div
                   onClick={() => setActiveTab("UserJoinedStudy")}
-                  className="relative flex flex-1 grow items-center justify-center gap-2.5 px-8 py-2.5"
+                  className="flex flex-1 grow items-center justify-center gap-2.5 px-8 py-2.5"
                 >
-                  <div className="body-16-m relative mt-[-1.00px] w-fit whitespace-nowrap text-[#000000]">
+                  <div className="body-16-m mt-[-1.00px] w-fit whitespace-nowrap text-[#000000]">
                     가입한 스터디
                   </div>
                 </div>
@@ -203,21 +203,21 @@ const MyStudyList = ({ user }: { user: User | null }) => {
             </>
           ) : (
             <>
-              <div className="relative flex w-full items-center justify-between self-stretch rounded-[30px] bg-[#f8f8f6] p-1 backdrop-blur-2xl backdrop-brightness-[100%] [-webkit-backdrop-filter:blur(40px)_brightness(100%)]">
+              <div className="flex w-full items-center justify-between self-stretch rounded-[30px] bg-[#f8f8f6] p-1 backdrop-blur-2xl backdrop-brightness-[100%] [-webkit-backdrop-filter:blur(40px)_brightness(100%)]">
                 <div
                   onClick={() => setActiveTab("UserOwnStudy")}
-                  className="relative flex flex-1 grow items-center justify-center gap-2.5 px-8 py-2.5"
+                  className="flex flex-1 grow items-center justify-center gap-2.5 px-8 py-2.5"
                 >
-                  <div className="body-16-m relative mt-[-1.00px] w-fit whitespace-nowrap text-[#000000]">
+                  <div className="body-16-m mt-[-1.00px] w-fit whitespace-nowrap text-[#000000]">
                     내가 방장
                   </div>
                 </div>
 
                 <div
                   onClick={() => setActiveTab("UserJoinedStudy")}
-                  className="relative flex flex-1 grow items-center justify-center gap-2.5 rounded-[29px] bg-secondary-900 px-10 py-2.5"
+                  className="flex flex-1 grow items-center justify-center gap-2.5 rounded-[29px] bg-secondary-900 px-10 py-2.5"
                 >
-                  <div className="body-16-m relative mt-[-1.00px] w-fit whitespace-nowrap text-white">
+                  <div className="body-16-m mt-[-1.00px] w-fit whitespace-nowrap text-white">
                     가입한 스터디
                   </div>
                 </div>

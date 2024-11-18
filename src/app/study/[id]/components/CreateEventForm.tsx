@@ -95,7 +95,7 @@ const CreateEventForm = ({
                 setActiveInput("start");
               }}
               placeholder="12:00"
-              className="flex w-full flex-1 cursor-pointer items-center gap-2 rounded-full bg-secondary-600 py-2 pl-11 pr-4 text-white placeholder-secondary-500"
+              className="flex w-full flex-1 cursor-pointer items-center gap-2 rounded-full bg-secondary-600 py-2 pl-11 pr-4 text-white placeholder-secondary-300 focus:outline-none focus:ring-1 focus:ring-secondary-100"
               readOnly
             />
             <Image
@@ -115,7 +115,7 @@ const CreateEventForm = ({
                 setActiveInput("end");
               }}
               placeholder="15:00"
-              className="flex w-full flex-1 cursor-pointer items-center gap-2 rounded-full bg-secondary-600 py-2 pl-11 pr-4 text-white placeholder-secondary-500"
+              className="flex w-full flex-1 cursor-pointer items-center gap-2 rounded-full bg-secondary-600 py-2 pl-11 pr-4 text-white placeholder-secondary-300 focus:outline-none focus:ring-1 focus:ring-secondary-100"
               readOnly
             />
             <Image
