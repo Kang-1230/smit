@@ -31,7 +31,7 @@ const StudyModal = (props: ModalProps) => {
   return props.isModalOpen ? (
     <div className="z-100 fixed inset-0 flex h-full w-full items-center justify-center bg-black/70">
       <div
-        className="flex h-fit w-5/6 flex-col items-center justify-center overflow-y-hidden rounded-3xl bg-white px-6 py-4 shadow-lg animate-slide-up"
+        className="flex h-fit w-5/6 animate-slide-up flex-col items-center justify-center rounded-3xl bg-white px-6 py-4 shadow-lg overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {props.modalMode === "nonexist" ? (

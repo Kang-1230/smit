@@ -10,10 +10,8 @@ export function filterPostsBySearch(posts: Post[], search: string) {
       .trim()
       .toLowerCase()
       .includes(searchTerm);
-    const leaderNameMatch = post.leader.name
-      .trim()
-      .toLowerCase()
-      .includes(searchTerm);
+    const leaderNameMatch =
+      post.leader.name?.trim().toLowerCase().includes(searchTerm) || null;
     const tagsMatch = post.study.tags
       .join("")
       .toLowerCase()

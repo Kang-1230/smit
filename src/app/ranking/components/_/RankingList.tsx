@@ -8,6 +8,7 @@ import { useState } from "react";
 import RankingModalOverlay from "./RankingModalOverlay";
 import Loading from "@/components/common/Loading";
 import RankingModal from "./RankingModal";
+import RankingHeader from "../RankingHeader";
 
 export default function RankingList() {
   const [isRankingModalOpen, setIsRankingModalOpen] = useState(false);
@@ -40,13 +41,15 @@ export default function RankingList() {
   };
 
   return (
-    <>
+    <section className="relative h-screen bg-gradient-to-b from-[#FF8F32] to-[#FFC799]">
+      <RankingHeader />
       <TopRankers
         rankers={data.pages[0].data.slice(0, 3)}
         handleModalClick={handleModalClick}
       />
       <OtherRankers
         rankers={otherRankers}
+        fetchNextPage={fetchNextPage}
         loadMoreData={loadMoreData}
         hasNextPage={hasNextPage}
         isFetchingNextPage={isFetchingNextPage}
@@ -57,6 +60,6 @@ export default function RankingList() {
           <RankingModal id={selectedRankingId} />
         </RankingModalOverlay>
       )}
-    </>
+    </section>
   );
 }

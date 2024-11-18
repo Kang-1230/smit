@@ -242,7 +242,7 @@ export const fetchJobTags = async () => {
 // 스터디 태그 가져오기
 export const fetchCategoryTags = async () => {
   const serverClient = createClient();
-  const { data, error } = await serverClient.from("category_tag").select("*");
+  const { data, error } = await serverClient.from("category_tag").select("*").order('class');
 
   if (error || !data) {
     console.log(error);
