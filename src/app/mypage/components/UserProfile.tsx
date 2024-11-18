@@ -35,8 +35,8 @@ const UserProfile = () => {
               quality={100}
             />
           </div>
-          <div className="xl:ml-[32px]">
-            <div className="mt-[20px] text-center xl:mt-0 xl:text-left">
+          <div className="text-center xl:ml-[32px] xl:text-left">
+            <div className="mt-[20px] xl:mt-0">
               <p className="title-20-s mb-[8px]">
                 {user?.name ? user.name : "익명의 사용자"}
               </p>
@@ -48,7 +48,7 @@ const UserProfile = () => {
               style="beige"
               size="sm"
               onClick={modalOpen}
-              responsiveSize="md"
+              responsiveSize="lg"
             >
               프로필 수정
             </MyButton>
