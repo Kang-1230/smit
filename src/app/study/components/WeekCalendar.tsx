@@ -5,7 +5,6 @@ import { enUS } from "date-fns/locale";
 import { useQuery } from "@tanstack/react-query";
 import browserClient from "@/utils/supabase/client";
 import { Tables } from "../../../../database.types";
-import DownArrow from "../../../../public/icons/DownArrowInMyStudy.svg";
 import ScheduleStatusIndicator from "../../../../public/icons/ScheduleStatusIndicator.svg";
 import ArrowTopRight from "../../../../public/icons/ArrowTopRight.svg";
 import miniCalender from "../../../../public/icons/Study/WeekCalenderImg.svg";
@@ -16,6 +15,7 @@ import Image from "next/image";
 import ModalOverlay from "@/components/common/ModalOverlay";
 import WeekCalendarModal from "./WeekCalendarModal";
 import Link from "next/link";
+import WeekCalenderDropdown from "../[id]/components/WeekCalenderDropdown";
 
 export interface EventWithStudy extends Tables<"calendar"> {
   study: {
@@ -174,16 +174,10 @@ const StudyScheduleList = () => {
         <div className="flex w-full flex-col items-center pb-[20px]">
           <div className="flex w-[313px] items-center justify-between">
             <div className="relative left-[14px] inline-flex items-center gap-[7px] py-[9px]">
-              <h2 className="body-16-m relative mt-[-1.00px] w-fit whitespace-nowrap text-secondary-700">
-                {format(selectedDate, "MMMM", { locale: enUS })}
-              </h2>
-              <Image
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="h-[16px] w-[16px]"
-                src={DownArrow}
-                alt="DownArrow"
+              <WeekCalenderDropdown
+                setDropdownOpen={setDropdownOpen}
+                dropdownOpen={dropdownOpen}
               />
-              {/* {dropdownOpen ? <Dropdown onClick={} array={} /> : ""} */}
             </div>
             <div className="flex h-[40px] w-[40px] items-center justify-center">
               <Image
