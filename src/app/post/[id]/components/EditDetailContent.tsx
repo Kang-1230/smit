@@ -6,7 +6,7 @@ import DeleteModal from "@/components/common/DeleteModal";
 import useModalOpen from "@/hooks/useModalOpen";
 import { useToast } from "@/hooks/useToast";
 
-const ContentsEdit = ({
+const EditDetailContent = ({
   postId,
   userId,
 }: {
@@ -50,4 +50,4 @@ const ContentsEdit = ({
   );
 };
 
-export default ContentsEdit;
+export default EditDetailContent;
