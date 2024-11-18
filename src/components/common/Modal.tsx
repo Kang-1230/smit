@@ -63,7 +63,7 @@ const Modal = (props: Props) => {
               : "최대 3개 선택해주세요"}
           </p>
 
-          <div className="mt-3 flex mb-4">
+          <div className="mt-3 flex mb-8">
             {props.modalMode === "job" ? (
               arr[0] !== "" ? (
                 <button className="... body-14-m flex w-fit items-center overflow-hidden text-ellipsis whitespace-nowrap rounded-full bg-primary-50 px-2 pl-3 text-white">
