@@ -63,7 +63,7 @@ const Modal = (props: Props) => {
               : "최대 3개 선택해주세요"}
           </p>
 
-          <div className="mt-3 flex mb-8">
+          <div className="mb-8 mt-3 flex">
             {props.modalMode === "job" ? (
               arr[0] !== "" ? (
                 <button className="... body-14-m flex w-fit items-center overflow-hidden text-ellipsis whitespace-nowrap rounded-full bg-primary-50 px-2 pl-3 text-white">
@@ -137,9 +137,11 @@ const Modal = (props: Props) => {
               </div>
             ) : (
               categoryTags.map((item, i, array) => (
-                <>
+                <React.Fragment key={item.id}>
                   {item?.class !== array[i - 1]?.class ? (
-                    <div className="body-16-m my-2 w-full pt-6">{item.class}</div>
+                    <div className="body-16-m my-2 w-full pt-6">
+                      {item.class}
+                    </div>
                   ) : null}
                   <button
                     key={item.id}
@@ -162,7 +164,7 @@ const Modal = (props: Props) => {
                   >
                     {item.name}
                   </button>
-                </>
+                </React.Fragment>
               ))
             )}
           </div>
