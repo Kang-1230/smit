@@ -22,7 +22,7 @@ const RankingModalOverlay = ({
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/70"
     >
       <div
-        className="relative mx-[24px] w-full max-w-lg rounded-20 bg-white"
+        className="relative w-[calc(100%-48px)] max-w-[22rem] rounded-[28px] bg-white"
         onClick={(e) => e.stopPropagation()}
       >
         {isXButtonVisible && (

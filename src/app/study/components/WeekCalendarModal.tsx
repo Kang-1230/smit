@@ -23,7 +23,6 @@ const WeekCalendarModal = ({ events }: { events: EventWithStudy[] }) => {
       router.push(`/study/${events[0].study_id}/${formattedDate}`);
     }
   };
-
   const eventDates =
     events?.map((event: EventWithStudy) => new Date(event.event_date)) || [];
 

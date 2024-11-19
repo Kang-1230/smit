@@ -122,7 +122,7 @@ export const updateStudy = async (
   studyMaxPeople: number,
   studyDescription: string,
   studyLink: string,
-  studyImg : string | null
+  studyImg: string | null,
 ) => {
   const user = await fetchSessionData();
   if (!user) {
@@ -137,14 +137,14 @@ export const updateStudy = async (
       study_max_people: studyMaxPeople,
       study_description: studyDescription,
       study_chaturl: studyLink,
-      study_imgurl: studyImg
+      study_imgurl: studyImg,
     })
     .eq("study_id", studyId);
 
-    if (error) {
-      console.log(error);
-      throw new Error("스터디 수정에 실패했습니다.");
-    }
+  if (error) {
+    console.log(error);
+    throw new Error("스터디 수정에 실패했습니다.");
+  }
 };
 
 // 포스트 생성 (insert)
@@ -523,8 +523,9 @@ export const fetchStudyByPost = async (studyId: string) => {
 export const fetchStudyMember = async (studyId: string) => {
   const { data, error } = await browserClient
     .from("attendance_list")
-    .select("user_id")
-    .eq("study_id", studyId);
+    .select("user!user_id(*)")
+    .eq("study_id", studyId)
+    .returns<{ user: Tables<"user"> }[]>();
 
   if (error) {
     console.error(error);
@@ -535,7 +536,7 @@ export const fetchStudyMember = async (studyId: string) => {
     return null;
   }
 
-  return [...data.map((d) => d.user_id)] as string[];
+  return data.map((d) => d.user);
 };
 
 // 회원 탈퇴 라우트 핸들러 사용

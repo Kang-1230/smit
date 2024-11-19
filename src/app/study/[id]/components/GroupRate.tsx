@@ -8,10 +8,10 @@ const GroupRate = ({
   achieverList,
 }: {
   achieverList: Tables<"timer">[] | null;
-  member: string[] | null;
+  member: Tables<"user">[] | null;
 }) => {
   return (
-    <div className="h-1/2 min-w-[128px] rounded-[20px] bg-secondary-50 p-4">
+    <div className="h-1/2 min-w-[128px] rounded-[20px] bg-secondary-50 p-[12px] xl:h-full xl:w-full">
       <div className="caption flex flex-row items-center text-secondary-800">
         <Image
           src={`/icons/timer/Complete.svg`}

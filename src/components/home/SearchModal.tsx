@@ -4,7 +4,13 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-const SearchModal = ({ onClick }: { onClick: () => void }) => {
+const SearchModal = ({
+  onClick,
+  isMobile,
+}: {
+  onClick: () => void;
+  isMobile: boolean;
+}) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const [slug, setSlug] = useState("");
@@ -39,43 +45,45 @@ const SearchModal = ({ onClick }: { onClick: () => void }) => {
   return (
     <>
       <div
-        className="fixed inset-0 z-10 flex h-full w-full bg-gradient-to-t from-[rgba(255,255,255,0.1)] via-[rgba(255,255,255,0.85)] to-white"
+        className="fixed inset-0 z-30 flex h-screen w-screen cursor-pointer bg-gradient-to-t from-[rgba(255,255,255,0.1)] via-[rgba(255,255,255,0.85)] to-white"
         onClick={onClick}
       ></div>
-      <div
-        className={`fixed top-11 z-30 mx-6 flex w-full items-center border-b ${isText ? "border-secondary-600" : "border-secondary-200"}`}
-        style={{ width: "calc(100% - 3rem)" }}
-      >
-        <Image
-          src="/icons/Search.svg"
-          alt="search-icon"
-          width={24}
-          height={24}
-        />
-        <input
-          ref={inputRef}
-          type="text"
-          placeholder="공부하고 싶은 분야를 검색해보세요"
-          className="w-full bg-transparent p-2 font-pretendard text-base font-normal text-secondary-900 outline-none placeholder:text-secondary-400"
-          onChange={handleInputChange}
-          onKeyDown={handleKeyPress}
-          value={slug}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
-        />
-        {slug !== "" && (
-          <button
-            className="rounded-full bg-secondary-800"
-            onClick={() => setSlug("")}
-          >
-            <Image
-              src="/icons/XSmall.svg"
-              alt="x-icon"
-              width={24}
-              height={24}
-            />
-          </button>
-        )}
+
+      <div className={`fixed top-11 z-30 w-full md:top-[4.875rem]`}>
+        <div
+          className={`mx-6 w-[calc(100%-3rem)] max-w-[57rem] border-b md:mx-auto ${isText ? "border-secondary-600" : "border-secondary-200"} flex items-center`}
+        >
+          <Image
+            src="/icons/Search.svg"
+            alt="search-icon"
+            width={isMobile ? 24 : 40}
+            height={isMobile ? 24 : 40}
+          />
+          <input
+            ref={inputRef}
+            type="text"
+            placeholder="공부하고 싶은 분야를 검색해보세요"
+            className="w-full bg-transparent p-2 font-pretendard text-base font-light text-secondary-900 outline-none placeholder:text-secondary-400 md:p-5 md:text-[2.5rem]"
+            onChange={handleInputChange}
+            onKeyDown={handleKeyPress}
+            value={slug}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+          />
+          {slug !== "" && (
+            <button
+              className="rounded-full bg-secondary-800"
+              onClick={() => setSlug("")}
+            >
+              <Image
+                src="/icons/XSmall.svg"
+                alt="x-icon"
+                width={isMobile ? 24 : 40}
+                height={isMobile ? 24 : 40}
+              />
+            </button>
+          )}
+        </div>
       </div>
     </>
   );

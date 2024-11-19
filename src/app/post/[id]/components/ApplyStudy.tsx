@@ -67,7 +67,7 @@ const ApplyStudy = ({ postData, isFull }: ApplyStudyProps) => {
       <ToastComponent />
       <MyButton
         onClick={applyButton}
-        className="flex-1"
+        className="h-12 flex-1"
         style="black-fill"
         size="lg"
         disabled={isFull ? isFull : isManager}

@@ -37,9 +37,9 @@ const MyButton = ({
   };
 
   const responsiveSizeClass = {
-    lg: "xl:py-[12px] xl:px-[20px] xl:rounded-24 xl:body-16-s",
-    md: "xl:py-[8px] xl:px-[16px] xl:rounded-[18px] xl:body-14-s",
-    sm: "xl:py-[4px] xl:px-[12px] xl:rounded-[14px] xl:body-14-s",
+    lg: "md:py-[12px] md:px-[20px] md:rounded-24 md:body-16-s",
+    md: "md:py-[8px] md:px-[16px] md:rounded-[18px] md:body-14-s",
+    sm: "md:py-[4px] md:px-[12px] md:rounded-[14px] md:body-14-s",
   };
 
   return (

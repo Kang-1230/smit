@@ -1,32 +1,23 @@
 "use client";
-import { useSession } from "@/hooks/useUserProfile";
 import { useState } from "react";
 import ChevronRight from "../../../../../public/icons/ChevronRight.svg";
 import Image from "next/image";
 import RankingModal from "@/app/ranking/components/_/RankingModal";
 import RankingModalOverlay from "@/app/ranking/components/_/RankingModalOverlay";
 
-const OpenStudyProfile = ({
-  userId,
-  studyId,
-}: {
-  userId: string;
-  studyId: string;
-}) => {
+const OpenStudyProfile = ({ studyId }: { studyId: string }) => {
   const [isModal, setIsModal] = useState(false);
-  const { data } = useSession();
 
   return (
     <>
-      {data?.id === userId && (
-        <Image
-          src={ChevronRight}
-          onClick={() => setIsModal(true)}
-          alt="right"
-          width={20}
-          height={20}
-        />
-      )}
+      <Image
+        src={ChevronRight}
+        onClick={() => setIsModal(true)}
+        alt="right"
+        width={20}
+        height={20}
+        className="cursor-pointer md:hidden"
+      />
       {isModal && (
         <RankingModalOverlay onClick={() => setIsModal(false)}>
           <RankingModal id={studyId} />

@@ -28,7 +28,7 @@ const Page = () => {
     study_createtime: "", // 기본값은 빈 문자열
     study_description: null, // 기본값은 null
     study_id: "", // 기본값은 빈 문자열
-    study_imgurl: null, // 기본값은 null
+    study_imgurl: "", // 기본값은 빈 문자열
     study_manager: "", // 기본값은 빈 문자열
     study_max_people: 1, // 기본값은 1명
     study_name: "", // 기본값은 빈 문자열

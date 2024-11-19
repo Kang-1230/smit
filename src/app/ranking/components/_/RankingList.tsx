@@ -56,7 +56,10 @@ export default function RankingList() {
         handleModalClick={handleModalClick}
       />
       {isRankingModalOpen && (
-        <RankingModalOverlay onClick={() => setIsRankingModalOpen(false)}>
+        <RankingModalOverlay
+          onClick={() => setIsRankingModalOpen(false)}
+          isXButtonVisible={false}
+        >
           <RankingModal id={selectedRankingId} />
         </RankingModalOverlay>
       )}
