@@ -20,7 +20,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
   const studyMember = await fetchStudyMember(studyId);
 
   return (
-    <>
+    <div className="md:mx-auto md:max-w-[1280px] md:px-[24px]">
       <BackButton className="ml-6 mt-[10px]" />
       <div className="flex w-full flex-col items-center overflow-x-hidden bg-secondary-800 px-6 pt-[64px] text-white">
         <StudyInfo study={study} member={studyMember} />
@@ -38,7 +38,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
           </section>
         </main>
       </div>
-    </>
+    </div>
   );
 };
 export default Page;

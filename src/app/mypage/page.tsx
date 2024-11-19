@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default async function MyPage() {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col md:mx-auto md:max-w-[1280px] md:px-[24px]">
       <UserProfile />
       <div className="flex flex-col px-[24px] pt-[28px] md:px-0 md:pt-0">
         <MyPostList />
