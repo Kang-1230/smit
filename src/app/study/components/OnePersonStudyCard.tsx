@@ -18,13 +18,13 @@ interface StudyCardProps {
 const StudyCard = ({ dataItem, i }: StudyCardProps) => {
   const { tooltipVisible, closeTooltip } = useTooltip("EditStudy");
   return (
-    <div key={dataItem.study_id} className="relative">
+    <div key={dataItem.study_id} className="relative z-0">
       <Link
         onClick={(e) => e.stopPropagation()}
         href={`/study/${dataItem.study_id}/manage`}
-        className="absolute left-64 top-5 z-10 flex h-9 w-9 items-center justify-center gap-1"
+        className="absolute left-[269px] top-5 flex h-9 w-9 items-center justify-center gap-1"
       >
-        <div className="left-[269px]">
+        <div className="left-[269px] z-10">
           <Image src={SeeMoreButtonBlack} alt="SeeMoreButtonBlack" />
         </div>
         {i === 0 && tooltipVisible && (
@@ -59,7 +59,7 @@ const StudyCard = ({ dataItem, i }: StudyCardProps) => {
 
             <div className="absolute left-[20px] top-[51px] flex w-[287px] flex-col items-start gap-[12px]">
               <div className="flex flex-col gap-[8px]">
-                <div className="title-18-semibold text-[#ffffff]">
+                <div className="title-18-s text-[#ffffff]">
                   {dataItem.study_name}
                 </div>
                 <div className="flex w-full flex-wrap items-center gap-[4px] self-stretch">

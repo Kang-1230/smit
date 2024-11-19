@@ -46,6 +46,7 @@ const ApplyUserIncludeManagerProfileImgList = ({
       }
     };
     fetchData(studyId);
+    console.log("프로필 데이터", profileUrls);
   }, [studyId]);
 
   //이미지 프로필 불러오기(user당 하나)
@@ -56,13 +57,13 @@ const ApplyUserIncludeManagerProfileImgList = ({
   };
 
   return (
-    <div className="flex -space-x-4 rtl:space-x-reverse">
+    <div className="flex -space-x-[10px] rtl:space-x-reverse">
       {/* //map 돌려서 프로필 이미지 여러 개 불러오기 */}
       {profileUrls.map((url, index) => (
         <Image
           key={index}
           alt="profileImg"
-          className="w-8 h-8 rounded-full dark:border-gray-800 object-cover ring-2 ring-white hover:z-10"
+          className={`h-9 w-9 rounded-full object-cover ring-2 ring-white ${index === 0 ? "!ring-primary-50" : ""} hover:z-10`}
           src={url}
           width={50}
           height={50}
