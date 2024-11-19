@@ -5,6 +5,7 @@
 body {
   height: 100vh;
   overflow-y: auto;
+  user-select: none;
 }
 
 @layer components {
