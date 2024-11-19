@@ -11,6 +11,7 @@ import useModalOpen from "@/hooks/useModalOpen";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteStudy } from "@/utils/supabase/supabase-client";
 import { useRouter } from "next/navigation";
+import Badge from "@/components/common/Badge";
 
 type Props = {
   urlStudyId: string;
@@ -119,8 +120,19 @@ const StudyUpdate = (props: Props) => {
         <RoundSelectDiv
           onClick={() => handleModalClick("job")}
           title="직업 태그"
-          value={study?.study_category[0] || "선택해주세요"}
-        />
+          value={
+            study?.study_category[0] === "" ? "선택해주세요" : "1개 선택됨"
+          }
+        >
+          <div className="flex w-full flex-wrap justify-start gap-x-[4px] pt-2">
+            <Badge
+              category={study?.study_category[0] || ""}
+              color="secondarymore"
+              idx={0}
+              key={0}
+            />
+          </div>
+        </RoundSelectDiv>
 
         <RoundSelectDiv
           onClick={() => handleModalClick("study")}
@@ -128,9 +140,24 @@ const StudyUpdate = (props: Props) => {
           value={
             !study?.study_category[1]
               ? "선택해주세요"
-              : study.study_category.slice(1).join(",")
+              : study?.study_category.slice(1).length + "개 선택됨"
           }
-        />
+        >
+          <div className="flex w-full flex-wrap justify-start gap-x-[4px] pt-2">
+            {study &&
+              study?.study_category &&
+              study?.study_category.map((category, idx) =>
+                idx !== 0 ? (
+                  <Badge
+                    category={category}
+                    color="primary"
+                    idx={idx}
+                    key={idx}
+                  />
+                ) : null,
+              )}
+          </div>
+        </RoundSelectDiv>
 
         <div className="flex items-center justify-between pt-14">
           <div className="flex flex-col">

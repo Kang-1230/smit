@@ -68,15 +68,12 @@ export async function getStudyParticipantsCount(
 
   if (!data) return 0;
 
-  return data?.length;
+  return data.length;
 }
-
-// postId와 그 유저가 게시물을 눌렀는지 안눌렀는지 조회
-export async function getLike() {}
 
 // - study -
 export async function getStudys(page = 1) {
-  const pageSize = 12;
+  const pageSize = 11;
   let result: Study[];
 
   const serverClient = createClient();
@@ -114,4 +111,13 @@ export async function getStudyById(id: string) {
   const result: Study = camelizeStudy(data[index] as SupabaseStudy, index + 1);
 
   return { data: result };
+}
+
+// -Auth
+export async function getLoginSession() {
+  const serverClient = createClient();
+  const {
+    data: { session },
+  } = await serverClient.auth.getSession();
+  return session?.user;
 }

@@ -44,7 +44,7 @@ export default function OccupancyCounter({ studyId, maxParticipants }: Props) {
 
   return (
     <span>
-      모집 {approvedCount}/{maxParticipants}
+      모집 {approvedCount + 1}/{maxParticipants}
     </span>
   );
 }

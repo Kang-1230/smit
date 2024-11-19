@@ -189,8 +189,8 @@ function WriteContent() {
   }, [post_id]);
 
   return (
-    <div className="mb-[29px] flex w-full flex-col items-center px-[24px]">
-      <div className="mb-[24px] flex h-[44px] w-full items-center justify-between">
+    <div className="mb-[29px] flex w-full flex-col items-center px-[24px] overflow-x-hidden">
+      <div className="px-6 fixed left-0 top-0 mb-[24px] flex h-[44px] w-full items-center justify-between bg-white p-2 text-2xl">
         <Image
           src={Xmedium}
           alt="selectBtn"
@@ -207,7 +207,7 @@ function WriteContent() {
           <Image src={Check} alt="selectBtn" width={0} />
         </button>
       </div>
-      <div className="flex w-full flex-col gap-y-[32px]">
+      <div className="mb-4 mt-[68px] flex w-full flex-col gap-y-[32px]">
         <SquareInput
           onChange={setTitle}
           title="제목"
@@ -248,6 +248,7 @@ function WriteContent() {
       <WriteModal
         isModalOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        onBack={() => router.back()}
         onConfirm={(studyId, studyName) => {
           setStudy({ id: studyId, name: studyName });
           setIsModalOpen(false);
