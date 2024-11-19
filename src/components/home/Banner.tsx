@@ -49,7 +49,7 @@ export default function Banner({ title, url, isEventPage, num = 1 }: Props) {
           </>
         )}
 
-        <div className="relative z-10 mx-auto max-w-[83rem]">
+        <div className="relative z-10 mx-auto max-w-[80rem]">
           <div className="mb-4 px-2 md:mb-[4.5rem]">
             {isEventPage && (
               <h2 className="text-xs font-medium md:text-xl">EVENT</h2>
@@ -59,7 +59,7 @@ export default function Banner({ title, url, isEventPage, num = 1 }: Props) {
             </h1>
           </div>
 
-          <button className="flex items-center gap-3 rounded-[26px] bg-white bg-opacity-35 py-1 pl-5 pr-1 text-base font-light text-white backdrop-blur-md md:mb-[5.5rem]">
+          <button className="mb-3 flex items-center gap-3 rounded-[26px] bg-white bg-opacity-35 py-1 pl-5 pr-1 text-base font-light text-white backdrop-blur-md md:mb-[5.5rem]">
             <div className="w-[4.75rem] text-left">바로가기</div>
             <div className="flex h-11 w-11 items-center justify-center rounded-full bg-secondary-900">
               <Image
