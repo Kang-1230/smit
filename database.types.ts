@@ -168,14 +168,17 @@ export type Database = {
       };
       job_tag: {
         Row: {
+          class: string | null;
           id: number;
           name: string | null;
         };
         Insert: {
+          class?: string | null;
           id?: number;
           name?: string | null;
         };
         Update: {
+          class?: string | null;
           id?: number;
           name?: string | null;
         };
@@ -186,19 +189,19 @@ export type Database = {
           created_at: string;
           id: number;
           like_post: number | null;
-          like_user: string | null;
+          like_user: string;
         };
         Insert: {
           created_at?: string;
           id?: number;
           like_post?: number | null;
-          like_user?: string | null;
+          like_user: string;
         };
         Update: {
           created_at?: string;
           id?: number;
           like_post?: number | null;
-          like_user?: string | null;
+          like_user?: string;
         };
         Relationships: [
           {
@@ -278,7 +281,7 @@ export type Database = {
           study_createtime: string;
           study_description: string | null;
           study_id: string;
-          study_imgurl: string | null;
+          study_imgurl: string;
           study_manager: string;
           study_max_people: number;
           study_name: string;
@@ -291,7 +294,7 @@ export type Database = {
           study_createtime?: string;
           study_description?: string | null;
           study_id?: string;
-          study_imgurl?: string | null;
+          study_imgurl?: string;
           study_manager?: string;
           study_max_people: number;
           study_name: string;
@@ -304,7 +307,7 @@ export type Database = {
           study_createtime?: string;
           study_description?: string | null;
           study_id?: string;
-          study_imgurl?: string | null;
+          study_imgurl?: string;
           study_manager?: string;
           study_max_people?: number;
           study_name?: string;
@@ -362,20 +365,23 @@ export type Database = {
       };
       study_goal: {
         Row: {
-          goal_name: string | null;
-          is_success: boolean | null;
+          goal_id: number;
+          goal_name: string;
+          is_success: boolean;
           study_id: string;
           user_id: string;
         };
         Insert: {
-          goal_name?: string | null;
-          is_success?: boolean | null;
-          study_id?: string;
+          goal_id?: number;
+          goal_name: string;
+          is_success?: boolean;
+          study_id: string;
           user_id: string;
         };
         Update: {
-          goal_name?: string | null;
-          is_success?: boolean | null;
+          goal_id?: number;
+          goal_name?: string;
+          is_success?: boolean;
           study_id?: string;
           user_id?: string;
         };
@@ -383,7 +389,7 @@ export type Database = {
           {
             foreignKeyName: "study_goal_study_id_fkey";
             columns: ["study_id"];
-            isOneToOne: true;
+            isOneToOne: false;
             referencedRelation: "study";
             referencedColumns: ["study_id"];
           },
@@ -537,37 +543,37 @@ export type Database = {
       };
       user: {
         Row: {
-          birth_date: string;
+          birth_date: string | null;
           created_at: string | null;
           email: string;
           gender: string | null;
           id: string;
-          name: string;
+          name: string | null;
           profile_img: string;
           study_time: number;
-          user_name: string;
+          user_name: string | null;
         };
         Insert: {
-          birth_date: string;
+          birth_date?: string | null;
           created_at?: string | null;
           email: string;
           gender?: string | null;
           id?: string;
-          name: string;
+          name?: string | null;
           profile_img?: string;
           study_time?: number;
-          user_name: string;
+          user_name?: string | null;
         };
         Update: {
-          birth_date?: string;
+          birth_date?: string | null;
           created_at?: string | null;
           email?: string;
           gender?: string | null;
           id?: string;
-          name?: string;
+          name?: string | null;
           profile_img?: string;
           study_time?: number;
-          user_name?: string;
+          user_name?: string | null;
         };
         Relationships: [];
       };
@@ -576,7 +582,19 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
-      [_ in never]: never;
+      add_public_user: {
+        Args: {
+          p_email: string;
+          p_foreign_id: number;
+          p_name: string;
+          p_nickname: string;
+        };
+        Returns: undefined;
+      };
+      drop_handle_new_user_trigger: {
+        Args: Record<PropertyKey, never>;
+        Returns: string;
+      };
     };
     Enums: {
       [_ in never]: never;
