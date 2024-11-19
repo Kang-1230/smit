@@ -8,7 +8,7 @@ const SelectStudyCard = ({ studyInfo }: { studyInfo: Tables<"study"> }) => {
 
   return (
     <div className="mt-[8px] w-full flex-col justify-center rounded-12 bg-tertiary-75 px-[20px] py-[16px]">
-      <div className="mb-[12px] flex items-center">
+      <div className="mb-[12px] flex">
         <div className="relative aspect-square min-h-[61px] min-w-[61px] overflow-hidden rounded-8">
           <Image
             src={
@@ -38,7 +38,7 @@ const SelectStudyCard = ({ studyInfo }: { studyInfo: Tables<"study"> }) => {
           </div>
         </div>
       </div>
-      <div className="flex w-full justify-start gap-x-[4px]">
+      <div className="flex w-full flex-wrap justify-start gap-x-[4px]">
         {studyInfo &&
           studyInfo.study_category &&
           studyInfo.study_category.map((category, idx) => (

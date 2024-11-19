@@ -1,8 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import Badge from "@/components/common/Badge";
 import LikeButton from "@/components/common/LikeButton";
 import { Post } from "@/types/posts";
+import { usePostLikers } from "@/hooks/useLikePost";
 
 export type Props = {
   post: Post;
@@ -10,6 +13,7 @@ export type Props = {
 };
 
 export default function PostCard({ post, color = "tertiary" }: Props) {
+  const { data } = usePostLikers(post.id);
   return (
     <Link href={`/post/${post.id}`}>
       <section
@@ -59,7 +63,7 @@ export default function PostCard({ post, color = "tertiary" }: Props) {
         <div className="flex justify-between border-t border-secondary-200 pt-4 text-sm">
           <div>
             <span>
-              모집 {post.study.currentParticipants}/
+              모집 {post.study.currentParticipants + 1}/
               {post.study.totalParticipants}
             </span>
           </div>
@@ -72,7 +76,7 @@ export default function PostCard({ post, color = "tertiary" }: Props) {
                 width={15}
                 height={15}
               />
-              {post.likes}
+              {data?.length}
             </div>
             <div className="flex gap-[0.1rem]">
               <Image

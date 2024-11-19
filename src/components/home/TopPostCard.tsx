@@ -1,13 +1,18 @@
+"use client";
+
 import { Post } from "@/types/posts";
 import Link from "next/link";
 import LikeButton from "../common/LikeButton";
 import Badge from "../common/Badge";
+import { usePostLikers } from "@/hooks/useLikePost";
 
 type Props = {
   post: Post;
 };
 
 export default function TopPostCard({ post }: Props) {
+  const { data } = usePostLikers(post.id);
+
   return (
     <Link href={`/post/${post.id}`}>
       <div className="flex h-[216px] w-[260px] flex-col justify-between rounded-3xl bg-secondary-900 px-5 pb-6 pt-5 text-white">
@@ -31,7 +36,7 @@ export default function TopPostCard({ post }: Props) {
               {post.study.totalParticipants}
             </p>
             <p className="text-secondary-400">
-              관심 {post.likes}
+              관심 {data?.length}
               <span className="mx-[5px]">·</span>댓글 {post.comments}
             </p>
           </div>

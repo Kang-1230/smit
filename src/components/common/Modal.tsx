@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { Tables } from "../../../database.types";
 import Image from "next/image";
 import Union from "../../../public/icons/Union.svg";
+import MyButton from "./Button";
 
 type Props = {
   isModalOpen: boolean;
@@ -49,10 +50,10 @@ const Modal = (props: Props) => {
       onClick={props.onClose}
     >
       <div
-        className="fixed inset-x-0 bottom-0 flex h-fit w-full animate-slide-up flex-col overflow-y-hidden rounded-t-2xl bg-white shadow-lg focus:overscroll-contain"
+        className="fixed inset-x-0 bottom-0 flex max-h-[580px] w-full animate-slide-up flex-col overflow-y-hidden rounded-t-2xl bg-white shadow-lg"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex w-full flex-col justify-center p-5">
+        <div className="flex w-full flex-col justify-center px-6 pt-9">
           <h1 className="title-20-m">
             {props.modalMode === "job" ? "직업 태그 선택" : "스터디 태그 선택"}
           </h1>
@@ -62,10 +63,10 @@ const Modal = (props: Props) => {
               : "최대 3개 선택해주세요"}
           </p>
 
-          <div className="mt-3 flex">
+          <div className="mb-8 mt-3 flex">
             {props.modalMode === "job" ? (
               arr[0] !== "" ? (
-                <button className="... body-14-m m-1 flex w-fit items-center overflow-hidden text-ellipsis whitespace-nowrap rounded-full bg-primary-50 px-2 pl-3 text-white">
+                <button className="... body-14-m flex w-fit items-center overflow-hidden text-ellipsis whitespace-nowrap rounded-full bg-primary-50 px-2 pl-3 text-white">
                   {arr[0]}
                   <Image
                     src={Union}
@@ -88,7 +89,7 @@ const Modal = (props: Props) => {
                 index !== 0 ? (
                   <button
                     key={item}
-                    className="... body-14-m m-1 flex w-fit items-center overflow-hidden text-ellipsis whitespace-nowrap rounded-full bg-primary-50 px-2 pl-3 text-white"
+                    className="... body-14-m mr-[6px] flex w-fit items-center overflow-hidden text-ellipsis whitespace-nowrap rounded-full bg-primary-50 px-2 text-white"
                   >
                     {item}
                     <Image
@@ -107,15 +108,14 @@ const Modal = (props: Props) => {
             )}
           </div>
 
-          <h1 className="body-16-m pt-7">
-            {props.modalMode === "job" ? "직업" : "분야"}
-          </h1>
-          <div className="flex h-fit w-full flex-wrap pt-2">
-            {props.modalMode === "job"
-              ? jobTags.map((item) => (
+          <div className="flex h-fit max-h-[318px] w-full flex-wrap overflow-auto">
+            {props.modalMode === "job" ? (
+              <div>
+                <h1 className="body-16-m pb-2 pt-10">직업</h1>
+                {jobTags.map((item) => (
                   <button
                     key={item.id}
-                    className={`body-14-m ... m-1 overflow-hidden text-ellipsis whitespace-nowrap rounded-full border px-2 ${
+                    className={`body-14-m ... my-1 mr-1 overflow-hidden text-ellipsis whitespace-nowrap rounded-full border px-2 ${
                       arr[0] === item.name
                         ? "border-primary-50 bg-primary-5 text-primary-50"
                         : "border-secondary-200 text-secondary-400"
@@ -133,11 +133,19 @@ const Modal = (props: Props) => {
                   >
                     {item.name}
                   </button>
-                ))
-              : categoryTags.map((item) => (
+                ))}
+              </div>
+            ) : (
+              categoryTags.map((item, i, array) => (
+                <React.Fragment key={item.id}>
+                  {item?.class !== array[i - 1]?.class ? (
+                    <div className="body-16-m my-2 w-full pt-6">
+                      {item.class}
+                    </div>
+                  ) : null}
                   <button
                     key={item.id}
-                    className={`body-14-m ... m-1 overflow-hidden text-ellipsis whitespace-nowrap rounded-full border px-2 ${
+                    className={`body-14-m ... my-1 mr-1 overflow-hidden text-ellipsis whitespace-nowrap rounded-full border px-2 ${
                       item.name && arr?.includes(item.name)
                         ? "border-primary-50 bg-primary-5 text-primary-50"
                         : "border-secondary-200 text-secondary-400"
@@ -156,15 +164,21 @@ const Modal = (props: Props) => {
                   >
                     {item.name}
                   </button>
-                ))}
+                </React.Fragment>
+              ))
+            )}
           </div>
+        </div>
 
-          <button
-            className="... body-16-s mt-5 w-full rounded-full bg-secondary-900 p-3 text-white"
+        <div className="mt-4 flex items-center justify-center gap-2 border-t px-6 py-[10px] text-white">
+          <MyButton
+            style="black-fill"
+            size="lg"
             onClick={() => props.onConfirm(arr)}
+            className="body-16-s flex-1 rounded-3xl bg-secondary-900 px-4 py-2 text-white"
           >
             적용하기
-          </button>
+          </MyButton>
         </div>
       </div>
     </div>
