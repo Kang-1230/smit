@@ -7,8 +7,8 @@ import Image from "next/image";
 import { convertUTCToKST } from "@/utils/convertDate";
 import LikeCount from "./LikeCount";
 import EditDetailContent from "./EditDetailContent";
-import CustomButton from "@/components/ui/CustomButton";
 import StudyPostInfo from "./StudyPostInfo";
+import ContentBadge from "./ContentBadge";
 
 type DetailContentProps = {
   id: string;
@@ -27,16 +27,13 @@ const DetailContent = async ({ id, postData }: DetailContentProps) => {
 
   return (
     <div className="w-full">
-      <section>
-        <h1 className="title-20-b text-[#444]">{postData.post_name}</h1>
+      <section className="md:h-[580px]">
+        <h1 className="title-20-b md:title-32-b text-[#444] md:font-medium">
+          {postData.post_name}
+        </h1>
         <div className="my-2 flex flex-wrap gap-1">
           {studyData?.study_category.map((item, i) => (
-            <CustomButton
-              text={item}
-              size="medium"
-              bgColor={i === 0 ? "#BFA28D" : "#FF9945"}
-              key={item}
-            />
+            <ContentBadge key={i} item={item} i={i} />
           ))}
         </div>
         <div className="relative mb-4 flex items-center">
@@ -54,12 +51,12 @@ const DetailContent = async ({ id, postData }: DetailContentProps) => {
           <EditDetailContent postId={id} userId={postData.user_id} />
         </div>
         <StudyPostInfo postData={postData} studyData={studyData} />
+        <main>
+          <p className="min-w-[327px] whitespace-pre-wrap break-words pb-[100px]">
+            {limitedContent}
+          </p>
+        </main>
       </section>
-      <main>
-        <p className="min-w-[327px] whitespace-pre-wrap break-words pb-[100px]">
-          {limitedContent}
-        </p>
-      </main>
       <LikeCount postId={id} />
     </div>
   );

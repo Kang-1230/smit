@@ -1,4 +1,4 @@
-export type ToastPosition = "bc" | "ct" | "tc";
+export type ToastPosition = "bc" | "ct" | "tc" | "web";
 export type ToastStyle = "gray" | "darkgray";
 
 interface ToastProps {
@@ -20,6 +20,7 @@ export const Toast = ({
     bc: "bottom-20 left-1/2 -translate-x-1/2",
     ct: "bottom-[313px] left-1/2 -translate-x-1/2 -translate-y-1/2",
     tc: "top-16 left-1/2 -translate-x-1/2",
+    web: "top-[110px] left-1/2 -translate-x-1/2",
   };
 
   const styleClass = {

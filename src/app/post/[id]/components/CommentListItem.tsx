@@ -226,7 +226,7 @@ const CommentListItem = ({
               </span>
             </div>
             {/* 삭제된 댓글 표시 */}
-            <div className="relative">
+            <div className="relative pr-6">
               {comment.is_deleted ? (
                 <p className="text-gray-400">삭제된 댓글입니다.</p>
               ) : (
