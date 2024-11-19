@@ -20,11 +20,11 @@ const Page = async ({ params }: { params: { id: string } }) => {
   const studyMember = await fetchStudyMember(studyId);
 
   return (
-    <div className="md:mx-auto md:max-w-[1280px] md:px-[24px]">
+    <div className="w-full xl:mx-auto xl:max-w-[1280px]">
       <BackButton className="ml-6 mt-[10px]" />
       <div className="flex w-full flex-col items-center overflow-x-hidden bg-secondary-800 px-6 pt-[64px] text-white">
         <StudyInfo study={study} member={studyMember} />
-        <main className="xl:grid xl:grid-rows-[402px_474px] xl:gap-y-[24px]">
+        <main className="w-full xl:grid xl:grid-rows-[402px_474px] xl:gap-y-[24px]">
           <StudyStateBox
             studyId={studyId}
             member={studyMember}

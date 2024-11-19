@@ -48,7 +48,7 @@ const TimerTimer = ({
   }, [isRunning]);
 
   return (
-    <div className="relative my-6 h-[316px] w-full rounded-20 bg-secondary-900 xl:my-0 xl:h-full">
+    <div className="relative h-[316px] w-full rounded-20 bg-secondary-900 xl:my-0 xl:h-full">
       <Image
         src={`/icons/timer/Spinner.svg`}
         alt="timer_spinner"
