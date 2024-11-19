@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`${pretendard.variable} font-pretendard`}>
-      <body className="mx-auto flex w-full flex-col xl:max-w-[1232px]">
+      <body className="mx-auto flex w-full flex-col">
         <Providers>
           <Header />
           <meta property="og:title" content="Smit" />

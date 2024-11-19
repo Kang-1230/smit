@@ -6,6 +6,7 @@ import PersonalMemoItem from "./PersonalMemoItem";
 import { useState } from "react";
 import Loading from "@/components/common/Loading";
 import { useSession } from "@/hooks/useUserProfile";
+import BookLined from "@/components/ui/icons/BookLined";
 
 const PersonalMemos = ({ studyId }: { studyId: string }) => {
   const { data, isLoading, isError } = useStudyMemo(studyId);
@@ -37,14 +38,8 @@ const PersonalMemos = ({ studyId }: { studyId: string }) => {
   return (
     <div className="mb-[55px] flex w-full flex-col">
       <div className="caption mb-3 flex h-4 w-full items-center p-1">
-        <Image
-          src={"/icons/StudyMemo.svg"}
-          alt="memo"
-          width={16}
-          height={16}
-          className="h-3 w-3"
-        />
-        <h2 className="ml-1 text-white">스터디 회고록</h2>
+        <BookLined />
+        <h2 className="ml-1 text-white md:text-secondary-300">스터디 회고록</h2>
       </div>
       {displayedMemos.map((item) => (
         <PersonalMemoItem key={item.memo_id} memoData={item} />

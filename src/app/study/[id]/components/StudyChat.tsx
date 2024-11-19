@@ -12,7 +12,7 @@ const StudyChat = ({ study }: { study: Tables<"study"> | null }) => {
     }
   };
   return (
-    <div className="relative h-full w-1/2 rounded-20 bg-secondary-900 p-4">
+    <div className="relative h-full w-1/2 rounded-20 bg-secondary-900 p-[12px] xl:w-full xl:px-[20px] xl:py-[24px]">
       <p className="body-16-m mb-[59px]">
         오픈 채팅방
         <br />

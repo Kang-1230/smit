@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import { Tables } from "../../../../../database.types";
-import browserClient from "@/utils/supabase/client";
 import MemberImg from "./MemberImg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import { useEffect } from "react";
 
 export type profileInfo = {
   user_id: string;
@@ -19,42 +18,33 @@ const StudyInfo = ({
   member,
 }: {
   study: Tables<"study"> | null;
-  member: string[] | null;
+  member: Tables<"user">[] | null;
 }) => {
-  const [memberProfile, setMemberProfile] = useState<Tables<"user">[] | null>(
-    null,
-  );
-
   useEffect(() => {
-    if (member) {
-      const getUserProfile = async () => {
-        const { data } = await browserClient
-          .from("user")
-          .select("*")
-          .in("id", member);
-        setMemberProfile(data);
-      };
-      getUserProfile();
-    }
-  }, [member]);
+    // Tailwind 클래스를 body에 추가
+    document.body.classList.add("bg-secondary-800");
+
+    // 페이지를 떠날 때 클래스 제거
+    return () => {
+      document.body.classList.remove("bg-secondary-800");
+    };
+  }, []);
 
   if (!study) {
     return <div>로딩 중...</div>;
   }
 
   return (
-    <div className="flex w-full flex-col items-center justify-center">
+    <div className="flex w-full flex-col items-center justify-center xl:items-start">
       <h1 className="title-24-b mb-2">{study.study_name}</h1>
       <p className="body-14-r mb-6 text-secondary-200">
         {study.study_description}
       </p>
 
-      <div className="flex w-full items-center justify-center">
-        {memberProfile && memberProfile.length < 5 ? (
-          <div className="mb-7 flex w-[312px] flex-row justify-center gap-x-[12px]">
-            {memberProfile?.map((user) => (
-              <MemberImg key={user.id} user={user} />
-            ))}
+      <div className="flex w-full items-center justify-center xl:justify-start">
+        {member && member.length < 5 ? (
+          <div className="mb-7 flex w-[312px] flex-row justify-center gap-x-[12px] xl:justify-start">
+            {member?.map((user) => <MemberImg key={user.id} user={user} />)}
           </div>
         ) : (
           <Swiper
@@ -64,7 +54,7 @@ const StudyInfo = ({
             navigation={true} // 네비게이션 버튼 활성화
             className="mb-7 flex w-full"
           >
-            {memberProfile?.map((user) => (
+            {member?.map((user) => (
               <SwiperSlide key={user.id}>
                 <MemberImg user={user} />
               </SwiperSlide>

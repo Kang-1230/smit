@@ -17,7 +17,7 @@ const StudyStateBox = ({
   member,
   studyId,
 }: {
-  member: string[] | null;
+  member: Tables<"user">[] | null;
   studyId: string;
   today: string;
   study: Tables<"study"> | null;
@@ -42,8 +42,8 @@ const StudyStateBox = ({
   } = useStudyManager(studyId, member, study);
   return (
     <>
-      <div className="flex w-full flex-col justify-center">
-        <div className="flex h-[172px] w-full flex-row justify-center gap-x-3">
+      <div className="flex w-full flex-col justify-center xl:grid xl:grid-cols-3 xl:gap-x-[24px]">
+        <div className="flex h-[172px] w-full flex-row justify-center gap-x-3 xl:h-full xl:flex-col xl:gap-y-[24px]">
           <StudyTime
             todaySchedules={todaySchedules}
             currentSchedule={currentSchedule}
@@ -58,7 +58,7 @@ const StudyStateBox = ({
           handleStart={handleStart}
           handlePause={handlePause}
         />
-        <div className="flex h-[214px] w-full min-w-[327px] flex-row">
+        <div className="flex h-[214px] w-full min-w-[327px] flex-row xl:h-[295px] xl:w-full xl:flex-col xl:gap-y-[24px]">
           <UserRate
             currentSchedule={currentSchedule}
             endPoint={endPoint}
@@ -66,7 +66,7 @@ const StudyStateBox = ({
             circumference={circumference}
             userTimer={timerState}
           />
-          <div className="flex w-full min-w-[128px] flex-col gap-y-3">
+          <div className="flex w-full min-w-[128px] flex-col gap-y-3 xl:h-[120px] xl:w-full xl:flex-row xl:gap-x-[24px]">
             <AttendanceRate attendee={attendee} member={member} />
             <GroupRate member={member} achieverList={achieverList} />
           </div>
