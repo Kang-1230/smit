@@ -9,6 +9,7 @@ type Props = {
   url: string;
   num: number;
   isEventPage: boolean;
+  link?: string;
 };
 
 const splitTitle = (title: string) => {

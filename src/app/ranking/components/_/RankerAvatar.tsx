@@ -12,7 +12,6 @@ export default function RankerAvatar({ rank, study, handleModalClick }: Props) {
     borderColorMain,
     imageSize,
     marginTop,
-    smallBorderColorMain,
     smallGradientStart,
     smallGradientEnd,
   } = getRankConfig(rank);
