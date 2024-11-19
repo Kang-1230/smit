@@ -3,7 +3,7 @@ import CustomButton from "@/components/ui/CustomButton";
 const ContentBadge = ({ item, i }: { item: string; i: number }) => {
   return (
     <>
-      <div className="xl:hidden">
+      <div className="md:hidden">
         <CustomButton
           text={item}
           size="medium"
@@ -11,7 +11,7 @@ const ContentBadge = ({ item, i }: { item: string; i: number }) => {
           key={`${item}-mobile`}
         />
       </div>
-      <div className="hidden xl:block">
+      <div className="hidden md:block">
         <CustomButton
           text={item}
           size="webBadge"

@@ -16,7 +16,7 @@ const OpenStudyProfile = ({ studyId }: { studyId: string }) => {
         alt="right"
         width={20}
         height={20}
-        className="cursor-pointer xl:hidden"
+        className="cursor-pointer md:hidden"
       />
       {isModal && (
         <RankingModalOverlay onClick={() => setIsModal(false)}>

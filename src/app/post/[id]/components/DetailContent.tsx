@@ -27,8 +27,8 @@ const DetailContent = async ({ id, postData }: DetailContentProps) => {
 
   return (
     <div className="w-full">
-      <section className="xl:h-[580px]">
-        <h1 className="title-20-b xl:title-32-b text-[#444] xl:font-medium">
+      <section className="md:h-[580px]">
+        <h1 className="title-20-b md:title-32-b text-[#444] md:font-medium">
           {postData.post_name}
         </h1>
         <div className="my-2 flex flex-wrap gap-1">

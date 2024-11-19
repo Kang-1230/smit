@@ -14,7 +14,7 @@ const StudyPostInfo = ({
   const { data: applyNumber } = useStudyMember(studyData.study_id);
 
   return (
-    <div className="body-14-r mb-[27px] grid w-full min-w-0 grid-cols-[82px_minmax(0,1fr)] gap-y-3 rounded-lg bg-c-background p-5 xl:h-[130px]">
+    <div className="body-14-r mb-[27px] grid w-full min-w-0 grid-cols-[82px_minmax(0,1fr)] gap-y-3 rounded-lg bg-c-background p-5 md:h-[130px]">
       <p className="text-secondary-400">모집 인원</p>
       <p>
         {applyNumber?.length} / {studyData.study_max_people}
