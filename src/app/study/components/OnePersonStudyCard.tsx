@@ -18,7 +18,7 @@ interface StudyCardProps {
 const StudyCard = ({ dataItem, i }: StudyCardProps) => {
   const { tooltipVisible, closeTooltip } = useTooltip("EditStudy");
   return (
-    <div key={dataItem.study_id} className="relative z-0">
+    <div key={dataItem.study_id} className="relative">
       <Link
         onClick={(e) => e.stopPropagation()}
         href={`/study/${dataItem.study_id}/manage`}

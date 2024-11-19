@@ -1,6 +1,5 @@
 "use client";
 
-import { Calendar } from "@/components/ui/calendar";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
@@ -10,6 +9,7 @@ import CalendarMonth from "../../../../public/icons/CalenderMonth.svg";
 import Tooltip from "@/components/common/Tooltip";
 import useTooltip from "@/hooks/useTooltip";
 import { EventWithStudy } from "./WeekCalendar";
+import { PlanCalendar } from "./PlanCalendar";
 
 const WeekCalendarModal = ({ events }: { events: EventWithStudy[] }) => {
   const [date, setDate] = useState<Date | undefined>(undefined);
@@ -30,10 +30,9 @@ const WeekCalendarModal = ({ events }: { events: EventWithStudy[] }) => {
 
   return (
     <div
-      className="relative my-6 h-[362px] w-[327px] rounded-[20px] border border-[#797272]"
+      className="border-linear-gradient(137.81deg, rgba(255, 153, 69, 0.3) 3.52%, rgba(0, 0, 0, 0.3) 95.23%) relative h-[362px] w-[327px] rounded-[20px] border"
       style={{
-        background:
-          "radial-gradient(64.61% 66.48% at 20.51% 9.53%, rgba(255, 153, 69, 0.11) 20%, rgba(255, 153, 69, 0.00) 100%), linear-gradient(180deg, rgba(47, 47, 47, 0.50) 0%, rgba(103, 103, 103, 0.30) 100%)",
+        background: "white",
       }}
     >
       <div className="relative ml-4 mt-4 flex items-center gap-1">
@@ -52,7 +51,7 @@ const WeekCalendarModal = ({ events }: { events: EventWithStudy[] }) => {
         )}
       </div>
       <div className="flex h-[calc(100%-48px)]">
-        <Calendar
+        <PlanCalendar
           mode="single"
           selected={date}
           onSelect={handleDateClick}
@@ -66,7 +65,7 @@ const WeekCalendarModal = ({ events }: { events: EventWithStudy[] }) => {
               return date.toLocaleDateString("en-US", { weekday: "narrow" });
             },
           }}
-          className="flex w-full items-center justify-center rounded-md"
+          className="flex h-[362px] w-full items-center justify-center rounded-[20px]"
           classNames={{
             nav_button_previous: "absolute left-[85px] top-[3px] !w-3 !h-3",
             nav_button_next: "absolute right-[85px] top-[3px] !w-3 !h-3",
