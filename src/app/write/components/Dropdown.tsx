@@ -66,7 +66,7 @@ export default function Dropdown() {
     <>
       <Menu>
         {({ open }) => (
-          <div className="fixed bottom-[84px] right-[24px] z-20">
+          <div className="fixed bottom-[84px] right-[24px] z-20 xl:right-[]">
             <MenuButton
               className={`relative z-[999] items-center justify-center rounded-full border border-white/50 p-[10px] text-white ${
                 open ? "border-none bg-primary-50" : "bg-black"
@@ -75,8 +75,8 @@ export default function Dropdown() {
               <Image
                 src={open ? Close : Open}
                 alt="union"
-                width={40}
-                height={40}
+                width={38}
+                height={38}
               />
             </MenuButton>
             {tooltipVisible && user && (

@@ -24,49 +24,51 @@ const UserProfile = () => {
   if (user)
     return (
       <>
-        <p className="title-24-b mt-[178px] hidden xl:block">마이페이지</p>
-        <div className="flex flex-col items-center bg-c-background pb-8 pt-[74px] xl:relative xl:mb-[138px] xl:mt-[32px] xl:flex-row xl:rounded-[32px] xl:py-[28px] xl:pl-[52px]">
-          <div className="relative aspect-square h-[116px] w-[116px] overflow-hidden rounded-full border object-cover xl:h-[160px] xl:w-[160px]">
+        <div className="w-full md:mb-[138px] md:mt-[178px]">
+          <p className="title-24-b hidden md:block">마이페이지</p>
+          <div className="flex w-full flex-col items-center bg-c-background pb-8 pt-[74px] md:relative md:mt-[32px] md:flex-row md:rounded-[32px] md:py-[28px] md:pl-[52px]">
+            <div className="relative aspect-square h-[116px] w-[116px] overflow-hidden rounded-full border object-cover md:h-[160px] md:w-[160px]">
+              <Image
+                src={user.profile_img}
+                alt="프로필 이미지"
+                fill
+                priority={true}
+                quality={100}
+              />
+            </div>
+            <div className="text-center md:ml-[32px] md:text-left">
+              <div className="mt-[20px] md:mt-0">
+                <p className="title-20-s mb-[8px]">
+                  {user?.name ? user.name : "익명의 사용자"}
+                </p>
+                <p className="body-14-r mb-[16px] text-secondary-300 md:mb-[20px]">
+                  {user.email}
+                </p>
+              </div>
+              <MyButton
+                style="beige"
+                size="sm"
+                onClick={modalOpen}
+                responsiveSize="lg"
+              >
+                프로필 수정
+              </MyButton>
+            </div>
             <Image
-              src={user.profile_img}
-              alt="프로필 이미지"
-              fill
+              src={`/images/MyPage.png`}
+              alt="study"
+              width={489}
+              height={269}
+              className="absolute right-0 top-[36px] hidden lg:block"
               priority={true}
-              quality={100}
             />
           </div>
-          <div className="text-center xl:ml-[32px] xl:text-left">
-            <div className="mt-[20px] xl:mt-0">
-              <p className="title-20-s mb-[8px]">
-                {user?.name ? user.name : "익명의 사용자"}
-              </p>
-              <p className="body-14-r mb-[16px] text-secondary-300 xl:mb-[20px]">
-                {user.email}
-              </p>
-            </div>
-            <MyButton
-              style="beige"
-              size="sm"
-              onClick={modalOpen}
-              responsiveSize="lg"
-            >
-              프로필 수정
-            </MyButton>
-          </div>
-          <Image
-            src={`/images/MyPage.png`}
-            alt="study"
-            width={489}
-            height={269}
-            className="absolute right-0 top-[36px] hidden xl:block"
-            priority={true}
-          />
+          {isModalOpen && (
+            <ModalOverlay onClick={modalClose}>
+              <EditProfile user={user} modalClose={modalClose} />
+            </ModalOverlay>
+          )}
         </div>
-        {isModalOpen && (
-          <ModalOverlay onClick={modalClose}>
-            <EditProfile user={user} modalClose={modalClose} />
-          </ModalOverlay>
-        )}
       </>
     );
 };

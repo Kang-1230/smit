@@ -26,7 +26,7 @@ export function getRankConfig(rankPosition: number): RankConfig {
       smallGradientEnd: "#B2B2B2",
     },
     3: {
-      borderColorMain: "#D4945E",
+      borderColorMain: "#FFAD69",
       imageSize: "64px",
       marginTop: "61px",
       smallBorderColorMain: "#D4945E",

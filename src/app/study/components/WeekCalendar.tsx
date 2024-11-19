@@ -7,7 +7,7 @@ import browserClient from "@/utils/supabase/client";
 import { Tables } from "../../../../database.types";
 import ScheduleStatusIndicator from "../../../../public/icons/ScheduleStatusIndicator.svg";
 import ArrowTopRight from "../../../../public/icons/ArrowTopRight.svg";
-import miniCalender from "../../../../public/icons/Study/WeekCalenderImg.svg";
+import miniCalender from "../../../../public/icons/study/WeekCalenderImg.svg";
 import NoPlan from "../../../../public/icons/illust/NoPlan.svg";
 import LaterPlan from "../../../../public/icons/laterPlan.svg";
 import ArrowTopRightBlack from "../../../../public/icons/ArrowTopRightBlack.svg";
