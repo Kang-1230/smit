@@ -9,7 +9,7 @@ type SearchProps = {
 export default async function SearchResultList({ searchParams }: SearchProps) {
   const { data } = await getPosts(searchParams);
   return (
-    <section className="relative px-6">
+    <section className="relative mx-auto max-w-[80rem] px-6 md:px-0">
       <SearchResult posts={data} />
     </section>
   );
