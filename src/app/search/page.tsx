@@ -16,7 +16,7 @@ export default async function SearchPage({ searchParams }: SearchProps) {
     <>
       <Suspense fallback={<Loading />}>
         <SearchForm />
-        <hr className="h-28" />
+        <hr className="h-28 md:h-[17rem]" />
         <SearchResultList searchParams={searchParams} />
       </Suspense>
       <FloatingButtons />

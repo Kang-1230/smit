@@ -3,9 +3,6 @@
 import Loading from "@/components/common/Loading";
 import { getStudyById } from "@/service/refac";
 import { useQuery } from "@tanstack/react-query";
-import RankingInfo from "../RankingInfo";
-import Image from "next/image";
-import CustomButton from "@/components/ui/CustomButton";
 import ImageSection from "../ImageSection";
 import StudyDescription from "../StudyDescription";
 import RankingInfoSection from "../RankingInfoSection";

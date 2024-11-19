@@ -32,7 +32,7 @@ export default function HomePage() {
           />
         ))}
       </MultiCarousel>
-      <section className="mx-auto w-full max-w-[83rem]">
+      <section className="mx-auto w-full max-w-[80rem]">
         <TopPostList />
         <FilterablePosts />
       </section>

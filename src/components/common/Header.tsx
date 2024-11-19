@@ -77,7 +77,7 @@ export default function Header() {
       <header
         className={`fixed top-0 z-40 h-[2.75rem] w-full md:h-[4.8rem] bg-${isHome ? "black" : "white"} px-[24px] ${pathname === "/search" ? "" : "bg-opacity-20 backdrop-blur-2xl"}`}
       >
-        <div className="mx-auto flex h-full max-w-[83rem] items-center justify-between">
+        <div className="mx-auto flex h-full max-w-[80rem] items-center justify-between">
           <Link href="/">
             <Image
               src={`/images/logo${isHome ? "White" : ""}.svg`}

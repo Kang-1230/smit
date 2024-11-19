@@ -15,7 +15,7 @@ export type Props = {
 export default function PostCard({ post, color = "tertiary" }: Props) {
   const { data } = usePostLikers(post.id);
   return (
-    <Link href={`/post/${post.id}`}>
+    <Link href={`/post/${post.id}`} className="max-w-[24.25rem]">
       <section
         className={`flex h-[18rem] w-full flex-col justify-between gap-4 rounded-20 p-5 ${color === "tertiary" ? "bg-white" : "bg-tertiary-50"} relative`}
       >
