@@ -548,7 +548,7 @@ export type Database = {
           email: string;
           gender: string | null;
           id: string;
-          name: string | null;
+          name: string;
           profile_img: string;
           study_time: number;
           user_name: string | null;
@@ -559,7 +559,7 @@ export type Database = {
           email: string;
           gender?: string | null;
           id?: string;
-          name?: string | null;
+          name: string;
           profile_img?: string;
           study_time?: number;
           user_name?: string | null;
@@ -570,7 +570,7 @@ export type Database = {
           email?: string;
           gender?: string | null;
           id?: string;
-          name?: string | null;
+          name?: string;
           profile_img?: string;
           study_time?: number;
           user_name?: string | null;
