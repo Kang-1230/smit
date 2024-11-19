@@ -4,7 +4,6 @@ import { Calendar } from "@/components/ui/calendar";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
-import { useCalendarByStudy } from "../[id]/hooks/useCalendar";
 import { DayContentProps } from "react-day-picker";
 import Image from "next/image";
 import CalendarMonth from "../../../../public/icons/CalenderMonth.svg";
@@ -21,10 +20,9 @@ const WeekCalendarModal = ({ events }: { events: EventWithStudy[] }) => {
     if (selectedDate) {
       const formattedDate = format(selectedDate, "yyyy-MM-dd");
       setDate(selectedDate);
-      router.push(`/study/${studyId}/${formattedDate}`);
+      router.push(`/study/${events[0].study_id}/${formattedDate}`);
     }
   };
-
   const eventDates =
     events?.map((event: EventWithStudy) => new Date(event.event_date)) || [];
 
