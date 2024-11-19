@@ -4,6 +4,7 @@ import Tooltip from "@/components/common/Tooltip";
 import useTooltip from "@/hooks/useTooltip";
 import { Tables } from "../../../../database.types";
 import ExclamationMarkInStudy from "../../../../public/icons/ExclamationMarkInStudy.svg";
+import SeeMoreButtonBlack from "../../../../public/icons/SeeMoreButtonBlack.svg";
 import Image from "next/image";
 import ApplyUserIncludeManagerProfileImgList from "./ApplyUserIncludeManagerProfileImgList";
 import Badge from "@/components/common/Badge";
@@ -21,12 +22,10 @@ const StudyCard = ({ dataItem, i }: StudyCardProps) => {
       <Link
         onClick={(e) => e.stopPropagation()}
         href={`/study/${dataItem.study_id}/manage`}
-        className="absolute left-64 top-5 z-10 flex h-9 w-9 items-center justify-center gap-1 rounded-[20px] bg-[#ffffff99]"
+        className="absolute left-64 top-5 z-10 flex h-9 w-9 items-center justify-center gap-1"
       >
-        <div className="inline-flex flex-[0_0_auto] items-center gap-1">
-          <div className="h-[3.33px] w-[3.33px] rounded-[1.67px] bg-[#888888]" />
-          <div className="h-[3.33px] w-[3.33px] rounded-[1.67px] bg-[#888888]" />
-          <div className="h-[3.33px] w-[3.33px] rounded-[1.67px] bg-[#888888]" />
+        <div className="left-[269px]">
+          <Image src={SeeMoreButtonBlack} alt="SeeMoreButtonBlack" />
         </div>
         {i === 0 && tooltipVisible && (
           <div className="absolute -right-[20px] bottom-[56px]">
@@ -58,26 +57,28 @@ const StudyCard = ({ dataItem, i }: StudyCardProps) => {
               />
             </div>
 
-            <div className="absolute left-[20px] top-[51px] flex w-[287px] flex-col items-start gap-[8px]">
-              <div className="title-18-semibold text-[#ffffff]">
-                {dataItem.study_name}
-              </div>
-              <div className="flex w-full flex-wrap items-center gap-[4px] self-stretch">
-                {dataItem.study_category.map((c, i) => (
-                  <Badge
-                    category={c}
-                    idx={i}
-                    color="primary"
-                    key={`${dataItem.study_id}-${c}`}
-                  />
-                ))}
+            <div className="absolute left-[20px] top-[51px] flex w-[287px] flex-col items-start gap-[12px]">
+              <div className="flex flex-col gap-[8px]">
+                <div className="title-18-semibold text-[#ffffff]">
+                  {dataItem.study_name}
+                </div>
+                <div className="flex w-full flex-wrap items-center gap-[4px] self-stretch">
+                  {dataItem.study_category.map((c, i) => (
+                    <Badge
+                      category={c}
+                      idx={i}
+                      color="primary"
+                      key={`${dataItem.study_id}-${c}`}
+                    />
+                  ))}
+                </div>
               </div>
               <div className="flex w-full">
                 <Image
                   src={ExclamationMarkInStudy}
                   alt="ExclamationMarkInStudy"
                 />
-                <div className="caption justify-center text-secondary-300">
+                <div className="caption content-center justify-center text-secondary-300">
                   앗! 1인 스터디는 점수 집계가 되지 않아요
                 </div>
               </div>

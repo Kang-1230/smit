@@ -9,6 +9,7 @@ import Badge from "@/components/common/Badge";
 import Chart from "../../../../public/icons/Chart.svg";
 import ArrowChart from "../../../../public/icons/ArrowChart.svg";
 import GroupDesign from "../../../../public/icons/GroupDesign.svg";
+import SeeMortButton from "../../../../public/icons/SeeMoreButton.svg";
 
 interface StudyCardProps {
   dataItem: Tables<"study">;
@@ -24,11 +25,7 @@ const StudyCard = ({ dataItem, i }: StudyCardProps) => {
         href={`/study/${dataItem.study_id}/manage`}
         className="absolute left-64 top-5 z-10 flex h-9 w-9 items-center justify-center gap-1 rounded-[20px] bg-[#ffffff99]"
       >
-        <div className="relative inline-flex flex-[0_0_auto] items-center gap-1">
-          <div className="relative h-[3.33px] w-[3.33px] rounded-[1.67px] bg-[#888888]" />
-          <div className="relative h-[3.33px] w-[3.33px] rounded-[1.67px] bg-[#888888]" />
-          <div className="relative h-[3.33px] w-[3.33px] rounded-[1.67px] bg-[#888888]" />
-        </div>
+        <Image src={SeeMortButton} alt="SeeMortButton" />
         {i === 0 && tooltipVisible && (
           <div className="absolute -right-[20px] bottom-[56px]">
             <Tooltip
