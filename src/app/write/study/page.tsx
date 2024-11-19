@@ -15,6 +15,7 @@ import SelectDate from "../components/SelectDate";
 import SquareInput from "../components/SquareInput";
 import RoundSelectDiv from "../components/RoundSelectDiv";
 import { useToast } from "@/hooks/useToast";
+import Badge from "@/components/common/Badge";
 
 export default function Study() {
   return (
@@ -36,7 +37,7 @@ function StudyContent() {
       .publicUrl,
   );
 
-  const { ToastComponent } = useToast();
+  const { showToast, ToastComponent } = useToast();
 
   //Ref 관련..
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -101,13 +102,11 @@ function StudyContent() {
         fileInputRef.current?.files &&
         fileInputRef.current.files.length > 0
       ) {
-        console.log(fileInputRef.current.files[0]);
         const { data, error } = await browserClient.storage
           .from("study_img")
           .upload(`${user?.id}${Date.now()}`, fileInputRef.current.files[0]);
 
         if (error) {
-          console.log("이미지 업로드 중 오류 발생", error);
           isLoadingRef.current = false;
           throw error;
         }
@@ -118,7 +117,6 @@ function StudyContent() {
       }
       createStudy(imageUrl);
     } catch (e) {
-      console.log(e);
       isLoadingRef.current = false;
       alert(e);
     }
@@ -135,10 +133,8 @@ function StudyContent() {
           setUploadImg(reader.result as string);
         };
       } else if (!allowExtenstions.includes(file.type)) {
-        // Toast로 선택한 파일이 이미지 형식이 아닙니다 - toast 로 수정 진행 예정
-        alert("선택한 파일이 이미지 형식이 아닙니다.");
-        // setModalMode("file");
-        // setIsModalOpen(true);
+        showToast("선택한 파일이 이미지 형식이 아닙니다.");
+        e.target.value = "";
       }
     }
   };
@@ -150,7 +146,7 @@ function StudyContent() {
 
   return (
     <div className="mb-[39px] flex flex-col px-[24px]">
-      <div className="mb-[24px] flex h-[44px] w-full items-center justify-between p-2 text-2xl">
+      <div className="fixed left-0 top-0 z-10 mb-[24px] flex h-[44px] w-full items-center justify-between bg-white p-2 px-6 text-2xl">
         <Image
           src={Xmedium}
           alt="selectBtn"
@@ -173,7 +169,7 @@ function StudyContent() {
         </button>
       </div>
 
-      <div className="mb-4 flex h-1/3 flex-col">
+      <div className="mb-4 mt-[68px] flex h-1/3 flex-col">
         <p className="body-16-m mb-[8px] ml-[4px]">
           대표 이미지 <span className="text-primary-50">{`(선택)`}</span>
         </p>
@@ -216,7 +212,7 @@ function StudyContent() {
           viewLength={true}
         />
         <SquareInput
-          maxLength={25}
+          maxLength={80}
           title="한 줄 설명"
           placeholder="그룹을 소개하는 설명을 작성해주세요."
           value={studyDescription}
@@ -225,7 +221,6 @@ function StudyContent() {
           viewLength={true}
         />
         <SquareInput
-          maxLength={25}
           title="오픈채팅방 링크"
           placeholder="팀원들과 소통할 채팅방 링크를 넣어주세요."
           value={studychatLink}
@@ -239,24 +234,50 @@ function StudyContent() {
             value={`${userCnt}명`}
           >
             {userCnt === 1 && (
-              <p className="caption mt-[8px] text-secondary-400">
-                * 1인 스터디는 랭킹에 집계되지 않아요! <br></br> 스터디
-                페이지에서 인원 설정을 변경할 수 있습니다.
+              <p className="caption mt-[8px] leading-[1.3] text-secondary-400">
+                * 1인 스터디는 랭킹에 집계되지 않아요! <br />
+                스터디 페이지에서 인원 설정을 변경할 수 있습니다.
               </p>
             )}
           </RoundSelectDiv>
-
           <RoundSelectDiv
             onClick={() => handleModalClick("job")}
             title="직업 태그"
-            value={arr[0] === "" ? "선택해주세요" : arr[0]}
-          />
+            value={arr[0] === "" ? "선택해주세요" : "1개 선택됨"}
+          >
+            {arr[0] !== "" && arr[0] !== undefined ? (
+              <div className="flex w-full flex-wrap justify-start gap-x-[4px] pt-2">
+                <Badge
+                  category={arr[0] || ""}
+                  color="secondarymore"
+                  idx={0}
+                  key={0}
+                />
+              </div>
+            ) : null}
+          </RoundSelectDiv>
 
           <RoundSelectDiv
             onClick={() => handleModalClick("study")}
             title="스터디 태그"
-            value={!arr[1] ? "선택해주세요" : arr.slice(1).join(",")}
-          />
+            value={!arr[1] ? "선택해주세요" : arr.slice(1).length + "개 선택됨"}
+          >
+            {arr[1] !== undefined ? (
+              <div className="flex w-full flex-wrap justify-start gap-x-[4px] pt-2">
+                {arr &&
+                  arr.map((category, idx) =>
+                    idx !== 0 ? (
+                      <Badge
+                        category={category}
+                        color="primary"
+                        idx={idx}
+                        key={idx}
+                      />
+                    ) : null,
+                  )}
+              </div>
+            ) : null}
+          </RoundSelectDiv>
         </div>
       </div>
 
@@ -290,7 +311,7 @@ function StudyContent() {
         />
       )}
 
-      <ToastComponent style="gray" position="ct" />
+      <ToastComponent position="tc" />
     </div>
   );
 }

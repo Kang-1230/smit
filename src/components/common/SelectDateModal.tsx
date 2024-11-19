@@ -1,5 +1,7 @@
 "use client";
 
+import MyButton from "./Button";
+
 interface DateModalProps {
   handleClose: () => void;
   handleConfirm: () => void;
@@ -16,24 +18,22 @@ const SelectDateModal = ({
   return (
     <div
       onClick={handleClose}
-      className="fixed inset-0 flex items-end justify-center w-full h-full bg-black/70 z-50"
+      className="fixed inset-0 z-50 flex w-full items-end justify-center bg-black/70"
     >
       <div
-        className="w-full bg-white rounded-t-2xl flex-col items-center justify-center animate-slide-up"
+        className="w-full animate-slide-up flex-col items-center justify-center rounded-t-2xl bg-white"
         onClick={(e) => e.stopPropagation()}
       >
         <section className="w-full px-6">
-          <p className="text-center text-xl mt-9 font-medium">{selectedDate}</p>
+          <p className="mt-9 text-center title-20-m">{selectedDate}</p>
           <hr className="my-4" />
-          <div className="flex justify-center items-center">{children}</div>
+          <div className="flex items-center justify-center">{children}</div>
         </section>
-        <div className="flex justify-center items-center gap-2 text-white mt-4 border-t py-[10px] px-6">
-          <button
-            onClick={handleConfirm}
-            className="flex-1 px-4 py-2 rounded-3xl bg-secondary-900 body-16-s text-white"
-          >
+        <div className="mt-4 flex items-center justify-center gap-2 border-t px-6 py-[10px] text-white">
+
+          <MyButton style="black-fill" size="lg" onClick={handleConfirm} className="body-16-s flex-1 rounded-3xl bg-secondary-900 px-4 py-2 text-white">
             적용하기
-          </button>
+          </MyButton>
         </div>
       </div>
     </div>

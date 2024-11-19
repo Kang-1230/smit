@@ -127,7 +127,7 @@ const ManagedMemberList = ({
   // 5. 마지막으로 렌더링
 
   return (
-    <div className="mx-6 mb-52 mt-10">
+    <div className="mx-6 mb-52 mt-[63.5px]">
       <h1 className="title-20-s mb-5">스터디 멤버 관리</h1>
       {/* <div className="body-16-r my-5 flex w-full justify-between rounded-[23px] bg-[#FAF6F3] p-1 pl-4">
         <input
@@ -144,14 +144,20 @@ const ManagedMemberList = ({
         </button>
       </div> */}
       <section>
-        {manageList?.map((manageUser: JoinPersonWithManager) => (
-          <MemberListItem
-            key={manageUser.id}
-            manageUser={manageUser}
-            resignUser={resignUser}
-            changeManager={changeManager}
-          />
-        ))}
+        {manageList && manageList.length > 0 ? (
+          manageList.map((manageUser: JoinPersonWithManager) => (
+            <MemberListItem
+              key={manageUser.id}
+              manageUser={manageUser}
+              resignUser={resignUser}
+              changeManager={changeManager}
+            />
+          ))
+        ) : (
+          <div className="body-14-m text-secondary-600">
+            스터디 멤버가 없습니다.
+          </div>
+        )}
       </section>
     </div>
   );

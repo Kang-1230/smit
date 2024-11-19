@@ -12,10 +12,11 @@ const MyPostList = () => {
     data: posts,
     isLoading: postsLoading,
     isError: postsError,
+    isPending: postsPending,
   } = usePostByUser(user?.id);
 
-  if (postsLoading || !posts || !user) {
-    return <div>로딩중</div>;
+  if (postsLoading || !posts || !user || postsPending) {
+    return <div className="flex flex-col gap-y-3"></div>;
   }
 
   if (postsError) {
@@ -25,14 +26,14 @@ const MyPostList = () => {
     <>
       {posts.length > 0 ? (
         <>
-          <div className="flex flex-col gap-y-3">
+          <div className="flex flex-col gap-y-3 xl:h-[232px] xl:flex-row xl:gap-x-[34px]">
             {posts.slice(0, showPost ? posts.length : 3).map((post) => (
               <MyPostCard key={post.post_id} post={post} userId={user.id} />
             ))}
           </div>
 
           {posts.length > 3 && (
-            <div className="flex flex-row justify-center mt-8">
+            <div className="mt-8 flex flex-row justify-center xl:hidden">
               <button
                 className="caption text-secondary-700"
                 onClick={() => setShowPost(true)}
@@ -49,7 +50,15 @@ const MyPostList = () => {
           )}
         </>
       ) : (
-        <div>작성한 모집글이 없습니다.</div>
+        <div className="relative mx-auto mb-[18px] min-h-[178px] min-w-[167px]">
+          <Image
+            src={`/images/NothingPosts.png`}
+            alt="nothing posts"
+            fill
+            quality={100}
+            loading="eager"
+          />
+        </div>
       )}
     </>
   );

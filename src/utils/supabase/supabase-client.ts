@@ -185,7 +185,7 @@ export const updatePostWrite = async (
   studyId: string,
   contents: string,
   title: string,
-  startDay: string,
+  startDay: string | null,
   post_id: number,
 ) => {
   const user = await fetchSessionData();

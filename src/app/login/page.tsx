@@ -55,7 +55,7 @@ export default function LoginPage() {
   }, []);
 
   const onSubmit = async (formData: LoginFormData) => {
-    const {  error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email: formData.email,
       password: formData.password,
     });
@@ -81,56 +81,37 @@ export default function LoginPage() {
     });
 
     if (data) {
-      router.push("/");
-      router.refresh();
+      if (data.url) {
+        window.location.href = data.url;
+      }
     } else if (error) {
       throw error;
     }
   };
 
-  // const handleKaKaoSignIn = async () => {
-  //   const { data, error } = await supabase.auth.signInWithOAuth({
-  //     provider: "kakao",
-  //     options: {
-  //       queryParams: {
-  //         access_type: "offline",
-  //         prompt: "consent",
-  //       },
-  //     },
-  //   });
+  const handleKaKaoSignIn = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "kakao",
+      options: {
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent",
+        },
+      },
+    });
 
-  //   if (data.url) {
-  //     window.location.href = data.url;
+    if (error) {
+      console.log("kakaoError");
+    }
 
-  //       const { data: { user } } = await supabase.auth.getUser()
-  //       return user
-  //     }
-
-  //     getUser()
-
-  //     const { error: insertError } = await supabase
-  //         .from("user")
-  //         .insert({
-  //           id: data.user.id,
-  //           user_name: data.name,
-  //           name: data.nickname,
-  //           birth_date: data.birthDate,
-  //           email: data.email,
-  //           study_time: 0,
-  //         })
-  //         .select();
-
-  //       if (insertError) {
-  //         // 실패 시 auth 데이터 정리 시도
-  //         await supabase.auth.signOut();
-  //         console.error("Full Insert Error:", insertError);
-  //         throw new Error(
-  //           `사용자 정보 저장에 실패했습니다: ${insertError.message}`,
-  //         );
-  //       }
-  //   } else if (error) {
-  //   }
-  // };
+    if (data.url) {
+      window.location.href = data.url;
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      console.log(user);
+    }
+  };
 
   const handleLogout = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -257,7 +238,8 @@ export default function LoginPage() {
             </div>
             <div className="flex gap-[9px]">
               <button
-                onClick={() => alert("준비중입니다.")}
+                type="button"
+                onClick={() => handleKaKaoSignIn()}
                 className="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-white"
               >
                 <Image
@@ -268,6 +250,7 @@ export default function LoginPage() {
                 />
               </button>
               <button
+                type="button"
                 onClick={() => handleGoogleSignIn()}
                 className="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-white"
               >

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: "Smit",
   description: "Our Study Meet Smit",
   icons: {
-    icon: "/icons/favicon.ico",
+    icon: "/icons/SmitFavicon.png",
   },
 };
 
@@ -27,9 +27,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`${pretendard.variable} font-pretendard`}>
-      <body className="flex flex-col w-full mx-auto">
+      <body className="mx-auto flex w-full flex-col">
         <Providers>
           <Header />
+          <meta property="og:title" content="Smit" />
+          <meta property="og:type" content="website" />
+          <meta
+            property="og:description"
+            content="나만의 스터디 그룹을 온라인에서 만들어보세요!"
+          />
+          <meta property="og:url" content="https://smit-8y5a.vercel.app" />
+          <meta
+            property="og:image"
+            content="https://smit-8y5a.vercel.app/images/og.png"
+          />
           <main className="grow">{children}</main>
           <Footer />
         </Providers>

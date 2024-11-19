@@ -128,6 +128,12 @@ body {
   .title-18-b {
     @apply font-pretendard text-[18px] font-bold leading-[1.2] tracking-[-0.02em];
   }
+  .title-18-s {
+    @apply font-pretendard text-[18px] font-semibold leading-[1.2] tracking-[-0.02em];
+  }
+  .title-18-m {
+    @apply font-pretendard text-[18px] font-medium leading-[1.2] tracking-[-0.02em];
+  }
   .body-long {
     @apply font-pretendard text-[16px] font-medium leading-[1.5] tracking-[-0.02em];
   }
@@ -156,7 +162,7 @@ body {
   /* 버튼 클래스 정의 */
 
   .black-fill {
-    @apply bg-secondary-900 text-white active:bg-secondary-600 disabled:bg-secondary-50 disabled:text-secondary-200;
+    @apply border-none bg-secondary-900 text-white active:bg-secondary-600 disabled:bg-secondary-50 disabled:text-secondary-200;
   }
 
   .black-line {
@@ -164,7 +170,7 @@ body {
   }
 
   .orange-fill {
-    @apply bg-primary-50 text-white active:bg-primary-300 disabled:bg-primary-5 disabled:text-primary-35;
+    @apply border-none bg-primary-50 text-white active:bg-primary-300 disabled:bg-primary-5 disabled:text-primary-35;
   }
 
   .orange-line {
@@ -172,23 +178,23 @@ body {
   }
 
   .white-fill {
-    @apply bg-white text-secondary-900 active:bg-secondary-50 disabled:text-secondary-200;
+    @apply border-none bg-white text-secondary-900 active:bg-secondary-50 disabled:text-secondary-200;
   }
 
   .beige {
-    @apply bg-tertiary-100 text-black active:bg-tertiary-300 disabled:bg-tertiary-50 disabled:text-tertiary-100;
+    @apply border-none bg-tertiary-100 text-black active:bg-tertiary-300 disabled:bg-tertiary-50 disabled:text-tertiary-100;
   }
 
   .gray {
-    @apply bg-secondary-50 text-black active:bg-secondary-200;
+    @apply border-none bg-secondary-50 text-black active:bg-secondary-200;
   }
 
   .gray-2 {
-    @apply bg-secondary-100 text-black active:bg-secondary-200;
+    @apply border-none bg-secondary-100 text-black active:bg-secondary-200;
   }
 
   .darkgray {
-    @apply bg-secondary-800 text-white active:bg-secondary-600;
+    @apply border-none bg-secondary-800 text-white active:bg-secondary-600;
   }
 }
 
