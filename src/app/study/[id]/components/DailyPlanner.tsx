@@ -86,10 +86,10 @@ const DailyPlanner = ({
   };
 
   return (
-    <div className="relative mt-4 min-h-[107px] w-full rounded-20 bg-gradient-to-br from-[#8D8D8D] to-[#656565] p-[1px]">
+    <div className="relative mt-4 min-h-[107px] xl:min-h-[474px] w-full rounded-20 bg-gradient-to-br from-[#8D8D8D] to-[#656565] p-[1px]">
       <div className="relative h-full w-full overflow-hidden rounded-20 bg-secondary-800 text-white">
         <div className="absolute -top-3 left-0 h-12 w-20 rounded-full bg-[rgba(255,153,69,0.3)] blur-xl"></div>
-        <div className="h-full min-h-[107px] w-full rounded-20 bg-gradient-to-b from-[#6d6d6d80] to-[#6b696980] px-4 py-4">
+        <div className="h-full min-h-[107px] xl:min-h-[474px] w-full rounded-20 bg-gradient-to-b from-[#6d6d6d80] to-[#6b696980] px-4 py-4">
           <div className="caption flex flex-row items-center justify-between text-secondary-50">
             <div className="flex items-center justify-center">
               <Image
@@ -124,7 +124,7 @@ const DailyPlanner = ({
             ) : null}
           </div>
           <div className="body-14-r flex flex-col pt-6">
-            <div className="flex h-fit max-h-[300px] w-full flex-col overflow-auto">
+            <div className="flex h-fit max-h-[300px] w-full flex-col overflow-visible">
               {serverData.length !== 0
                 ? serverData.map((item) => (
                     <div
