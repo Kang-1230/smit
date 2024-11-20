@@ -6,6 +6,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Tables, TablesUpdate } from "../../../../../database.types";
 import Image from "next/image";
 import MyButton from "@/components/common/Button";
+import WebWaitApplyListItem from "./WebWaitApplyListItem";
 
 const WaitApplyList = ({ urlStudyId }: { urlStudyId: string }) => {
   const queryClient = useQueryClient();
@@ -105,7 +106,24 @@ const WaitApplyList = ({ urlStudyId }: { urlStudyId: string }) => {
 
   return (
     <div>
-      <h1 className="title-20-s mx-6 mb-5">가입 대기자</h1>
+      <h1 className="title-20-s mx-6 mb-5 md:hidden">가입 대기자</h1>
+      <div className="mb-6 hidden items-end justify-between md:flex">
+        <h1 className="title-20-s ml-1">가입 대기자</h1>
+        <div className="flex gap-5">
+          <Image
+            src={"/icons/pc/ChevronLeft.svg"}
+            alt="right"
+            width={40}
+            height={40}
+          />
+          <Image
+            src={"/icons/pc/ChevronRight.svg"}
+            alt="right"
+            width={40}
+            height={40}
+          />
+        </div>
+      </div>
       {isWaitingLiseLoading || isLoadingApplyUser ? (
         <div className="mx-6">로딩중</div>
       ) : ApplyUsers && ApplyUsers.length > 0 ? (
@@ -115,9 +133,12 @@ const WaitApplyList = ({ urlStudyId }: { urlStudyId: string }) => {
           );
 
           return (
-            <section key={user[0].name} className="mx-6">
-              <div className="flex items-center justify-between">
-                <div className="mb-5 flex items-center">
+            <>
+              <section
+                key={user[0].name}
+                className="mx-6 mb-5 flex items-center justify-between md:hidden"
+              >
+                <div className="flex items-center">
                   <Image
                     key={user[0].name}
                     alt="profileImg"
@@ -157,8 +178,9 @@ const WaitApplyList = ({ urlStudyId }: { urlStudyId: string }) => {
                     수락
                   </MyButton>
                 </div>
-              </div>
-            </section>
+              </section>
+              <WebWaitApplyListItem user={user} />
+            </>
           );
         })
       ) : (

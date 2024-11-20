@@ -7,6 +7,7 @@ interface Props {
   onConfirm: (date: string | number) => void;
   mode: string;
   selectedDate: string | number | null;
+  className?: string;
 }
 
 const SelectDate = (props: Props) => {
@@ -159,6 +160,7 @@ const SelectDate = (props: Props) => {
     </SelectDateModal>
   ) : (
     <SelectDateModal
+      className={props.className}
       handleClose={() =>
         props.onConfirm(`${Number(humanCtn.tens + humanCtn.units)}`)
       }

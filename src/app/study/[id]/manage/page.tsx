@@ -108,78 +108,80 @@ const Page = () => {
   });
 
   return (
-    <div>
-      <StudyImage
-        urlStudyId={urlStudyId}
-        onConfirm={(data: Tables<"study">) => {
-          setStudy((prevStudy) => ({
-            ...prevStudy, // 기존 상태 유지
-            ...data, // 새로운 데이터 병합
-          }));
-        }}
-        onFile={(file: File) => {
-          setFile(file);
-        }}
-      ></StudyImage>
-      <ManageOptions
-        onConfirm={(data: boolean) => {
-          setIsStudyMenu(data);
-        }}
-      />
+    <div className="flex justify-center">
+      <div className="w-full max-w-[886px] xl:w-[886px]">
+        <StudyImage
+          urlStudyId={urlStudyId}
+          onConfirm={(data: Tables<"study">) => {
+            setStudy((prevStudy) => ({
+              ...prevStudy, // 기존 상태 유지
+              ...data, // 새로운 데이터 병합
+            }));
+          }}
+          onFile={(file: File) => {
+            setFile(file);
+          }}
+        ></StudyImage>
+        <ManageOptions
+          onConfirm={(data: boolean) => {
+            setIsStudyMenu(data);
+          }}
+        />
 
-      {!isStudyMenu ? (
-        <div className="pb-[40px]">
-          <WaitApplyList urlStudyId={urlStudyId} />
-          <ManagedMemberList
-            urlStudyId={urlStudyId}
-            key={updateTrigger}
-            setUpdateTrigger={setUpdateTrigger}
-          />
-          <div className="fixed bottom-0 flex w-full items-center gap-2 border-t bg-white px-6 py-3">
-            <MyButton style="gray-2" size="lg">
-              <Link href={"/study"}>나가기</Link>
-            </MyButton>
-            <MyButton
-              size="lg"
-              style="black-fill"
-              className="w-full"
-              onClick={() => {
-                handlerUpdateStudy();
-              }}
-            >
-              적용하기
-            </MyButton>
+        {!isStudyMenu ? (
+          <div className="pb-[40px]">
+            <WaitApplyList urlStudyId={urlStudyId} />
+            <ManagedMemberList
+              urlStudyId={urlStudyId}
+              key={updateTrigger}
+              setUpdateTrigger={setUpdateTrigger}
+            />
+            <div className="fixed bottom-0 flex w-full items-center gap-2 border-t bg-white px-6 py-3 md:hidden">
+              <MyButton style="gray-2" size="lg">
+                <Link href={"/study"}>나가기</Link>
+              </MyButton>
+              <MyButton
+                size="lg"
+                style="black-fill"
+                className="w-full"
+                onClick={() => {
+                  handlerUpdateStudy();
+                }}
+              >
+                적용하기
+              </MyButton>
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className="mb-4 flex w-full flex-col pb-[40px]">
-          <StudyUpdate
-            urlStudyId={urlStudyId}
-            onConfirm={(data: Tables<"study">) => {
-              setStudy((prevStudy) => ({
-                ...prevStudy, // 기존 상태 유지
-                ...data, // 새로운 데이터 병합
-              }));
-            }}
-          ></StudyUpdate>
-          <div className="fixed bottom-0 flex w-full items-center gap-2 border-t bg-white px-6 py-3">
-            <MyButton style="gray-2" size="lg">
-              <Link href={"/study"}>나가기</Link>
-            </MyButton>
-            <MyButton
-              size="lg"
-              style="black-fill"
-              className="w-full"
-              disabled={isLoadingRef.current}
-              onClick={() => {
-                handlerUpdateStudy();
+        ) : (
+          <div className="mb-4 flex w-full flex-col pb-[40px]">
+            <StudyUpdate
+              urlStudyId={urlStudyId}
+              onConfirm={(data: Tables<"study">) => {
+                setStudy((prevStudy) => ({
+                  ...prevStudy, // 기존 상태 유지
+                  ...data, // 새로운 데이터 병합
+                }));
               }}
-            >
-              적용하기
-            </MyButton>
+            ></StudyUpdate>
+            <div className="fixed bottom-0 flex w-full items-center gap-2 border-t bg-white px-6 py-3 md:hidden">
+              <MyButton style="gray-2" size="lg">
+                <Link href={"/study"}>나가기</Link>
+              </MyButton>
+              <MyButton
+                size="lg"
+                style="black-fill"
+                className="w-full"
+                disabled={isLoadingRef.current}
+                onClick={() => {
+                  handlerUpdateStudy();
+                }}
+              >
+                적용하기
+              </MyButton>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
