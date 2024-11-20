@@ -38,7 +38,7 @@ const SelectStudyCard = ({ studyInfo }: { studyInfo: Tables<"study"> }) => {
           </div>
         </div>
       </div>
-      <div className="flex w-full flex-wrap justify-start gap-x-[4px]">
+      <div className="flex w-full flex-wrap justify-start gap-x-[4px] gap-y-[6px]">
         {studyInfo &&
           studyInfo.study_category &&
           studyInfo.study_category.map((category, idx) => (

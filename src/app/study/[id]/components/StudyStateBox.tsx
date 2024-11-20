@@ -50,6 +50,7 @@ const StudyStateBox = ({
           />
           <StudyChat study={study} />
         </div>
+
         <TimerTimer
           todaySchedules={todaySchedules}
           time={time}

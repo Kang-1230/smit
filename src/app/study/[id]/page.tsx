@@ -13,6 +13,7 @@ import StudyStateBox from "./components/StudyStateBox";
 import BackButton from "@/components/common/BackButton";
 import CalendarModal from "./components/CalendarModal";
 import { StudyGroupParams } from "@/types/studys";
+import DailyPlanner from "./components/DailyPlanner";
 
 const Page = async ({ params, searchParams }: StudyGroupParams) => {
   const studyId = params.id;
@@ -40,7 +41,7 @@ const Page = async ({ params, searchParams }: StudyGroupParams) => {
               study={study}
             ></StudyStateBox>
             <section className="xl:grid xl:grid-cols-[388px_408px_388px] xl:gap-x-6">
-              <div className="hidden xl:block">Daily Planner</div>
+              <DailyPlanner studyId={studyId} isBtnActive={true} />
               <GroupCalendar studyId={studyId} />
               <PersonalMemos studyId={studyId} />
             </section>
