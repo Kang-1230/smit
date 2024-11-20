@@ -27,6 +27,7 @@ export type ApplyData = {
 };
 
 export type JoinPerson = {
+  apply_message: string;
   id: string;
   is_approved: boolean;
   study_id: string;
