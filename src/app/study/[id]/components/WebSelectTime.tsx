@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ScrollPicker from "@/components/common/ScrollPicker";
 import { Tables } from "../../../../../database.types";
 import { useToast } from "@/hooks/useToast";
