@@ -67,7 +67,7 @@ const WriteModal = (props: ModalProps) => {
     ) : (
       <div className="md:mx-auto md:w-full md:items-center md:justify-center">
         <div
-          className="fixed inset-0 z-50 flex justify-center bg-black bg-opacity-50 md:mx-auto md:max-w-[1280px] md:items-center md:bg-transparent"
+          className="fixed inset-0 z-50 flex justify-center bg-black bg-opacity-50 md:mx-auto md:max-w-[886px] md:items-center md:bg-transparent"
           onClick={props.onClose}
         >
           <div
@@ -132,7 +132,7 @@ const WriteModal = (props: ModalProps) => {
               </MyButton>
             </div>
           </div>
-          <div className="absolute right-0 top-[380px] hidden h-[366px] w-[375px] max-w-[375px] animate-slide-up flex-col rounded-t-2xl md:rounded-2xl bg-white md:shadow-xl focus:overscroll-contain md:flex">
+          <div className="absolute right-0 top-[390px] hidden h-[366px] w-[375px] max-w-[375px] animate-slide-up flex-col rounded-t-2xl md:rounded-2xl bg-white md:shadow-xl focus:overscroll-contain md:flex">
             <div className="p-5">
               <h1 className="title-20-m">스터디 그룹 선택</h1>
               <p className="body-14-m pt-2 text-secondary-400">

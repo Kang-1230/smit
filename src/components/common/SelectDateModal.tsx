@@ -18,7 +18,7 @@ const SelectDateModal = ({
   return (
     <div
       onClick={handleClose}
-      className="fixed inset-0 z-50 flex w-full items-end justify-center bg-black/70 md:mx-auto md:max-w-[1280px] md:items-center md:bg-transparent"
+      className="fixed inset-0 z-50 flex w-full items-end justify-center bg-black/70 md:mx-auto md:max-w-[886px] md:items-center md:bg-transparent"
     >
       <div
         className="w-full animate-slide-up flex-col items-center justify-center rounded-t-2xl bg-white 

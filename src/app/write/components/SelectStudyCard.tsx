@@ -7,9 +7,9 @@ const SelectStudyCard = ({ studyInfo }: { studyInfo: Tables<"study"> }) => {
   const { data: member } = useStudyMember(studyInfo.study_id);
 
   return (
-    <div className="mt-[8px] w-full flex-col justify-center rounded-12 bg-tertiary-75 px-[20px] py-[16px]">
-      <div className="mb-[12px] flex">
-        <div className="relative aspect-square min-h-[61px] min-w-[61px] overflow-hidden rounded-8">
+    <div className="mt-[8px] w-full flex-col justify-center rounded-12 bg-tertiary-75 px-[20px] py-[16px] md:h-[160px] md:w-[862px]">
+      <div className="mb-[12px] flex md:mb-0">
+        <div className="relative aspect-square min-h-[61px] min-w-[61px] overflow-hidden rounded-8 md:min-h-[120px] md:min-w-[120px]">
           <Image
             src={
               studyInfo.study_imgurl ||
@@ -25,30 +25,28 @@ const SelectStudyCard = ({ studyInfo }: { studyInfo: Tables<"study"> }) => {
             {studyInfo.study_name}
           </p>
           <div className="flex items-center">
-            <div>
-              <Image
-                src={`/icons/study/User.svg`}
-                alt="user"
-                width={14}
-                height={14}
-                className="mr-[2px]"
-              />
-              <p className="caption tracking-wider text-secondary-500">
-                {member?.length}/{studyInfo.study_max_people}명
-              </p>
-            </div>
-            <div className="flex w-full flex-wrap justify-start gap-x-[4px] gap-y-[6px] md:block">
-              {studyInfo &&
-                studyInfo.study_category &&
-                studyInfo.study_category.map((category, idx) => (
-                  <Badge
-                    category={category}
-                    color="primary"
-                    idx={idx}
-                    key={`${studyInfo.study_id}-${category}`}
-                  />
-                ))}
-            </div>
+            <Image
+              src={`/icons/study/User.svg`}
+              alt="user"
+              width={14}
+              height={14}
+              className="mr-[2px]"
+            />
+            <p className="caption tracking-wider text-secondary-500">
+              {member?.length}/{studyInfo.study_max_people}명
+            </p>
+          </div>
+          <div className="hidden w-full flex-wrap justify-start gap-x-[4px] gap-y-[6px] md:flex">
+            {studyInfo &&
+              studyInfo.study_category &&
+              studyInfo.study_category.map((category, idx) => (
+                <Badge
+                  category={category}
+                  color="primary"
+                  idx={idx}
+                  key={`${studyInfo.study_id}-${category}`}
+                />
+              ))}
           </div>
         </div>
       </div>
