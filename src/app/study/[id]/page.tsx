@@ -29,7 +29,7 @@ const Page = async ({ params, searchParams }: StudyGroupParams) => {
       <div className="ml-6 mt-[10px] xl:hidden">
         <BackButton className="ml-6 mt-[10px]" studyId={studyId} />
       </div>
-      <div className="flex w-full flex-col items-center bg-secondary-800 px-6 pt-[64px] text-white xl:relative">
+      <div className="flex w-full flex-col items-center bg-secondary-800 px-6 pt-[64px] text-white xl:relative xl:pt-[136px]">
         <StudyInfo study={study} member={studyMember} />
         <main className="xl:grid xl:grid-rows-[402px_474px] xl:gap-y-6">
           <StudyStateBox

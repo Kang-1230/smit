@@ -32,7 +32,7 @@ const PersonalMemoItem = ({ memoData }: { memoData: MemoWithUser }) => {
   };
 
   return (
-    <div className="relative mb-2 flex shrink-0 flex-col self-stretch rounded-[20px] bg-[#1E1E1E] px-5 py-4 md:h-[474px]">
+    <div className="relative mb-2 flex w-[327px] shrink-0 flex-col self-stretch rounded-[20px] bg-[#1E1E1E] px-5 py-4 xl:h-[474px] xl:w-[388px]">
       <div className="flex h-[40px] shrink-0 justify-between">
         <div className="flex items-center gap-2.5">
           {user?.profile_img && (

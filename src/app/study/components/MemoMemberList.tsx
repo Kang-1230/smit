@@ -5,9 +5,14 @@ import Image from "next/image";
 interface MemoMemberListProps {
   memoData: MemoWithUser;
   findMemoForWeb: (userId: string) => void;
+  isSelected: boolean;
 }
 
-const MemoMemberList = ({ memoData, findMemoForWeb }: MemoMemberListProps) => {
+const MemoMemberList = ({
+  memoData,
+  findMemoForWeb,
+  isSelected,
+}: MemoMemberListProps) => {
   const { data: user } = useUserByCommentId(memoData.user_id);
 
   return (
@@ -18,7 +23,7 @@ const MemoMemberList = ({ memoData, findMemoForWeb }: MemoMemberListProps) => {
           alt="profile"
           width={56}
           height={56}
-          className="aspect-square cursor-pointer rounded-full border border-white/50 object-cover"
+          className={`aspect-square cursor-pointer rounded-full border object-cover ${isSelected ? "border-primary-50" : "border-white/50"}`}
           onClick={() => findMemoForWeb(memoData.user_id)}
         />
       )}

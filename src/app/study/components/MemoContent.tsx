@@ -36,7 +36,7 @@ const MemoContent = ({
         />
         <button
           onClick={handleUpdate}
-          className="absolute bottom-3 right-3 h-10 w-10 rounded-[20px] bg-white p-2.5"
+          className="absolute bottom-3 right-3 h-10 w-10 rounded-[20px] bg-white p-2.5 xl:top-3"
         >
           <Image src="/icons/Check.svg" alt="check" width={24} height={24} />
         </button>
@@ -45,7 +45,7 @@ const MemoContent = ({
   }
 
   return (
-    <div>
+    <>
       <p
         className="z-10 my-3 h-[308px] overflow-y-auto whitespace-pre-wrap text-secondary-200"
         style={{
@@ -59,7 +59,7 @@ const MemoContent = ({
       {userData?.id === memoData.user_id && (
         <button
           onClick={() => setIsEdit(true)}
-          className="absolute bottom-3 right-3 z-20 h-10 w-10 rounded-[20px] bg-secondary-700 p-2"
+          className="absolute bottom-3 right-3 z-20 h-10 w-10 rounded-[20px] bg-secondary-700 p-2 xl:top-3"
         >
           <Image
             src="/icons/PencilLined.svg"
@@ -69,7 +69,7 @@ const MemoContent = ({
           />
         </button>
       )}
-    </div>
+    </>
   );
 };
 
