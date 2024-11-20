@@ -21,6 +21,10 @@ const splitTitle = (title: string) => {
   ));
 };
 
+const isExternalUrl = (url: string) => {
+  return url.startsWith("https://") || url.startsWith("http://");
+};
+
 export default function Banner({ title, url, isEventPage, num = 1 }: Props) {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
@@ -33,6 +37,16 @@ export default function Banner({ title, url, isEventPage, num = 1 }: Props) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const WrapperComponent = isExternalUrl(url)
+    ? ({ children }: { children: React.ReactNode }) => (
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          {children}
+        </a>
+      )
+    : ({ children }: { children: React.ReactNode }) => (
+        <Link href={url}>{children}</Link>
+      );
+
   return (
     <section
       className={`flex h-[29.5rem] flex-col justify-end bg-cover bg-center px-6 py-8 text-white md:h-[50rem]`}
@@ -40,7 +54,7 @@ export default function Banner({ title, url, isEventPage, num = 1 }: Props) {
         backgroundImage: `url('/images/${isMobile ? "" : "Desktop"}BannerImage${num}.png')`,
       }}
     >
-      <Link href={url}>
+      <WrapperComponent>
         {isMobile ? (
           <div className="absolute inset-0 bg-opacity-35 bg-gradient-to-t from-[rgba(0,0,0,0.6)] via-transparent"></div>
         ) : (
@@ -73,7 +87,7 @@ export default function Banner({ title, url, isEventPage, num = 1 }: Props) {
             </div>
           </button>
         </div>
-      </Link>
+      </WrapperComponent>
     </section>
   );
 }
