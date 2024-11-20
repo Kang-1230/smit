@@ -36,14 +36,17 @@ export default function FilterablePosts() {
         setArr={setSelectedJobs}
       />
 
-      <ul className="grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+      <ul className="grid w-full grid-cols-1 place-items-center gap-5 md:grid-cols-2 lg:grid-cols-3">
         {!posts.length && (
-          <Image
-            src="/icons/SearchFailed.svg"
-            alt="seach-fail"
-            width={300}
-            height={300}
-          />
+          <div className="col-span-full flex w-full items-center justify-center">
+            <Image
+              src="/icons/SearchFailed.svg"
+              alt="seach-fail"
+              width={300}
+              height={300}
+              className="mx-auto"
+            />
+          </div>
         )}
         {posts?.map((post) => (
           <li key={post.post_id} className="w-full">
