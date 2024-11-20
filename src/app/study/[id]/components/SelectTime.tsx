@@ -149,7 +149,7 @@ const SelectTime = ({
   };
 
   return (
-    <>
+    <div className="xl:hidden">
       <SelectDateModal
         handleClose={onClose}
         handleConfirm={handleConfirm}
@@ -170,7 +170,7 @@ const SelectTime = ({
           selectedItem={selectedMinute}
         />
       </SelectDateModal>
-    </>
+    </div>
   );
 };
 

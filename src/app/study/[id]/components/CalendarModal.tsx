@@ -39,7 +39,7 @@ const CalendarModal = ({
 
   return (
     <div
-      className={`fixed inset-0 z-30 ${isModalOpen && "h-screen overflow-hidden"} flex h-screen w-screen flex-col overflow-auto bg-[#F8F8FA] xl:absolute xl:left-[calc(50%+228px)] xl:top-[244px] xl:h-[900px] xl:w-[388px] xl:rounded-[20px]`}
+      className={`fixed inset-0 z-30 ${isModalOpen && "h-screen overflow-hidden"} flex h-screen w-screen flex-col overflow-auto bg-[#F8F8FA] xl:absolute xl:left-[calc(50%+228px)] xl:top-0 xl:h-[900px] xl:w-[388px] xl:rounded-[20px]`}
     >
       <header className="fixed left-0 right-0 top-[30.5px] z-50 bg-[#F8F8FA] xl:static xl:z-auto xl:mt-4">
         <div className="mx-[13px] flex h-10 items-center justify-between">

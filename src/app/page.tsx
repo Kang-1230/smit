@@ -12,11 +12,11 @@ const bannerData = [
   },
   {
     title: "오늘의 공부를\n문서로 기록해보세요!",
-    url: "/event",
+    url: "https://sprinkle-sunspot-9a8.notion.site/1420c07d3041805f99a7f5a443a968bd",
     isEventPage: false,
   },
   {
-    title: "쉽고 빠른 스터디\n활용 가이드!",
+    title: "쉽고 빠른 스밋\n활용 가이드!",
     url: "/event",
     isEventPage: false,
   },
@@ -44,4 +44,3 @@ export default function HomePage() {
     </section>
   );
 }
-

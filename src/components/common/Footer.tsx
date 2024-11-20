@@ -60,7 +60,7 @@ export default function Footer() {
   }
 
   return (
-    <div className="fixed bottom-[12px] z-40 max-h-16 w-full px-[24px] text-tertiary-700 md:left-[9.5rem] md:top-4 md:w-[28rem] lg:left-[14%] lg:w-[30.3rem] xl:left-[20%] 2xl:left-[25%]">
+    <div className="fixed bottom-[12px] z-40 max-h-16 w-full px-[24px] text-tertiary-700 md:left-[9.5rem] md:top-4 md:w-[28rem] lg:left-[14%] lg:w-[30.3rem] xl:left-[20%] 2xl:left-[33%]">
       <nav className="h-[3.75rem] rounded-[30px] bg-[#C4C4C3] bg-opacity-60 p-[3px] backdrop-blur-2xl md:h-[48px] md:bg-[rgba(242,242,242,0.60)] md:p-1 md:backdrop-blur-sm">
         <ul className="flex h-full items-center justify-between">
           {menus.map((menu) => (

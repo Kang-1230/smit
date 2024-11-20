@@ -21,6 +21,10 @@ const splitTitle = (title: string) => {
   ));
 };
 
+const isExternalUrl = (url: string) => {
+  return url.startsWith("https://") || url.startsWith("http://");
+};
+
 export default function Banner({ title, url, isEventPage, num = 1 }: Props) {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
@@ -33,14 +37,28 @@ export default function Banner({ title, url, isEventPage, num = 1 }: Props) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const WrapperComponent = isExternalUrl(url)
+    ? ({ children }: { children: React.ReactNode }) => (
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          {children}
+        </a>
+      )
+    : ({ children }: { children: React.ReactNode }) => (
+        <Link href={url}>{children}</Link>
+      );
+
   return (
     <section
-      className={`flex h-[29.5rem] flex-col justify-end bg-cover bg-center px-6 py-8 text-white md:h-[50rem]`}
-      style={{
-        backgroundImage: `url('/images/${isMobile ? "" : "Desktop"}BannerImage${num}.png')`,
-      }}
+      className={`relative flex h-[29.5rem] flex-col justify-end bg-cover bg-center px-6 py-8 text-white md:h-[50rem]`}
     >
-      <Link href={url}>
+      <Image
+        src={`/images/${isMobile ? "" : "Desktop"}BannerImage${num}.png`}
+        alt={`BannerImage${num}`}
+        fill
+        priority
+        className="object-cover"
+      />
+      <WrapperComponent>
         {isMobile ? (
           <div className="absolute inset-0 bg-opacity-35 bg-gradient-to-t from-[rgba(0,0,0,0.6)] via-transparent"></div>
         ) : (
@@ -50,7 +68,7 @@ export default function Banner({ title, url, isEventPage, num = 1 }: Props) {
           </>
         )}
 
-        <div className="relative z-10 mx-auto max-w-[80rem]">
+        <div className="relative z-10 mx-auto max-w-[80rem] lg:px-5">
           <div className="mb-4 px-2 md:mb-[4.5rem]">
             {isEventPage && (
               <h2 className="text-xs font-medium md:text-xl">EVENT</h2>
@@ -73,7 +91,7 @@ export default function Banner({ title, url, isEventPage, num = 1 }: Props) {
             </div>
           </button>
         </div>
-      </Link>
+      </WrapperComponent>
     </section>
   );
 }
