@@ -27,3 +27,8 @@ export const camelizeStudy = (data: SupabaseStudy, rank: number): Study => {
     rank: rank,
   };
 };
+
+export type StudyGroupParams = {
+  params: { id: string };
+  searchParams: { date?: string; modal?: string };
+};

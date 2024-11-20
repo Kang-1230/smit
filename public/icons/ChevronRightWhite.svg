@@ -1,0 +1,13 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="icon/chevron right" filter="url(#filter0_b_2668_35339)">
+<path id="Icon (Stroke)" fill-rule="evenodd" clip-rule="evenodd" d="M15.6484 12.0016C15.6484 12.174 15.58 12.3393 15.4581 12.4612L10.4581 17.4612C10.2042 17.715 9.79266 17.715 9.53882 17.4612C9.28498 17.2073 9.28498 16.7958 9.53882 16.5419L14.0792 12.0016L9.53882 7.46118C9.28498 7.20734 9.28498 6.79578 9.53882 6.54194C9.79266 6.2881 10.2042 6.2881 10.4581 6.54194L15.4581 11.5419C15.58 11.6638 15.6484 11.8292 15.6484 12.0016Z" fill="white"/>
+</g>
+<defs>
+<filter id="filter0_b_2668_35339" x="-20" y="-20" width="64" height="64" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feGaussianBlur in="BackgroundImageFix" stdDeviation="10"/>
+<feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_2668_35339"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_2668_35339" result="shape"/>
+</filter>
+</defs>
+</svg>

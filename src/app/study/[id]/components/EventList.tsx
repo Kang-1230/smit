@@ -51,7 +51,7 @@ const EventList = ({
 
       {/* 일반 멤버일 경우 일정이 존재하지 않을때 */}
       {data?.length === 0 && managerId !== sessionData?.id && (
-        <div className="body-14-r m-6 flex h-[117px] items-center justify-center rounded-[20px] bg-white text-secondary-400">
+        <div className="body-14-r mx-6 my-5 flex h-[117px] items-center justify-center rounded-[20px] bg-white text-secondary-400 xl:mx-5 xl:my-4">
           정해진 일정이 없습니다.
         </div>
       )}
@@ -70,7 +70,7 @@ const EventList = ({
         data?.length === 0 ? (
           <div
             onClick={openForm}
-            className="m-[25px] flex h-[117px] flex-shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-[20px] bg-white p-4"
+            className="mx-6 my-5 flex h-[117px] flex-shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-[20px] bg-white p-4 xl:mx-5 xl:my-4"
           >
             <span className="text-secondary-400">일정을 등록해보세요</span>
             <Image
@@ -83,7 +83,7 @@ const EventList = ({
         ) : (
           <div
             onClick={openForm}
-            className="m-[25px] flex h-[60px] flex-shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-[20px] bg-white p-4"
+            className="mx-6 my-5 flex h-[60px] flex-shrink-0 cursor-pointer flex-col items-center justify-center gap-2 rounded-[20px] bg-white p-4 xl:mx-5 xl:my-4"
           >
             <Image
               src={"/icons/PlusMedium.svg"}

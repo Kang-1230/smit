@@ -30,7 +30,7 @@ function Calendar({
       onMonthChange={handleMonthChange}
       classNames={{
         months: "flex flex-col w-full h-full",
-        month: "flex flex-col h-full space-y-4 md:space-y-7",
+        month: "flex flex-col h-full space-y-4 xl:space-y-7",
         caption:
           "flex w-full mt-[8px] relative justify-center items-center text-white",
         caption_label: "body-16-r",
@@ -41,19 +41,19 @@ function Calendar({
         table: "w-full flex-1 flex flex-col",
         tbody: cn(
           numberOfRows === 6
-            ? "md:space-y-4 md:space-y-[16px]"
-            : "mt-[18px] md:space-y-[16px] md:mt-[29px]",
+            ? "xl:space-y-4 xl:space-y-[16px]"
+            : "mt-[18px] xl:space-y-[16px] xl:mt-[29px]",
         ),
         head_row:
-          "flex items-center justify-center md:gap-[14.5px] border-b border-[#797272] pb-[14px] mb-2",
+          "flex items-center justify-center xl:gap-[14.5px] border-b border-[#797272] pb-[14px] mb-2",
         head_cell:
-          "w-[43px] font-medium md:body-14-r text-xs leading-[12px] tracking-[-0.24px] text-tertiary-200",
-        row: "flex w-full justify-center h-10 md:gap-[14.5px]",
+          "w-[43px] font-medium xl:body-14-r text-xs leading-[12px] tracking-[-0.24px] text-tertiary-200",
+        row: "flex w-full justify-center h-10 xl:gap-[14.5px]",
         cell: "h-10 w-[43px] text-center flex justify-center items-center relative ",
-        day: "text-white font-medium text-[12px] caption md:body-14-r w-7 h-7 hover:bg-white/10 rounded-full aria-selected:text-black",
+        day: "text-white font-medium text-[12px] caption xl:body-14-r w-7 h-7 hover:bg-white/10 rounded-full aria-selected:text-black",
         day_range_end: "day-range-end",
         day_selected:
-          "bg-primary text-primary-foreground w-7 h-7 hover:bg-white/10 hover:text-primary-foreground focus:bg-white/10 focus:text-primary-foreground",
+          "bg-white text-primary-foreground w-7 h-7 hover:bg-white/10 hover:text-primary-foreground focus:bg-white/10 focus:text-primary-foreground",
         day_today:
           "bg-primary-50 w-7 h-7 [&.rdp-button]:text-black rounded-full hover:bg-white/10 hover:text-white",
         day_outside:
