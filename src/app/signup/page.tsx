@@ -55,7 +55,7 @@ export default function SignupPage() {
     watch,
   } = useForm<SignUpFormData>({
     resolver: zodResolver(signupSchema),
-    mode: "onChange", // 추가: 입력값이 변경될 때마다 유효성 검사 실행
+    mode: "onBlur",
     defaultValues: {
       email: "",
       name: "",
@@ -166,13 +166,11 @@ export default function SignupPage() {
                 control={control}
                 render={({ field }) => (
                   <TitleInput
+                    onBlur={field.onBlur}
                     placeholder="이메일 주소를 입력해주세요"
                     title="이메일"
                     value={field.value}
-                    onChange={(e) => {
-                      field.onChange(e);
-                      trigger("email"); // 이메일 필드 유효성 검사 트리거
-                    }}
+                    onChange={field.onChange}
                     error={errors.email ? true : false}
                   />
                 )}
@@ -184,14 +182,15 @@ export default function SignupPage() {
               control={control}
               render={({ field }) => (
                 <TitleInput
+                  onBlur={() => {
+                    field.onBlur();
+                    trigger("password");
+                    trigger("verifiedPassword");
+                  }}
                   placeholder="비밀번호를 입력해주세요"
                   title="비밀번호"
                   value={field.value}
-                  onChange={(e) => {
-                    field.onChange(e);
-                    trigger("password"); // 비밀번호 필드 유효성 검사 트리거
-                    trigger("verifiedPassword"); // 비밀번호 확인 필드도 함께 검사
-                  }}
+                  onChange={field.onChange}
                   error={errors.password?.message}
                   useEyes={true}
                   caption="영문, 숫자, 특수문자(* & ^ _ ~) 포함"
@@ -204,13 +203,14 @@ export default function SignupPage() {
               control={control}
               render={({ field }) => (
                 <TitleInput
+                  onBlur={() => {
+                    field.onBlur();
+                    trigger("verifiedPassword");
+                  }}
                   placeholder="비밀번호를 한 번 더 입력해주세요"
                   title="비밀번호 확인"
                   value={field.value}
-                  onChange={(e) => {
-                    field.onChange(e);
-                    trigger("verifiedPassword"); // 비밀번호 확인 필드 유효성 검사 트리거
-                  }}
+                  onChange={field.onChange}
                   error={errors.verifiedPassword?.message}
                   useEyes={true}
                   caption={
@@ -229,13 +229,14 @@ export default function SignupPage() {
                 control={control}
                 render={({ field }) => (
                   <TitleInput
+                    onBlur={() => {
+                      field.onBlur();
+                      trigger("name");
+                    }}
                     placeholder="성함을 적어주세요"
                     title="이름"
                     value={field.value}
-                    onChange={(e) => {
-                      field.onChange(e);
-                      trigger("name"); // 이름 필드 유효성 검사 트리거
-                    }}
+                    onChange={field.onChange}
                     error={errors.name ? true : false}
                   />
                 )}
@@ -268,13 +269,14 @@ export default function SignupPage() {
                   control={control}
                   render={({ field }) => (
                     <TitleInput
+                      onBlur={() => {
+                        field.onBlur();
+                        trigger("birthDate");
+                      }}
                       placeholder="YYYYMMDD"
                       title="생년월일"
                       value={field.value}
-                      onChange={(e) => {
-                        field.onChange(e);
-                        trigger("birthDate"); // 생년월일 필드 유효성 검사 트리거
-                      }}
+                      onChange={field.onChange}
                       error={errors.birthDate ? true : false}
                     />
                   )}

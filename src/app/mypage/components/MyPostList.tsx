@@ -26,18 +26,13 @@ const MyPostList = () => {
   }
   return (
     <>
+      <p className="title-20-s flex gap-x-[4px] xl:mb-[32px]">
+        <Image src={`/icons/Edit.svg`} alt="Edit" width={24} height={24} />
+        내가 작성한 글
+      </p>
       {posts.length > 0 ? (
         <>
           <div className="mb-[20px] flex items-end justify-between">
-            <p className="title-20-s flex gap-x-[4px]">
-              <Image
-                src={`/icons/Edit.svg`}
-                alt="Edit"
-                width={24}
-                height={24}
-              />
-              내가 작성한 글
-            </p>
             <div className="hidden gap-x-[20px] md:flex">
               <Image
                 src={`/icons/pc/ChevronLeft.svg`}
