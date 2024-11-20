@@ -43,7 +43,7 @@ export async function getFeaturedPosts() {
     .from("post")
     .select(`*, study(*), user(name)`)
     .order("like_count", { ascending: false })
-    .limit(5);
+    .limit(6);
 
   const result: Post[] = await Promise.all(
     data!.map(async (post) => {

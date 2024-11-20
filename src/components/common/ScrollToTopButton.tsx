@@ -12,7 +12,7 @@ export default function TopArrow() {
 
   return (
     <button
-      className="fixed bottom-[9.5rem] right-6 flex h-[3.75rem] w-[3.75rem] items-center justify-center rounded-full bg-white shadow-md"
+      className="absolute bottom-[9.5rem] right-6 flex h-[3.75rem] w-[3.75rem] items-center justify-center rounded-full bg-white shadow-md"
       onClick={scrollToTop}
     >
       <Image

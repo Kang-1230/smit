@@ -60,7 +60,7 @@ export default function Header() {
     setIsSearchModal(true);
   };
 
-  const isHome = pathname === "/" && !isSearchModal;
+  const isHome = (pathname === "/" || pathname === "/event") && !isSearchModal;
 
   // pathname이 study/{id} 형식인지 확인
   const isStudyDetailPath = () => {

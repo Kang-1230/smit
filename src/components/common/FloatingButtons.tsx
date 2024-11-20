@@ -14,9 +14,11 @@ export default function FloatingButtons() {
   }, []);
 
   return (
-    <div>
-      {showScrollToTop && <ScrollToTopButton />}
-      <CreateButton />
+    <div className="fixed bottom-0 left-0 right-0">
+      <div className="relative mx-auto max-w-[80rem]">
+        {showScrollToTop && <ScrollToTopButton />}
+        <CreateButton />
+      </div>
     </div>
   );
 }
