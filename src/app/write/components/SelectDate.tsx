@@ -13,25 +13,13 @@ const SelectDate = (props: Props) => {
   //년도 관련
 
   const currentDate = new Date();
-  const [date, setDate] = useState({
-    year:
-      props.selectedDate &&
-      typeof props.selectedDate === "string" &&
-      props.selectedDate.match(/\d+/g)
-        ? props.selectedDate.match(/\d+/g)![0] + ""
-        : currentDate.getFullYear() + "",
-    month:
-      props.selectedDate &&
-      typeof props.selectedDate === "string" &&
-      props.selectedDate.match(/\d+/g)
-        ? props.selectedDate.match(/\d+/g)![1] + ""
-        : currentDate.getMonth() + 1 + "",
-    day:
-      props.selectedDate &&
-      typeof props.selectedDate === "string" &&
-      props.selectedDate.match(/\d+/g)
-        ? props.selectedDate.match(/\d+/g)![2] + ""
-        : currentDate.getDate() + "",
+
+  const [date, setDate] = useState(() => {
+    return {
+      year: currentDate.getFullYear().toString(),
+      month: (currentDate.getMonth() + 1).toString(),
+      day: currentDate.getDate().toString(),
+    };
   });
 
   // 년,월,일 옵션
@@ -64,7 +52,7 @@ const SelectDate = (props: Props) => {
   const tensOption = ["0", "1"];
   const unitOption =
     humanCtn.tens === "1"
-      ? ["0","1", "2", "3", "4", "5", "6"]
+      ? ["0", "1", "2", "3", "4", "5", "6"]
       : ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
   // 윤년 계산
@@ -72,13 +60,15 @@ const SelectDate = (props: Props) => {
     return new Date(year, month, 0).getDate();
   };
 
+  //년도랑 월 변경에 따른 윤년 날짜 계산
   useEffect(() => {
     if (date.year && date.month) {
       const daysInMonth = getDaysInMonth(Number(date.year), Number(date.month));
-      const updatedDayOption = [...Array(daysInMonth)].map((_, i) =>
-        (i + 1).toString().padStart(1, "0"),
+      setDayOption(
+        [...Array(daysInMonth)].map((_, i) =>
+          (i + 1).toString().padStart(1, "0"),
+        ),
       );
-      setDayOption(updatedDayOption);
     }
   }, [date.year, date.month]);
 

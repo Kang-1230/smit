@@ -7,7 +7,7 @@ import { usePublicUser } from "@/hooks/useUserProfile";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Edit from "../../../../public/icons/Edit.svg";
-import Open from "../../../../public/icons/PlusMideum.svg";
+import Open from "../../../../public/icons/PlusMediumWhite.svg";
 import Close from "../../../../public/icons/XMedium.svg";
 import Pencil from "../../../../public/icons/PencilSmall.svg";
 import Tooltip from "@/components/common/Tooltip";
