@@ -757,7 +757,10 @@ export const deleteStudyGoal = async (goalId: number) => {
 };
 
 // 스터디 goal 데이터 추가
-export const insertStudyGoal = async (studyId: string, goalName: string) => {
+export const insertStudyGoal = async (
+  studyId: string,
+  goalName: string | undefined,
+) => {
   const user = await fetchSessionData();
   if (!user) {
     throw new Error("로그인 상태가 아님");

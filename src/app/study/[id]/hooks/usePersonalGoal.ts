@@ -30,7 +30,7 @@ export const useInsertStudyGoalMutation = (
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (goalName: string) => insertStudyGoal(studyId, goalName), // goalName을 인자로 받아 insertStudyGoal 호출
+    mutationFn: (goalName: string | undefined) => insertStudyGoal(studyId, goalName), // goalName을 인자로 받아 insertStudyGoal 호출
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["studyGoal", studyId, userId], // 동일한 queryKey 사용

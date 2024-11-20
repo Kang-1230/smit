@@ -28,7 +28,7 @@ const DailyPlanner = ({
   } = useStudyGoal(studyId, user?.id);
 
   const [editGoalId, setEditGoalId] = useState<number | null>(null);
-  const [goalTitle, setGoalTitle] = useState<string | null>(null);
+  const [goalTitle, setGoalTitle] = useState<string>("");
 
   useEffect(() => {
     if (serverData?.length === 0) {
@@ -61,7 +61,7 @@ const DailyPlanner = ({
     mutateDelete(goalId);
   };
 
-  const handleAddGoal = (goalName: string) => {
+  const handleAddGoal = (goalName: string | undefined) => {
     mutateAdd(goalName); // 목표 추가
   };
 
@@ -73,9 +73,15 @@ const DailyPlanner = ({
     mutateUpdate({ goalId: goalId, goalName: goalName, isSuccess: isSuccess });
   };
 
-  const handleGoalClick = (goalId: number) => {
+  const handleGoalClick = (goalId: number, goalName: string) => {
     if (editGoalId !== goalId) {
-      setEditGoalId(goalId);
+      if (goalName === "오늘의 목표를 작성해주세요.") {
+        setEditGoalId(goalId);
+        setGoalTitle(""); // 해당 goalName을 goalTitle로 설정하여 수정 가능하게 함
+      } else {
+        setEditGoalId(goalId);
+        setGoalTitle(goalName); // 해당 goalName을 goalTitle로 설정하여 수정 가능하게 함
+      }
     }
   };
 
@@ -150,21 +156,34 @@ const DailyPlanner = ({
                           className="pl-2"
                           onClick={() => {
                             if (isEdit) {
-                              handleGoalClick(item.goal_id);
+                              handleGoalClick(item.goal_id, item.goal_name);
                             }
                           }}
                           key={item.goal_id}
                         >
                           {editGoalId === item.goal_id ? (
                             <input
-                              className="input ... border-transparent bg-transparent"
+                              className="input w-auto border-transparent bg-transparent focus:outline-none"
+                              placeholder="오늘의 목표를 작성해주세요"
                               onChange={(e) => {
                                 setGoalTitle(e.target.value);
                               }}
-                              value={goalTitle ? goalTitle : item.goal_name}
-                            ></input>
-                          ) : (
+                              value={goalTitle ?? item.goal_name}
+                              onBlur={() => {
+                                if (goalTitle !== item.goal_name) {
+                                  handleUpdateGoal(
+                                    item.goal_id,
+                                    goalTitle,
+                                    undefined,
+                                  );
+                                }
+                                setGoalTitle(""); // 수정 후 goalTitle을 초기화
+                              }}
+                            />
+                          ) : item.goal_name && item.goal_name !== "" ? (
                             item.goal_name
+                          ) : (
+                            "오늘의 목표를 작성해주세요"
                           )}
                         </div>
                       </label>
@@ -189,7 +208,7 @@ const DailyPlanner = ({
                 responsiveSize="sm"
                 style="darkgray"
                 className="mt-4 flex w-full items-center justify-center"
-                onClick={() => handleAddGoal("오늘의 목표를 작성해주세요.")}
+                onClick={() => handleAddGoal(undefined)}
               >
                 <Image
                   src={"/icons/PlusMediumWhite.svg"}
