@@ -41,9 +41,6 @@ const DeleteUserButton = () => {
     await deleteUser();
     router.push("/");
     router.refresh();
-    // 라우터가 캐싱처리돼서 발생했던 문제 미친것
-    // 이거 하나 넣고 해결됨 대박
-    // MVP 재상튜터님
   };
 
   return (

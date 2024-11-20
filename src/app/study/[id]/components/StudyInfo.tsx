@@ -6,7 +6,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import { useEffect } from "react";
 
 export type profileInfo = {
   user_id: string;
@@ -20,16 +19,6 @@ const StudyInfo = ({
   study: Tables<"study"> | null;
   member: Tables<"user">[] | null;
 }) => {
-  useEffect(() => {
-    // Tailwind 클래스를 body에 추가
-    document.body.classList.add("bg-secondary-800");
-
-    // 페이지를 떠날 때 클래스 제거
-    return () => {
-      document.body.classList.remove("bg-secondary-800");
-    };
-  }, []);
-
   if (!study) {
     return <div>로딩 중...</div>;
   }
