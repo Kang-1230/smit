@@ -45,7 +45,7 @@ const EventListItem = ({
   return (
     <>
       {!isEdit ? (
-        <div className="relative m-[25px] h-[141px] self-stretch rounded-[20px] bg-secondary-800 p-5">
+        <div className="relative mx-6 my-5 h-[141px] self-stretch rounded-[20px] bg-secondary-800 p-5 xl:mx-5 xl:my-4">
           <div className="flex items-center gap-1">
             <p className="title-20-m text-white">{`${event.start_time.slice(
               0,

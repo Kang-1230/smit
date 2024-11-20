@@ -29,12 +29,12 @@ const StudyTime = ({
 
     return (
       <div className="h-full w-1/2 rounded-20 bg-secondary-100 p-[12px] xl:w-full xl:px-[20px] xl:py-[24px]">
-        <p className="caption xl:body-14-r flex flex-row items-center text-secondary-700 xl:items-end">
+        <div className="caption xl:body-14-r flex flex-row items-center text-secondary-700 xl:items-end">
           <div className="relative mr-[4px] h-[16px] w-[16px] xl:h-[20px] xl:w-[20px]">
             <Image src={`/icons/timer/ClockLined.svg`} alt="book icon" fill />
           </div>
           스터디 시간
-        </p>
+        </div>
         {nextSchedule ? (
           <div className="mt-14 flex flex-col gap-y-1 text-2xl font-light leading-[1.35] tracking-[-0.02em] text-black">
             <p className="flex items-center gap-x-2">

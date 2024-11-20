@@ -42,7 +42,7 @@ const StudyStateBox = ({
   } = useStudyManager(studyId, member, study);
   return (
     <>
-      <div className="flex w-full flex-col justify-center xl:grid xl:grid-cols-3 xl:gap-x-[24px]">
+      <div className="flex w-full flex-col justify-center xl:grid xl:grid-cols-[388px_408px_388px] xl:gap-x-[24px]">
         <div className="flex h-[172px] w-full flex-row justify-center gap-x-3 xl:h-full xl:flex-col xl:gap-y-[24px]">
           <StudyTime
             todaySchedules={todaySchedules}
