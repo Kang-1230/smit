@@ -22,7 +22,7 @@ export default function PostCard({ post, color = "tertiary" }: Props) {
   return (
     <Link href={`/post/${post_id}`}>
       <section
-        className={`flex h-[18rem] w-full flex-col justify-between gap-4 rounded-20 p-5 ${color === "tertiary" ? "bg-white" : "bg-tertiary-50"} relative`}
+        className={`flex h-[18rem] w-full flex-col justify-between gap-4 rounded-20 p-5 ${color === "tertiary" ? "bg-white" : "bg-tertiary-50"} relative max-w-[24.25rem]`}
       >
         <LikeButton
           className="absolute right-2 top-4"

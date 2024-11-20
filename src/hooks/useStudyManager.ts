@@ -36,6 +36,8 @@ export const useStudyManager = (
   // 스터디 종료 모달
   const [endModalOpen, setEndModalOpen] = useState(false);
 
+  const [timeRate, setTimeRate] = useState(0);
+
   // 유저 정보 불러오기
   const { data: user = null } = usePublicUser();
 
@@ -72,11 +74,8 @@ export const useStudyManager = (
   // 시간 달성률 그래프 계산
   const circumference = 2 * Math.PI * 57;
   const strokeDashoffset =
-    circumference -
-    (timerState?.time_rate ? timerState.time_rate / 100 : 0) * -circumference;
-  const endPoint = getEndpointPosition(
-    timerState?.time_rate ? timerState.time_rate : 0,
-  );
+    circumference - (timeRate ? timeRate / 100 : 0) * -circumference;
+  const endPoint = getEndpointPosition(timeRate ? timeRate : 0);
 
   // 타이머 상태 갱신하는 뮤테이션
   const timerMutation = useMutation({
@@ -165,12 +164,6 @@ export const useStudyManager = (
 
     const elapsedSinceStart = calculateElapsedTime(timerState.last_start, 0);
     const newAccumulatedTime = timerState.accumulated_time + elapsedSinceStart;
-    const timeRate = Math.floor(
-      (timerState.accumulated_time /
-        (timeStringToSeconds(currentSchedule.end_time) -
-          timeStringToSeconds(currentSchedule.start_time))) *
-        100,
-    );
 
     timerMutation.mutate({
       action: "pause",
@@ -288,6 +281,22 @@ export const useStudyManager = (
     return () => clearInterval(timerInterval);
   }, [timerState?.is_running, currentSchedule, isWithinTimeRange]);
 
+  useEffect(() => {
+    if (!timerState || !currentSchedule) return;
+
+    const rateInterval = setInterval(() => {
+      const timeRate = Math.floor(
+        (time /
+          (timeStringToSeconds(currentSchedule.end_time) -
+            timeStringToSeconds(currentSchedule.start_time))) *
+          100,
+      );
+      setTimeRate(timeRate);
+    }, 60000);
+
+    return () => clearInterval(rateInterval);
+  }, [time, timerState, currentSchedule]);
+
   return {
     // 타이머 관련
     time,
@@ -297,6 +306,7 @@ export const useStudyManager = (
     handlePause,
 
     // 상태 관련
+    timeRate,
     currentSchedule,
     todaySchedules,
     strokeDashoffset,

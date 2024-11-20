@@ -41,7 +41,7 @@ export default function RankingList() {
   };
 
   return (
-    <section className="relative h-screen bg-gradient-to-b from-[#FF8F32] to-[#FFC799]">
+    <section className="relative min-h-screen bg-gradient-to-b from-[#FF8F32] to-[#FFC799]">
       <RankingHeader />
       <TopRankers
         rankers={data.pages[0].data.slice(0, 3)}

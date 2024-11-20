@@ -10,17 +10,19 @@ import { Tables } from "../../../../../database.types";
 // userTimer?.time_rate ? userTimer.time_rate / 100 : 0;
 
 const UserRate = ({
-  userTimer,
   endPoint,
   strokeDashoffset,
   circumference,
   currentSchedule,
+  time,
+  timeRate,
 }: {
-  userTimer: Tables<"timer"> | null;
   endPoint: { x: number; y: number };
   strokeDashoffset: number;
   circumference: number;
   currentSchedule: Tables<"calendar"> | null;
+  time: number;
+  timeRate: number;
 }) => {
   return (
     <div className="relative mr-3 h-full w-full min-w-[187px] overflow-hidden rounded-20 bg-secondary-900 p-[16px] text-white xl:m-0 xl:h-[151px] xl:px-[20px] xl:py-[24px]">
@@ -52,7 +54,7 @@ const UserRate = ({
               cy="60"
               r="57"
             ></circle>
-            {userTimer?.time_rate && (
+            {time && (
               <circle
                 cx={endPoint.x}
                 cy={endPoint.y}
@@ -82,7 +84,7 @@ const UserRate = ({
               strokeDasharray={circumference}
               strokeDashoffset={strokeDashoffset}
             ></circle>
-            {userTimer?.time_rate && (
+            {time && (
               <circle
                 cx={endPoint.x}
                 cy={endPoint.y}
@@ -93,7 +95,7 @@ const UserRate = ({
             )}
           </svg>
           <p className="absolute-center font-pretendard text-[32px] font-medium">
-            {currentSchedule && userTimer ? userTimer.time_rate : 0}
+            {currentSchedule && timeRate ? timeRate : 0}
             <span className="caption">%</span>
           </p>
         </div>
