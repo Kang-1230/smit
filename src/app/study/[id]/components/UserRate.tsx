@@ -26,12 +26,12 @@ const UserRate = ({
     <div className="relative mr-3 h-full w-full min-w-[187px] overflow-hidden rounded-20 bg-secondary-900 p-[16px] text-white xl:m-0 xl:h-[151px] xl:px-[20px] xl:py-[24px]">
       {/* 배경 그라데이션 */}
       <div className="absolute left-1/2 top-48 h-full w-5/6 -translate-x-1/2 rounded-full bg-white/50 blur-2xl xl:top-28 xl:h-[200%]"></div>
-      <p className="caption xl:body-14-r flex flex-row items-center xl:items-end">
+      <div className="caption xl:body-14-r flex flex-row items-center xl:items-end">
         <div className="relative mr-[4px] h-[16px] w-[16px] xl:h-[20px] xl:w-[20px]">
           <Image src={`/icons/timer/BookLined.svg`} alt="book icon" fill />
         </div>
         공부시간 달성률
-      </p>
+      </div>
       <div className="relative h-full w-full">
         <div className="absolute-center xl:bottom-[3px] xl:right-[31px] xl:translate-x-0 xl:translate-y-0">
           {/* 배경 원 */}
