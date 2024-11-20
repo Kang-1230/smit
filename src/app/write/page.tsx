@@ -190,8 +190,8 @@ function WriteContent() {
   }, [post_id]);
 
   return (
-    <div className="mb-[29px] flex w-full flex-col items-center justify-center overflow-x-hidden px-[24px] md:mx-auto md:max-w-[1280px]">
-      <div className="fixed top-0 mb-[24px] flex h-[48px] w-full items-center justify-between bg-white p-2 px-6 text-2xl md:flex md:h-[68px] md:max-w-[1280px]">
+    <div className="mb-[29px] flex w-full flex-col items-center justify-center overflow-x-hidden px-[24px] md:mx-auto md:max-w-[1280px] md:px-0">
+      <div className="fixed top-0 mb-[24px] flex h-[48px] w-full items-center justify-between bg-white p-2 px-6 md:p-0 md:px-0 md:pt-2 text-2xl md:flex md:h-[68px] md:max-w-[1280px] md:border-b">
         <Image
           src={Xmedium}
           alt="selectBtn"
@@ -202,6 +202,7 @@ function WriteContent() {
         <p className="body-16-s md:title-20-s text-black">
           {post_id ? "모집글 수정" : "모집글 쓰기"}
         </p>
+
         <button
           disabled={isLoadingRef.current}
           onClick={() => handleSendData()}
@@ -242,7 +243,7 @@ function WriteContent() {
           </button>
         </div>
       </div>
-      <div className="mb-4 mt-[68px] flex w-full flex-col gap-y-[32px]">
+      <div className="mb-4 mt-[68px] flex w-full flex-col gap-y-[32px] md:pt-[60px]">
         <div className="block md:hidden">
           <SquareInput
             onChange={setTitle}
@@ -261,7 +262,7 @@ function WriteContent() {
             value={title}
             maxLength={25}
             viewLength={true}
-            inputClassname="title-32-m w-full rounded-12 bg-c-background ring-transparent	 focus:bg-white placeholder-secondary-300 focus:bg-white focus:outline-none focus:ring-tran border-b border-gray-200 pb-5"
+            inputClassname="title-32-m w-full rounded-12 bg-c-background ring-transparent	placeholder-secondary-300 focus:outline-none focus:ring-tran border-b border-gray-200 pb-5 md:rounded-none "
           />
         </div>
         <div className="flex w-full flex-col gap-y-[12px] md:mt-5">
