@@ -12,10 +12,10 @@ import NoPlan from "../../../../public/icons/illust/NoPlan.svg";
 import LaterPlan from "../../../../public/icons/laterPlan.svg";
 import ArrowTopRightBlack from "../../../../public/icons/ArrowTopRightBlack.svg";
 import Image from "next/image";
-import ModalOverlay from "@/components/common/ModalOverlay";
 import WeekCalendarModal from "./WeekCalendarModal";
 import Link from "next/link";
 import WeekCalenderDropdown from "../[id]/components/WeekCalenderDropdown";
+import StudyCalenderModalOverlay from "./StudyCalenderModalOverlay";
 
 export interface EventWithStudy extends Tables<"calendar"> {
   study: {
@@ -188,11 +188,11 @@ const StudyScheduleList = () => {
             </div>
 
             {calenderModalOpen && (
-              <ModalOverlay
+              <StudyCalenderModalOverlay
                 onClick={() => setCalenderModalOpen(!calenderModalOpen)}
               >
                 <WeekCalendarModal events={allEvents} />
-              </ModalOverlay>
+              </StudyCalenderModalOverlay>
             )}
           </div>
           <div className="space-y-0">

@@ -7,7 +7,6 @@ import KakaoLogo from "../../../public/icons/Kakao.svg";
 import GoogleLogo from "../../../public/icons/Google.svg";
 import SmitLogo from "../../../public/icons/SmitLogo.svg";
 import SNSVector from "../../../public/icons/SNSSignUpVector.svg";
-import RectangleLoginBack from "../../../public/icons/RectangleLoginBack.svg";
 import Image from "next/image";
 import { Checkbox } from "@headlessui/react";
 import BackButton from "@/components/common/BackButton";
@@ -124,7 +123,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="relative h-full w-[375px] bg-[#f6f6f4]">
+    <div className="relative z-0 h-full w-full bg-[#f6f2ef]">
       <div className="absolute left-0 top-0 h-[628px] w-[375px]">
         <div className="absolute z-10 flex">
           <BackButton
@@ -132,18 +131,13 @@ export default function LoginPage() {
             className="ml-[14px] flex h-[44px] w-[44px] items-center justify-center"
           />
         </div>
-        <div className="absolute left-[163px] top-56 h-[165px] w-[165px] rounded-[82.5px] bg-primary-50" />
-        <Image
-          className="absolute left-0 top-0 z-0 h-[628px] w-[375px] backdrop-blur-xl"
-          alt="Rectangle"
-          src={RectangleLoginBack}
-          fill
-        />
-        <div className="itmes-start absolute left-6 top-16 inline-flex h-[93px] w-[196px] flex-col gap-2">
+        <div className="absolute left-[163px] top-56 h-[165px] w-[165px] rounded-[82.5px] bg-primary-50 opacity-80 blur-[100px]" />
+
+        <div className="absolute left-6 top-16 inline-flex h-[93px] w-[196px] flex-col items-start gap-2">
           <Image
             className="!relative z-10 !h-[63,42px] !w-[152px]"
             src={SmitLogo}
-            alt="SmilLogo"
+            alt="SmitLogo"
           />
           <div className="relative mb-[-0.42px] inline-flex flex-[0_0_auto] items-center justify-center gap-2.5 py-0 pl-2 pr-0">
             <h1 className="body-16-r">스밋에서 모여서 함께 공부하자</h1>
@@ -153,10 +147,10 @@ export default function LoginPage() {
           onSubmit={handleSubmit(onSubmit)}
           className="item-start absolute left-6 top-[198px] z-10 flex w-[327px] flex-col gap-2"
         >
-          <div className="item-start selt-stretch relative flex w-full flex-[0_0_auto] flex-col">
+          <div className="item-start relative flex w-full flex-[0_0_auto] flex-col">
             <input
               placeholder="이메일"
-              className="border-inset body-14-r !mt-[12px] h-[48px] !w-full rounded-[24px] border-[1px] px-4 py-3 text-secondary-900 placeholder:text-secondary-400 focus:border-secondary-600 focus:bg-white focus:outline-none disabled:bg-secondary-100 disabled:text-secondary-300"
+              className="border-inset body-14-r !mt-[12px] h-[48px] !w-full rounded-[24px] border-[1px] px-4 py-3 text-secondary-900 placeholder:text-secondary-400 focus:border-secondary-600 focus:bg-white focus:outline-none"
               {...register("email")}
             />
 
@@ -179,25 +173,25 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="relative inline-flex flex-[0_0_auto] items-center gap-1 py-0 pl-3 pr-0">
+          <div className="!-pt-[10px] relative inline-flex items-center gap-1 py-0 pl-3 pr-0">
             <Checkbox
               checked={checked}
               onChange={setChecked}
-              className={`h-[15px] w-[15px] rounded-sm border-2 border-[#c2c2c2] ${checked ? "border-primary bg-primary" : "bg-white"} relative`}
+              className={`h-[15px] w-[15px] rounded-[2px] border-2 border-[#c2c2c2] ${checked ? "!border-primary-50 !bg-primary-50" : "!bg-white"} ![&>span>svg]:text-black relative`}
             >
               {checked && (
                 <svg
                   className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 12 12"
+                  width="15"
+                  height="15"
+                  viewBox="0 0 15 15"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    d="M2.5 6L5 8.5L9.5 4"
-                    stroke="white"
-                    strokeWidth="2"
+                    d="M3.5 8.5 L6 10.5 L11.5 4.5"
+                    stroke="black"
+                    strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />

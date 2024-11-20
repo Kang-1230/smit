@@ -21,20 +21,9 @@ import NoApplyStudy from "../../../../public/icons/illust/NoApplyStudy.svg";
 export type ApplyData = {
   id: string;
   is_approved: boolean;
-  study: Study;
+  study: Tables<"study">;
   study_id: string;
   user_id: string;
-};
-
-export type Study = {
-  study_category: string;
-  study_createtime: string;
-  study_id: string;
-  study_manager: string;
-  study_max_people: number;
-  study_name: string;
-  study_period: string;
-  study_score: number;
 };
 
 export type JoinPerson = {
@@ -62,7 +51,7 @@ const MyStudyList = ({ user }: { user: User | null }) => {
 
   const [activeTab, setActiveTab] = useState<
     "UserOwnStudy" | "UserJoinedStudy"
-  >("UserJoinedStudy");
+  >("UserOwnStudy");
 
   const deleteMutation = useDeleteApplyStudy();
 
