@@ -16,7 +16,7 @@ const bannerData = [
     isEventPage: false,
   },
   {
-    title: "쉽고 빠른 스터디\n활용 가이드!",
+    title: "쉽고 빠른 스밋\n활용 가이드!",
     url: "/event",
     isEventPage: false,
   },

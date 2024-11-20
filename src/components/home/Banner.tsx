@@ -64,7 +64,7 @@ export default function Banner({ title, url, isEventPage, num = 1 }: Props) {
           </>
         )}
 
-        <div className="relative z-10 mx-auto max-w-[80rem]">
+        <div className="relative z-10 mx-auto max-w-[80rem] lg:px-5">
           <div className="mb-4 px-2 md:mb-[4.5rem]">
             {isEventPage && (
               <h2 className="text-xs font-medium md:text-xl">EVENT</h2>
