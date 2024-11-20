@@ -7,7 +7,7 @@ interface Props {
   onConfirm: (date: string | number) => void;
   mode: string;
   selectedDate: string | number | null;
-  isModalOpen: boolean;
+  isModalOpen?: boolean;
 }
 
 const SelectDate = (props: Props) => {
