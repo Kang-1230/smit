@@ -81,7 +81,7 @@ const CreateEventForm = ({
 
   return (
     <>
-      <div className="m-[25px] flex flex-col items-center gap-3 self-stretch rounded-2xl bg-secondary-800 p-5">
+      <div className="mx-6 my-5 flex flex-col items-center gap-3 self-stretch rounded-2xl bg-secondary-800 p-5 xl:mx-5 xl:my-4">
         <AutoResizeTextArea
           value={eventDescription}
           onChange={setEventDescription}
