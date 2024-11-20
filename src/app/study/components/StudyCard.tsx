@@ -9,23 +9,53 @@ import Badge from "@/components/common/Badge";
 import Chart from "../../../../public/icons/Chart.svg";
 import ArrowChart from "../../../../public/icons/ArrowChart.svg";
 import GroupDesign from "../../../../public/icons/GroupDesign.svg";
-import SeeMortButton from "../../../../public/icons/SeeMoreButton.svg";
+import SeeMoreButton from "../../../../public/icons/SeeMoreButton.svg";
+import { getStudyById } from "@/service/refac";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "@/components/common/Loading";
 
 interface StudyCardProps {
   dataItem: Tables<"study">;
   i: number;
 }
 
+const LoadingSection = () => (
+  <section className="flex h-[21.5rem] w-full flex-col items-center justify-center px-5 pb-8 pt-6">
+    <Loading />
+  </section>
+);
+
+const ErrorSection = () => <div>Error occurred while fetching data</div>;
+
+const NoDataSection = () => <div>No data available</div>;
+
 const StudyCard = ({ dataItem, i }: StudyCardProps) => {
   const { tooltipVisible, closeTooltip } = useTooltip("EditStudy");
+
+  const {
+    data: rankingData,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["ranking", dataItem.study_id],
+    queryFn: () => getStudyById(dataItem.study_id),
+  });
+
+  if (isLoading) return <LoadingSection />;
+  if (isError) return <ErrorSection />;
+  if (!rankingData || !rankingData.data) return <NoDataSection />;
+
   return (
-    <div key={dataItem.study_id} className="relative">
+    <div key={dataItem.study_id} className="relative z-0">
       <Link
         onClick={(e) => e.stopPropagation()}
         href={`/study/${dataItem.study_id}/manage`}
-        className="absolute left-64 top-5 z-10 flex h-9 w-9 items-center justify-center gap-1 rounded-[20px] bg-[#ffffff99]"
+        className="absolute left-[269px] top-5 flex h-9 w-9 items-center justify-center gap-1"
       >
-        <Image src={SeeMortButton} alt="SeeMortButton" />
+        <div className="z-10">
+          <Image src={SeeMoreButton} alt="SeeMortButton" />
+        </div>
+
         {i === 0 && tooltipVisible && (
           <div className="absolute -right-[20px] bottom-[56px]">
             <Tooltip
@@ -39,27 +69,22 @@ const StudyCard = ({ dataItem, i }: StudyCardProps) => {
         )}
       </Link>
       <Link href={`/study/${dataItem.study_id}`} key={dataItem.study_id}>
-        <div className="relative mb-[20px] flex w-full flex-[0_0_auto] flex-col items-start gap-5 self-stretch">
-          <div className="relative h-[266px] w-[327px] overflow-hidden rounded-3xl bg-[#f1ece9]">
+        <div className="mb-[20px] flex w-full flex-col items-start gap-[12px] self-stretch">
+          <div className="relative h-[266px] w-[327px] overflow-hidden rounded-[24px] bg-[#F1EDE9]">
             <Image
               key={`design-${dataItem.study_id}`}
               alt="GroupDesign"
               src={GroupDesign}
-              className="absolute left-[108px] top-[146px] h-auto w-auto"
+              className="relative left-[108px] top-[146px]"
             />
           </div>
-          <div className="absolute left-5 top-[19px] h-[38px] w-[126px]">
-            <div className="absolute top-px ml-[10px] h-9 w-8">
+          <div className="absolute top-[19px] h-[38px] w-[126px]">
+            <div className="ml-[21px] h-[36px] w-[36px]">
               <ApplyUserIncludeManagerProfileImgList
                 studyId={dataItem.study_id}
                 key={`profile-${dataItem.study_id}`}
               />
             </div>
-            {/* <div className="flex w-[38px] h-[38px] items-center justify-center gap-2.5 p-2.5 absolute top-0 left-[88px] bg-[#ececec] rounded-[18px] border-2 border-solid border-[#cccccc]">
-            <div className="relative w-fit [font-family:'Pretendard-Medium',Helvetica] font-medium text-[#444444] text-xs tracking-[-0.24px] leading-[normal] whitespace-nowrap">
-              +5
-            </div>
-          </div> */}
           </div>
 
           <div className="absolute left-[21px] top-[162px] h-[84px] w-[286px] overflow-hidden rounded-2xl bg-[#ffffff80] shadow-[inset_0px_1px_2px_#ffffffcc] backdrop-blur-[10px] backdrop-brightness-[100%] [-webkit-backdrop-filter:blur(10px)_brightness(100%)]">
@@ -85,6 +110,8 @@ const StudyCard = ({ dataItem, i }: StudyCardProps) => {
               </div>
             </div>
 
+            <div className="relative left-[143px] top-[16px] h-[48px] w-[0.5px] bg-secondary-500 opacity-60"></div>
+
             <div className="absolute left-[156px] top-4 flex w-[93px] flex-col items-start gap-1">
               <div className="relative flex w-full flex-[0_0_auto] items-center gap-0.5 self-stretch">
                 <Image
@@ -102,7 +129,7 @@ const StudyCard = ({ dataItem, i }: StudyCardProps) => {
 
               <div className="relative flex w-full flex-[0_0_auto] items-center gap-1 self-stretch">
                 <div className="title-20-b relative mt-[-1.00px] w-fit whitespace-nowrap text-black">
-                  100
+                  {rankingData.data.rank}
                 </div>
                 <div className="body-16-m relative w-fit whitespace-nowrap text-secondary-600">
                   위
@@ -110,19 +137,21 @@ const StudyCard = ({ dataItem, i }: StudyCardProps) => {
               </div>
             </div>
           </div>
-          <div className="absolute left-5 top-[70px] flex w-[287px] flex-col items-start gap-2">
-            <div className="title-18-b relative mt-[-1.00px] self-stretch text-[#000000]">
-              {dataItem.study_name}
-            </div>
-            <div className="relative flex h-11 w-full flex-wrap items-center gap-[4px_4px] self-stretch">
-              {dataItem.study_category.map((c, i) => (
-                <Badge
-                  category={c}
-                  idx={i}
-                  color="primary"
-                  key={`${dataItem.study_id}-${c}`}
-                />
-              ))}
+          <div className="absolute left-[20px] top-[70px] flex w-[287px] flex-col items-start gap-[12px]">
+            <div className="flex flex-col gap-[8px]">
+              <div className="title-18-s text-[#000000]">
+                {dataItem.study_name}
+              </div>
+              <div className="flex w-full flex-wrap items-center gap-[4px] self-stretch">
+                {dataItem.study_category.map((c, i) => (
+                  <Badge
+                    category={c}
+                    idx={i}
+                    color="primary"
+                    key={`${dataItem.study_id}-${c}`}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
