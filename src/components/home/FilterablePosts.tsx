@@ -23,7 +23,7 @@ export default function FilterablePosts() {
   if (!posts) return <>Posts가 없습니다</>;
 
   return (
-    <section className="bg-back mt-4 flex flex-col px-6 pb-32 pt-10">
+    <section className="mt-4 flex flex-col bg-back px-6 pb-24 pt-10 md:pb-16">
       <h2 className="ml-1 flex gap-1 text-xl font-medium">
         <Image src={`/icons/Book.svg`} width={23} height={23} alt="user" />
         최근 스터디
@@ -36,7 +36,7 @@ export default function FilterablePosts() {
         setArr={setSelectedJobs}
       />
 
-      <ul className="flex w-full flex-col items-center justify-center gap-5">
+      <ul className="grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
         {!posts.length && (
           <Image
             src="/icons/SearchFailed.svg"
