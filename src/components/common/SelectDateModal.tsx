@@ -7,6 +7,7 @@ interface DateModalProps {
   handleConfirm: () => void;
   selectedDate: string;
   children: React.ReactNode;
+  mode? : string
 }
 
 const SelectDateModal = ({
@@ -14,15 +15,17 @@ const SelectDateModal = ({
   handleConfirm,
   selectedDate,
   children,
+  mode
 }: DateModalProps) => {
+  
   return (
     <div
       onClick={handleClose}
       className="fixed inset-0 z-50 flex w-full items-end justify-center bg-black/70 md:mx-auto md:max-w-[886px] md:items-center md:bg-transparent"
     >
       <div
-        className="w-full animate-slide-up flex-col items-center justify-center rounded-t-2xl bg-white 
-        md:absolute md:right-0 md:top-[323px] md:h-[308px] md:w-[375px] md:shadow-xl md:rounded-2xl"
+        className={`w-full animate-slide-up flex-col items-center justify-center rounded-t-2xl bg-white 
+        md:absolute md:right-0 ${mode ? "md:top-[323px]" : "md:top-[323px]"} md:h-[308px] md:w-[375px] md:shadow-xl md:rounded-2xl`}
         onClick={(e) => e.stopPropagation()}
       >
         <section className="w-full px-6">

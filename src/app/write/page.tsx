@@ -191,7 +191,7 @@ function WriteContent() {
 
   return (
     <div className="mb-[29px] flex w-full flex-col items-center justify-center overflow-x-hidden px-[24px] md:mx-auto md:max-w-[886px] md:px-0">
-      <div className="fixed top-0 mb-[24px] flex h-[48px] w-full items-center justify-between bg-white p-2 px-6 md:p-0 md:px-0 md:pt-2 text-2xl md:flex md:h-[68px] md:max-w-[886px] md:border-b">
+      <div className="fixed top-0 mb-[24px] flex h-[48px] w-full items-center justify-between bg-white p-2 px-6 text-2xl md:flex md:h-[68px] md:max-w-[886px] md:border-b md:p-0 md:px-0 md:pt-2">
         <Image
           src={Xmedium}
           alt="selectBtn"
