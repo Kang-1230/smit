@@ -11,6 +11,7 @@ import TimerTimer from "./Timer";
 import ModalOverlay from "@/components/common/ModalOverlay";
 import Image from "next/image";
 import MyButton from "@/components/common/Button";
+import DailyPlanner from "./DailyPlanner";
 
 const StudyStateBox = ({
   study,
@@ -42,7 +43,7 @@ const StudyStateBox = ({
   } = useStudyManager(studyId, member, study);
   return (
     <>
-      <div className="flex w-full flex-col justify-center gap-y-[24px] xl:grid xl:grid-cols-[388px_408px_388px] xl:gap-x-[24px]">
+      <div className="flex w-full flex-col justify-center gap-y-4 xl:grid xl:grid-cols-[388px_408px_388px] xl:gap-x-[24px]">
         <div className="flex h-[172px] w-full flex-row justify-center gap-x-3 xl:h-full xl:flex-col xl:justify-start xl:gap-y-[24px]">
           <StudyTime
             todaySchedules={todaySchedules}
@@ -50,7 +51,9 @@ const StudyStateBox = ({
           />
           <StudyChat study={study} />
         </div>
-
+        <div className="xl:hidden">
+          <DailyPlanner studyId={studyId} isBtnActive={true} />
+        </div>
         <TimerTimer
           todaySchedules={todaySchedules}
           time={time}
