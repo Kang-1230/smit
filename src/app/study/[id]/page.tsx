@@ -24,9 +24,9 @@ const Page = async ({ params, searchParams }: StudyGroupParams) => {
 
   return (
     <div
-      className={`md:mx-auto md:max-w-[1280px] md:px-[24px] ${searchParams.modal && "h-screen overflow-hidden xl:overflow-visible"}`}
+      className={`w-full xl:mx-auto xl:max-w-[1280px] ${searchParams.modal && "h-screen overflow-hidden xl:overflow-visible"}`}
     >
-      <div className="xl:hidden">
+      <div className="ml-6 mt-[10px] xl:hidden">
         <BackButton className="ml-6 mt-[10px]" studyId={studyId} />
       </div>
       <div className="flex w-full flex-col items-center bg-secondary-800 px-6 pt-[64px] text-white xl:relative">

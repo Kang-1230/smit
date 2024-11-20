@@ -28,7 +28,7 @@ const StudyTime = ({
       : currentSchedule;
 
     return (
-      <div className="h-full w-1/2 rounded-20 bg-secondary-100 p-[12px] xl:w-full xl:px-[20px] xl:py-[24px]">
+      <div className="h-full w-full rounded-20 bg-secondary-100 p-[12px] xl:max-h-[189px] xl:w-full xl:px-[20px] xl:py-[24px]">
         <div className="caption xl:body-14-r flex flex-row items-center text-secondary-700 xl:items-end">
           <div className="relative mr-[4px] h-[16px] w-[16px] xl:h-[20px] xl:w-[20px]">
             <Image src={`/icons/timer/ClockLined.svg`} alt="book icon" fill />
@@ -57,7 +57,7 @@ const StudyTime = ({
             </p>
           </div>
         ) : (
-          <div className="mt-[27px] flex flex-col items-center">
+          <div className="mt-[27px] flex flex-col items-center xl:mt-[20px]">
             <Image
               src={`/icons/timer/Clock.svg`}
               alt="clock icon"
