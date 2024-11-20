@@ -11,6 +11,7 @@ import Modal from "@/components/common/Modal";
 import ImageSelect from "../../../../public/icons/ImageSelect.svg";
 import Xmedium from "../../../../public/icons/XMedium.svg";
 import Check from "../../../../public/icons/Check.svg";
+import CheckWhite from "../../../../public/icons/CheckWhite.svg";
 import SelectDate from "../components/SelectDate";
 import SquareInput from "../components/SquareInput";
 import RoundSelectDiv from "../components/RoundSelectDiv";
@@ -145,8 +146,8 @@ function StudyContent() {
   };
 
   return (
-    <div className="mb-[39px] flex flex-col px-[24px]">
-      <div className="fixed left-0 top-0 z-10 mb-[24px] flex h-[44px] w-full items-center justify-between bg-white p-2 px-6 text-2xl">
+    <div className="mb-[29px] flex w-full flex-col items-center justify-center overflow-x-hidden px-[24px] md:mx-auto md:max-w-[1280px]">
+      <div className="fixed top-0 mb-[24px] flex h-[48px] w-full items-center justify-between bg-white p-2 px-6 text-2xl md:flex md:h-[68px] md:max-w-[1280px]">
         <Image
           src={Xmedium}
           alt="selectBtn"
@@ -159,14 +160,55 @@ function StudyContent() {
               router.replace("/");
             }
           }}
+          className="block md:hidden"
         />
-        <p className="body-16-s text-black">스터디 만들기</p>
+        <p className="body-16-s md:title-20-s text-black">스터디 만들기</p>
         <button
           disabled={isLoadingRef.current}
           onClick={() => handleSendData()}
         >
-          <Image src={Check} alt="selectBtn" width={0} />
+          <Image
+            src={Check}
+            alt="selectBtn"
+            width={0}
+            className="block md:hidden"
+          />
         </button>
+
+        <div className="body-14-s hidden md:flex">
+          <button
+            onClick={() => {
+              if (title !== "" || studyDescription !== "") {
+                setModalMode("close");
+                setIsModalOpen(true);
+              } else {
+                router.replace("/");
+              }
+            }}
+            className="hidden h-9 w-20 items-center justify-center rounded-[18px] bg-tertiary-100 md:block"
+          >
+            <div className="flex items-center justify-center">
+              <Image src={Xmedium} alt="selectBtn" width={0} className="pr-1" />
+              취소
+            </div>
+          </button>
+
+          <button
+            disabled={isLoadingRef.current}
+            onClick={() => handleSendData()}
+            className="ml-3 hidden h-9 w-20 items-center justify-center rounded-[18px] bg-secondary-900 md:block"
+          >
+            <div className="flex items-center justify-center text-white">
+              <Image
+                src={CheckWhite}
+                alt="selectBtn"
+                width={0}
+                className="pr-1"
+              />
+              저장
+            </div>
+          </button>
+        </div>
       </div>
 
       <div className="mb-4 mt-[68px] flex h-1/3 flex-col">

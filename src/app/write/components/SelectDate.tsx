@@ -22,6 +22,8 @@ const SelectDate = (props: Props) => {
     };
   });
 
+  const [isFirst, setIsFirst] = useState<boolean>(true);
+
   // 년,월,일 옵션
   const yearOption = [...Array(2099 - 2024 + 1)].map((_, i) =>
     (2024 + i).toString(),
@@ -75,21 +77,33 @@ const SelectDate = (props: Props) => {
   // 년,월,일 선택 스크롤 이벤트 핸들러
   const handleScroll = (e: React.UIEvent<HTMLDivElement>, type: string) => {
     const container = e.currentTarget;
-    const index = Math.round(container.scrollTop / 40);
+    let index = Math.round(container.scrollTop / 40);
 
     switch (type) {
       case "year":
+        if (isFirst) {
+          index = yearOption.indexOf(date.year); // isFirst일 때는 date.year에 맞는 index로 설정
+        }
+
         if (yearOption[index] !== undefined) {
           setDate((prev) => ({ ...prev, year: yearOption[index] }));
         }
-
         break;
       case "month":
+        if (isFirst) {
+          index = monthOption.indexOf(date.month); // isFirst일 때는 date.year에 맞는 index로 설정
+        }
+
         if (monthOption[index] !== undefined) {
           setDate((prev) => ({ ...prev, month: monthOption[index] }));
         }
         break;
       case "day":
+        if (isFirst) {
+          index = dayOption.indexOf(date.day); // isFirst일 때는 date.year에 맞는 index로 설정
+          setIsFirst(false);
+        }
+
         if (dayOption[index] !== undefined) {
           setDate((prev) => ({ ...prev, day: dayOption[index] }));
         }

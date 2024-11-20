@@ -17,7 +17,7 @@ const ScrollPicker = ({
   isWebCalender,
 }: ScrollPickerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const isInitialized = useRef(false); // 초기화 여부를 체크하는 ref
+  const executionCount = useRef(0); // useRef를 사용하여 실행 횟수 추적
   const isScrolling = useRef(false);
   const [currentIndex, setCurrentIndex] = useState(() => {
     // currentIndex 초기값을 selectedItem의 인덱스로 설정
@@ -26,17 +26,17 @@ const ScrollPicker = ({
 
   // 초기 스크롤 위치 설정을 위한 useEffect
   useEffect(() => {
-    if (
-      !isInitialized.current &&
-      containerRef.current &&
-      selectedItem !== undefined
-    ) {
-      const selectedIndex = options.indexOf(selectedItem.toString());
-      if (selectedIndex !== -1) {
-        containerRef.current.scrollTop = selectedIndex * 40;
-        setCurrentIndex(selectedIndex);
-        isInitialized.current = true; // 초기화 완료 표시
+    if (executionCount.current < 2) {
+      if (containerRef.current && selectedItem !== undefined) {
+        const selectedIndex = options.indexOf(selectedItem.toString());
+        if (selectedIndex !== -1) {
+          // 스크롤을 selectedItem에 맞게 설정
+          containerRef.current.scrollTop = selectedIndex * 40;
+        }
       }
+
+      // 실행 횟수 증가
+      executionCount.current += 1;
     }
   }, [selectedItem, options]);
 
