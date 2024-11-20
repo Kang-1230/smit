@@ -11,6 +11,7 @@ import TimerTimer from "./Timer";
 import ModalOverlay from "@/components/common/ModalOverlay";
 import Image from "next/image";
 import MyButton from "@/components/common/Button";
+import DailyPlanner from "./DailyPlanner";
 
 const StudyStateBox = ({
   study,
@@ -50,6 +51,9 @@ const StudyStateBox = ({
           />
           <StudyChat study={study} />
         </div>
+
+        <DailyPlanner studyId={studyId} isBtnActive={true} />
+
         <TimerTimer
           todaySchedules={todaySchedules}
           time={time}
