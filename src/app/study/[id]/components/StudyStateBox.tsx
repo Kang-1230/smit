@@ -52,8 +52,6 @@ const StudyStateBox = ({
           <StudyChat study={study} />
         </div>
 
-        <DailyPlanner studyId={studyId} isBtnActive={true} />
-
         <TimerTimer
           todaySchedules={todaySchedules}
           time={time}
