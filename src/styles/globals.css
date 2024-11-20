@@ -104,6 +104,9 @@ body {
   }
 
   /* 폰트 클래스 정의 */
+  .title-32-m {
+    @apply font-pretendard text-[32px] font-medium leading-[1.2] tracking-[-0.02em];
+  }
   .title-32-b {
     @apply font-pretendard text-[32px] font-bold leading-[1.2] tracking-[-0.02em];
   }

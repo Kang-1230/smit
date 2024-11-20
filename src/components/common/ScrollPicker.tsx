@@ -18,7 +18,7 @@ const ScrollPicker = ({
 
   useEffect(() => {
     // 실행 횟수가 5번 미만일 때만 실행
-    if (executionCount.current < 5) {
+    if (executionCount.current < 2) {
       if (containerRef.current && selectedItem !== undefined) {
         const selectedIndex = options.indexOf(selectedItem.toString());
         if (selectedIndex !== -1) {
