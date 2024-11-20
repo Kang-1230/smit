@@ -116,8 +116,11 @@ function WriteContent() {
     },
     onSuccess: (data) => {
       if (data !== null) {
-        router.replace(`/post/${data}`);
         isLoadingRef.current = false;
+        router.replace(`/post/${data}`);
+        setTimeout(() => {
+          router.refresh();
+        }, 0);
       }
     },
 
@@ -186,25 +189,48 @@ function WriteContent() {
   }, [post_id]);
 
   return (
-    <div className="mb-[29px] flex w-full flex-col items-center px-[24px]">
-      <div className="mb-[24px] flex h-[44px] w-full items-center justify-between">
+    <div className="mb-[29px] flex w-full flex-col items-center overflow-x-hidden px-[24px]">
+      <div className="fixed left-0 top-0 mb-[24px] flex h-[44px] w-full items-center justify-between bg-white p-2 px-6 text-2xl md:mx-48 md:flex md:h-[68px] md:w-[885px] md:justify-between">
         <Image
           src={Xmedium}
           alt="selectBtn"
           width={0}
           onClick={() => handleModalClose()}
+          className="md:hidden"
         />
-        <p className="body-16-s text-black">
+        <p className="body-16-s md:title-20-s text-black">
           {post_id ? "모집글 수정" : "모집글 쓰기"}
         </p>
         <button
           disabled={isLoadingRef.current}
           onClick={() => handleSendData()}
+          className="md:hidden"
         >
           <Image src={Check} alt="selectBtn" width={0} />
         </button>
+
+        <button
+          disabled={isLoadingRef.current}
+          onClick={() => handleSendData()}
+          className="hidden md:block"
+        >
+          <Image src={Check} alt="selectBtn" width={0} />
+        </button>
+
+        <button
+          onClick={() => handleModalClose()}
+          className="hidden h-9 w-20 rounded-[18px] bg-tertiary-100 md:block "
+        >
+          <Image
+            src={Xmedium}
+            alt="selectBtn"
+            width={0}
+            className=""
+          />
+          취소
+        </button>
       </div>
-      <div className="flex w-full flex-col gap-y-[32px]">
+      <div className="mb-4 mt-[68px] flex w-full flex-col gap-y-[32px]">
         <SquareInput
           onChange={setTitle}
           title="제목"
@@ -214,7 +240,7 @@ function WriteContent() {
           essential={true}
         />
         <div className="flex w-full flex-col gap-y-[12px]">
-          <RoundSelectDiv
+        <RoundSelectDiv
             onClick={() => setIsDateOpen(true)}
             title="시작 예정일"
             value={startDay !== "" ? startDay : "0000년 00월 00일"}
@@ -245,6 +271,7 @@ function WriteContent() {
       <WriteModal
         isModalOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        onBack={() => router.back()}
         onConfirm={(studyId, studyName) => {
           setStudy({ id: studyId, name: studyName });
           setIsModalOpen(false);

@@ -19,7 +19,7 @@ const getEndpointPosition = (percent: number) => {
 
 export const useStudyManager = (
   studyId: string,
-  member: string[] | null,
+  member: Tables<"user">[] | null,
   study: Tables<"study"> | null,
 ) => {
   const queryClient = useQueryClient();

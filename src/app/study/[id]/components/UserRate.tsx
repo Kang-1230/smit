@@ -23,81 +23,80 @@ const UserRate = ({
   currentSchedule: Tables<"calendar"> | null;
 }) => {
   return (
-    <div className="relative mr-3 w-full min-w-[187px] overflow-hidden rounded-20 bg-secondary-900 p-4 text-white">
-      <div className="absolute left-1/2 top-48 h-full w-3/4 -translate-x-1/2 rounded-full bg-white bg-opacity-80 blur-2xl"></div>
-      <p className="caption flex flex-row items-center">
-        <Image
-          src={`/icons/timer/BookLined.svg`}
-          alt="book icon"
-          width={16}
-          height={16}
-          className="mr-1"
-        />
+    <div className="relative mr-3 h-full w-full min-w-[187px] overflow-hidden rounded-20 bg-secondary-900 p-[16px] text-white xl:m-0 xl:h-[151px] xl:px-[20px] xl:py-[24px]">
+      {/* 배경 그라데이션 */}
+      <div className="absolute left-1/2 top-48 h-full w-5/6 -translate-x-1/2 rounded-full bg-white/50 blur-2xl xl:top-28 xl:h-[200%]"></div>
+      <div className="caption xl:body-14-r flex flex-row items-center xl:items-end">
+        <div className="relative mr-[4px] h-[16px] w-[16px] xl:h-[20px] xl:w-[20px]">
+          <Image src={`/icons/timer/BookLined.svg`} alt="book icon" fill />
+        </div>
         공부시간 달성률
-      </p>
-      <div className="relative h-[182px]">
-        {/* 배경 원 */}
-        <svg
-          width="120"
-          height="120"
-          viewBox="0 0 120 120"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="absolute-center rotate-[-90deg]"
-        >
-          <circle
-            className="stroke-secondary-700"
+      </div>
+      <div className="relative h-full w-full">
+        <div className="absolute-center xl:bottom-[3px] xl:right-[31px] xl:translate-x-0 xl:translate-y-0">
+          {/* 배경 원 */}
+          <svg
+            width="120"
+            height="120"
+            viewBox="0 0 120 120"
             fill="none"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            cx="60"
-            cy="60"
-            r="57"
-          ></circle>
-          {userTimer?.time_rate && (
+            xmlns="http://www.w3.org/2000/svg"
+            className="rotate-[-90deg]"
+          >
             <circle
-              cx={endPoint.x}
-              cy={endPoint.y}
-              r="3.5"
-              fill="white"
-              className="transition-all duration-1000 ease-out"
+              className="stroke-secondary-700"
+              fill="none"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              cx="60"
+              cy="60"
+              r="57"
             ></circle>
-          )}
-        </svg>
-        {/* 원형 차트 */}
-        <svg
-          width="120"
-          height="120"
-          viewBox="0 0 120 120"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="absolute-center rotate-[-90deg]"
-        >
-          <circle
-            className="stroke-white transition-all duration-1000 ease-out"
+            {userTimer?.time_rate && (
+              <circle
+                cx={endPoint.x}
+                cy={endPoint.y}
+                r="3.5"
+                fill="white"
+                className="transition-all duration-1000 ease-out"
+              ></circle>
+            )}
+          </svg>
+          {/* 원형 차트 */}
+          <svg
+            width="120"
+            height="120"
+            viewBox="0 0 120 120"
             fill="none"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            cx="60"
-            cy="60"
-            r="57"
-            strokeDasharray={circumference}
-            strokeDashoffset={strokeDashoffset}
-          ></circle>
-          {userTimer?.time_rate && (
+            xmlns="http://www.w3.org/2000/svg"
+            className="absolute-center rotate-[-90deg]"
+          >
             <circle
-              cx={endPoint.x}
-              cy={endPoint.y}
-              r="3.5"
-              fill="white"
-              className="transition-all duration-1000 ease-out"
+              className="stroke-white transition-all duration-1000 ease-out"
+              fill="none"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              cx="60"
+              cy="60"
+              r="57"
+              strokeDasharray={circumference}
+              strokeDashoffset={strokeDashoffset}
             ></circle>
-          )}
-        </svg>
-        <p className="absolute-center font-pretendard text-[32px] font-medium">
-          {currentSchedule && userTimer ? userTimer.time_rate : 0}
-          <span className="caption">%</span>
-        </p>
+            {userTimer?.time_rate && (
+              <circle
+                cx={endPoint.x}
+                cy={endPoint.y}
+                r="3.5"
+                fill="white"
+                className="transition-all duration-1000 ease-out"
+              ></circle>
+            )}
+          </svg>
+          <p className="absolute-center font-pretendard text-[32px] font-medium">
+            {currentSchedule && userTimer ? userTimer.time_rate : 0}
+            <span className="caption">%</span>
+          </p>
+        </div>
       </div>
     </div>
   );

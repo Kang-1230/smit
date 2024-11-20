@@ -3,7 +3,7 @@
 import browserClient from "@/utils/supabase/client";
 import { Tables } from "../../../../database.types";
 import ModalOverlay from "../../../components/common/ModalOverlay";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { deleteUser } from "@/utils/supabase/supabase-client";
 import { useRouter } from "next/navigation";
 import { useSession } from "@/hooks/useUserProfile";
@@ -13,6 +13,7 @@ import MyButton from "@/components/common/Button";
 import Link from "next/link";
 
 const DeleteUserButton = () => {
+  const deleteRef = useRef<HTMLButtonElement | null>(null);
   const { isModalOpen, modalClose, modalOpen } = useModalOpen();
   const [isUserGroupOwner, setIsUserGroupOwner] = useState(false);
   const router = useRouter();
@@ -40,21 +41,32 @@ const DeleteUserButton = () => {
     await deleteUser();
     router.push("/");
     router.refresh();
-    // 라우터가 캐싱처리돼서 발생했던 문제 미친것
-    // 이거 하나 넣고 해결됨 대박
-    // MVP 재상튜터님
   };
 
   return (
     <>
-      <button
-        onClick={() => {
-          checkDeleteHandler();
-        }}
-        className="body-16-m px-6 text-left"
-      >
-        탈퇴하기
-      </button>
+      <div className="px-[24px] md:mb-[168px] md:mt-[105px] md:px-0">
+        <button
+          onClick={() => {
+            checkDeleteHandler();
+          }}
+          className="body-16-m md:title-20-s text-left md:ml-[4px]"
+          ref={deleteRef}
+        >
+          탈퇴하기
+        </button>
+        <p className="body-14-r mb-[22px] mt-[4px] hidden text-secondary-300 md:ml-[4px] md:block">
+          삭제하면 다시 복구할 수 없습니다
+        </p>
+        <MyButton
+          size="md"
+          style="beige"
+          className="hidden w-fit md:block"
+          onClick={() => deleteRef.current?.click()}
+        >
+          탈퇴하기
+        </MyButton>
+      </div>
       {isModalOpen && (
         <ModalOverlay onClick={modalClose}>
           {isUserGroupOwner ? (

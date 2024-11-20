@@ -109,9 +109,19 @@ const config: Config = {
         "0%": { transform: "translateY(100%)", opacity: "0" },
         "100%": { transform: "translateY(0)", opacity: "1" },
       },
+      fadeIn: {
+        from: { opacity: "0" },
+        to: { opacity: "1" },
+      },
+      fadeOut: {
+        from: { opacity: "1" },
+        to: { opacity: "0" },
+      },
     },
     animation: {
       "slide-up": "slideUp 0.3s ease-in-out",
+      "fade-in": "fadeIn 0.4s ease-in-out forwards",
+      "fade-out": "fadeOut 0.4s ease-in-out forwards",
     },
   },
   plugins: [animate],

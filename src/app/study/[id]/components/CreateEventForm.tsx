@@ -12,6 +12,7 @@ import Image from "next/image";
 import Clock from "../../../../../public/icons/Clock.svg";
 import AutoResizeTextArea from "./AutoResizeTextArea";
 import MyButton from "@/components/common/Button";
+import WebSelectTime from "./WebSelectTime";
 
 interface CreateEventFormProps {
   studyId: string;
@@ -81,7 +82,7 @@ const CreateEventForm = ({
 
   return (
     <>
-      <div className="m-[25px] flex flex-col items-center gap-3 self-stretch rounded-2xl bg-secondary-800 p-5">
+      <div className="mx-6 my-5 flex flex-col items-center gap-3 self-stretch rounded-2xl bg-secondary-800 p-5 xl:mx-5 xl:my-4">
         <AutoResizeTextArea
           value={eventDescription}
           onChange={setEventDescription}
@@ -95,7 +96,7 @@ const CreateEventForm = ({
                 setActiveInput("start");
               }}
               placeholder="12:00"
-              className="flex w-full flex-1 cursor-pointer items-center gap-2 rounded-full bg-secondary-600 py-2 pl-11 pr-4 text-white placeholder-secondary-500"
+              className="flex w-full flex-1 cursor-pointer items-center gap-2 rounded-full bg-secondary-600 py-2 pl-11 pr-4 text-white placeholder-secondary-300 focus:outline-none focus:ring-1 focus:ring-secondary-100"
               readOnly
             />
             <Image
@@ -115,7 +116,7 @@ const CreateEventForm = ({
                 setActiveInput("end");
               }}
               placeholder="15:00"
-              className="flex w-full flex-1 cursor-pointer items-center gap-2 rounded-full bg-secondary-600 py-2 pl-11 pr-4 text-white placeholder-secondary-500"
+              className="flex w-full flex-1 cursor-pointer items-center gap-2 rounded-full bg-secondary-600 py-2 pl-11 pr-4 text-white placeholder-secondary-300 focus:outline-none focus:ring-1 focus:ring-secondary-100"
               readOnly
             />
             <Image
@@ -127,8 +128,23 @@ const CreateEventForm = ({
             />
           </div>
         </div>
-
-        <div className="mt-2 flex gap-2 self-stretch">
+        {isModalOpen && (
+          <WebSelectTime
+            onTimeSelect={handleTimeSelect}
+            onClose={() => {
+              setIsModalOpen(false);
+              setActiveInput(null);
+            }}
+            eventStart={eventStart}
+            eventEnd={eventEnd}
+            selectingType={activeInput === "start" ? "start" : "end"}
+            calendarData={calendarData}
+            withoutEditData={withoutEditData}
+            mode={mode}
+            isWebCalender={isModalOpen}
+          />
+        )}
+        <div className="mt-2 flex gap-2 self-stretch xl:mt-0">
           <MyButton
             onClick={closeForm}
             style="black-line"

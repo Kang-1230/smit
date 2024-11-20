@@ -1,14 +1,15 @@
 "use client";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Tables } from "../../../../database.types";
 import Image from "next/image";
 import Warning from "../../../../public/icons/Warning.svg";
+import MyButton from "@/components/common/Button";
 
 type ModalProps = {
   isModalOpen: boolean;
   onClose: () => void;
   onConfirm: (studyId: string, studyName: string) => void;
+  onBack?: () => void;
   modalMode: string;
   studyGroup?: Tables<"study">[] | null | undefined;
 };
@@ -39,7 +40,7 @@ const WriteModal = (props: ModalProps) => {
   return props.isModalOpen ? (
     props.modalMode === "close" ? (
       <div className="fixed inset-0 flex w-full items-center justify-center bg-black bg-opacity-50">
-        <div className="flex h-fit w-5/6 flex-col items-center justify-center overflow-y-auto overflow-x-hidden rounded-3xl bg-white p-6 shadow-lg">
+        <div className="flex h-fit w-5/6 flex-col items-center justify-center overflow-hidden rounded-3xl bg-white p-6 shadow-lg">
           <Image src={Warning} alt="union" width={0} className="mb-6" />
           <h3 className="title-20-s mb-3 text-center">
             지금 나가면 지금까지 <br></br> 작성한 기록이 사라져요.
@@ -54,12 +55,12 @@ const WriteModal = (props: ModalProps) => {
             >
               취소
             </button>
-            <Link
-              href="/"
+            <button
               className="... ... ml-1 flex size-14 w-4/6 items-center justify-center rounded-full bg-secondary-900 text-center text-lg text-white"
+              onClick={props.onBack}
             >
               나가기
-            </Link>
+            </button>
           </div>
         </div>
       </div>
@@ -69,60 +70,66 @@ const WriteModal = (props: ModalProps) => {
         onClick={props.onClose}
       >
         <div
-          className="fixed inset-x-0 bottom-0 flex h-2/5 w-full flex-col overflow-y-auto rounded-t-2xl bg-white p-5 shadow-lg focus:overscroll-contain animate-slide-up"
+          className="fixed inset-x-0 bottom-0 flex h-fit w-full animate-slide-up flex-col overflow-y-auto rounded-t-2xl bg-white shadow-lg focus:overscroll-contain"
           onClick={(e) => e.stopPropagation()}
         >
-          <h1 className="title-20-m">스터디 그룹 선택</h1>
-          <p className="body-14-m pt-2 text-secondary-400">
-            모집글을 작성할 스터디 그룹을 선택해주세요.
-          </p>
+          <div className="p-5">
+            <h1 className="title-20-m">스터디 그룹 선택</h1>
+            <p className="body-14-m pt-2 text-secondary-400">
+              모집글을 작성할 스터디 그룹을 선택해주세요.
+            </p>
 
-          <div className="my-10">
-            {props.studyGroup &&
-              props.studyGroup.map((item) => (
-                <div
-                  key={item.study_id}
-                  className="flex h-fit w-full items-center pb-4"
-                >
-                  <input
-                    type="radio"
-                    name="studyGroup"
-                    value={item.study_id}
-                    checked={
-                      selectStudy?.studyId === item.study_id &&
-                      selectStudy?.studyName === item.study_name
-                    }
-                    onClick={(e) => e.stopPropagation()}
-                    onChange={() => {
-                      if (selectStudy?.studyId === item.study_id) {
-                        setSelectStudy(null);
-                      } else {
-                        setSelectStudy({
-                          studyId: item.study_id,
-                          studyName: item.study_name,
-                        });
+            <div className="my-10">
+              {props.studyGroup &&
+                props.studyGroup.map((item) => (
+                  <label
+                    key={item.study_id}
+                    className="flex h-fit w-full items-center pb-4"
+                  >
+                    <input
+                      type="radio"
+                      name="studyGroup"
+                      value={item.study_id}
+                      checked={
+                        selectStudy?.studyId === item.study_id &&
+                        selectStudy?.studyName === item.study_name
                       }
-                    }}
-                    className={`h-4 w-4 appearance-none rounded-full border-2 ${
-                      selectStudy?.studyId === item.study_id
-                        ? "border-primary-50 bg-primary-50"
-                        : "border-gray-400 bg-white"
-                    }`}
-                  />
-                  <p className="body-16-m ml-3">{item.study_name}</p>
-                </div>
-              ))}
+                      onClick={(e) => e.stopPropagation()}
+                      onChange={() => {
+                        if (selectStudy?.studyId === item.study_id) {
+                          setSelectStudy(null);
+                        } else {
+                          setSelectStudy({
+                            studyId: item.study_id,
+                            studyName: item.study_name,
+                          });
+                        }
+                      }}
+                      className={`h-5 w-5 appearance-none rounded-full border-2 ${
+                        selectStudy?.studyId === item.study_id
+                          ? "border-[6px] border-primary-50 bg-white"
+                          : "border-secondary-500 bg-white border-[1.5px]"
+                      }`}
+                    />
+                    <p className="body-16-m ml-3">{item.study_name}</p>
+                  </label>
+                ))}
+            </div>
           </div>
-          <button
-            className="... body-16-s w-full rounded-full bg-secondary-900 p-5 text-white"
-            onClick={() => {
-              if (selectStudy) {
-                props.onConfirm(selectStudy.studyId, selectStudy.studyName);
-              }
-            }}
-          >
-            적용하기
-          </button>
+          <div className="mt-4 flex items-center justify-center gap-2 border-t px-6 py-[10px] text-white">
+            <MyButton
+              style="black-fill"
+              size="lg"
+              onClick={() => {
+                if (selectStudy) {
+                  props.onConfirm(selectStudy.studyId, selectStudy.studyName);
+                }
+              }}
+              className="body-16-s flex-1 rounded-3xl bg-secondary-900 px-4 py-2 text-white"
+            >
+              적용하기
+            </MyButton>
+          </div>
         </div>
       </div>
     )

@@ -22,7 +22,7 @@ const RoundLoginInput = ({
   }>;
 }) => {
   const [isShow, setIsShow] = useState(!useEyes);
-  const img = isShow ? "/icons/EyeOff.svg" : "/icons/EyeOn.svg";
+  const img = isShow ? "/icons/EyeOn.svg" : "/icons/EyeOff.svg";
   return (
     <>
       <div className="w-full">

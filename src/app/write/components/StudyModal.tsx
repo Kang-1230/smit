@@ -31,7 +31,7 @@ const StudyModal = (props: ModalProps) => {
   return props.isModalOpen ? (
     <div className="z-100 fixed inset-0 flex h-full w-full items-center justify-center bg-black/70">
       <div
-        className="flex h-fit w-5/6 flex-col items-center justify-center overflow-y-hidden rounded-3xl bg-white px-6 py-4 shadow-lg animate-slide-up"
+        className="flex h-fit w-5/6 animate-slide-up flex-col items-center justify-center rounded-3xl bg-white px-6 py-4 shadow-lg overflow-hidden md:w-[440px] md:h-[525px]"
         onClick={(e) => e.stopPropagation()}
       >
         {props.modalMode === "nonexist" ? (
@@ -100,9 +100,9 @@ const StudyModal = (props: ModalProps) => {
               </Link>
               <Link
                 href="/write"
-                className="... ... ml-1 flex size-14 w-4/6 items-center justify-center rounded-full bg-secondary-900 text-center text-lg text-white"
+                className="... ... ml-1 flex size-14 items-center justify-center rounded-full bg-secondary-900 text-center text-lg text-white"
               >
-                바로가기
+                모집글 작성하기
               </Link>
             </div>
           </>

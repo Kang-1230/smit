@@ -11,8 +11,11 @@ import { getToday } from "@/utils/getTime";
 import StudyInfo from "./components/StudyInfo";
 import StudyStateBox from "./components/StudyStateBox";
 import BackButton from "@/components/common/BackButton";
+import CalendarModal from "./components/CalendarModal";
+import { StudyGroupParams } from "@/types/studys";
+import DailyPlanner from "./components/DailyPlanner";
 
-const Page = async ({ params }: { params: { id: string } }) => {
+const Page = async ({ params, searchParams }: StudyGroupParams) => {
   const studyId = params.id;
   const today = getToday(new Date());
   const study = await fetchStudyInfo(studyId);
@@ -20,20 +23,42 @@ const Page = async ({ params }: { params: { id: string } }) => {
   const studyMember = await fetchStudyMember(studyId);
 
   return (
-    <>
-    <BackButton className="ml-6 mt-[10px]"/>
-    <div className="flex w-full flex-col items-center overflow-x-hidden bg-secondary-800 px-6 pt-[64px] text-white">
-      <StudyInfo study={study} member={studyMember} />
-      <StudyStateBox
-        studyId={studyId}
-        member={studyMember}
-        today={today}
-        study={study}
-      ></StudyStateBox>
-      <GroupCalendar studyId={studyId} />
-      <PersonalMemos studyId={studyId} />
+    <div className="h-screen w-full overflow-x-hidden bg-secondary-800 pb-[46px]">
+      <div
+        className={`w-full xl:mx-auto xl:max-w-[1280px] ${searchParams.modal && "xl:overflow-visible"}`}
+      >
+        <div className="ml-6 mt-[10px] xl:hidden">
+          <BackButton className="ml-6 mt-[10px]" studyId={studyId} />
+        </div>
+        <div className="flex w-full flex-col items-center bg-secondary-800 px-6 pt-[64px] text-white xl:pt-[136px]">
+          <StudyInfo study={study} member={studyMember} />
+          <main className="xl:relative xl:grid xl:grid-rows-[402px_474px] xl:gap-y-6">
+            <StudyStateBox
+              studyId={studyId}
+              member={studyMember}
+              today={today}
+              study={study}
+            ></StudyStateBox>
+            <section className="xl:grid xl:grid-cols-[388px_408px_388px] xl:gap-x-6">
+              <div className="hidden xl:block">
+                <DailyPlanner studyId={studyId} isBtnActive={true} />
+              </div>
+              <GroupCalendar
+                studyId={studyId}
+                isModalOpen={searchParams.modal === "calendar"}
+              />
+              <PersonalMemos studyId={studyId} />
+            </section>
+            <CalendarModal
+              studyData={study}
+              studyId={studyId}
+              selectedDate={searchParams.date}
+              isModalOpen={searchParams.modal === "calendar"}
+            />
+          </main>
+        </div>
+      </div>
     </div>
-    </>
   );
 };
 export default Page;

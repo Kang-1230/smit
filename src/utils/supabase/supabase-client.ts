@@ -122,7 +122,7 @@ export const updateStudy = async (
   studyMaxPeople: number,
   studyDescription: string,
   studyLink: string,
-  studyImg : string | null
+  studyImg: string | null,
 ) => {
   const user = await fetchSessionData();
   if (!user) {
@@ -137,14 +137,14 @@ export const updateStudy = async (
       study_max_people: studyMaxPeople,
       study_description: studyDescription,
       study_chaturl: studyLink,
-      study_imgurl: studyImg
+      study_imgurl: studyImg,
     })
     .eq("study_id", studyId);
 
-    if (error) {
-      console.log(error);
-      throw new Error("스터디 수정에 실패했습니다.");
-    }
+  if (error) {
+    console.log(error);
+    throw new Error("스터디 수정에 실패했습니다.");
+  }
 };
 
 // 포스트 생성 (insert)
@@ -185,7 +185,7 @@ export const updatePostWrite = async (
   studyId: string,
   contents: string,
   title: string,
-  startDay: string,
+  startDay: string | null,
   post_id: number,
 ) => {
   const user = await fetchSessionData();
@@ -523,8 +523,9 @@ export const fetchStudyByPost = async (studyId: string) => {
 export const fetchStudyMember = async (studyId: string) => {
   const { data, error } = await browserClient
     .from("attendance_list")
-    .select("user_id")
-    .eq("study_id", studyId);
+    .select("user!user_id(*)")
+    .eq("study_id", studyId)
+    .returns<{ user: Tables<"user"> }[]>();
 
   if (error) {
     console.error(error);
@@ -535,7 +536,7 @@ export const fetchStudyMember = async (studyId: string) => {
     return null;
   }
 
-  return [...data.map((d) => d.user_id)] as string[];
+  return data.map((d) => d.user);
 };
 
 // 회원 탈퇴 라우트 핸들러 사용
@@ -724,5 +725,76 @@ export const fetchAttendanceRate = async (studyId: string, today: string) => {
     return 0;
   } else {
     return data.length;
+  }
+};
+
+// 스터디 goal 데이터 불러오기
+export const getStudyGoalList = async (
+  studyId: string,
+  userId: string | undefined,
+) => {
+  const { data, error } = await browserClient
+    .from("study_goal")
+    .select("*")
+    .eq("study_id", studyId)
+    .eq("user_id", userId)
+    .order("goal_id", { ascending: true });
+  if (!data || error) {
+    throw new Error("스터디 학습 목표를 불러오지 못했습니다.");
+  }
+  return data as Tables<"study_goal">[];
+};
+
+// 스터디 goal 데이터 삭제
+export const deleteStudyGoal = async (goalId: number) => {
+  const { error } = await browserClient
+    .from("study_goal")
+    .delete()
+    .eq("goal_id", goalId);
+  if (error) {
+    throw new Error("스터디 목표 삭제를 실패했습니다.");
+  }
+};
+
+// 스터디 goal 데이터 추가
+export const insertStudyGoal = async (
+  studyId: string,
+  goalName: string | undefined,
+) => {
+  const user = await fetchSessionData();
+  if (!user) {
+    throw new Error("로그인 상태가 아님");
+  }
+
+  const { error } = await browserClient
+    .from("study_goal")
+    .insert({ study_id: studyId, user_id: user?.id, goal_name: goalName });
+  if (error) {
+    throw new Error("목표 등록을 실패했습니다.");
+  }
+};
+
+// 스터디 goal 데이터 수정
+export const updateStudyGoal = async (
+  goalId: number,
+  goalName: string | undefined,
+  isSuccess: boolean | undefined,
+) => {
+  const updateData: { goal_name?: string; is_success?: boolean } = {};
+
+  // goalName과 isSuccess가 정의되었을 때만 객체에 추가
+  if (goalName !== undefined) {
+    updateData.goal_name = goalName;
+  }
+  if (isSuccess !== undefined) {
+    updateData.is_success = isSuccess;
+  }
+
+  const { error } = await browserClient
+    .from("study_goal")
+    .update(updateData)
+    .eq("goal_id", goalId);
+  if (error) {
+    throw new Error("스터디 목표 삭제를 실패했습니다.");
   }
 };

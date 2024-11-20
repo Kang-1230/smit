@@ -1,0 +1,14 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="icon/chevron right" filter="url(#filter0_b_2780_51394)">
+<rect x="40" y="40" width="40" height="40" rx="20" transform="rotate(-180 40 40)" fill="black" fill-opacity="0.2"/>
+<path id="Icon (Stroke)" fill-rule="evenodd" clip-rule="evenodd" d="M13.9141 20.0003C13.9141 19.713 14.0282 19.4375 14.2314 19.2343L22.5647 10.901C22.9878 10.4779 23.6737 10.4779 24.0968 10.901C24.5198 11.324 24.5198 12.01 24.0968 12.433L16.5295 20.0003L24.0968 27.5676C24.5198 27.9907 24.5198 28.6766 24.0968 29.0997C23.6737 29.5228 22.9878 29.5228 22.5647 29.0997L14.2314 20.7664C14.0282 20.5632 13.9141 20.2876 13.9141 20.0003Z" fill="white"/>
+</g>
+<defs>
+<filter id="filter0_b_2780_51394" x="-20" y="-20" width="80" height="80" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feGaussianBlur in="BackgroundImageFix" stdDeviation="10"/>
+<feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_2780_51394"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_2780_51394" result="shape"/>
+</filter>
+</defs>
+</svg>

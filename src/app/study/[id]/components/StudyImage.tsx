@@ -5,6 +5,7 @@ import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { Tables } from "../../../../../database.types";
 import { convertUTCToKST } from "@/utils/convertDate";
+import { useToast } from "@/hooks/useToast";
 
 type Props = {
   urlStudyId: string;
@@ -16,6 +17,8 @@ const StudyImage = ({ urlStudyId, onConfirm, onFile }: Props) => {
   const [study, setStudy] = useState<Tables<"study">>();
   const [isSubModalOpen, setIsSubModalOpen] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
+
+  const { showToast, ToastComponent } = useToast();
 
   // 최초 스터디 정보 get
   useEffect(() => {
@@ -60,10 +63,8 @@ const StudyImage = ({ urlStudyId, onConfirm, onFile }: Props) => {
         };
         onFile(file);
       } else if (!allowExtenstions.includes(file.type)) {
-        // Toast로 선택한 파일이 이미지 형식이 아닙니다 - toast 로 수정 진행 예정
-        alert("선택한 파일이 이미지 형식이 아닙니다");
-        // setModalMode("file");
-        // setIsModalOpen(true);
+        showToast("선택한 파일이 이미지 형식이 아닙니다.");
+        e.target.value = "";
       }
     }
   };
@@ -102,7 +103,7 @@ const StudyImage = ({ urlStudyId, onConfirm, onFile }: Props) => {
 
   return (
     <div className="relative flex h-[263px] w-full items-center justify-center">
-      <div className="absolute inset-0 bg-gradient-to-b from-black/0 from-30% to-black/40" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
       <Image
         src={
           study.study_imgurl ||
@@ -134,13 +135,13 @@ const StudyImage = ({ urlStudyId, onConfirm, onFile }: Props) => {
               autoFocus
             />
           ) : (
-            <p className="flex items-end">
+            <p className="flex items-center">
               {study.study_name}
               <Image
                 src={"/icons/EditFill.svg"}
                 alt="edit"
-                width={24}
-                height={24}
+                width={16.3}
+                height={16.3}
                 className="ml-1 cursor-pointer"
                 onClick={() => setIsEdit(true)}
               />
@@ -148,9 +149,9 @@ const StudyImage = ({ urlStudyId, onConfirm, onFile }: Props) => {
           )}
         </div>
       </div>
-      <div className="absolute bottom-[26px] right-[24px] z-20 flex items-center rounded-[22px] bg-white/50 p-[14px] backdrop-blur-[15px]">
+      <div className="absolute bottom-[26px] right-[24px] z-20 flex items-center rounded-[22px] bg-white/40 p-[14px] backdrop-blur-[20px]">
         <Image
-          src={"/icons/ImageSelectWhite.svg"}
+          src={"/icons/ImageSelectBlack.svg"}
           alt="selectBtn"
           width={16}
           height={16}
@@ -197,6 +198,8 @@ const StudyImage = ({ urlStudyId, onConfirm, onFile }: Props) => {
           </div>
         </div>
       )}
+
+      <ToastComponent></ToastComponent>
     </div>
   );
 };

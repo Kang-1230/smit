@@ -11,6 +11,7 @@ interface buttonProps {
     | "darkgray"
     | "gray-2";
   size: "lg" | "md" | "sm";
+  responsiveSize?: "lg" | "md" | "sm";
   onClick?:
     | (() => void)
     | ((event: React.MouseEvent<HTMLButtonElement>) => void);
@@ -27,6 +28,7 @@ const MyButton = ({
   disabled,
   className,
   type = "button",
+  responsiveSize,
 }: buttonProps) => {
   const sizeClass = {
     lg: "py-[12px] px-[20px] rounded-24 body-16-s",
@@ -34,9 +36,15 @@ const MyButton = ({
     sm: "py-[4px] px-[12px] rounded-[14px] body-14-s",
   };
 
+  const responsiveSizeClass = {
+    lg: "md:py-[12px] md:px-[20px] md:rounded-24 md:body-16-s",
+    md: "md:py-[8px] md:px-[16px] md:rounded-[18px] md:body-14-s",
+    sm: "md:py-[4px] md:px-[12px] md:rounded-[14px] md:body-14-s",
+  };
+
   return (
     <button
-      className={`min-w-fit ${style} ${sizeClass[size]} ${className}`}
+      className={`mit-h-fit min-w-fit ${style} ${sizeClass[size]} ${className} ${responsiveSize && responsiveSizeClass[responsiveSize]}`}
       onClick={onClick}
       disabled={disabled}
       type={type}

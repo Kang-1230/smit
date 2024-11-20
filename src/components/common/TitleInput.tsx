@@ -11,6 +11,7 @@ const TitleInput = ({
   disabled = false,
   useEyes = false,
   caption,
+  onBlur,
 }: {
   placeholder: string;
   value?: string;
@@ -21,6 +22,7 @@ const TitleInput = ({
   disabled?: boolean;
   useEyes?: boolean;
   caption?: string;
+  onBlur?: () => void;
 }) => {
   const [isShow, setIsShow] = useState(!useEyes);
   const img = isShow ? "/icons/EyeOff.svg" : "/icons/EyeOn.svg";
@@ -37,6 +39,7 @@ const TitleInput = ({
               onChange={onChange}
               disabled={disabled}
               type={isShow ? "text" : "password"}
+              onBlur={onBlur}
             />
             <div className="absolute right-[16px] top-1/2 flex -translate-y-1/2 items-center">
               {error && (

@@ -7,7 +7,7 @@ import { usePublicUser } from "@/hooks/useUserProfile";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Edit from "../../../../public/icons/Edit.svg";
-import Open from "../../../../public/icons/PlusMideum.svg";
+import Open from "../../../../public/icons/PlusMediumWhite.svg";
 import Close from "../../../../public/icons/XMedium.svg";
 import Pencil from "../../../../public/icons/PencilSmall.svg";
 import Tooltip from "@/components/common/Tooltip";
@@ -64,75 +64,77 @@ export default function Dropdown() {
 
   return (
     <>
-      <Menu>
-        {({ open }) => (
-          <div className="fixed bottom-[84px] right-[24px] z-20">
-            <MenuButton
-              className={`relative z-[999] items-center justify-center rounded-full border border-white/50 p-[10px] text-white ${
-                open ? "border-none bg-primary-50" : "bg-black"
-              }`}
-            >
-              <Image
-                src={open ? Close : Open}
-                alt="union"
-                width={40}
-                height={40}
-              />
-            </MenuButton>
-            {tooltipVisible && user && (
-              <div className="fixed bottom-[162px] right-[19px]">
-                <Tooltip
-                  message={`+ 버튼을 눌러서<br/>스터디/모집글을 작성해보세요`}
-                  position="right"
-                  onClose={closeTooltip}
-                />
-              </div>
-            )}
-
-            {open && (
-              <div
-                className="fixed inset-0 flex h-full w-full items-center justify-center bg-black/70"
-                onClick={(e) => e.stopPropagation()}
+      <div className="absolute bottom-[84px] right-6 flex h-[3.75rem] w-[3.75rem] items-center justify-center rounded-full">
+        <Menu>
+          {({ open }) => (
+            <div className="">
+              <MenuButton
+                className={`relative z-[999] items-center justify-center rounded-full border border-white/50 p-[10px] text-white ${
+                  open ? "border-none bg-primary-50" : "bg-black"
+                }`}
               >
-                <MenuItems
-                  static
-                  anchor="top end"
-                  className="z-20 origin-top rounded-3xl bg-white p-6 transition duration-200 ease-out [--anchor-gap:8px] data-[closed]:scale-95 data-[closed]:opacity-0 animate-slide-up"
+                <Image
+                  src={open ? Close : Open}
+                  alt="union"
+                  width={38}
+                  height={38}
+                />
+              </MenuButton>
+              {tooltipVisible && user && (
+                <div className="fixed bottom-[162px] right-[19px]">
+                  <Tooltip
+                    message={`+ 버튼을 눌러서<br/>스터디/모집글을 작성해보세요`}
+                    position="right"
+                    onClose={closeTooltip}
+                  />
+                </div>
+              )}
+
+              {open && (
+                <div
+                  className="fixed inset-0 flex h-full w-full items-center justify-center bg-black/70"
+                  onClick={(e) => e.stopPropagation()}
                 >
-                  <MenuItem>
-                    <a
-                      className="body-16-s flex items-center justify-start"
-                      onClick={routeStudyPage}
-                    >
-                      <Image
-                        src={Edit}
-                        alt="union"
-                        width={0}
-                        className="mr-2"
-                      />
-                      스터디 만들기
-                    </a>
-                  </MenuItem>
-                  <MenuItem>
-                    <a
-                      className="body-16-s mt-4 flex items-center justify-start"
-                      onClick={getStudyList}
-                    >
-                      <Image
-                        src={Pencil}
-                        alt="PencilLined"
-                        width={0}
-                        className="mr-2"
-                      />
-                      모집글 쓰기
-                    </a>
-                  </MenuItem>
-                </MenuItems>
-              </div>
-            )}
-          </div>
-        )}
-      </Menu>
+                  <MenuItems
+                    static
+                    anchor="top end"
+                    className="z-20 origin-top animate-slide-up rounded-3xl bg-white p-6 transition duration-200 ease-out [--anchor-gap:8px] data-[closed]:scale-95 data-[closed]:opacity-0"
+                  >
+                    <MenuItem>
+                      <a
+                        className="body-16-s flex items-center justify-start"
+                        onClick={routeStudyPage}
+                      >
+                        <Image
+                          src={Edit}
+                          alt="union"
+                          width={0}
+                          className="mr-2"
+                        />
+                        스터디 만들기
+                      </a>
+                    </MenuItem>
+                    <MenuItem>
+                      <a
+                        className="body-16-s mt-4 flex items-center justify-start"
+                        onClick={getStudyList}
+                      >
+                        <Image
+                          src={Pencil}
+                          alt="PencilLined"
+                          width={0}
+                          className="mr-2"
+                        />
+                        모집글 쓰기
+                      </a>
+                    </MenuItem>
+                  </MenuItems>
+                </div>
+              )}
+            </div>
+          )}
+        </Menu>
+      </div>
 
       <Modal
         isModalOpen={isModalOpen}
