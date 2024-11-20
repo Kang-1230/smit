@@ -1,11 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ScrollPicker from "@/components/common/ScrollPicker";
 import { Tables } from "../../../../../database.types";
-import SelectDateModal from "@/components/common/SelectDateModal";
 import { useToast } from "@/hooks/useToast";
+import Image from "next/image";
 
-interface SelecTimeProps {
+interface WebSelectTimeProps {
   onTimeSelect: (time: string) => void;
   onClose: () => void;
   eventStart: string;
@@ -14,9 +14,10 @@ interface SelecTimeProps {
   calendarData: Tables<"calendar">[] | undefined;
   withoutEditData?: Tables<"calendar">[];
   mode: "create" | "edit";
+  isWebCalender: boolean;
 }
 
-const SelectTime = ({
+const WebSelectTime = ({
   onTimeSelect,
   onClose,
   eventStart,
@@ -25,7 +26,8 @@ const SelectTime = ({
   calendarData,
   withoutEditData,
   mode,
-}: SelecTimeProps) => {
+  isWebCalender,
+}: WebSelectTimeProps) => {
   const [selectedHour, setSelectedHour] = useState("");
   const [selectedMinute, setSelectedMinute] = useState("");
   const { showToast, ToastComponent } = useToast();
@@ -142,36 +144,32 @@ const SelectTime = ({
     onClose();
   };
 
-  // 시간 형태 변환(12:00 -> 오전 12시 00분)
-  const convertTimeFormat = (timeStr: string): string => {
-    const [h, m] = timeStr.split(":").map(Number);
-    return `${h >= 12 ? "오후" : "오전"} ${h % 12 || 12}시 ${m}분`;
-  };
-
   return (
-    <div className="xl:hidden">
-      <SelectDateModal
-        handleClose={onClose}
-        handleConfirm={handleConfirm}
-        selectedDate={convertTimeFormat(`${selectedHour}:${selectedMinute}`)}
+    <div className="hidden w-full items-center justify-center xl:flex">
+      <ToastComponent style="darkgray" position="webCalendar" />
+      {/* 시간 선택 */}
+      <ScrollPicker
+        options={hours}
+        handleScroll={handleHourScroll}
+        selectedItem={selectedHour}
+        isWebCalender={isWebCalender}
+      />
+      <span className="mx-4 text-xl font-bold">:</span>
+      {/* 분 선택 */}
+      <ScrollPicker
+        options={minutes}
+        handleScroll={handleMinuteScroll}
+        selectedItem={selectedMinute}
+        isWebCalender={isWebCalender}
+      />
+      <div
+        onClick={handleConfirm}
+        className="absolute right-[84px] rounded-full bg-white p-[3px]"
       >
-        <ToastComponent style="gray" position="ct" />
-        {/* 시간 선택 */}
-        <ScrollPicker
-          options={hours}
-          handleScroll={handleHourScroll}
-          selectedItem={selectedHour}
-        />
-        <span className="mx-4 text-xl font-bold">:</span>
-        {/* 분 선택 */}
-        <ScrollPicker
-          options={minutes}
-          handleScroll={handleMinuteScroll}
-          selectedItem={selectedMinute}
-        />
-      </SelectDateModal>
+        <Image src={"/icons/Check.svg"} alt="check" width={18} height={18} />
+      </div>
     </div>
   );
 };
 
-export default SelectTime;
+export default WebSelectTime;

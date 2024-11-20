@@ -10,7 +10,13 @@ import Image from "next/image";
 import Tooltip from "@/components/common/Tooltip";
 import useTooltip from "@/hooks/useTooltip";
 
-const GroupCalendar = ({ studyId }: { studyId: string }) => {
+const GroupCalendar = ({
+  studyId,
+  isModalOpen,
+}: {
+  studyId: string;
+  isModalOpen: boolean;
+}) => {
   const [date, setDate] = useState<Date | undefined>(undefined);
   const { data } = useCalendarByStudy(studyId);
   const router = useRouter();
@@ -39,7 +45,7 @@ const GroupCalendar = ({ studyId }: { studyId: string }) => {
 
   return (
     <div
-      className="relative my-6 h-[362px] w-[327px] rounded-[20px] border border-[#797272] xl:my-0 xl:h-[474px] xl:w-[408px]"
+      className={`relative my-4 h-[362px] w-[327px] rounded-[20px] border ${isModalOpen ? "xl:border-primary-50" : "border-[#797272]"} xl:my-0 xl:h-[474px] xl:w-[408px]`}
       style={{
         background:
           "radial-gradient(64.61% 66.48% at 20.51% 9.53%, rgba(255, 153, 69, 0.11) 20%, rgba(255, 153, 69, 0.00) 100%), linear-gradient(180deg, rgba(47, 47, 47, 0.50) 0%, rgba(103, 103, 103, 0.30) 100%)",
