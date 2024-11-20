@@ -70,7 +70,7 @@ export default function Header() {
 
   // 헤더를 숨겨야 하는지 확인
   const shouldHideHeader = () => {
-    return HIDDEN_HEADER_PATHS.includes(pathname) || isStudyDetailPath();
+    return HIDDEN_HEADER_PATHS.includes(pathname);
   };
 
   if (shouldHideHeader()) {
@@ -80,7 +80,7 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 z-40 h-[2.75rem] w-full md:h-[4.8rem] bg-${isHome ? "black" : "white"} px-[24px] ${pathname === "/search" ? "" : "bg-opacity-20 backdrop-blur-2xl"}`}
+        className={`fixed top-0 z-40 h-[2.75rem] w-full md:h-[4.8rem] bg-${isHome ? "black" : "white"} px-[24px] ${pathname === "/search" ? "" : "bg-opacity-20 backdrop-blur-2xl"} ${isStudyDetailPath() && "hidden xl:block"}`}
       >
         <div className="mx-auto flex h-full max-w-[80rem] items-center justify-between">
           <Link href="/">

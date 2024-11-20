@@ -27,8 +27,10 @@ const BackButton = ({
       queryClient.invalidateQueries({
         queryKey: ["schedules", studyId, today],
       });
+      router.push("/study");
+    } else {
+      router.back();
     }
-    router.back();
   };
 
   return (
