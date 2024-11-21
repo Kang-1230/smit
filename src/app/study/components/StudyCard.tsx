@@ -15,6 +15,7 @@ import GroupDesignWeb from "../../../../public/icons/GroupDesignWeb.svg";
 import { getStudyById } from "@/service/refac";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "@/components/common/Loading";
+import { usePublicUser } from "@/hooks/useUserProfile";
 
 interface StudyCardProps {
   dataItem: Tables<"study">;
@@ -33,6 +34,8 @@ const NoDataSection = () => <div>No data available</div>;
 
 const StudyCard = ({ dataItem, i }: StudyCardProps) => {
   const { tooltipVisible, closeTooltip } = useTooltip("EditStudy");
+
+  const { data: user } = usePublicUser();
 
   const {
     data: rankingData,
@@ -61,18 +64,6 @@ const StudyCard = ({ dataItem, i }: StudyCardProps) => {
             className="md:h-[48px] md:w-[48px]"
           />
         </div>
-
-        {i === 0 && tooltipVisible && (
-          <div className="absolute -right-[20px] bottom-[56px]">
-            <Tooltip
-              message="더보기를 눌러서, 신청 현황과
-                스터디원을 관리할 수 있고,
-                스터디를 편집할 수 있어요!"
-              position="right"
-              onClose={closeTooltip}
-            />
-          </div>
-        )}
       </Link>
       <Link href={`/study/${dataItem.study_id}`} key={dataItem.study_id}>
         <div className="mb-[20px] flex w-full flex-col items-start gap-[12px] self-stretch md:h-[360px] md:w-[388px]">
@@ -167,6 +158,17 @@ const StudyCard = ({ dataItem, i }: StudyCardProps) => {
           </div>
         </div>
       </Link>
+      {i === 0 && tooltipVisible && dataItem.study_manager === user?.id && (
+        <div className="absolute -right-[20px] bottom-[56px] z-10">
+          <Tooltip
+            message="더보기를 눌러서, 신청 현황과
+                스터디원을 관리할 수 있고,
+                스터디를 편집할 수 있어요!"
+            position="right"
+            onClose={closeTooltip}
+          />
+        </div>
+      )}
     </div>
   );
 };

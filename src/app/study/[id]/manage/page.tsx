@@ -13,6 +13,7 @@ import Link from "next/link";
 import browserClient from "@/utils/supabase/client";
 import { useMutation } from "@tanstack/react-query";
 import { updateStudy } from "@/utils/supabase/supabase-client";
+import Image from "next/image";
 
 const Page = () => {
   const [updateTrigger, setUpdateTrigger] = useState(0);
@@ -108,8 +109,8 @@ const Page = () => {
   });
 
   return (
-    <div className="flex justify-center">
-      <div className="w-full md:w-[886px]">
+    <div className="flex justify-center md:mt-[66px]">
+      <div className="w-full max-w-[886px] xl:w-[886px]">
         <StudyImage
           urlStudyId={urlStudyId}
           onConfirm={(data: Tables<"study">) => {
@@ -136,21 +137,6 @@ const Page = () => {
               key={updateTrigger}
               setUpdateTrigger={setUpdateTrigger}
             />
-            <div className="fixed bottom-0 flex w-full items-center gap-2 border-t bg-white px-6 py-3 md:hidden">
-              <MyButton style="gray-2" size="lg">
-                <Link href={"/study"}>나가기</Link>
-              </MyButton>
-              <MyButton
-                size="lg"
-                style="black-fill"
-                className="w-full"
-                onClick={() => {
-                  handlerUpdateStudy();
-                }}
-              >
-                적용하기
-              </MyButton>
-            </div>
           </div>
         ) : (
           <div className="mb-4 flex w-full flex-col pb-[40px]">
@@ -163,24 +149,61 @@ const Page = () => {
                 }));
               }}
             ></StudyUpdate>
-            <div className="fixed bottom-0 flex w-full items-center gap-2 border-t bg-white px-6 py-3 md:hidden">
-              <MyButton style="gray-2" size="lg">
-                <Link href={"/study"}>나가기</Link>
-              </MyButton>
-              <MyButton
-                size="lg"
-                style="black-fill"
-                className="w-full"
-                disabled={isLoadingRef.current}
-                onClick={() => {
-                  handlerUpdateStudy();
-                }}
-              >
-                적용하기
-              </MyButton>
-            </div>
           </div>
         )}
+      </div>
+      <div className="fixed bottom-0 flex w-full items-center border-t bg-white px-6 py-3 md:bottom-auto md:top-0 md:max-w-[886px] md:justify-between md:px-0 md:pb-[12px] md:pt-[20px]">
+        <p className="title-20-s hidden md:block">스터디 편집</p>
+        <div className="flex w-full gap-x-[8px] md:hidden md:w-fit md:gap-x-[12px]">
+          <MyButton style="gray-2" size="lg" responsiveSize="md">
+            <Link href={"/study"}>나가기</Link>
+          </MyButton>
+
+          <MyButton
+            size="lg"
+            style="black-fill"
+            className="w-full md:w-fit"
+            responsiveSize="md"
+            onClick={() => {
+              handlerUpdateStudy();
+            }}
+          >
+            적용하기
+          </MyButton>
+        </div>
+        <div className="hidden w-full gap-x-[8px] md:flex md:w-fit md:gap-x-[12px]">
+          <Link href={"/study"}>
+            <MyButton
+              style="beige"
+              size="md"
+              className="flex items-center gap-x-[4px]"
+            >
+              <Image
+                src={`/icons/XMedium.svg`}
+                alt="close"
+                width={20}
+                height={20}
+              />
+              취소
+            </MyButton>
+          </Link>
+          <MyButton
+            size="md"
+            style="black-fill"
+            className="flex items-center gap-x-[4px]"
+            onClick={() => {
+              handlerUpdateStudy();
+            }}
+          >
+            <Image
+              src={`/icons/CheckWhite.svg`}
+              alt="save"
+              width={20}
+              height={20}
+            />
+            저장
+          </MyButton>
+        </div>
       </div>
     </div>
   );

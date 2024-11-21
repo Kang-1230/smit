@@ -44,7 +44,7 @@ const MyButton = ({
 
   return (
     <button
-      className={`mit-h-fit min-w-fit ${style} ${sizeClass[size]} ${className} ${responsiveSize && responsiveSizeClass[responsiveSize]}`}
+      className={`min-h-fit min-w-fit ${style} ${sizeClass[size]} ${className} ${responsiveSize && responsiveSizeClass[responsiveSize]}`}
       onClick={onClick}
       disabled={disabled}
       type={type}
