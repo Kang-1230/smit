@@ -63,7 +63,7 @@ export default function LoginPage() {
       alert("이메일과 비밀번호를 확인하세요");
     } else {
       alert("로그인 되었습니다.");
-      router.push("/");
+      router.push("/event2");
       // router.refresh();
     }
   };

@@ -84,7 +84,7 @@ export default function Header() {
         className={`fixed top-0 z-40 h-[2.75rem] w-full md:h-[4.8rem] bg-${isHome ? "black" : "white"} px-[24px] ${pathname === "/search" ? "" : "bg-opacity-20 backdrop-blur-2xl"} ${isStudyDetailPath() && "hidden xl:block"}`}
       >
         <div className="mx-auto flex h-full max-w-[80rem] items-center justify-between">
-          <Link href="/">
+          <Link href="/event2">
             <Image
               src={`/images/logo${isHome ? "White" : ""}.svg`}
               alt="logo"
