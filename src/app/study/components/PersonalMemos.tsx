@@ -108,7 +108,7 @@ const PersonalMemos = ({ studyId }: { studyId: string }) => {
         </div>
       </div>
       <div className="hidden xl:block">
-        {filteredMemo && <PersonalMemoItem memoData={filteredMemo} />}3
+        {filteredMemo && <PersonalMemoItem memoData={filteredMemo} />}
       </div>
       <div className="xl:hidden">
         {displayedMemos.map((item) => (
