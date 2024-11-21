@@ -17,7 +17,7 @@ const PersonalMemos = ({ studyId }: { studyId: string }) => {
   const [showItems, setShowItem] = useState(4);
   const { data: userData } = useSession();
   const [filteredMemo, setFilteredMemo] = useState<MemoWithUser | null>(null);
-  const { handleNext, handlePrev, trackRef } = useCarousel(64, data?.length);
+  const { handleNext, handlePrev, trackRef } = useCarousel(66.4, data?.length);
 
   if (isLoading || !data) {
     return (
@@ -91,26 +91,24 @@ const PersonalMemos = ({ studyId }: { studyId: string }) => {
             />
           </div>
         </header>
-        <div className="overflow-hidden">
+        <div className="scrollbar-hide hidden w-[388px] overflow-hidden overflow-x-scroll xl:block">
           <nav
-            className="mb-[18px] hidden w-[400px] gap-2 duration-150 xl:flex"
+            className="mb-[18px] flex w-full gap-[10.4px] duration-150 ease-in-out"
             ref={trackRef}
           >
-            {sortedMemos
-              .slice(0, Math.max(6, sortedMemos.length))
-              .map((item) => (
-                <MemoMemberList
-                  key={item.user_id}
-                  memoData={item}
-                  findMemoForWeb={findMemoForWeb}
-                  isSelected={filteredMemo?.user_id === item.user_id}
-                />
-              ))}
+            {sortedMemos.map((item) => (
+              <MemoMemberList
+                key={item.user_id}
+                memoData={item}
+                findMemoForWeb={findMemoForWeb}
+                isSelected={filteredMemo?.user_id === item.user_id}
+              />
+            ))}
           </nav>
         </div>
       </div>
       <div className="hidden xl:block">
-        {filteredMemo && <PersonalMemoItem memoData={filteredMemo} />}
+        {filteredMemo && <PersonalMemoItem memoData={filteredMemo} />}3
       </div>
       <div className="xl:hidden">
         {displayedMemos.map((item) => (

@@ -23,7 +23,7 @@ const WebWaitApplyListItem = ({
   mutateUpdateApplyUser,
 }: WebWaitApplyListItemProps) => {
   return (
-    <div className="flex h-[264px] w-[202px] flex-col items-center rounded-[20px] border border-secondary-100 bg-white px-6 py-5">
+    <div className="hidden h-[264px] w-[202px] flex-col items-center rounded-[20px] border border-secondary-100 bg-white px-6 py-5 md:flex">
       <div className="flex flex-col items-center">
         <Image
           key={user[0].name}
@@ -42,11 +42,11 @@ const WebWaitApplyListItem = ({
               "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default?t=2024-10-29T12%3A08%3A32.075Z";
           }}
         />
-        <span className="body-16-m mb-2">{user[0].name}</span>
-        <p className="body-14-r mb-[18px] h-[38px]">
+        <span className="body-16-m secondary-900 mb-2">{user[0].name}</span>
+        <p className="body-14-r mb-[18px] h-[38px] text-secondary-700">
           {waitingUser?.apply_message}
         </p>
-        <div className="flex w-full items-center gap-1">
+        <div className="flex w-full items-center justify-center gap-1">
           <MyButton
             size="md"
             style="gray"
@@ -55,7 +55,7 @@ const WebWaitApplyListItem = ({
                 MutateDeteleApplyUser(waitingUser);
               }
             }}
-            className="flex-1"
+            className="h-[36px] w-[75px]"
           >
             거절
           </MyButton>
@@ -63,7 +63,7 @@ const WebWaitApplyListItem = ({
             size="md"
             style="beige"
             onClick={() => mutateUpdateApplyUser(waitingUser)}
-            className="flex-1"
+            className="h-[36px] w-[75px]"
           >
             수락
           </MyButton>
