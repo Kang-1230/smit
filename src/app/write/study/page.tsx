@@ -34,9 +34,9 @@ function StudyContent() {
   const [studychatLink, setStudyChatLink] = useState<string>("");
   const [studyDescription, setStudyDescription] = useState<string>("");
   const [uploadImg, setUploadImg] = useState<string>(
-    browserClient.storage.from("study_img").getPublicUrl("default").data
-      .publicUrl,
+    "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/study_img/default",
   );
+  const [isSubModalOpen, setIsSubModalOpen] = useState<boolean>(false);
 
   const { showToast, ToastComponent } = useToast();
 
@@ -124,19 +124,23 @@ function StudyContent() {
   };
 
   const ImageUploadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const file = e.target.files[0];
-      const allowExtenstions = ["image/png", "image/jpeg", "image/jpg"];
-      if (file && allowExtenstions.includes(file.type)) {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-          setUploadImg(reader.result as string);
-        };
-      } else if (!allowExtenstions.includes(file.type)) {
-        showToast("선택한 파일이 이미지 형식이 아닙니다.");
-        e.target.value = "";
-      }
+    const allowExtenstions = ["image/png", "image/jpeg", "image/jpg"];
+
+    // 파일이 선택되지 않았을 경우 처리
+    if (!e.target.files || e.target.files.length === 0) {
+      return;
+    }
+    const file = e.target.files[0];
+
+    if (file && allowExtenstions.includes(file.type)) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setUploadImg(reader.result as string);
+      };
+    } else if (!allowExtenstions.includes(file.type)) {
+      showToast("선택한 파일이 이미지 형식이 아닙니다.");
+      e.target.value = "";
     }
   };
 
@@ -146,8 +150,8 @@ function StudyContent() {
   };
 
   return (
-    <div className="mb-[29px] flex w-full flex-col items-center justify-center overflow-x-hidden px-[24px] md:mx-auto md:max-w-[1280px]">
-      <div className="fixed top-0 mb-[24px] flex h-[48px] w-full items-center justify-between bg-white p-2 px-6 text-2xl md:flex md:h-[68px] md:max-w-[1280px]">
+    <div className="flex w-full flex-col items-center justify-start overflow-x-hidden px-[24px] md:mx-auto md:max-w-[886px]">
+      <div className="flex h-[48px] w-full items-center justify-between bg-white text-2xl md:h-[68px] md:max-w-[886px]">
         <Image
           src={Xmedium}
           alt="selectBtn"
@@ -211,19 +215,15 @@ function StudyContent() {
         </div>
       </div>
 
-      <div className="mb-4 mt-[68px] flex h-1/3 flex-col">
+      <div className="mb-4 md:mt-[60px] flex w-full flex-col md:mb-9">
         <p className="body-16-m mb-[8px] ml-[4px]">
           대표 이미지 <span className="text-primary-50">{`(선택)`}</span>
         </p>
-        <div
-          className="relative flex h-[200px] w-full items-center justify-center"
-          onClick={() => fileInputRef.current?.click()}
-        >
+        <div className="relative flex min-h-[200px] min-w-[327px] items-center justify-center overflow-hidden rounded-3xl md:min-h-[300px] md:w-full">
           <Image
             src={uploadImg}
             alt="studyImg"
-            width={327}
-            height={200}
+            fill
             className="h-full w-full rounded-3xl border object-cover" // 부모 크기에 맞추기
             priority={true}
           />
@@ -232,6 +232,9 @@ function StudyContent() {
             alt="selectBtn"
             width={35}
             className="absolute inset-0 m-auto"
+            onClick={() => {
+              setIsSubModalOpen(!isSubModalOpen);
+            }}
           />
         </div>
         <input
@@ -350,10 +353,36 @@ function StudyContent() {
           }}
           selectedDate={userCnt}
           mode="cnt"
+          isModalOpen={isDateOpen}
         />
       )}
 
       <ToastComponent position="tc" />
+
+      {isSubModalOpen && (
+        <div className="body-16-m absolute right-[35px] top-[205px] z-30 flex h-fit w-[148px] flex-col rounded-8 bg-white px-4 py-1 shadow-[0px_2px_10px_0px_rgba(0,0,0,0.25)] md:right-[930px] md:top-[250px]">
+          <div
+            className="h-[30px] w-full py-1"
+            onClick={() => {
+              fileInputRef?.current?.click();
+              setIsSubModalOpen(false);
+            }}
+          >
+            사진 변경
+          </div>
+          <div
+            className="h-[30px] w-full py-1"
+            onClick={() => {
+              setUploadImg(
+                "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/study_img/default",
+              );
+              setIsSubModalOpen(false);
+            }}
+          >
+            기본 이미지로 변경
+          </div>
+        </div>
+      )}
     </div>
   );
 }

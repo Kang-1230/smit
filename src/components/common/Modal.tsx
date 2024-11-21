@@ -44,16 +44,31 @@ const Modal = (props: Props) => {
     setArr(props.arr); // 부모 컴포넌트에서 전달된 arr을 상태로 설정
   }, [props.arr]); // props.arr 값이 변경될 때마다 실행
 
+  useEffect(() => {
+    if (props.isModalOpen) {
+      // 모달이 열리면 body의 overflow를 hidden으로 설정
+      document.body.style.overflow = "hidden";
+    } else {
+      // 모달이 닫히면 원래 상태로 돌림
+      document.body.style.overflow = "unset";
+    }
+
+    // 컴포넌트 언마운트 시에도 원래 상태로 복구
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [props.isModalOpen]);
+
   return props.isModalOpen ? (
     <div
-      className="fixed inset-0 z-50 flex w-full justify-center bg-black bg-opacity-50"
+      className="fixed inset-0 z-50 flex w-full justify-center bg-black bg-opacity-50 md:flex md:items-center md:justify-center"
       onClick={props.onClose}
     >
       <div
-        className="fixed inset-x-0 bottom-0 flex max-h-[580px] w-full animate-slide-up flex-col overflow-y-hidden rounded-t-2xl bg-white shadow-lg"
+        className="fixed inset-x-0 bottom-0 flex max-h-[580px] animate-slide-up flex-col overflow-y-hidden rounded-t-2xl bg-white shadow-lg md:inset-auto md:flex md:min-h-[500px] md:max-w-[800px] md:rounded-2xl"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex w-full flex-col justify-center px-6 pt-9">
+        <div className="mb-[72px] flex w-full flex-col justify-center px-6 pt-9">
           <h1 className="title-20-m">
             {props.modalMode === "job" ? "직업 태그 선택" : "스터디 태그 선택"}
           </h1>
@@ -108,74 +123,78 @@ const Modal = (props: Props) => {
             )}
           </div>
 
-          <div className="flex h-fit max-h-[318px] w-full flex-wrap overflow-auto">
-            {props.modalMode === "job" ? (
-              <div>
-                <h1 className="body-16-m pb-2 pt-10">직업</h1>
-                {jobTags.map((item) => (
-                  <button
-                    key={item.id}
-                    className={`body-14-m ... my-1 mr-1 overflow-hidden text-ellipsis whitespace-nowrap rounded-full border px-2 ${
-                      arr[0] === item.name
-                        ? "border-primary-50 bg-primary-5 text-primary-50"
-                        : "border-secondary-200 text-secondary-400"
-                    }`}
-                    onClick={() => {
-                      setArr((prevArr) => {
-                        if (item.name) {
-                          const newArr = [...prevArr]; // prevArr 복사
-                          newArr[0] = item.name; // 첫 번째 요소를 빈 문자열로 설정
-                          return newArr;
-                        }
-                        return [""];
-                      });
-                    }}
-                  >
-                    {item.name}
-                  </button>
-                ))}
-              </div>
-            ) : (
-              categoryTags.map((item, i, array) => (
-                <React.Fragment key={item.id}>
-                  {item?.class !== array[i - 1]?.class ? (
-                    <div className="body-16-m my-2 w-full pt-6">
-                      {item.class}
-                    </div>
-                  ) : null}
-                  <button
-                    key={item.id}
-                    className={`body-14-m ... my-1 mr-1 overflow-hidden text-ellipsis whitespace-nowrap rounded-full border px-2 ${
-                      item.name && arr?.includes(item.name)
-                        ? "border-primary-50 bg-primary-5 text-primary-50"
-                        : "border-secondary-200 text-secondary-400"
-                    }`}
-                    onClick={() => {
-                      if (item.name) {
-                        if (arr.length !== 0) {
-                          if (!arr.includes(item.name) && arr.length < 4) {
-                            setArr([...arr, item.name]);
+          <div className="mb-10 flex h-fit max-h-[318px] w-full flex-wrap overflow-auto">
+            {props.modalMode === "job"
+              ? jobTags.map((item, i, array) => (
+                  <React.Fragment key={item.id}>
+                    {item?.class !== array[i - 1]?.class ? (
+                      <div className="body-16-m my-2 w-full pt-6">
+                        {item.class}
+                      </div>
+                    ) : null}
+                    <button
+                      key={item.id}
+                      className={`body-14-m ... my-1 mr-1 overflow-hidden text-ellipsis whitespace-nowrap rounded-full border px-2 ${
+                        arr[0] === item.name
+                          ? "border-primary-50 bg-primary-5 text-primary-50"
+                          : "border-secondary-200 text-secondary-400"
+                      }`}
+                      onClick={() => {
+                        setArr((prevArr) => {
+                          if (item.name) {
+                            const newArr = [...prevArr]; // prevArr 복사
+                            newArr[0] = item.name; // 첫 번째 요소를 빈 문자열로 설정
+                            return newArr;
                           }
-                        } else {
-                          setArr([item.name]);
+                          return [""];
+                        });
+                      }}
+                    >
+                      {item.name}
+                    </button>
+                  </React.Fragment>
+                ))
+              : categoryTags.map((item, i, array) => (
+                  <React.Fragment key={item.id}>
+                    {item?.class !== array[i - 1]?.class ? (
+                      <div className="body-16-m my-2 w-full pt-6">
+                        {item.class}
+                      </div>
+                    ) : null}
+                    <button
+                      key={item.id}
+                      className={`body-14-m ... my-1 mr-1 overflow-hidden text-ellipsis whitespace-nowrap rounded-full border px-2 ${
+                        item.name && arr?.includes(item.name)
+                          ? "border-primary-50 bg-primary-5 text-primary-50"
+                          : "border-secondary-200 text-secondary-400"
+                      }`}
+                      onClick={() => {
+                        if (item.name) {
+                          if (arr.length !== 0) {
+                            if (!arr.includes(item.name) && arr.length < 4) {
+                              setArr([...arr, item.name]);
+                            }
+                          } else {
+                            setArr([item.name]);
+                          }
                         }
-                      }
-                    }}
-                  >
-                    {item.name}
-                  </button>
-                </React.Fragment>
-              ))
-            )}
+                      }}
+                    >
+                      {item.name}
+                    </button>
+                  </React.Fragment>
+                ))}
           </div>
         </div>
 
-        <div className="mt-4 flex items-center justify-center gap-2 border-t px-6 py-[10px] text-white">
+        <div
+          className="absolute  inset-x-0 bottom-0 flex justify-center gap-2 border-t bg-white px-6 md:border-transparent md:pb-[20px] md:pt-[10px]"
+        >
           <MyButton
             style="black-fill"
             size="lg"
             onClick={() => props.onConfirm(arr)}
-            className="body-16-s flex-1 rounded-3xl bg-secondary-900 px-4 py-2 text-white"
+            className="body-16-s flex w-full items-center justify-center rounded-3xl bg-secondary-900 px-4 py-2 text-white md:h-[48px] md:w-[335px] my-[14px]"
           >
             적용하기
           </MyButton>
