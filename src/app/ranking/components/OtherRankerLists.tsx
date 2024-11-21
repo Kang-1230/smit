@@ -28,7 +28,7 @@ export default function OtherRankersList({
   }, [inView, fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   return (
-    <section className="relative mx-0 max-w-full rounded-t-[37px] bg-white px-6 py-3 shadow-2xl md:px-5 md:py-5 lg:mx-6 xl:mx-0">
+    <section className="relative mx-0 max-w-full rounded-t-[37px] bg-white px-6 py-3 shadow-sm md:px-5 md:py-5 lg:mx-6 xl:mx-0">
       <div className="absolute left-0 top-0 z-0 h-56 w-full rounded-t-[37px] bg-gradient-to-b from-[#FFF3E7] to-[#FFF]"></div>
       <div className="relative z-0">
         {rankers.map((ranker, index) => (
