@@ -16,7 +16,7 @@ const MemoMemberList = ({
   const { data: user } = useUserByCommentId(memoData.user_id);
 
   return (
-    <div className="hidden xl:block">
+    <div className="hidden flex-shrink-0 xl:block">
       {user?.profile_img && (
         <Image
           src={user?.profile_img}

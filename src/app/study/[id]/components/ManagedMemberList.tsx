@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Dispatch, SetStateAction } from "react";
 import { JoinPersonWithManager } from "../../components/MyStudyList";
 import MemberListItem from "./MemberListItem";
+import Loading from "@/components/common/Loading";
 
 const ManagedMemberList = ({
   urlStudyId,
@@ -60,7 +61,12 @@ const ManagedMemberList = ({
   //현재 유저가 방장이 아닐 때 내 스터디 페이지로 이동
 
   // 3. 그 다음 로딩/에러 체크
-  if (iscurrentUserLoading || ismManageListLoading) return <div>로딩중</div>;
+  if (iscurrentUserLoading || ismManageListLoading)
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
   if (iscurrentUserError || ismManageListError) return <div>에러 발생</div>;
 
   // 4. 나머지 함수들
@@ -127,8 +133,8 @@ const ManagedMemberList = ({
   // 5. 마지막으로 렌더링
 
   return (
-    <div className="mx-6 mb-52 mt-[63.5px]">
-      <h1 className="title-20-s mb-5">스터디 멤버 관리</h1>
+    <div className="mx-6 mb-52 mt-[63.5px] md:mx-0 md:mt-[111px]">
+      <h1 className="title-20-s mb-5 md:ml-1">스터디 멤버 관리</h1>
       {/* <div className="body-16-r my-5 flex w-full justify-between rounded-[23px] bg-[#FAF6F3] p-1 pl-4">
         <input
           className="bg-[#FAF6F3]"
