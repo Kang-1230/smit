@@ -14,7 +14,7 @@ function Tooltip({
     (position === "left" && "left-[30px]") ||
     (position === "max-left" && "left-[48px]");
   return (
-    <div className="body-14-m relative inline-block w-[200px] rounded-12 bg-primary-50 px-[20px] py-[16px] text-white">
+    <div className="body-14-m relative inline-block w-[200px] rounded-12 bg-primary-50 py-[16px] pl-[16px] pr-[20px] text-left text-white">
       <span dangerouslySetInnerHTML={{ __html: message }} />
       <button
         className="absolute right-[2px] top-[2px] h-[24px] w-[24px]"

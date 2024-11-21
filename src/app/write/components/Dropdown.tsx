@@ -79,16 +79,16 @@ export default function Dropdown() {
                   width={38}
                   height={38}
                 />
+                {tooltipVisible && user && (
+                  <div className="absolute -right-[5px] bottom-[75px]">
+                    <Tooltip
+                      message={`+ 버튼을 눌러서<br/>스터디/모집글을 작성해보세요`}
+                      position="right"
+                      onClose={closeTooltip}
+                    />
+                  </div>
+                )}
               </MenuButton>
-              {tooltipVisible && user && (
-                <div className="fixed bottom-[162px] right-[19px]">
-                  <Tooltip
-                    message={`+ 버튼을 눌러서<br/>스터디/모집글을 작성해보세요`}
-                    position="right"
-                    onClose={closeTooltip}
-                  />
-                </div>
-              )}
 
               {open && (
                 <div

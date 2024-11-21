@@ -29,7 +29,6 @@ const StudyStateBox = ({
     endPoint,
     attendee,
     achieverList,
-    timerState,
     circumference,
     todaySchedules,
     time,
@@ -40,6 +39,7 @@ const StudyStateBox = ({
     setEndModalOpen,
     endModalOpen,
     studyScore,
+    timeRate,
   } = useStudyManager(studyId, member, study);
   return (
     <>
@@ -68,7 +68,8 @@ const StudyStateBox = ({
             endPoint={endPoint}
             strokeDashoffset={strokeDashoffset}
             circumference={circumference}
-            userTimer={timerState}
+            time={time}
+            timeRate={timeRate}
           />
           <div className="flex w-full min-w-[128px] flex-col gap-y-[12px] xl:h-[120px] xl:w-full xl:flex-row xl:gap-x-[22px]">
             <AttendanceRate attendee={attendee} member={member} />
@@ -87,7 +88,8 @@ const StudyStateBox = ({
               {studyScore}점 획득!
             </p>
             <p className="body-14-m mb-7">
-              오늘도 수고했긔. 공부 열심히 했긔. 칭찬하긔.
+              모두의 노력 덕분에 훌륭한 점수를 얻었네요!
+              <br />이 성취감을 기억하면서 다음 목표도 함께 달성해봐요!
             </p>
             <MyButton
               style="black-fill"
