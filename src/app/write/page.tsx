@@ -253,6 +253,7 @@ function WriteContent() {
             maxLength={25}
             viewLength={true}
             essential={true}
+    
           />
         </div>
         <div className="hidden md:block">
@@ -262,7 +263,7 @@ function WriteContent() {
             value={title}
             maxLength={25}
             viewLength={true}
-            inputClassname="title-32-m w-full rounded-12 bg-c-background ring-transparent	placeholder-secondary-300 focus:outline-none focus:ring-tran border-b border-gray-200 pb-5 md:rounded-none "
+            inputClassname="title-32-m w-full rounded-12 bg-transparent ring-transparent	placeholder-secondary-300 focus:outline-none focus:ring-tran border-b border-gray-200 pb-5 md:rounded-none "
           />
         </div>
         <div className="flex w-full flex-col gap-y-[12px] md:mt-5">
