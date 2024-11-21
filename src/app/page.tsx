@@ -17,7 +17,7 @@ const bannerData = [
   },
   {
     title: "쉽고 빠른 스밋\n활용 가이드!",
-    url: "/event",
+    url: "/event2",
     isEventPage: false,
   },
 ];

@@ -8,6 +8,7 @@ interface Props {
   mode: string;
   selectedDate: string | number | null;
   className?: string;
+  isModalOpen?: boolean;
 }
 
 const SelectDate = (props: Props) => {
@@ -74,6 +75,21 @@ const SelectDate = (props: Props) => {
       );
     }
   }, [date.year, date.month]);
+
+  useEffect(() => {
+    if (props.isModalOpen) {
+      // 모달이 열리면 body의 overflow를 hidden으로 설정
+      document.body.style.overflow = "hidden";
+    } else {
+      // 모달이 닫히면 원래 상태로 돌림
+      document.body.style.overflow = "unset";
+    }
+
+    // 컴포넌트 언마운트 시에도 원래 상태로 복구
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [props.isModalOpen]);
 
   // 년,월,일 선택 스크롤 이벤트 핸들러
   const handleScroll = (e: React.UIEvent<HTMLDivElement>, type: string) => {

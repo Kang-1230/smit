@@ -30,7 +30,7 @@ const WeekCalendarModal = ({ events }: { events: EventWithStudy[] }) => {
 
   return (
     <div
-      className="border-linear-gradient(137.81deg, rgba(255, 153, 69, 0.3) 3.52%, rgba(0, 0, 0, 0.3) 95.23%) relative h-[362px] w-[327px] rounded-[20px] border"
+      className="border-linear-gradient(137.81deg, rgba(255, 153, 69, 0.3) 3.52%, rgba(0, 0, 0, 0.3) 95.23%) relative h-[362px] w-[327px] rounded-[20px] border md:h-[588px] md:w-[606px]"
       style={{
         background: "white",
       }}

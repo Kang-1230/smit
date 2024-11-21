@@ -10,6 +10,8 @@ import Chart from "../../../../public/icons/Chart.svg";
 import ArrowChart from "../../../../public/icons/ArrowChart.svg";
 import GroupDesign from "../../../../public/icons/GroupDesign.svg";
 import SeeMoreButton from "../../../../public/icons/SeeMoreButton.svg";
+import GroupDesignWeb from "../../../../public/icons/GroupDesignWeb.svg";
+
 import { getStudyById } from "@/service/refac";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "@/components/common/Loading";
@@ -50,10 +52,14 @@ const StudyCard = ({ dataItem, i }: StudyCardProps) => {
       <Link
         onClick={(e) => e.stopPropagation()}
         href={`/study/${dataItem.study_id}/manage`}
-        className="absolute left-[269px] top-5 flex h-9 w-9 items-center justify-center gap-1"
+        className="absolute left-[269px] top-5 flex h-9 w-9 items-center justify-center gap-1 md:left-[312px] md:top-[28px] md:h-[48px] md:w-[48px]"
       >
         <div className="z-10">
-          <Image src={SeeMoreButton} alt="SeeMortButton" />
+          <Image
+            src={SeeMoreButton}
+            alt="SeeMortButton"
+            className="md:h-[48px] md:w-[48px]"
+          />
         </div>
 
         {i === 0 && tooltipVisible && (
@@ -69,17 +75,22 @@ const StudyCard = ({ dataItem, i }: StudyCardProps) => {
         )}
       </Link>
       <Link href={`/study/${dataItem.study_id}`} key={dataItem.study_id}>
-        <div className="mb-[20px] flex w-full flex-col items-start gap-[12px] self-stretch">
-          <div className="relative h-[266px] w-[327px] overflow-hidden rounded-[24px] bg-[#F1EDE9]">
+        <div className="mb-[20px] flex w-full flex-col items-start gap-[12px] self-stretch md:h-[360px] md:w-[388px]">
+          <div className="relative h-[266px] w-[327px] overflow-hidden rounded-[24px] bg-[#F1EDE9] md:h-full md:w-full">
             <Image
               key={`design-${dataItem.study_id}`}
               alt="GroupDesign"
               src={GroupDesign}
-              className="relative left-[108px] top-[146px]"
+              className="relative left-[108px] top-[146px] md:hidden"
+            />
+            <Image
+              src={GroupDesignWeb}
+              alt="GroupDesignWeb"
+              className="relative left-[146.57px] top-[198px]"
             />
           </div>
-          <div className="absolute top-[19px] h-[38px] w-[126px]">
-            <div className="ml-[21px] h-[36px] w-[36px]">
+          <div className="absolute top-[19px] h-[38px] w-[126px] md:top-[28px]">
+            <div className="ml-[21px] md:ml-[28px]">
               <ApplyUserIncludeManagerProfileImgList
                 studyId={dataItem.study_id}
                 key={`profile-${dataItem.study_id}`}
@@ -87,62 +98,62 @@ const StudyCard = ({ dataItem, i }: StudyCardProps) => {
             </div>
           </div>
 
-          <div className="absolute left-[21px] top-[162px] h-[84px] w-[286px] overflow-hidden rounded-2xl bg-[#ffffff80] shadow-[inset_0px_1px_2px_#ffffffcc] backdrop-blur-[10px] backdrop-brightness-[100%] [-webkit-backdrop-filter:blur(10px)_brightness(100%)]">
-            <div className="absolute left-5 top-4 flex w-[83px] flex-col items-start gap-1">
-              <div className="relative flex w-full flex-[0_0_auto] items-center gap-0.5 self-stretch">
+          <div className="absolute left-[21px] top-[162px] h-[84px] w-[286px] overflow-hidden rounded-2xl bg-[#ffffff80] shadow-[inset_0px_1px_2px_#ffffffcc] backdrop-blur-[10px] backdrop-brightness-[100%] [-webkit-backdrop-filter:blur(10px)_brightness(100%)] md:left-[28px] md:top-[218px] md:h-[114px] md:w-[332px]">
+            <div className="absolute left-5 top-4 flex w-[83px] flex-col items-start gap-1 md:left-[27.14px] md:top-[21.71px]">
+              <div className="relative flex w-full items-center gap-0.5 self-stretch">
                 <Image
                   key={`chart-${dataItem.study_id}`}
                   alt="ArrowChart"
                   src={ArrowChart}
-                  className="!relative !h-5 !w-5"
+                  className="relative h-5 w-5 md:h-[27.14px] md:w-[27.14px]"
                 />
-                <div className="caption relative w-fit whitespace-nowrap">
+                <div className="caption relative w-fit whitespace-nowrap text-secondary-600 md:ml-[4px] md:text-[16px]">
                   그룹 점수
                 </div>
               </div>
               <div className="relative flex w-full flex-[0_0_auto] items-center gap-1 self-stretch">
-                <div className="title-20-b relative mt-[-1.00px] w-fit whitespace-nowrap text-secondary-900">
+                <div className="md:title-24-b title-20-b relative mt-[-1.00px] w-fit whitespace-nowrap text-secondary-900">
                   {dataItem.study_score}
                 </div>
-                <div className="body-16-m relative w-fit whitespace-nowrap text-secondary-600">
+                <div className="md:title-18-m body-16-m relative w-fit whitespace-nowrap text-secondary-600">
                   점
                 </div>
               </div>
             </div>
 
-            <div className="relative left-[143px] top-[16px] h-[48px] w-[0.5px] bg-secondary-500 opacity-60"></div>
+            <div className="relative left-[143px] top-[16px] h-[48px] w-[0.5px] bg-secondary-500 opacity-60 md:left-[166.07px] md:top-[21.71px] md:h-[65.14px] md:w-[0.68px]"></div>
 
-            <div className="absolute left-[156px] top-4 flex w-[93px] flex-col items-start gap-1">
+            <div className="absolute left-[156px] top-4 flex w-[93px] flex-col items-start gap-1 md:left-[212.07px] md:top-[22.14px]">
               <div className="relative flex w-full flex-[0_0_auto] items-center gap-0.5 self-stretch">
                 <Image
                   key={`chart-${dataItem.study_id}`}
                   alt="Chart"
                   src={Chart}
-                  className="!relative !h-5 !w-5"
+                  className="relative h-5 w-5 md:h-[27.14px] md:w-[27.14px]"
                 />
                 <div className="relative flex flex-1 grow items-center gap-3">
-                  <div className="caption relative mt-[-1.00px] w-fit whitespace-nowrap text-secondary-600">
+                  <div className="caption relative mt-[-1.00px] w-fit whitespace-nowrap text-secondary-600 md:pl-[4px] md:text-[16px]">
                     스터디 랭킹
                   </div>
                 </div>
               </div>
 
               <div className="relative flex w-full flex-[0_0_auto] items-center gap-1 self-stretch">
-                <div className="title-20-b relative mt-[-1.00px] w-fit whitespace-nowrap text-black">
+                <div className="title-20-b md:title-24-b relative mt-[-1.00px] w-fit whitespace-nowrap text-black">
                   {rankingData.data.rank}
                 </div>
-                <div className="body-16-m relative w-fit whitespace-nowrap text-secondary-600">
+                <div className="body-16-m md:title-18-m relative w-fit whitespace-nowrap text-secondary-600">
                   위
                 </div>
               </div>
             </div>
           </div>
-          <div className="absolute left-[20px] top-[70px] flex w-[287px] flex-col items-start gap-[12px]">
-            <div className="flex flex-col gap-[8px]">
-              <div className="title-18-s text-[#000000]">
+          <div className="absolute left-[20px] top-[70px] flex w-[287px] flex-col items-start gap-[12px] md:left-[28px] md:top-[94px] md:h-[92px] md:w-[331px]">
+            <div className="flex flex-col gap-[8px] md:h-full md:w-full md:gap-[10px]">
+              <div className="md:title-18-m title-18-s text-[#000000]">
                 {dataItem.study_name}
               </div>
-              <div className="flex w-full flex-wrap items-center gap-[4px] self-stretch">
+              <div className="caption flex w-full flex-wrap items-center gap-[4px] self-stretch md:gap-[6px] md:text-[14px]">
                 {dataItem.study_category.map((c, i) => (
                   <Badge
                     category={c}

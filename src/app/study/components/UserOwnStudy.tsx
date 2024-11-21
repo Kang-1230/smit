@@ -9,7 +9,7 @@ const UserOwnStudy = ({
   myStudyData: Tables<"study">[] | undefined;
 }) => {
   return (
-    <section className="scroll-py-2 flex-col gap-5">
+    <section className="scroll-py-2 flex-col gap-5 md:ml-[20px] md:flex md:flex-row">
       {myStudyData?.map((dataItem: Tables<"study">, i) => {
         return (
           <>
