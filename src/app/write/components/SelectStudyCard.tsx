@@ -62,6 +62,18 @@ const SelectStudyCard = ({ studyInfo }: { studyInfo: Tables<"study"> }) => {
                 />
               ))}
           </div>
+          <div className="hidden w-full flex-wrap justify-start gap-x-[4px] gap-y-[6px] md:flex">
+            {studyInfo &&
+              studyInfo.study_category &&
+              studyInfo.study_category.map((category, idx) => (
+                <Badge
+                  category={category}
+                  color="primary"
+                  idx={idx}
+                  key={`${studyInfo.study_id}-${category}`}
+                />
+              ))}
+          </div>
         </div>
       </div>
       <div className="flex w-full flex-wrap justify-start gap-x-[4px] gap-y-[6px] md:hidden">
