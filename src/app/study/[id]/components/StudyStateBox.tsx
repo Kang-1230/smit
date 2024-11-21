@@ -88,7 +88,8 @@ const StudyStateBox = ({
               {studyScore}점 획득!
             </p>
             <p className="body-14-m mb-7">
-              오늘도 수고했긔. 공부 열심히 했긔. 칭찬하긔.
+              모두의 노력 덕분에 훌륭한 점수를 얻었네요!
+              <br />이 성취감을 기억하면서 다음 목표도 함께 달성해봐요!
             </p>
             <MyButton
               style="black-fill"

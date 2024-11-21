@@ -1,7 +1,5 @@
 import Link from "next/link";
 import React from "react";
-import Tooltip from "@/components/common/Tooltip";
-import useTooltip from "@/hooks/useTooltip";
 import { Tables } from "../../../../database.types";
 import ExclamationMarkInStudy from "../../../../public/icons/ExclamationMarkInStudy.svg";
 import SeeMoreButtonBlack from "../../../../public/icons/SeeMoreButtonBlack.svg";
@@ -13,12 +11,9 @@ import GroupDesignWebBlack from "../../../../public/icons/GroupDesignWebBlack.sv
 
 interface StudyCardProps {
   dataItem: Tables<"study">;
-  i: number;
 }
 
-const StudyCard = ({ dataItem, i }: StudyCardProps) => {
-  const { tooltipVisible, closeTooltip } = useTooltip("EditStudy");
-
+const StudyCard = ({ dataItem }: StudyCardProps) => {
   return (
     <div key={dataItem.study_id} className="relative">
       <Link
@@ -33,15 +28,6 @@ const StudyCard = ({ dataItem, i }: StudyCardProps) => {
             className="md:h-[48px] md:w-[48px]"
           />
         </div>
-        {i === 0 && tooltipVisible && (
-          <div className="absolute -right-[20px] bottom-[56px]">
-            <Tooltip
-              message="더보기를 눌러서, 신청 현황과 스터디원을 관리할 수 있고, 스터디를 편집할 수 있어요!"
-              position="right"
-              onClose={closeTooltip}
-            />
-          </div>
-        )}
       </Link>
       <Link href={`/study/${dataItem.study_id}`} key={dataItem.study_id}>
         <div className="mb-[20px] flex w-full flex-col items-start gap-[12px] self-stretch md:h-[360px] md:w-[388px]">

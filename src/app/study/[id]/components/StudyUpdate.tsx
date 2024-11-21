@@ -66,7 +66,7 @@ const StudyUpdate = (props: Props) => {
   });
 
   return (
-    <div className="overflow-y: auto mb-10 flex flex-col gap-y-[12px] px-6">
+    <div className="mb-10 flex flex-col gap-y-[12px] px-6 xl:px-0">
       <SquareInput
         maxLength={25}
         title="한 줄 설명"
@@ -214,6 +214,7 @@ const StudyUpdate = (props: Props) => {
           }}
           selectedDate={study?.study_max_people || 1}
           mode="cnt"
+          className="md:bottom-[240px] md:right-[190px]"
         />
       )}
       {isModalOpen && (

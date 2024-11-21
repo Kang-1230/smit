@@ -6,9 +6,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Tables, TablesUpdate } from "../../../../../database.types";
 import Image from "next/image";
 import MyButton from "@/components/common/Button";
-import WebWaitApplyListItem from "./WebWaitApplyListItem";
 import useCarousel from "@/hooks/useCarousel";
 import Loading from "@/components/common/Loading";
+import WebWaitApplyListItem from "./WebWaitApplyListItem";
 
 const WaitApplyList = ({ urlStudyId }: { urlStudyId: string }) => {
   const queryClient = useQueryClient();

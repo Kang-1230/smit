@@ -14,7 +14,7 @@ const UserOwnStudy = ({
         return (
           <>
             {dataItem.study_max_people === 1 ? (
-              <OnePersonStudyCard dataItem={dataItem} i={i} />
+              <OnePersonStudyCard dataItem={dataItem} />
             ) : (
               <StudyCard dataItem={dataItem} i={i} />
             )}
