@@ -7,6 +7,7 @@ interface Props {
   onConfirm: (date: string | number) => void;
   mode: string;
   selectedDate: string | number | null;
+  className?: string;
   isModalOpen?: boolean;
 }
 
@@ -175,6 +176,7 @@ const SelectDate = (props: Props) => {
     </SelectDateModal>
   ) : (
     <SelectDateModal
+      className={props.className}
       handleClose={() =>
         props.onConfirm(`${Number(humanCtn.tens + humanCtn.units)}`)
       }
@@ -182,7 +184,6 @@ const SelectDate = (props: Props) => {
         props.onConfirm(`${Number(humanCtn.tens + humanCtn.units)}`)
       }
       selectedDate={`${Number(humanCtn.tens + humanCtn.units)}명`}
-      mode="cnt"
     >
       {/*십의 자리 명 수 선택*/}
       <ScrollPicker

@@ -222,16 +222,6 @@ const MyStudyList = ({ user }: { user: User | null }) => {
                     카드를 선택하면 스터디 룸으로 입장할 수 있어요
                   </h3>
                 </div>
-
-                {tooltipVisible && (
-                  <div className="absolute -bottom-[5px] left-0">
-                    <Tooltip
-                      message="방장일때만 스터디 룸의 캘린더에 팀의 스터디 일정을 등록할 수 있어요."
-                      position="left"
-                      onClose={closeTooltip}
-                    />
-                  </div>
-                )}
               </div>
               {/* <div className="hidden gap-[12px] md:ml-[20px] md:flex">
                 <Image src={CarouselLeftArrow} alt="CarouselLeftArrow" />
@@ -243,7 +233,7 @@ const MyStudyList = ({ user }: { user: User | null }) => {
             </h3>
           </div>
 
-          <div className="inline-flex w-[327px] flex-col items-start gap-y-[12px]">
+          <div className="relative inline-flex w-[327px] flex-col items-start gap-y-[12px]">
             {activeTab === "UserOwnStudy" ? (
               <>
                 <div className="flex w-full items-center justify-between self-stretch rounded-[30px] bg-[#f8f8f6] p-1 backdrop-blur-2xl backdrop-brightness-[100%] [-webkit-backdrop-filter:blur(40px)_brightness(100%)] md:ml-[20px]">
@@ -294,6 +284,15 @@ const MyStudyList = ({ user }: { user: User | null }) => {
                 </div>
                 <UserJoinedStudy joinedStudyData={joinedStudyData} />
               </>
+            )}
+            {tooltipVisible && (
+              <div className="absolute -top-[100px] left-0 md:left-[20px]">
+                <Tooltip
+                  message="방장일때만 스터디 룸의 캘린더에 팀의 스터디 일정을 등록할 수 있어요."
+                  position="left"
+                  onClose={closeTooltip}
+                />
+              </div>
             )}
           </div>
         </div>

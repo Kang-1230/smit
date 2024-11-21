@@ -116,6 +116,9 @@ body {
   .title-24-b {
     @apply font-pretendard text-[24px] font-bold leading-[1.2] tracking-[-0.02em];
   }
+  .title-24-s {
+    @apply font-pretendard text-[24px] font-semibold leading-[1.2] tracking-[-0.02em];
+  }
   .title-20-b {
     @apply font-pretendard text-[20px] font-bold leading-[1.2] tracking-[-0.02em];
   }
