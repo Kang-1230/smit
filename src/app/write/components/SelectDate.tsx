@@ -7,6 +7,7 @@ interface Props {
   onConfirm: (date: string | number) => void;
   mode: string;
   selectedDate: string | number | null;
+  isModalOpen?: boolean;
 }
 
 const SelectDate = (props: Props) => {
@@ -73,6 +74,21 @@ const SelectDate = (props: Props) => {
       );
     }
   }, [date.year, date.month]);
+
+  useEffect(() => {
+    if (props.isModalOpen) {
+      // 모달이 열리면 body의 overflow를 hidden으로 설정
+      document.body.style.overflow = "hidden";
+    } else {
+      // 모달이 닫히면 원래 상태로 돌림
+      document.body.style.overflow = "unset";
+    }
+
+    // 컴포넌트 언마운트 시에도 원래 상태로 복구
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [props.isModalOpen]);
 
   // 년,월,일 선택 스크롤 이벤트 핸들러
   const handleScroll = (e: React.UIEvent<HTMLDivElement>, type: string) => {
@@ -166,6 +182,7 @@ const SelectDate = (props: Props) => {
         props.onConfirm(`${Number(humanCtn.tens + humanCtn.units)}`)
       }
       selectedDate={`${Number(humanCtn.tens + humanCtn.units)}명`}
+      mode="cnt"
     >
       {/*십의 자리 명 수 선택*/}
       <ScrollPicker
