@@ -6,6 +6,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Tables, TablesUpdate } from "../../../../../database.types";
 import Image from "next/image";
 import MyButton from "@/components/common/Button";
+import WebWaitApplyListItem from "./WebWaitApplyListItem";
+import useCarousel from "@/hooks/useCarousel";
+import Loading from "@/components/common/Loading";
 
 const WaitApplyList = ({ urlStudyId }: { urlStudyId: string }) => {
   const queryClient = useQueryClient();
@@ -101,71 +104,121 @@ const WaitApplyList = ({ urlStudyId }: { urlStudyId: string }) => {
     },
   });
 
+  const { handleNext, handlePrev, trackRef } = useCarousel(
+    228,
+    waitingList?.length,
+  );
+
   if (isWaitingListError || isLoadingApplyError) return <div></div>;
 
   return (
     <div>
-      <h1 className="title-20-s mx-6 mb-5">가입 대기자</h1>
-      {isWaitingLiseLoading || isLoadingApplyUser ? (
-        <div className="mx-6">로딩중</div>
-      ) : ApplyUsers && ApplyUsers.length > 0 ? (
-        ApplyUsers.map((user) => {
-          const waitingUser = waitingList?.find(
-            (item: JoinPerson) => item.user_id === user[0].id,
-          );
-
-          return (
-            <section key={user[0].name} className="mx-6">
-              <div className="flex items-center justify-between">
-                <div className="mb-5 flex items-center">
-                  <Image
-                    key={user[0].name}
-                    alt="profileImg"
-                    className="aspect-square shrink-0 rounded-full border border-black/20 object-cover"
-                    src={
-                      user[0].profile_img ||
-                      "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default?t=2024-10-29T12%3A08%3A32.075Z"
-                    }
-                    width={40}
-                    height={40}
-                    unoptimized
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src =
-                        "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default?t=2024-10-29T12%3A08%3A32.075Z";
-                    }}
-                  />
-                  <span className="body-14-m ml-[10px]">{user[0].name}</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <MyButton
-                    size="sm"
-                    style="beige"
-                    onClick={() => {
-                      if (waitingUser) {
-                        MutateDeteleApplyUser(waitingUser);
-                      }
-                    }}
-                  >
-                    거절
-                  </MyButton>
-                  <MyButton
-                    size="sm"
-                    style="black-line"
-                    onClick={() => mutateUpdateApplyUser(waitingUser)}
-                  >
-                    수락
-                  </MyButton>
-                </div>
-              </div>
-            </section>
-          );
-        })
-      ) : (
-        <div className="body-14-m mx-6 text-secondary-600">
-          가입 대기자가 없습니다.
+      <h1 className="title-20-s mx-6 mb-5 md:hidden">가입 대기자</h1>
+      <div className="mb-6 hidden items-end justify-between md:flex">
+        <h1 className="title-20-s ml-1">가입 대기자</h1>
+        <div className="flex gap-5">
+          <Image
+            src={"/icons/pc/ChevronLeft.svg"}
+            alt="right"
+            width={40}
+            height={40}
+            onClick={handlePrev}
+            className="cursor-pointer"
+          />
+          <Image
+            src={"/icons/pc/ChevronRight.svg"}
+            alt="right"
+            width={40}
+            height={40}
+            onClick={handleNext}
+            className="cursor-pointer"
+          />
         </div>
-      )}
+      </div>
+      <div className="md:flex">
+        <div className="md:scrollbar-hide md:block md:w-full md:overflow-x-scroll">
+          <div
+            ref={trackRef}
+            className="md:flex md:w-full md:gap-[26px] md:duration-150 md:ease-in-out"
+          >
+            {isWaitingLiseLoading || isLoadingApplyUser ? (
+              <div className="flex w-full justify-center">
+                <Loading />
+              </div>
+            ) : ApplyUsers && ApplyUsers.length > 0 ? (
+              ApplyUsers.map((user) => {
+                const waitingUser = waitingList?.find(
+                  (item: JoinPerson) => item.user_id === user[0].id,
+                );
+
+                return (
+                  <div key={user[0].name} className="md:w-[886px]">
+                    <section className="mx-6 mb-5 flex items-center justify-between md:hidden">
+                      <div className="flex items-center md:w-full">
+                        <Image
+                          key={user[0].name}
+                          alt="profileImg"
+                          className="aspect-square shrink-0 rounded-full border border-black/20 object-cover"
+                          src={
+                            user[0].profile_img ||
+                            "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default?t=2024-10-29T12%3A08%3A32.075Z"
+                          }
+                          width={40}
+                          height={40}
+                          unoptimized
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src =
+                              "https://nkzghifllapgjxacdfbr.supabase.co/storage/v1/object/public/profile_img/default?t=2024-10-29T12%3A08%3A32.075Z";
+                          }}
+                        />
+                        <div className="ml-[10px] flex flex-col items-start">
+                          <span className="body-14-m text-secondary-900">
+                            {user[0].name}
+                          </span>
+                          <p className="body-14-r text-secondary-700">
+                            {waitingUser?.apply_message}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <MyButton
+                          size="sm"
+                          style="beige"
+                          onClick={() => {
+                            if (waitingUser) {
+                              MutateDeteleApplyUser(waitingUser);
+                            }
+                          }}
+                        >
+                          거절
+                        </MyButton>
+                        <MyButton
+                          size="sm"
+                          style="black-line"
+                          onClick={() => mutateUpdateApplyUser(waitingUser)}
+                        >
+                          수락
+                        </MyButton>
+                      </div>
+                    </section>
+                    <WebWaitApplyListItem
+                      user={user}
+                      waitingUser={waitingUser}
+                      MutateDeteleApplyUser={MutateDeteleApplyUser}
+                      mutateUpdateApplyUser={mutateUpdateApplyUser}
+                    />
+                  </div>
+                );
+              })
+            ) : (
+              <div className="body-14-m mx-6 text-secondary-600">
+                가입 대기자가 없습니다.
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import { getToday } from "@/utils/getTime";
 import {
   addCalenderEvent,
   deleteCalenderEvent,
@@ -26,6 +27,7 @@ export const useCalendarByStudy = (studyId: string) => {
 // 캘린더 일정 등록
 export const useAddCalendarEvent = () => {
   const queryClient = useQueryClient();
+  const today = getToday(new Date());
   return useMutation({
     mutationFn: (data: {
       studyId: string;
@@ -34,9 +36,12 @@ export const useAddCalendarEvent = () => {
       eventStart: string;
       eventEnd: string;
     }) => addCalenderEvent(data),
-    onSuccess: (_, { studyId, eventDate }) => {
+    onSuccess: (_, { studyId }) => {
       queryClient.invalidateQueries({
-        queryKey: ["calendar", studyId, eventDate],
+        queryKey: ["calendar", studyId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["schedules", studyId, today],
       });
     },
   });

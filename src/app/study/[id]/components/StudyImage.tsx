@@ -102,7 +102,7 @@ const StudyImage = ({ urlStudyId, onConfirm, onFile }: Props) => {
   if (!study) return;
 
   return (
-    <div className="relative flex h-[263px] w-full items-center justify-center">
+    <div className="relative flex h-[263px] w-full items-center justify-center md:w-[886px]">
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
       <Image
         src={
