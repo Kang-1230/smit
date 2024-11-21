@@ -30,37 +30,49 @@ const menus = [
   },
 ];
 
-const STATIC_HIDDEN_PATHS = [
-  "/post",
-  "/write",
-  "/write/study",
-  "/login",
-  "/signup",
-];
-
-const DYNAMIC_HIDDEN_PATHS = [{ prefix: "/post/" }, { prefix: "/study/" }];
+const STATIC_HIDDEN_PATHS = ["/post", "/login", "/signup"];
+const ALWAYS_HIDDEN_PATHS = ["/write", "/write/study"];
 
 export default function Footer() {
   const pathName = usePathname();
 
-  // 푸터를 숨겨야 하는지 확인
   const shouldHideFooter = () => {
-    // 정적 경로 체크
-    if (STATIC_HIDDEN_PATHS.includes(pathName)) {
-      return true;
+    // 항상 숨겨야 하는 경로는 모든 화면에서 숨김
+    if (ALWAYS_HIDDEN_PATHS.includes(pathName)) {
+      return "hidden";
     }
-    // 동적 경로 체크
-    return DYNAMIC_HIDDEN_PATHS.some(({ prefix }) =>
-      pathName.startsWith(prefix),
-    );
+
+    // 정적 경로는 모바일에서만 숨김
+    if (STATIC_HIDDEN_PATHS.includes(pathName)) {
+      return "hidden md:block";
+    }
+
+    const pathSegments = pathName.split("/");
+
+    // /post/로 시작하는 경로는 모바일에서만 숨김
+    if (pathSegments[1] === "post") {
+      return "hidden md:block";
+    }
+
+    // study/[id]/manage 경로는 모든 화면에서 푸터 숨김
+    if (pathSegments[1] === "study" && pathSegments[3] === "manage") {
+      return "hidden";
+    }
+
+    // study/[id] 경로는 모바일에서만 푸터 숨김
+    if (pathSegments[1] === "study" && pathSegments[2] && !pathSegments[3]) {
+      return "hidden xl:block";
+    }
+
+    return "";
   };
 
-  if (shouldHideFooter()) {
-    return null;
-  }
+  const hideStatus = shouldHideFooter();
 
   return (
-    <div className="fixed bottom-[12px] z-40 max-h-16 w-full px-[24px] text-tertiary-700 md:left-[9.5rem] md:top-4 md:w-[28rem] lg:left-[14%] lg:w-[30.3rem] xl:left-[20%] 2xl:left-[33%]">
+    <div
+      className={`fixed bottom-[12px] z-40 max-h-16 w-full px-[24px] text-tertiary-700 md:left-[9.5rem] md:top-4 md:w-[28rem] lg:left-[14%] lg:w-[30.3rem] xl:left-[20%] 2xl:left-[33%] ${hideStatus}`}
+    >
       <nav className="h-[3.75rem] rounded-[30px] bg-[#C4C4C3] bg-opacity-60 p-[3px] backdrop-blur-2xl md:h-[48px] md:bg-[rgba(242,242,242,0.60)] md:p-1 md:backdrop-blur-sm">
         <ul className="flex h-full items-center justify-between">
           {menus.map((menu) => (

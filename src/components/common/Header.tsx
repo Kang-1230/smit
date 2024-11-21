@@ -68,9 +68,9 @@ export default function Header() {
     if (pathSegments[1] === "study" && pathSegments[3] === "manage") {
       return "hidden";
     }
-    // study/[id]?date= 경로일 때 모바일만 헤더 숨김
+    // study/[id] 경로일 때 모바일만 헤더 숨김
     if (pathSegments[1] === "study" && pathSegments[2] && !pathSegments[3]) {
-      return "hidden md:block";
+      return "hidden xl:block";
     }
     return "";
   };
