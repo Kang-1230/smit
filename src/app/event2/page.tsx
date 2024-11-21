@@ -12,7 +12,7 @@ export default function Page() {
       <MyButton
         style="orange-fill"
         size="lg"
-        className="absolute bottom-[8.5%] left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-24 px-[3.75rem] py-[0.5rem] text-base md:bottom-[15.5%]"
+        className="absolute bottom-[8.5%] left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-24 px-[3.75rem] py-[0.5rem] text-base md:bottom-[15.5%] lg:bottom-[16.4%]"
         onClick={() => router.push("/")}
       >
         스터디 둘러보기
