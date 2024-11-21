@@ -108,7 +108,7 @@ const EditProfile = ({
           alt="프로필 이미지"
           fill
           className="rounded-20 object-cover object-center"
-          loading="eager"
+          priority
         />
         <div className="absolute-center h-full w-full">
           <div

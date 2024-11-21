@@ -32,7 +32,7 @@ const UserProfile = () => {
                 src={user.profile_img}
                 alt="프로필 이미지"
                 fill
-                priority={true}
+                priority
                 quality={100}
               />
             </div>

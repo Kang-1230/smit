@@ -28,7 +28,7 @@ const DeleteUserButton = () => {
 
     if (studyByUser?.length) {
       modalOpen();
-      setIsUserGroupOwner(false);
+      setIsUserGroupOwner(true);
       return;
     } else {
       modalOpen();

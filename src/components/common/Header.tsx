@@ -60,12 +60,20 @@ export default function Header() {
     setIsSearchModal(true);
   };
 
-  const isHome = (pathname === "/" || pathname === "/event") && !isSearchModal;
+  const isHome =
+    (pathname === "/" || pathname.startsWith("/event")) && !isSearchModal;
 
   // pathname이 study/{id} 형식인지 확인
   const isStudyDetailPath = () => {
     const pathSegments = pathname.split("/");
-    return pathSegments[1] === "study" && pathSegments[2]; // study 다음에 id가 있는지 체크
+    if (pathSegments[1] === "study" && pathSegments[3] === "manage") {
+      return "hidden";
+    }
+    // study/[id] 경로일 때 모바일만 헤더 숨김
+    if (pathSegments[1] === "study" && pathSegments[2] && !pathSegments[3]) {
+      return "hidden xl:block";
+    }
+    return "";
   };
 
   // 헤더를 숨겨야 하는지 확인
@@ -80,7 +88,7 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 z-40 h-[2.75rem] w-full md:h-[4.8rem] bg-${isHome ? "black" : "white"} px-[24px] ${pathname === "/search" ? "" : "bg-opacity-20 backdrop-blur-2xl"} ${isStudyDetailPath() && "hidden xl:block"}`}
+        className={`fixed top-0 z-40 h-[2.75rem] w-full md:h-[4.8rem] bg-${isHome ? "black" : "white"} px-[24px] ${pathname === "/search" ? "" : "bg-opacity-20 backdrop-blur-2xl"} ${isStudyDetailPath()}`}
       >
         <div className="mx-auto flex h-full max-w-[80rem] items-center justify-between">
           <Link href="/">

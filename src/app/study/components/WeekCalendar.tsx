@@ -11,6 +11,7 @@ import miniCalender from "../../../../public/icons/study/WeekCalenderImg.svg";
 import NoPlan from "../../../../public/icons/illust/NoPlan.svg";
 import LaterPlan from "../../../../public/icons/laterPlan.svg";
 import ArrowTopRightBlack from "../../../../public/icons/ArrowTopRightBlack.svg";
+import Book from "../../../../public/icons/Book.svg";
 import Image from "next/image";
 import WeekCalendarModal from "./WeekCalendarModal";
 import Link from "next/link";
@@ -168,148 +169,172 @@ const StudyScheduleList = () => {
   if (isLoading) return <div>로딩중...</div>;
 
   return (
-    <div>
-      <div className="relative flex w-full flex-col items-center overflow-hidden bg-[#f8f8fA] px-6 pb-7 pt-[64px]">
-        {/* 달력 헤더 */}
-        <div className="flex w-full flex-col items-center pb-[20px]">
-          <div className="flex w-[313px] items-center justify-between">
-            <div className="relative left-[14px] inline-flex items-center gap-[7px] py-[9px]">
-              <WeekCalenderDropdown
-                setDropdownOpen={setDropdownOpen}
-                dropdownOpen={dropdownOpen}
-              />
+    <div className="bg-[#f8f8fA]">
+      <div className="w-full max-w-[1232px] md:mx-auto md:mt-[78px] md:flex md:h-[757px] md:flex-col md:items-center md:justify-center md:p-[24px]">
+        <div className="hidden w-full md:block md:pb-[24px]">
+          <div className="mr-auto flex h-[36px] w-full gap-[4px]">
+            <div className="flex">
+              <Image src={Book} alt="Book" width={36} height={36} />
+              <div className="text-[24px] font-semibold">스터디 일정</div>
             </div>
-            <div className="flex h-[40px] w-[40px] items-center justify-center">
-              <Image
-                onClick={() => setCalenderModalOpen(true)}
-                src={miniCalender}
-                alt="miniCalender"
-              />
-            </div>
-
-            {calenderModalOpen && (
-              <StudyCalenderModalOverlay
-                onClick={() => setCalenderModalOpen(!calenderModalOpen)}
-              >
-                <WeekCalendarModal events={allEvents} />
-              </StudyCalenderModalOverlay>
-            )}
-          </div>
-          <div className="space-y-0">
-            {" "}
-            {/* 날짜 */}
-            <div className="grid grid-cols-7 text-center">
-              {weekDates.map((date) => {
-                const isToday =
-                  format(date, "yyyy-MM-dd") === format(today, "yyyy-MM-dd");
-                const isSelected =
-                  format(date, "yyyy-MM-dd") ===
-                  format(selectedDate, "yyyy-MM-dd");
-                const dayOfWeek = format(date, "EEEEE", { locale: enUS }); // 한 글자 요일
-
-                return (
-                  <div
-                    key={date.toString()}
-                    onClick={() => setSelectedDate(date)}
-                    className="flex w-full flex-[0_0_auto] items-center justify-between"
-                  >
-                    <div
-                      className={`caption mt-[-1.00px] self-stretch text-center text-secondary-500 ${
-                        isToday ? "!rounded-[22px] !text-primary-50" : ""
-                      }${isSelected ? "!rounded-[22px] !bg-primary-50 !text-black" : ""} ${isToday && isSelected ? "!rounded-[22px] !text-black" : ""}`}
-                    >
-                      <div className="flex h-11 w-11 cursor-pointer flex-col items-center rounded px-3 pb-[5px] pt-1.5">
-                        <span className="caption mb-1">{dayOfWeek}</span>
-                        <span className="body-16-m">{format(date, "d")}</span>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+            <div className="flex items-center justify-center pl-[9px] text-center text-[18px] text-secondary-500">
+              내 스터디 일정을 관리할 수 있어요.
             </div>
           </div>
         </div>
+        <div className="md:flex md:h-[597px] md:items-start md:gap-[16px]">
+          <div className="hidden md:block">
+            <WeekCalendarModal events={events} />
+          </div>
+          <div className="relative flex w-full max-w-[571px] flex-col items-center overflow-hidden px-6 pb-7 pt-[64px] md:w-[571px] md:px-0 md:pt-0">
+            {/* 달력 헤더 */}
+            <div className="flex w-full flex-col items-center pb-[20px]">
+              <div className="flex w-[313px] items-center justify-between">
+                <div className="relative left-[14px] inline-flex items-center gap-[7px] py-[9px]">
+                  <WeekCalenderDropdown
+                    setDropdownOpen={setDropdownOpen}
+                    dropdownOpen={dropdownOpen}
+                  />
+                </div>
+                <div className="flex h-[40px] w-[40px] items-center justify-center">
+                  <Image
+                    onClick={() => setCalenderModalOpen(true)}
+                    src={miniCalender}
+                    alt="miniCalender"
+                  />
+                </div>
 
-        {/* 일정 리스트 */}
-        <div className="w-full">
-          {events.length > 0 ? (
-            events.map((event: EventWithStudy) => (
-              <div className="pb-[20px]" key={event.calendar_id}>
-                <Link href={`/study/${event.study_id}`}>
-                  <div
-                    className={`flex h-[169px] w-full flex-col items-start rounded-[20px] bg-secondary-900 px-[20px] pt-[20px] ${event.start_time !== events[0].start_time ? "!bg-white" : ""}`}
+                {calenderModalOpen && (
+                  <StudyCalenderModalOverlay
+                    onClick={() => setCalenderModalOpen(!calenderModalOpen)}
                   >
-                    <div className="flex w-full flex-col items-start self-stretch">
-                      <div className="relative flex w-full flex-[0_0_auto] items-start justify-between self-stretch">
-                        <div className="relative inline-flex flex-[0_0_auto] items-center justify-center gap-2 rounded-3xl backdrop-blur-[10px] backdrop-brightness-[100%] [-webkit-backdrop-filter:blur(10px)_brightness(100%)]">
-                          {event.start_time === events[0].start_time ? (
-                            <Image
-                              className="h-[24px] w-[24px]"
-                              alt="ScheduleStatusIndicator"
-                              src={ScheduleStatusIndicator}
-                            />
-                          ) : (
-                            <Image
-                              src={LaterPlan}
-                              alt="LaterPlan"
-                              className="h-[24px] w-[24px]"
-                            />
-                          )}
-
-                          <span className="body-14-m w-full text-secondary-200">
-                            {format(
-                              new Date(`2000-01-01 ${event.start_time}`),
-                              "HH:mm",
-                            )}{" "}
-                            -{" "}
-                            {format(
-                              new Date(`2000-01-01 ${event.end_time}`),
-                              "HH:mm",
-                            )}
-                          </span>
-                        </div>
-                        <div
-                          className={`flex items-center justify-center rounded-[24px] bg-secondary-700 ${event.start_time === events[0].start_time ? "" : "!bg-tertiary-75"} p-[8px] backdrop-blur-[10px] backdrop-brightness-[100%] [-webkit-backdrop-filter:blur(10px)_brightness(100%)]`}
-                        >
-                          {event.start_time === events[0].start_time ? (
-                            <Image
-                              className="h-[24px] w-[24px]"
-                              alt="ArrowTopRight"
-                              src={ArrowTopRight}
-                            />
-                          ) : (
-                            <Image
-                              className="h-[24px] w-[24px]"
-                              alt="ArrowTopRightBlack"
-                              src={ArrowTopRightBlack}
-                            />
-                          )}
-                        </div>
-                      </div>
-                      <div
-                        className={`text-[18px] font-medium text-white ${event.start_time === events[0].start_time ? "" : "!text-secondary-900"}`}
-                      >
-                        {event.study?.study_name}
-                      </div>
-                    </div>
-                    <div className="flex max-h-[57px] w-full pt-[8px]">
-                      <p
-                        className={`body-14-m text-secondary-200 ${event.start_time === events[0].start_time ? "" : "text-secondary-500"}`}
-                      >
-                        {event.event_description}
-                      </p>
-                    </div>
-                  </div>
-                </Link>
+                    <WeekCalendarModal events={allEvents} />
+                  </StudyCalenderModalOverlay>
+                )}
               </div>
-            ))
-          ) : (
-            <div className="flex w-full justify-center rounded-[20px] bg-white pb-[8px] text-center text-gray-500">
-              <Image src={NoPlan} alt="NoPlan" />
+              <div className="space-y-0">
+                {" "}
+                {/* 날짜 */}
+                <div className="grid grid-cols-7 text-center">
+                  {weekDates.map((date) => {
+                    const isToday =
+                      format(date, "yyyy-MM-dd") ===
+                      format(today, "yyyy-MM-dd");
+                    const isSelected =
+                      format(date, "yyyy-MM-dd") ===
+                      format(selectedDate, "yyyy-MM-dd");
+                    const dayOfWeek = format(date, "EEEEE", { locale: enUS }); // 한 글자 요일
+
+                    return (
+                      <div
+                        key={date.toString()}
+                        onClick={() => setSelectedDate(date)}
+                        className="flex w-full flex-[0_0_auto] items-center justify-between"
+                      >
+                        <div
+                          className={`caption mt-[-1.00px] self-stretch text-center text-secondary-500 md:flex md:w-full md:gap-[18.03px] ${
+                            isToday ? "!rounded-[22px] !text-primary-50" : ""
+                          }${isSelected ? "!rounded-[22px] !bg-primary-50 !text-black md:!rounded-[32.96px]" : ""} ${isToday && isSelected ? "!rounded-[22px] !text-black" : ""}`}
+                        >
+                          <div className="flex h-11 w-11 cursor-pointer flex-col rounded px-3 pb-[5px] pt-1.5 md:h-[65.12px] md:w-[65.12px] md:items-center md:justify-center md:px-[9px]">
+                            <span className="caption mb-1">{dayOfWeek}</span>
+                            <span className="body-16-m">
+                              {format(date, "d")}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
-          )}
+
+            {/* 일정 리스트 */}
+            <div className="w-full md:w-[544px]">
+              {events.length > 0 ? (
+                events.map((event: EventWithStudy) => (
+                  <div className="pb-[20px]" key={event.calendar_id}>
+                    <Link href={`/study/${event.study_id}`}>
+                      <div
+                        className={`flex h-[169px] w-full flex-col items-start rounded-[20px] bg-secondary-900 px-[20px] pt-[20px] md:w-[544px] ${event.start_time !== events[0].start_time ? "!bg-white" : ""}`}
+                      >
+                        <div className="flex w-full flex-col items-start self-stretch">
+                          <div className="relative flex w-full flex-[0_0_auto] items-start justify-between self-stretch">
+                            <div className="relative inline-flex flex-[0_0_auto] items-center justify-center gap-2 rounded-3xl backdrop-blur-[10px] backdrop-brightness-[100%] [-webkit-backdrop-filter:blur(10px)_brightness(100%)]">
+                              {event.start_time === events[0].start_time ? (
+                                <Image
+                                  className="h-[24px] w-[24px]"
+                                  alt="ScheduleStatusIndicator"
+                                  src={ScheduleStatusIndicator}
+                                />
+                              ) : (
+                                <Image
+                                  src={LaterPlan}
+                                  alt="LaterPlan"
+                                  className="h-[24px] w-[24px]"
+                                />
+                              )}
+
+                              <span className="body-14-m w-full text-secondary-200">
+                                {format(
+                                  new Date(`2000-01-01 ${event.start_time}`),
+                                  "HH:mm",
+                                )}{" "}
+                                -{" "}
+                                {format(
+                                  new Date(`2000-01-01 ${event.end_time}`),
+                                  "HH:mm",
+                                )}
+                              </span>
+                            </div>
+                            <div
+                              className={`flex items-center justify-center rounded-[24px] bg-secondary-700 ${event.start_time === events[0].start_time ? "" : "!bg-tertiary-75"} p-[8px] backdrop-blur-[10px] backdrop-brightness-[100%] [-webkit-backdrop-filter:blur(10px)_brightness(100%)]`}
+                            >
+                              {event.start_time === events[0].start_time ? (
+                                <Image
+                                  className="h-[24px] w-[24px]"
+                                  alt="ArrowTopRight"
+                                  src={ArrowTopRight}
+                                />
+                              ) : (
+                                <Image
+                                  className="h-[24px] w-[24px]"
+                                  alt="ArrowTopRightBlack"
+                                  src={ArrowTopRightBlack}
+                                />
+                              )}
+                            </div>
+                          </div>
+                          <div
+                            className={`text-[18px] font-medium text-white ${event.start_time === events[0].start_time ? "" : "!text-secondary-900"}`}
+                          >
+                            {event.study?.study_name}
+                          </div>
+                        </div>
+                        <div className="flex max-h-[57px] w-full pt-[8px]">
+                          <p
+                            className={`body-14-m text-secondary-200 ${event.start_time === events[0].start_time ? "" : "text-secondary-500"}`}
+                          >
+                            {event.event_description}
+                          </p>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                ))
+              ) : (
+                <div className="flex w-full justify-center rounded-[20px] bg-white pb-[8px] text-center text-gray-500">
+                  <Image src={NoPlan} alt="NoPlan" />
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
+      {/* <div>
+        <WeekCalendarModal events={events} />
+      </div> */}
     </div>
   );
 };

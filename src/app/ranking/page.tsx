@@ -1,5 +1,5 @@
 import FloatingButtons from "@/components/common/FloatingButtons";
-import RankingList from "./components/_/RankingList";
+import RankingList from "./components/RankingList";
 
 export default function RankingPage() {
   return (
