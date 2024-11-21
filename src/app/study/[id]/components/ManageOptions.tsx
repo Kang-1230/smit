@@ -16,7 +16,7 @@ const ManageOptions = (props: Props) => {
   };
 
   return (
-    <div className="body-16-m mb-[52px] flex h-12 border-b border-secondary-300 text-secondary-300">
+    <div className="body-16-m mb-[52px] flex h-12 border-b border-secondary-300 text-secondary-300 md:w-[886px]">
       <button
         onClick={() => handleSelect(false)}
         className={`flex flex-1 items-center justify-center p-2 ${!isSelected ? SelectStyle : ""}`}

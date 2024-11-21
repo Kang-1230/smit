@@ -25,12 +25,12 @@ export default async function PostDetailPage({
         <DetailContent id={params.id} postData={postData} />
         <DetailComments id={params.id} />
       </main>
-      <section className="md: static">
+      <section>
         <div className="hidden md:fixed md:top-[174px] md:block md:w-[354px] md:rounded-[20px] md:border md:border-[#E6E6E6] md:bg-white">
           <RankingModal id={postData.study_id} />
         </div>
         <footer className="fixed bottom-0 w-full border-t bg-white md:static">
-          <div className="flex w-full items-center gap-2 px-6 py-3 md:fixed md:top-[617px] md:w-[354px] md:rounded-[20px] md:border md:border-[#E6E6E6] md:px-2 md:py-4">
+          <div className="flex w-full items-center gap-2 px-6 py-3 md:fixed md:top-[630px] md:w-[354px] md:rounded-[20px] md:border md:border-[#E6E6E6] md:px-2 md:py-4">
             <LikeButton
               postId={+params.id}
               className="bg-secondary-50"
