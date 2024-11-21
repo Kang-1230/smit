@@ -63,7 +63,7 @@ const ApplyUserIncludeManagerProfileImgList = ({
         <Image
           key={index}
           alt="profileImg"
-          className={`h-9 w-9 rounded-full object-cover ring-2 ring-white ${index === 0 ? "!ring-primary-50" : ""} hover:z-10`}
+          className={`h-9 w-9 rounded-full object-cover ring-2 ring-white md:h-[48px] md:w-[48px] ${index === 0 ? "!ring-primary-50" : ""} hover:z-10`}
           src={url}
           width={50}
           height={50}
