@@ -12,6 +12,7 @@ import Image from "next/image";
 import Clock from "../../../../../public/icons/Clock.svg";
 import AutoResizeTextArea from "./AutoResizeTextArea";
 import MyButton from "@/components/common/Button";
+import WebSelectTime from "./WebSelectTime";
 
 interface CreateEventFormProps {
   studyId: string;
@@ -127,8 +128,23 @@ const CreateEventForm = ({
             />
           </div>
         </div>
-
-        <div className="mt-2 flex gap-2 self-stretch">
+        {isModalOpen && (
+          <WebSelectTime
+            onTimeSelect={handleTimeSelect}
+            onClose={() => {
+              setIsModalOpen(false);
+              setActiveInput(null);
+            }}
+            eventStart={eventStart}
+            eventEnd={eventEnd}
+            selectingType={activeInput === "start" ? "start" : "end"}
+            calendarData={calendarData}
+            withoutEditData={withoutEditData}
+            mode={mode}
+            isWebCalender={isModalOpen}
+          />
+        )}
+        <div className="mt-2 flex gap-2 self-stretch xl:mt-0">
           <MyButton
             onClick={closeForm}
             style="black-line"

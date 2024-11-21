@@ -11,16 +11,18 @@ const SquareInput = ({
   caption,
   viewLength = false,
   error,
+  inputClassname,
 }: {
   value: string;
   onChange: (value: string) => void;
   placeholder: string;
-  title: string;
+  title?: string;
   essential?: boolean;
   maxLength?: number;
   caption?: string;
   viewLength?: boolean;
   error?: string;
+  inputClassname?: string;
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -31,7 +33,11 @@ const SquareInput = ({
         {caption && <span className="text-primary-50">{caption}</span>}
       </p>
       <input
-        className={`body-16-m w-full rounded-12 bg-c-background p-3 text-secondary-900 placeholder-secondary-300 ring-[1px] ring-inset ring-transparent focus:bg-white focus:outline-none focus:ring-secondary-500 ${error && "ring-alarm-red"}`}
+        className={
+          inputClassname
+            ? `${inputClassname}`
+            : `body-16-m w-full rounded-12 bg-c-background p-3 text-secondary-900 placeholder-secondary-300 ring-[1px] ring-inset ring-transparent focus:bg-white focus:outline-none focus:ring-secondary-500 ${error && "ring-alarm-red"}`
+        }
         value={value}
         maxLength={maxLength}
         onChange={(e) => onChange(e.target.value)}

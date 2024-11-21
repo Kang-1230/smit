@@ -4,12 +4,13 @@ import Image from "next/image";
 import { useStudyMemo } from "../[id]/hooks/usePersonalMemo";
 import PersonalMemoItem from "./PersonalMemoItem";
 import { useState } from "react";
-import Loading from "@/components/common/Loading";
 import { useSession } from "@/hooks/useUserProfile";
 import BookLined from "@/components/ui/icons/BookLined";
 import MemoMemberList from "./MemoMemberList";
 import { MemoWithUser } from "@/types/PersonalMemo";
 import useCarousel from "@/hooks/useCarousel";
+import MemoSkeleton from "./MemoSkeleton";
+import Loading from "@/components/common/Loading";
 
 const PersonalMemos = ({ studyId }: { studyId: string }) => {
   const { data, isLoading, isError } = useStudyMemo(studyId);
@@ -19,7 +20,16 @@ const PersonalMemos = ({ studyId }: { studyId: string }) => {
   const { handleNext, handlePrev, trackRef } = useCarousel(64, data?.length);
 
   if (isLoading || !data) {
-    return <Loading />;
+    return (
+      <>
+        <div className="hidden xl:block">
+          <MemoSkeleton />
+        </div>
+        <div className="xl:hidden">
+          <Loading />
+        </div>
+      </>
+    );
   }
 
   if (isError) {
@@ -53,14 +63,16 @@ const PersonalMemos = ({ studyId }: { studyId: string }) => {
   return (
     <div className="mb-[55px] flex w-full flex-col">
       <div className="xl:absolute xl:bottom-[474px]">
-        <header className="caption mb-3 flex h-4 items-center p-1 xl:w-[388px] xl:justify-between">
+        <header className="caption mb-3 flex h-6 items-center p-1 xl:mb-2 xl:w-[388px] xl:justify-between">
           <div className="flex items-center gap-1">
             <BookLined />
             <h2 className="ml-1 text-white xl:text-secondary-300">
               스터디 회고록
             </h2>
           </div>
-          <div className="hidden gap-1 xl:flex">
+          <div
+            className={`hidden gap-1 xl:flex ${data.length < 7 && "xl:hidden"} `}
+          >
             <Image
               src={"/icons/ChevronLeftWhite.svg"}
               alt="left"

@@ -12,6 +12,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import WriteModal from "./components/WriteModal";
 import Image from "next/image";
 import Xmedium from "../../../public/icons/XMedium.svg";
+import CheckWhite from "../../../public/icons/CheckWhite.svg";
 import Check from "../../../public/icons/Check.svg";
 import {
   fetchPostStudyInfo,
@@ -189,14 +190,14 @@ function WriteContent() {
   }, [post_id]);
 
   return (
-    <div className="mb-[29px] flex w-full flex-col items-center overflow-x-hidden px-[24px]">
-      <div className="fixed left-0 top-0 mb-[24px] flex h-[44px] w-full items-center justify-between bg-white p-2 px-6 text-2xl md:mx-48 md:flex md:h-[68px] md:w-[885px] md:justify-between">
+    <div className="mb-[29px] flex w-full flex-col items-center justify-center overflow-x-hidden px-[24px] md:mx-auto md:max-w-[1280px]">
+      <div className="fixed top-0 mb-[24px] flex h-[48px] w-full items-center justify-between bg-white p-2 px-6 text-2xl md:flex md:h-[68px] md:max-w-[1280px]">
         <Image
           src={Xmedium}
           alt="selectBtn"
           width={0}
           onClick={() => handleModalClose()}
-          className="md:hidden"
+          className="block md:hidden"
         />
         <p className="body-16-s md:title-20-s text-black">
           {post_id ? "모집글 수정" : "모집글 쓰기"}
@@ -204,43 +205,67 @@ function WriteContent() {
         <button
           disabled={isLoadingRef.current}
           onClick={() => handleSendData()}
-          className="md:hidden"
-        >
-          <Image src={Check} alt="selectBtn" width={0} />
-        </button>
-
-        <button
-          disabled={isLoadingRef.current}
-          onClick={() => handleSendData()}
-          className="hidden md:block"
-        >
-          <Image src={Check} alt="selectBtn" width={0} />
-        </button>
-
-        <button
-          onClick={() => handleModalClose()}
-          className="hidden h-9 w-20 rounded-[18px] bg-tertiary-100 md:block "
         >
           <Image
-            src={Xmedium}
+            src={Check}
             alt="selectBtn"
             width={0}
-            className=""
+            className="block md:hidden"
           />
-          취소
         </button>
+
+        <div className="body-14-s hidden md:flex">
+          <button
+            onClick={() => handleModalClose()}
+            className="hidden h-9 w-20 items-center justify-center rounded-[18px] bg-tertiary-100 md:block"
+          >
+            <div className="flex items-center justify-center">
+              <Image src={Xmedium} alt="selectBtn" width={0} className="pr-1" />
+              취소
+            </div>
+          </button>
+
+          <button
+            disabled={isLoadingRef.current}
+            onClick={() => handleSendData()}
+            className="ml-3 hidden h-9 w-20 items-center justify-center rounded-[18px] bg-secondary-900 md:block"
+          >
+            <div className="flex items-center justify-center text-white">
+              <Image
+                src={CheckWhite}
+                alt="selectBtn"
+                width={0}
+                className="pr-1"
+              />
+              저장
+            </div>
+          </button>
+        </div>
       </div>
       <div className="mb-4 mt-[68px] flex w-full flex-col gap-y-[32px]">
-        <SquareInput
-          onChange={setTitle}
-          title="제목"
-          placeholder="제목을 작성해주세요."
-          value={title}
-          maxLength={25}
-          essential={true}
-        />
-        <div className="flex w-full flex-col gap-y-[12px]">
-        <RoundSelectDiv
+        <div className="block md:hidden">
+          <SquareInput
+            onChange={setTitle}
+            title="제목"
+            placeholder="제목을 작성해주세요."
+            value={title}
+            maxLength={25}
+            viewLength={true}
+            essential={true}
+          />
+        </div>
+        <div className="hidden md:block">
+          <SquareInput
+            onChange={setTitle}
+            placeholder="제목"
+            value={title}
+            maxLength={25}
+            viewLength={true}
+            inputClassname="title-32-m w-full rounded-12 bg-c-background ring-transparent	 focus:bg-white placeholder-secondary-300 focus:bg-white focus:outline-none focus:ring-tran border-b border-gray-200 pb-5"
+          />
+        </div>
+        <div className="flex w-full flex-col gap-y-[12px] md:mt-5">
+          <RoundSelectDiv
             onClick={() => setIsDateOpen(true)}
             title="시작 예정일"
             value={startDay !== "" ? startDay : "0000년 00월 00일"}
@@ -262,8 +287,9 @@ function WriteContent() {
             onChange={setContents}
             placeholder="내용을 작성해주세요."
             value={contents}
-            maxLength={1000}
-            classname="bg-c-background rounded-12 w-full px-[12px] pt-[12px] pb-[160px] placeholder:text-secondary-300 focus:bg-white focus:border focus:border-secondary-400 focus:outline-none border-inset border border-transparent overflow-hidden"
+            maxLength={500}
+            classname="bg-c-background rounded-12 w-full px-[12px] md:px-8 md:pt-8 pt-[12px] pb-[160px] placeholder:text-secondary-300 focus:bg-white focus:border focus:border-secondary-400 focus:outline-none border-inset border border-transparent overflow-hidden h-[565px]"
+            viewLength={true}
           />
         </div>
       </div>

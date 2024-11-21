@@ -3,7 +3,7 @@ import { useState } from "react";
 import ChevronRight from "../../../../../public/icons/ChevronRight.svg";
 import Image from "next/image";
 import RankingModal from "@/app/ranking/components/_/RankingModal";
-import RankingModalOverlay from "@/app/ranking/components/_/RankingModalOverlay";
+import RankingModalOverlay from "@/app/ranking/components/RankingModalOverlay";
 
 const OpenStudyProfile = ({ studyId }: { studyId: string }) => {
   const [isModal, setIsModal] = useState(false);

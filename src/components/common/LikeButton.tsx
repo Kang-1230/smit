@@ -55,6 +55,7 @@ const LikeButton = ({
           `rounded-full ${isBoundary ? "bg-secondary-700" : ""} p-[8px]`,
           className,
         )}
+        title="Like Button"
       >
         {isLike ? (
           <Image
