@@ -8,7 +8,7 @@ export default function Page() {
   const router = useRouter();
 
   return (
-    <div className="relative min-h-screen w-full overflow-auto">
+    <div className="relative flex min-h-screen w-full justify-center overflow-auto bg-black">
       <MyButton
         style="orange-fill"
         size="lg"
