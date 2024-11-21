@@ -6,8 +6,6 @@ import { format } from "date-fns";
 import { DayContentProps } from "react-day-picker";
 import Image from "next/image";
 import CalendarMonth from "../../../../public/icons/CalenderMonth.svg";
-import Tooltip from "@/components/common/Tooltip";
-import useTooltip from "@/hooks/useTooltip";
 import { EventWithStudy } from "./WeekCalendar";
 import { PlanCalendar } from "./PlanCalendar";
 
@@ -26,8 +24,6 @@ const WeekCalendarModal = ({ events }: { events: EventWithStudy[] }) => {
   const eventDates =
     events?.map((event: EventWithStudy) => new Date(event.event_date)) || [];
 
-  const { tooltipVisible, closeTooltip } = useTooltip("Calender");
-
   return (
     <div
       className="border-linear-gradient(137.81deg, rgba(255, 153, 69, 0.3) 3.52%, rgba(0, 0, 0, 0.3) 95.23%) relative h-[362px] w-[327px] rounded-[20px] border md:h-[588px] md:w-[606px]"
@@ -40,15 +36,6 @@ const WeekCalendarModal = ({ events }: { events: EventWithStudy[] }) => {
         <span className="caption font-medium text-secondary-300">
           일정 잡기
         </span>
-        {tooltipVisible && (
-          <div className="absolute -left-[16px] bottom-[28px]">
-            <Tooltip
-              onClose={closeTooltip}
-              message="날짜를 클릭하면 일정으로 이동합니다. "
-              position="max-left"
-            />
-          </div>
-        )}
       </div>
       <div className="flex h-[calc(100%-48px)]">
         <PlanCalendar
