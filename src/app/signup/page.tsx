@@ -164,7 +164,7 @@ export default function SignupPage() {
           </div>
 
           <div onSubmit={handleSubmit(onSubmit)}>
-            <div className="mt-[55px] flex items-center md:justify-center">
+            <form className="mt-[55px] flex items-center md:justify-center">
               <main className="flex flex-col gap-y-[20px]">
                 <div className="-mb-[20px]">
                   <Controller
@@ -340,7 +340,7 @@ export default function SignupPage() {
                   가입하기
                 </MyButton>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>

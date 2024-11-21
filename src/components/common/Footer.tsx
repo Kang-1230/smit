@@ -30,8 +30,8 @@ const menus = [
   },
 ];
 
-const STATIC_HIDDEN_PATHS = ["/post", "/login", "/signup"];
-const ALWAYS_HIDDEN_PATHS = ["/write", "/write/study"];
+const STATIC_HIDDEN_PATHS = ["/post"];
+const ALWAYS_HIDDEN_PATHS = ["/write", "/write/study", "/login", "/signup"];
 
 export default function Footer() {
   const pathName = usePathname();
