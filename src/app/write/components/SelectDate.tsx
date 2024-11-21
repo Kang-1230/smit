@@ -7,6 +7,8 @@ interface Props {
   onConfirm: (date: string | number) => void;
   mode: string;
   selectedDate: string | number | null;
+  className?: string;
+  isModalOpen?: boolean;
 }
 
 const SelectDate = (props: Props) => {
@@ -21,6 +23,8 @@ const SelectDate = (props: Props) => {
       day: currentDate.getDate().toString(),
     };
   });
+
+  const [isFirst, setIsFirst] = useState<boolean>(true);
 
   // 년,월,일 옵션
   const yearOption = [...Array(2099 - 2024 + 1)].map((_, i) =>
@@ -72,24 +76,51 @@ const SelectDate = (props: Props) => {
     }
   }, [date.year, date.month]);
 
+  useEffect(() => {
+    if (props.isModalOpen) {
+      // 모달이 열리면 body의 overflow를 hidden으로 설정
+      document.body.style.overflow = "hidden";
+    } else {
+      // 모달이 닫히면 원래 상태로 돌림
+      document.body.style.overflow = "unset";
+    }
+
+    // 컴포넌트 언마운트 시에도 원래 상태로 복구
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [props.isModalOpen]);
+
   // 년,월,일 선택 스크롤 이벤트 핸들러
   const handleScroll = (e: React.UIEvent<HTMLDivElement>, type: string) => {
     const container = e.currentTarget;
-    const index = Math.round(container.scrollTop / 40);
+    let index = Math.round(container.scrollTop / 40);
 
     switch (type) {
       case "year":
+        if (isFirst) {
+          index = yearOption.indexOf(date.year); // isFirst일 때는 date.year에 맞는 index로 설정
+        }
+
         if (yearOption[index] !== undefined) {
           setDate((prev) => ({ ...prev, year: yearOption[index] }));
         }
-
         break;
       case "month":
+        if (isFirst) {
+          index = monthOption.indexOf(date.month); // isFirst일 때는 date.year에 맞는 index로 설정
+        }
+
         if (monthOption[index] !== undefined) {
           setDate((prev) => ({ ...prev, month: monthOption[index] }));
         }
         break;
       case "day":
+        if (isFirst) {
+          index = dayOption.indexOf(date.day); // isFirst일 때는 date.year에 맞는 index로 설정
+          setIsFirst(false);
+        }
+
         if (dayOption[index] !== undefined) {
           setDate((prev) => ({ ...prev, day: dayOption[index] }));
         }
@@ -145,6 +176,7 @@ const SelectDate = (props: Props) => {
     </SelectDateModal>
   ) : (
     <SelectDateModal
+      className={props.className}
       handleClose={() =>
         props.onConfirm(`${Number(humanCtn.tens + humanCtn.units)}`)
       }

@@ -29,7 +29,6 @@ const StudyStateBox = ({
     endPoint,
     attendee,
     achieverList,
-    timerState,
     circumference,
     todaySchedules,
     time,
@@ -40,6 +39,7 @@ const StudyStateBox = ({
     setEndModalOpen,
     endModalOpen,
     studyScore,
+    timeRate,
   } = useStudyManager(studyId, member, study);
   return (
     <>
@@ -68,7 +68,8 @@ const StudyStateBox = ({
             endPoint={endPoint}
             strokeDashoffset={strokeDashoffset}
             circumference={circumference}
-            userTimer={timerState}
+            time={time}
+            timeRate={timeRate}
           />
           <div className="flex w-full min-w-[128px] flex-col gap-y-[12px] xl:h-[120px] xl:w-full xl:flex-row xl:gap-x-[22px]">
             <AttendanceRate attendee={attendee} member={member} />

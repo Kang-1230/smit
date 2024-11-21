@@ -49,11 +49,15 @@ export default function Banner({ title, url, isEventPage, num = 1 }: Props) {
 
   return (
     <section
-      className={`flex h-[29.5rem] flex-col justify-end bg-cover bg-center px-6 py-8 text-white md:h-[50rem]`}
-      style={{
-        backgroundImage: `url('/images/${isMobile ? "" : "Desktop"}BannerImage${num}.png')`,
-      }}
+      className={`relative flex h-[29.5rem] flex-col justify-end bg-cover bg-center px-6 py-8 text-white md:h-[50rem]`}
     >
+      <Image
+        src={`/images/${isMobile ? "" : "Desktop"}BannerImage${num}.png`}
+        alt={`BannerImage${num}`}
+        fill
+        priority
+        className="object-cover"
+      />
       <WrapperComponent>
         {isMobile ? (
           <div className="absolute inset-0 bg-opacity-35 bg-gradient-to-t from-[rgba(0,0,0,0.6)] via-transparent"></div>

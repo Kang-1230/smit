@@ -62,15 +62,6 @@ const GroupCalendar = ({
         <span className="caption xl:body-14-r font-medium text-secondary-300">
           일정 잡기
         </span>
-        {tooltipVisible && (
-          <div className="absolute -left-[16px] bottom-[28px]">
-            <Tooltip
-              onClose={closeTooltip}
-              message="날짜를 클릭해서 팀 스터디 일정을 등록할 수 있어요! "
-              position="max-left"
-            />
-          </div>
-        )}
       </div>
       <div className="flex h-[calc(100%-48px)]">
         <Calendar
@@ -109,6 +100,15 @@ const GroupCalendar = ({
           }}
         />
       </div>
+      {tooltipVisible && (
+        <div className="absolute -top-[70px] left-0 md:-top-[60px]">
+          <Tooltip
+            onClose={closeTooltip}
+            message="날짜를 클릭해서 팀 스터디 일정을 등록할 수 있어요! "
+            position="max-left"
+          />
+        </div>
+      )}
     </div>
   );
 };
