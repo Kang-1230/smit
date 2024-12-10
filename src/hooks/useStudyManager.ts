@@ -265,22 +265,31 @@ export const useStudyManager = (
     return () => clearInterval(scheduleEndCheck);
   }, [currentSchedule]);
 
-  // 타이머 실행 중일 때
+  // 타이머 실행 중일 때 경과시간 계산하기
   useEffect(() => {
     if (!isWithinTimeRange || !currentSchedule || !timerState?.is_running)
       return;
 
-    const timerInterval = setInterval(() => {
+    let timerId: NodeJS.Timeout;
+
+    const tick = () => {
       const totalElapsed = calculateElapsedTime(
         timerState.last_start,
         timerState.accumulated_time,
       );
       setTime(totalElapsed);
-    }, 1000);
 
-    return () => clearInterval(timerInterval);
+      // 다음 호출 시간 계산
+      const drift = Date.now() % 1000;
+      timerId = setTimeout(tick, 1000 - drift);
+    };
+
+    tick();
+
+    return () => clearTimeout(timerId);
   }, [timerState?.is_running, currentSchedule, isWithinTimeRange]);
 
+  // 실시간으로 공부 달성률 구하는 부분
   useEffect(() => {
     if (!timerState || !currentSchedule) return;
 
